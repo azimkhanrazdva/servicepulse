@@ -11,11 +11,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.db import Session, session_dependency
 from app.groups import group_snapshots, require_version
 from app.groups import router as groups_router
+from app.incidents import close_incident, incident_page
+from app.incidents import router as incidents_router
 from app.models import CheckResult, Monitor, now
 from app.schemas import MonitorCreate, MonitorRead, MonitorUpdate, ResultRead, VersionRequest
 
-app = FastAPI(title="ServicePulse", version="0.2.0")
+app = FastAPI(title="ServicePulse", version="0.3.0")
 app.include_router(groups_router)
+app.include_router(incidents_router)
 DB = Annotated[AsyncSession, Depends(session_dependency)]
 
 
@@ -73,6 +76,7 @@ async def delete_monitor(
 async def update_monitor(monitor_id: uuid.UUID, payload: MonitorUpdate, db: DB):
     monitor = await find_monitor(db, monitor_id, lock=True)
     require_version(monitor, payload.config_version)
+    await close_incident(db, monitor.id, "CONFIG_CHANGED", now())
     for key, value in payload.model_dump(exclude={"config_version"}).items():
         setattr(monitor, key, value)
     monitor.config_version += 1
@@ -89,6 +93,7 @@ async def update_monitor(monitor_id: uuid.UUID, payload: MonitorUpdate, db: DB):
 async def pause_monitor(monitor_id: uuid.UUID, payload: VersionRequest, db: DB):
     monitor = await find_monitor(db, monitor_id, lock=True)
     require_version(monitor, payload.config_version)
+    await close_incident(db, monitor.id, "PAUSED", now())
     monitor.state = "PAUSED"
     monitor.consecutive_failures = 0
     monitor.config_version += 1
@@ -146,8 +151,10 @@ async def events(request: Request):
                 ).all()
                 data = [MonitorRead.model_validate(row).model_dump(mode="json") for row in rows]
                 groups = [row.model_dump(mode="json") for row in await group_snapshots(db)]
+                incidents = (await incident_page(db)).model_dump(mode="json")
             yield f"data: {json.dumps(data)}\n\n"
             yield f"event: groups\ndata: {json.dumps(groups)}\n\n"
+            yield f"event: incidents\ndata: {json.dumps(incidents)}\n\n"
             await asyncio.sleep(2)
 
     return StreamingResponse(

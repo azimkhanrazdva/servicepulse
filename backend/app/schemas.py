@@ -89,3 +89,43 @@ class ResultRead(BaseModel):
     response_ms: float
     error: str | None
     config_version: int
+
+
+class IncidentRead(BaseModel):
+    id: uuid.UUID
+    monitor_id: uuid.UUID
+    monitor_name: str
+    opened_at: datetime
+    closed_at: datetime | None
+    recovered_at: datetime | None
+    closure_reason: str | None
+    created_at: datetime
+    state: str
+    duration_seconds: float
+
+    @classmethod
+    def from_row(cls, row, name, timestamp):
+        return cls(
+            **{
+                key: getattr(row, key)
+                for key in (
+                    "id",
+                    "monitor_id",
+                    "opened_at",
+                    "closed_at",
+                    "recovered_at",
+                    "closure_reason",
+                    "created_at",
+                )
+            },
+            monitor_name=name,
+            state="OPEN" if row.closed_at is None else "CLOSED",
+            duration_seconds=max(0, ((row.closed_at or timestamp) - row.opened_at).total_seconds()),
+        )
+
+
+class IncidentPage(BaseModel):
+    items: list[IncidentRead]
+    has_more: bool
+    limit: int
+    offset: int

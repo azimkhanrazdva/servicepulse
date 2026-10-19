@@ -55,14 +55,14 @@ it("renders empty state then accepts an SSE snapshot", async () => {
   render(<App />);
   await screen.findByText("Start with your first service");
   FakeEvents.latest.onmessage?.({ data: JSON.stringify([monitor]) });
-  expect(await screen.findByText("Test API")).toBeTruthy();
+  expect(await screen.findByRole("button", { name: "Test API" })).toBeTruthy();
   expect(screen.getByText("● UP")).toBeTruthy();
 });
 
 it("shows an API error", async () => {
   vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("Offline")));
   render(<App />);
-  expect(await screen.findByRole("alert")).toHaveProperty(
+  expect((await screen.findAllByRole("alert"))[0]).toHaveProperty(
     "textContent",
     "Offline×",
   );
@@ -82,7 +82,7 @@ it("reconnects and receives a full snapshot after browser network loss", async (
   act(() => window.dispatchEvent(new Event("online")));
   expect(FakeEvents.latest).not.toBe(old);
   act(() => FakeEvents.latest.onmessage?.({ data: JSON.stringify([monitor]) }));
-  expect(await screen.findByText("Test API")).toBeTruthy();
+  expect(await screen.findByRole("button", { name: "Test API" })).toBeTruthy();
   expect(screen.getByRole("status").textContent).toBe("● Live");
 });
 
@@ -104,8 +104,8 @@ it("creates a monitor using real form values", async () => {
     target: { value: "https://example.com" },
   });
   fireEvent.click(screen.getByRole("button", { name: "Create monitor" }));
-  await screen.findByText("Test API");
-  await waitFor(() => expect(fetcher).toHaveBeenCalledTimes(3));
+  await screen.findByRole("button", { name: "Test API" });
+  await waitFor(() => expect(fetcher).toHaveBeenCalledTimes(4));
   const posted = fetcher.mock.calls.find((call) => call[1]?.method === "POST")!;
   expect(JSON.parse(posted[1].body)).toMatchObject({
     interval_seconds: 30,

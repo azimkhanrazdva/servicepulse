@@ -1,7 +1,7 @@
 import uuid
 from datetime import UTC, datetime
 
-from sqlalchemy import CheckConstraint, DateTime, ForeignKey, Index, String, Text, Uuid
+from sqlalchemy import CheckConstraint, DateTime, ForeignKey, Index, String, Text, Uuid, text
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -62,6 +62,36 @@ class CheckResult(Base):
     response_ms: Mapped[float]
     error: Mapped[str | None] = mapped_column(Text)
     config_version: Mapped[int] = mapped_column(default=1, server_default="1")
+
+
+class Incident(Base):
+    __tablename__ = "incidents"
+    __table_args__ = (
+        CheckConstraint("closed_at IS NULL OR closed_at >= opened_at"),
+        CheckConstraint("recovered_at IS NULL OR recovered_at = closed_at"),
+        CheckConstraint("(closed_at IS NULL) = (closure_reason IS NULL)"),
+        CheckConstraint(
+            "closure_reason IS NULL OR closure_reason IN ('RECOVERED','PAUSED','CONFIG_CHANGED')"
+        ),
+        CheckConstraint(
+            "(recovered_at IS NOT NULL) = (closure_reason IS NOT DISTINCT FROM 'RECOVERED')"
+        ),
+        Index(
+            "uq_incidents_open_monitor",
+            "monitor_id",
+            unique=True,
+            postgresql_where=text("closed_at IS NULL"),
+        ),
+        Index("ix_incidents_monitor_time", "monitor_id", "opened_at", "id"),
+        Index("ix_incidents_time", "opened_at", "id"),
+    )
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    monitor_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("monitors.id", ondelete="CASCADE"))
+    opened_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    closed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    recovered_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    closure_reason: Mapped[str | None] = mapped_column(String(20))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
 
 
 class MonitorGroup(Base):

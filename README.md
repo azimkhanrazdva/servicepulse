@@ -1,7 +1,7 @@
 # ServicePulse
 
 A website availability monitoring platform built for Mad Devs' Junior Agentic Developer
-take-home assignment #3. **Version 0.2 adds verified monitor/group management; incidents, notifications and public status remain pending.**
+take-home assignment #3. **Version 0.3 adds persisted incidents and a live journal; notifications, maintenance and public status remain pending.**
 
 Create a monitor, let an independent worker request a real HTTP target, persist observations
 in PostgreSQL and see the dashboard update through SSE. No fabricated metrics or HTTP results.
@@ -13,12 +13,14 @@ in PostgreSQL and see the dashboard update through SSE. No fabricated metrics or
 - Group CRUD, many-to-many membership, aggregate status and validated per-group email recipients (storage only).
 - Separate asynchronous worker with bounded concurrency, durable scheduling, fenced database leases.
 - UNKNOWN → UP/DOWN state with two consecutive failures by default; manual run queue.
+- Atomic incident lifecycle, one open incident per monitor, recovery and distinct administrative closures.
+- Filtered/paginated incident API and live journal with ticking durations and two-client reconnect.
 - Dark responsive React dashboard, real HTTP code/latency/timestamps and recent observation history.
 - SSE snapshots and automatic browser reconnect; full resynchronization on the next snapshot.
 - Alembic migration, isolated PostgreSQL integration tests, HTTP simulator and Mailpit container.
 - URL/DNS destination policy, pinned numeric connections, no redirects/proxies, bounded response/time.
 
-**Not implemented:** persisted incidents, email/outbox,
+**Not implemented:** email/outbox,
 maintenance, public status page, uptime aggregates, response charts, monthly history endpoint.
 Mailpit running does not mean email notifications work. See [acceptance matrix](docs/requirements.md).
 
@@ -30,7 +32,7 @@ SQLAlchemy 2 and Alembic manage persistence. No Redis, Celery or distributed bro
 SSE sends full snapshots every two seconds; small-scale database polling is intentional.
 
 See [architecture](docs/architecture.md) and [decisions](docs/decisions.md) for models,
-state policy, intended incident/outbox design, alternatives and limitations.
+state/incident policy, intended outbox design, alternatives and limitations.
 
 ```text
 backend/       FastAPI, checker, worker, SQLAlchemy, Alembic, pytest
@@ -113,7 +115,7 @@ Use `status:200` to recover, `delay:10` with a 5s monitor timeout for timeout be
 404/500 for status failures, and changed text for body mismatch. Control state is in-memory,
 reset on simulator restart. Disconnect simulation is not implemented; delay exceeds client
 deadline instead. Run now twice after failures to cross the default threshold, then recover.
-This changes displayed state only; incident records and email are subsequent work.
+This changes real monitor state and incident records at the configured threshold. Email is subsequent work.
 
 ## API
 
@@ -127,8 +129,12 @@ This changes displayed state only; incident records and email are subsequent wor
 | POST | /api/monitors/{uuid}/run | Queue check; 409 if already leased/paused |
 | GET | /api/monitors/{uuid}/results | Most recent 100 observations |
 | GET / POST | /api/groups | List / create group with members and recipients |
+| GET | /api/incidents | Filtered journal; state, monitor_id, since/until, order, limit, offset |
+| GET | /api/incidents/active | Paginated open incidents |
+| GET | /api/incidents/{uuid} | Incident detail |
+| GET | /api/monitors/{uuid}/incidents | Per-monitor journal |
 | GET / PUT / DELETE | /api/groups/{uuid} | Read / versioned replacement / versioned deletion |
-| GET | /api/events | Monitor array + named groups event from one DB snapshot every 2 seconds |
+| GET | /api/events | Monitor array + named groups/incidents events from one DB snapshot every 2 seconds |
 
 FastAPI publishes schemas and example requests at `/docs`. Invalid input returns 422;
 missing monitor/group 404. PUT and pause/resume require config_version; stale versions return 409.
@@ -148,7 +154,8 @@ The profile's `test-db` uses tmpfs and a dedicated `servicepulse_test` database.
 to reset a database whose name differs or whose two configured URLs do not match. The runner
 clears only test tables/migration metadata, applies Alembic from scratch, checks ORM/schema
 agreement and runs pytest. The runner inserts a legacy monitor/result at migration 0001 and
-asserts their settings, IDs, state and history survive upgrade to 0002 before running the suite. This never resets the application's `db` volume.
+asserts their settings, IDs, state and history survive upgrades. A second fixture at 0002 verifies a DOWN
+monitor/result/group/recipient survive 0003 without fictional incident backfill. This never resets the application's `db` volume.
 
 Host development (optional):
 
@@ -178,6 +185,9 @@ pause/resume, Run Now, confirmed deletion, membership filtering and group recipi
 Screenshots are written to `output/playwright/`; machine report is `artifacts/browser-tests.json`.
 Actual browser captures (updated by the latest test run): [desktop](output/playwright/desktop.png) and
 [mobile](output/playwright/mobile.png). Current phase: [management checkpoint](docs/phase2-checkpoint.md).
+Current incident checkpoint: [phase 3](docs/phase3-checkpoint.md). `python scripts/phase3_smoke.py`
+verifies actual incident/restart/gap behavior and a 32s target across its 30s interval.
+`python scripts/proxy_recreate_smoke.py` verifies nginx recovers after backend replacement at a new IP.
 On restricted Windows execution, local socket access and launching Chromium may require
 host permission. A sandbox denial is not proof of an application failure or passing test.
 
@@ -199,7 +209,14 @@ and explicitly discards/reloads before retrying. Name-only edits follow the same
 
 Groups ignore PAUSED members, then choose DOWN over UNKNOWN over UP. All paused gives PAUSED;
 empty gives UNKNOWN. Membership and recipient replacement is atomic; deleting a group keeps monitors.
-Recipients are syntactically validated/deduplicated; **no email is sent in v0.2**.
+Recipients are syntactically validated/deduplicated; **no email is sent in v0.3**.
+
+Incidents open at threshold confirmation and recover on a successful observation. Pause closes PAUSED;
+any edit closes CONFIG_CHANGED, including name-only edits under the existing reset policy. Those closures
+have no recovered_at. Deletion cascades incident history. Legacy DOWN rows keep their settings/state;
+only a new failed observation starts tracked history, and unknown pre-upgrade duration is excluded.
+Journal REST uses {items,has_more,limit,offset}; limit <=100, offset <=10000, inclusive opened_at date
+filters require timezone. Time filters narrow deeper history. Newest-first order has UUID tie-breaking.
 
 ## Concurrency and performance
 
@@ -223,16 +240,16 @@ server time creates no observations. Charts with explicit gaps and coverage are 
 - 1 MiB raw body cap, compressed responses rejected, matching is UTF-8 with replacement.
 - Exact simulator origin is a local testing exception, never a global private-network bypass.
 - No authentication/rate limiting/production egress firewall yet. Local trusted usage only.
-- List/SSE cap is 500; history cap 100; no pagination or full month query yet.
+- Monitor/group list cap is 500; observation history cap 100; incidents are paginated. No month aggregates yet.
 - Worker logs JSON; API currently uses ordinary Uvicorn access logs.
 - Container tags and Python build backend are not fully digest/hash locked. Python application
   versions and npm lockfile are pinned; dependency updates require rerunning verification.
-- Full security audit, process-restart fault tests and SMTP retry tests remain pending.
+- Full security audit, sustained load and SMTP retry tests remain pending. Incident restart/cancellation/lease faults are tested.
 
 ## Next iteration / roadmap
 
-1. Review the v0.2 management checkpoint and private feature branch.
-2. Persist incident lifecycle and transactional outbox; maintenance suppression/reconciliation.
+1. Review the v0.3 incident checkpoint and private feature branch.
+2. Add transactional outbox and maintenance suppression/reconciliation.
 3. Deliver group email through Mailpit with logical deduplication and retries.
 4. Finish charts, uptime with coverage, incident UI and public projection/privacy tests.
 5. Measure mixed 50-monitor load, month history, actual restarts and run independent review.

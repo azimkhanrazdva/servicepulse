@@ -250,3 +250,73 @@ A documentation-only handoff commit records the result; it changes no applicatio
 Limited secret-pattern review found no matches; whitespace checks passed. No device code/token
 was added. Temporary test DB stopped, only original two seeded UP monitors remain in application.
 No PR or merge. Stop for owner review; recommended next requested phase is incident lifecycle.
+
+## Phase 3 — started 2026-10-19T20:36:45.9620196+05:00
+
+Owner explicitly requested incident lifecycle and scheduler reliability; exact received text saved in
+prompts/003-phase3.md. Received attachment has 482 lines and ends mid-sentence in section 11;
+no missing text or complete session export is claimed. Read current project contracts, requirements,
+architecture and implementation. Worktree was clean at 3569b1c, private repository confirmed and
+`gh pr list --state all` returned []. Remote main/first-slice bd43629; phase2 3569b1c. Created
+feat/incident-lifecycle from actual phase2 HEAD, retaining the stack and all existing tests.
+
+Baseline at 20:38:37 +05:00: `docker compose --profile test run --rm tests`: 53 passed in 1.88s;
+frontend npm test: 9 passed; typecheck/lint/build passed. No new third-party dependencies.
+
+Implemented 0003 incident table/constraints/indexes, row-locked atomic worker lifecycle, pause/edit
+administrative closure, bounded filtered/joined API, compatible named SSE event and live React journal.
+Decisions ADR-009/010 explain closed_at vs recovered_at, legacy DOWN policy and future event keys.
+Files: backend models/main/worker/schemas/incidents, migration, tests/run.py/test_database.py;
+frontend App/IncidentsPanel, component tests and e2e/incidents; scripts/phase3_smoke.py and docs.
+
+Actual intermediate errors and corrections:
+- Ruff caught long generated lines/import order; formatting and explicit SQL line wrapping corrected them.
+- Mounted-source test runner imported the old installed app while Alembic saw new source, so test schema
+  reset failed on the incident FK. Used explicit PYTHONPATH=/app for mounted development runs and rebuilt
+  the image for the normal command; no application data reset or CASCADE workaround.
+- Component tests found multiple matching monitor names and alerts after adding journal controls.
+  Scoped assertions by semantic button role/explicit alert list; kept the original assertions' purpose.
+- Duration test initially installed fake timers after a real interval; moved controlled timers before render.
+- TypeScript rejected an unsupported Testing Library exact option; removed it (role names are exact already).
+  Prettier caught the changed test formatting; corrected rather than suppressing the gate.
+
+At 20:43 +05:00, rebuilt normal test image: 68 passed in 2.92s, Alembic check PASS and both legacy
+fixtures preserved. Expanded fault/race/query tests later: 75 passed in 4.12s (mounted source, real PostgreSQL).
+Frontend 11 tests passed; typecheck/lint/build passed, final formatting PASS; npm audit: 0 findings.
+`docker compose up -d --build` applied 0003 to the existing application volume successfully.
+`npm run test:e2e`: 4 passed in 17.5s, original scenarios plus two-client incident/recovery/duration/reconnect.
+Actual screenshot: output/playwright/phase3-incidents.png. Live `python scripts/phase3_smoke.py` began
+2026-10-19T15:44:37.062345+00:00 and passed in 57.453s. It exercised UP→single failure→DOWN,
+continuous outage, cancelled in-flight HTTP, stopped-worker gap, backend/worker restart/lease recovery,
+same incident/config, real recovery and 32s HTTP exceeding the 30s interval while a fast target completed.
+Slow scenario measured 32.765s; artifacts/phase3-smoke.json records assertions and actual observation gap.
+All live resources created by these tests were deleted; existing demo monitors remain.
+
+Next: final rebuilt-image gate, critical review, update acceptance evidence, commit and authorized private
+stage upload, inspect hosted CI; no PR or merge without owner permission. Phase4 is not started.
+
+### Phase3 final gate and discovered deployment fault — 2026-10-19T20:54:14.0034323+05:00
+
+Rebuilt v0.3 images with unchanged dependency lock; download was slow but completed successfully.
+Normal `docker compose --profile test run --rm tests`: 75 passed in 3.48s, migration fixtures and
+Alembic check passed. Frontend JSON report: 11 passed; types/lint/format/build passed. Python lint/format
+passed, including both new host scripts. npm audit 0. Final OpenAPI reports 0.3.0 and all four incident routes.
+Second phase3 live smoke (after improving failure cleanup reporting) started 2026-10-19T15:51:22.676461+00:00,
+PASS in 73.031s, slow case 32.719s. That report is the current artifacts/phase3-smoke.json; earlier actual
+57.453s run remains documented above, not presented as the latest file.
+
+Final application-container replacement exposed an actual HIGH reliability defect: backend direct port
+was healthy, but nginx had resolved backend only at startup and kept its old container IP. Browser suite
+at 20:52:59 +05:00: 3 failed, 1 passed (502 responses), not a passing run. Logs showed connection refused
+to the stale upstream. Added Docker DNS resolver with 2s cache and variable proxy_pass, preserving the
+request URI, host, buffering and SSE settings. `nginx -t` passed. Dedicated scripts/proxy_recreate_smoke.py
+reserves the former backend IP with its own temporary container, recreates backend at another address,
+and asserts proxied readiness/API without frontend replacement. Actual run started
+2026-10-19T15:53:45.477450+00:00, PASS in 4.563s, old 172.18.0.6 -> new 172.18.0.9;
+temporary container removed, application data untouched. artifacts/proxy-recreate.json records the result.
+
+After this fix, final Playwright rerun: 4 passed in 15.2s, including original management/mobile/reconnect
+and incident lifecycle. Screenshots now show actual v0.3 styling, with dark accessible journal filters.
+Critical review updated; no unresolved BLOCKER/HIGH for the requested local phase. Limited secret-pattern
+scan found no matches, .env is ignored, whitespace diff check passed. Only two original UP demo monitors
+remain. Final local implementation is ready for a real commit and authorized private branch upload.

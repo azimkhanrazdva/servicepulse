@@ -1,7 +1,8 @@
-# ServicePulse progress — phase 2
+# ServicePulse progress — phase 3
 
-Current checkpoint: [v0.2 management](phase2-checkpoint.md). Original v0.1 evidence below
-is retained as history. Current branch is feat/monitor-management-groups; private origin exists.
+Current checkpoint: [v0.3 incidents](phase3-checkpoint.md), local verification complete.
+Prior [v0.2 management](phase2-checkpoint.md) and v0.1 evidence below are historical.
+Current branch is feat/incident-lifecycle, based on real phase2 commit 3569b1c.
 
 ## Completed
 
@@ -16,11 +17,13 @@ is retained as history. Current branch is feat/monitor-management-groups; privat
 - Shared React editors, conflict-preserved drafts, recipient storage, named group SSE snapshots.
 - Additive migration 0002 with actual legacy data preservation assertions and real restart test.
 - Private GitHub publication of unchanged v0.1 baseline; stage uploads authorized by owner.
+- Phase3: additive 0003 incidents, atomic lifecycle, administrative closures, bounded joined API,
+  live filtered journal and SSE reconnect. Actual restart/lease/gap and 32s slow HTTP verified.
 
 ## In Progress
 
-Phase 2 completed and uploaded privately; no current product implementation in progress.
-Waiting for owner review. No phase 3 implementation started. See phase2-checkpoint.md.
+Phase3 local checks/review complete; commit and authorized private upload/hosted CI pending.
+No phase4 implementation. Stop after phase3 checkpoint for owner review.
 
 ## Blocked
 
@@ -30,9 +33,9 @@ submission inputs, not blockers for current implementation. No credentials belon
 
 ## Next Tasks
 
-1. Owner reviews phase2; no automatic next phase or merge.
-2. After owner continuation, begin persisted incident lifecycle and scheduler fault coverage.
-3. Phase 3: durable incident lifecycle, restart and slow-check/concurrency fault coverage.
+1. Finish phase3 verified checkpoint and private upload; owner reviews before next phase.
+2. No PR exists as of phase3 discovery. Prepared phase2/phase3 descriptions and creation commands.
+3. No automatic PR creation or merge; phase3 base is phase2 until phase2 is merged.
 4. Phase 4: maintenance windows, transactional outbox, retries and actual Mailpit assertions.
 5. Phase 5: remaining UI, coverage-aware uptime/charts, public projection and privacy tests.
 6. Phase 6: sustained 50 monitors / 30s, actual restarts, month history benchmark and final review.
@@ -40,7 +43,11 @@ submission inputs, not blockers for current implementation. No credentials belon
 
 ## Verification Status
 
-Current phase2: 53 PostgreSQL backend tests (zero skips), legacy migration/ORM check,
+Phase3 final: 75 PostgreSQL tests (3.48s), two legacy migration fixtures/ORM check, 11 component tests,
+4 browser tests (15.2s); actual restart/slow smoke PASS (73.031s). Forced different-IP proxy regression
+PASS (4.563s) after fixing a discovered HIGH stale nginx upstream. See phase3-checkpoint.md.
+
+Historical phase2: 53 PostgreSQL backend tests (zero skips), legacy migration/ORM check,
 9 frontend tests, 3 real browser tests, Python/ESLint/format/typecheck/build and zero npm findings.
 Final live phase2 smoke PASS in 57.328s: >30s pause, manual observation, edit during HTTP,
 backend/worker restart preserves settings/group with no stale or synthetic failed observations.
@@ -54,20 +61,22 @@ skips), frontend tests (4), TypeScript, build, Python lint/format, frontend form
 two real Chromium E2E tests, npm audit (zero findings), seed idempotency.
 Expanded DB/migration runner: PASS 31 tests, zero skips; artifacts/backend-tests.xml. Final rebuilt-image rerun: PASS 31 tests in 0.61s; final HTTP smoke PASS; final E2E 2 passed in 5.0s.
 
-NOT VERIFIED: SMTP dispatch/dedup/maintenance, persisted incidents,
+NOT VERIFIED: SMTP dispatch/dedup/maintenance,
 public privacy page, full-month history/uptime, sustained 50-monitor cadence, full fault recovery,
-live external TLS and final security/product audit. Monitor/group restart is now verified;
-absent incident/outbox persistence remains future work.
+live external TLS and final security/product audit. Monitor/group/incident restart is verified;
+outbox persistence remains future work.
 
 ## Current Branch
 
-`feat/monitor-management-groups`, descended from bd43629.
+`feat/incident-lifecycle`, descended from phase2 3569b1c.
 origin: https://github.com/azimkhanrazdva/servicepulse (private).
 main and first-slice branch published at bd43629; no PR/merge.
 
 ## Latest Commit
 
-Phase2 implementation: 034b4bda783e0a69a47d4c4875ea05fc36819e19 —
+Phase3 commit pending final local gate; `git log -1` resolves current HEAD.
+
+Historical phase2 implementation: 034b4bda783e0a69a47d4c4875ea05fc36819e19 —
 feat: add versioned monitor management and groups, 2026-10-19 20:26:42 +05:00.
 Pushed to origin/feat/monitor-management-groups; hosted CI passed that exact implementation.
 Current handoff documentation follows in a separate docs commit; git log -1 resolves HEAD.
@@ -84,12 +93,14 @@ resolves current HEAD (a file cannot embed its own commit hash). No publication 
 Start date 2026-10-19; deadline 2026-10-26. P0 features before polish. Stop at the requested checkpoint.
 Read AGENTS.md, requirements.md, architecture.md and development-log.md before resuming.
 Groups/membership/recipients are implemented; the first-slice notes above are historical.
-Incident/outbox/maintenance/public models remain target only. Every monitor edit resets live
+Incidents are implemented; outbox/maintenance/public models remain target only. Every monitor edit resets live
 metrics/streak/state (PAUSED retained), history stays versioned; resume schedules UNKNOWN.
 Use captured config_version for edits; stale clients get 409 and keep their drafts.
 Never release an active lease on edit/pause/resume. Manual requests coalesce. Group updates
 have separate versions and atomically replace membership/recipients. No email is sent yet.
-States are currently computed without incident records. Mailpit is running but no email is sent.
+States/results/incidents now commit atomically. Pause/edit close PAUSED/CONFIG_CHANGED without recovery;
+resume UNKNOWN; successful check alone closes RECOVERED. Legacy DOWN gets an incident only on a fresh
+failed observation, never a historical backfill. Delete cascades incident history. Mailpit sends no email.
 UNKNOWN/UP preserve their state on the first failure; default second failure → DOWN.
 History is latest 100 rows; monitor lists/SSE cap at 500. Fixed-delay cadence is completion + interval.
 No synthetic results during downtime. Expiring leases fence commits; arbitrary process suspension

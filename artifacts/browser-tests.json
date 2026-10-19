@@ -17,7 +17,7 @@
     "grepInvert": null,
     "maxFailures": 0,
     "metadata": {
-      "actualWorkers": 2
+      "actualWorkers": 3
     },
     "preserveOutput": "always",
     "projects": [
@@ -26,7 +26,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 2
+          "actualWorkers": 3
         },
         "id": "",
         "name": "",
@@ -46,7 +46,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 2
+          "actualWorkers": 3
         },
         "name": "",
         "testDir": "C:\\Users\\sayo\\Documents\\Codex\\2026-10-19\\master-prompt-mad-devs-junior-agentic\\frontend\\e2e",
@@ -90,6 +90,58 @@
   },
   "suites": [
     {
+      "title": "incidents.spec.ts",
+      "file": "incidents.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "confirmed incident opens and recovers in two clients, duration and reconnect",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7450,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "buffer": ""
+                    },
+                    {
+                      "buffer": ""
+                    },
+                    {
+                      "buffer": ""
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-19T15:53:55.603Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "589074615abccf633020-3bda97e12380180d9d9f",
+          "file": "incidents.spec.ts",
+          "line": 22,
+          "column": 1
+        }
+      ]
+    },
+    {
       "title": "management.spec.ts",
       "file": "management.spec.ts",
       "column": 0,
@@ -108,15 +160,15 @@
               "projectName": "",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 16367,
+                  "duration": 14624,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-19T15:24:06.727Z",
+                  "startTime": "2026-10-19T15:53:55.588Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -150,15 +202,15 @@
               "projectName": "",
               "results": [
                 {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
                   "status": "passed",
-                  "duration": 4333,
+                  "duration": 4471,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-19T15:24:06.726Z",
+                  "startTime": "2026-10-19T15:53:55.588Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -184,15 +236,15 @@
               "projectName": "",
               "results": [
                 {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
                   "status": "passed",
-                  "duration": 243,
+                  "duration": 265,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-19T15:24:11.159Z",
+                  "startTime": "2026-10-19T15:54:00.175Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -210,9 +262,9 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-10-19T15:24:06.368Z",
-    "duration": 16872.1,
-    "expected": 3,
+    "startTime": "2026-10-19T15:53:55.184Z",
+    "duration": 15183.898,
+    "expected": 4,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0

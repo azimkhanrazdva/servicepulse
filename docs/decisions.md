@@ -66,3 +66,25 @@ Trade-offs: no meaningful full first-slice PR (branches have identical trees); f
 through actual commits, subsequent stage gets a meaningful main...feature diff.
 Consequences: authentic original history, private repo, no automatic PR/merge or force-push.
 Repository: https://github.com/azimkhanrazdva/servicepulse. Owner controls employer access.
+
+## ADR-009 — confirmed incidents and administrative closure (phase 3)
+Context: DOWN records must survive restart, retries and concurrent mutations; pause/edit are not recovery.
+Decision: incident UUID with separate closed_at and recovered_at; partial unique open-monitor key on
+closed_at IS NULL. Worker updates incident, state and observation in the existing row-locked transaction.
+Edits (including rename) close CONFIG_CHANGED; pause closes PAUSED; only success closes RECOVERED.
+Alternatives: overload recovered_at for all closures; application-only uniqueness; event infrastructure now.
+Trade-offs: one extra timestamp; rename still resets an outage per v0.2's conservative configuration policy;
+deletion removes history; physical email delivery/idempotency awaits phase 4.
+Consequences: unambiguous later outbox events and stable incident identity. This phase separation, explicitly
+requested by the owner, supersedes ADR-004's original suggestion to ship incidents/outbox together.
+
+## ADR-010 — legacy DOWN and bounded journal synchronization
+Context: v0.2 DOWN observations cannot prove an earlier incident confirmation timestamp.
+Decision: additive migration leaves existing data unchanged and creates no incident backfill. A fresh failed
+observation opens the first tracked incident; a fresh success with no incident creates no recovery event.
+Reuse SSE invalidation with bounded REST journal pages and database joined reads; no new dependency.
+Alternatives: infer historical incidents from incomplete samples; replace SSE; send all journal rows forever.
+Trade-offs: pre-upgrade outage duration remains unknown; one extra REST request/client/two seconds;
+offset cap 10000 (time filters narrow deeper history), page boundaries can move during concurrent inserts.
+Consequences: honest provenance and reconnect synchronization, including changes to older visible pages;
+future scale may justify keyset pagination and revision-only events, after measurement.
