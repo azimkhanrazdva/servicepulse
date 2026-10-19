@@ -1,0 +1,43 @@
+{
+  "recorded_at": "2026-10-19T19:50:02.832871+05:00",
+  "host": "Windows-10-10.0.26200-SP0",
+  "host_python": "3.11.9",
+  "backend_container_python": "3.12",
+  "backend": {
+    "tests": "31",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "0.609",
+    "timestamp": "2026-10-19T14:48:56.319102+00:00"
+  },
+  "frontend": {
+    "numTotalTests": 4,
+    "numPassedTests": 4,
+    "numFailedTests": 0,
+    "success": true
+  },
+  "browser": {
+    "startTime": "2026-10-19T14:49:05.820Z",
+    "duration": 5001.561,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "smoke": "PASS",
+  "npm_vulnerabilities": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0,
+    "total": 0
+  },
+  "limits": [
+    "First vertical slice only",
+    "Hosted CI not run",
+    "Sustained 50-monitor and monthly history benchmarks not run",
+    "Incidents, groups, maintenance, email, public page not implemented"
+  ]
+}

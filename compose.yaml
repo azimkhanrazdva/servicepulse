@@ -1,0 +1,80 @@
+name: servicepulse
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-servicepulse}
+      POSTGRES_USER: ${POSTGRES_USER:-servicepulse}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-local-development-only}
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"']
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  migrate:
+    build: ./backend
+    environment: &backend-env
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-servicepulse}:${POSTGRES_PASSWORD:-local-development-only}@db/${POSTGRES_DB:-servicepulse}
+      SIMULATOR_ORIGIN: ${SIMULATOR_ORIGIN:-}
+    command: [alembic, upgrade, head]
+    depends_on:
+      db: {condition: service_healthy}
+  backend:
+    build: ./backend
+    environment: *backend-env
+    ports: ['127.0.0.1:8000:8000']
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/ready')"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+  worker:
+    build: ./backend
+    environment: *backend-env
+    command: [python, -m, app.worker]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      simulator: {condition: service_started}
+    restart: unless-stopped
+    stop_grace_period: 10s
+  frontend:
+    build: ./frontend
+    ports: ['127.0.0.1:8080:80']
+    depends_on:
+      backend: {condition: service_healthy}
+    restart: unless-stopped
+  simulator:
+    build: ./simulator
+  mailpit:
+    image: axllent/mailpit:v1.27
+    ports: ['127.0.0.1:8025:8025']
+  tests:
+    profiles: [test]
+    build: ./backend
+    environment:
+      DATABASE_URL: postgresql+asyncpg://servicepulse:local-development-only@test-db/servicepulse_test
+      TEST_DATABASE_URL: postgresql+asyncpg://servicepulse:local-development-only@test-db/servicepulse_test
+      TEST_REPORT_PATH: /evidence/backend-tests.xml
+    volumes: ['./artifacts:/evidence']
+    command: [python, tests/run.py]
+    depends_on:
+      test-db: {condition: service_healthy}
+  test-db:
+    profiles: [test]
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: servicepulse_test
+      POSTGRES_USER: servicepulse
+      POSTGRES_PASSWORD: local-development-only
+    tmpfs: [/var/lib/postgresql/data]
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U servicepulse -d servicepulse_test]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+volumes:
+  pgdata:
