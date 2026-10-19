@@ -174,8 +174,8 @@ Command results and precise limitations are in development-log.md and progress.m
 | DEL-03 | Simulator scenarios | Simulator | 200/404/500/delay/timeout/body/up-down-up + disconnect where possible | Live scenario test | PARTIAL: controllable status/delay/body/redirect |
 | DEL-04 | Backend unit/integration tests | QA | CRUD/state/checker/DB; later group/incident/outbox | pytest | PARTIAL |
 | DEL-05 | Frontend tests/E2E | QA | Create/API/error/SSE plus real browser/two clients | Vitest + browser | PARTIAL |
-| DEL-06 | CI Python lint/format/tests | CI | Runs clean checkout with PostgreSQL | .github/workflows/ci.yml; hosted run | NOT VERIFIED hosted |
-| DEL-07 | CI frontend typecheck/build/tests/format | CI | Lockfile + clean npm ci | workflow; hosted run | NOT VERIFIED hosted |
+| DEL-06 | CI Python lint/format/tests | CI | Runs clean checkout with PostgreSQL | .github/workflows/ci.yml; hosted run | PASS hosted run 39319384324 on 034b4bd |
+| DEL-07 | CI frontend typecheck/build/tests/format | CI | Lockfile + clean npm ci | workflow; hosted run | PASS hosted run 39319384324 on 034b4bd |
 | DEL-08 | Practical dependency security checks | QA/CI | Audit fixed actionable findings | npm audit; pip audit later | PARTIAL |
 | DEL-09 | English README | Docs | Features/architecture/stack/prereqs/run/env/simulator/demo/API/tests/load/limits/roadmap/AI/logs/attribution | README review | PASS reviewed against v0.2 scope |
 | DEL-10 | Requirement acceptance audit | Docs/QA | Every row cites evidence or remaining gap | This matrix + final audit | PARTIAL: no full compliance claim |

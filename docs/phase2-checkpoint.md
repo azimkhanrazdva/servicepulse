@@ -36,7 +36,7 @@ upgrade to 0002, then checks ORM agreement. Existing application data is not res
 | Pause/manual/edit/restart observations | 3 before restart, 4 after; latest config 5; no fake/stale failed rows |
 | Python + ESLint + types + format + build | PASS |
 | npm audit | Zero findings |
-| Hosted GitHub Actions | Pending actual run result; never inferred from local checks |
+| Hosted GitHub Actions | PASS on 034b4bd, run 39319384324; frontend 28s / backend 34s |
 
 Live smoke touches only its own UUID-named monitor/group. Unit DB tests use only the guarded
 servicepulse_test database. This is not the sustained 50-monitor/month-history benchmark.
@@ -47,7 +47,10 @@ Scripts and reports are repeatable; artifacts/phase2-smoke.json records actual U
 Private repo: https://github.com/azimkhanrazdva/servicepulse. Owner authorized uploads after
 verified stages, not automatic PR creation, merge or public visibility. main is authentic v0.1
 baseline bd43629 (includes root 4f212d9), both published unchanged. Phase2 branch:
-feat/monitor-management-groups, based on bd43629; implementation commit recorded after acceptance.
+feat/monitor-management-groups, based on bd43629; implementation commit
+034b4bda783e0a69a47d4c4875ea05fc36819e19 uploaded after acceptance.
+Hosted CI: https://github.com/azimkhanrazdva/servicepulse/actions/runs/39319384324.
+The following documentation-only handoff commit records this outcome without altering application code.
 Prepared PR text: pr-summary.md and pr-phase2.md. No remote PR or merge claimed.
 
 ## Continuation

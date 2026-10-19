@@ -26,4 +26,8 @@ the remote PR still requires owner authorization. No stale-main checkout or data
 CI is defined for push, PR and manual dispatch. Check actual Actions status after pushing;
 workflow presence alone does not prove a run. Hosted results and URLs belong in development-log.md.
 The original baseline push yielded an active workflow but no run in the initial API queries;
-do not label that baseline hosted CI successful.
+do not label that baseline hosted CI successful. Phase2 manual dispatch run 39319384324
+completed successfully for 034b4bda783e0a69a47d4c4875ea05fc36819e19 (both backend/frontend).
+Actual structured result: artifacts/github-ci-phase2.json. GitHub warned about older action
+Node runtimes being forced to Node 24 and the ubuntu-latest migration; these were annotations,
+not failed checks. Updating action major versions remains a low-priority follow-up.

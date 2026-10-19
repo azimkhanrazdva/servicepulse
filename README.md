@@ -182,7 +182,9 @@ On restricted Windows execution, local socket access and launching Chromium may 
 host permission. A sandbox denial is not proof of an application failure or passing test.
 
 GitHub Actions specifies Python lint/format/PostgreSQL tests and frontend format/tests/types/build.
-Hosted CI is **NOT VERIFIED** until a repository is published and Actions actually runs.
+Hosted CI **passed** for v0.2 implementation 034b4bd:
+[actual Actions run](https://github.com/azimkhanrazdva/servicepulse/actions/runs/39319384324).
+Both backend and frontend jobs completed successfully. Later handoff documentation does not alter code.
 Private repository: https://github.com/azimkhanrazdva/servicepulse. main records v0.1;
 feat/monitor-management-groups carries v0.2 after its verified stage push. No remote PR or merge is claimed.
 See [GitHub workflow](docs/github-workflow.md) for the authentic baseline and publication policy.

@@ -49,7 +49,11 @@
     "total": 0
   },
   "private_repository": "https://github.com/azimkhanrazdva/servicepulse",
-  "hosted_ci": "NOT VERIFIED until actual run",
+  "hosted_ci": {
+    "status": "PASS",
+    "head_sha": "034b4bda783e0a69a47d4c4875ea05fc36819e19",
+    "url": "https://github.com/azimkhanrazdva/servicepulse/actions/runs/39319384324"
+  },
   "not_implemented": [
     "incidents",
     "maintenance",

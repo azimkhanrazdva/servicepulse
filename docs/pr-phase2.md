@@ -34,6 +34,8 @@ and version conflicts that preserve a losing client's draft rather than silently
   configuration; proves retained settings/recipients and no stale/synthetic failed observations.
 - Commands, actual counts/timestamps and machine reports: development-log.md and artifacts/.
   Hosted CI status must be read from its actual run, never inferred from workflow existence.
+  Actual phase2 run: https://github.com/azimkhanrazdva/servicepulse/actions/runs/39319384324,
+  success on implementation 034b4bda783e0a69a47d4c4875ea05fc36819e19.
 
 ## Remaining scope
 
