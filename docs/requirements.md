@@ -23,7 +23,7 @@ Command results and precise limitations are in development-log.md and progress.m
 | GEN-05 | Authentication optional; define boundary | Deployment | Trusted local management clearly documented | architecture.md; loopback Compose ports | PASS: no auth, local only |
 | GEN-06 | Explain choices | Docs | Decisions include alternatives/consequences | decisions.md | PASS |
 | GEN-07 | Disclose AI tool/model | Docs | Truthful tool and exact model or explicit unknown | ai-development.md | PARTIAL: exact model owner confirmation |
-| GEN-08 | Prerequisites | Docs | Clean machine requirements listed | README.md | NOT VERIFIED |
+| GEN-08 | Prerequisites | Docs | Clean machine requirements listed | README.md reviewed against current slice | PASS documentation; full feature scope pending |
 | GEN-09 | Quick local startup | Compose | Config copy then one startup command | docker compose up -d --build | PASS on development host |
 | GEN-10 | Local substitutes | Simulator/SMTP | Local target and SMTP catcher start | Compose status | PASS: SMTP sending later |
 | GEN-11 | Two independent clients | Realtime/UI | Both see same updates without reload | artifacts/browser-tests.json (two independent contexts) | PASS first slice |
@@ -177,18 +177,18 @@ Command results and precise limitations are in development-log.md and progress.m
 | DEL-08 | Practical dependency security checks | QA/CI | Audit fixed actionable findings | npm audit; pip audit later | PARTIAL |
 | DEL-09 | English README | Docs | Features/architecture/stack/prereqs/run/env/simulator/demo/API/tests/load/limits/roadmap/AI/logs/attribution | README review | NOT VERIFIED |
 | DEL-10 | Requirement acceptance audit | Docs/QA | Every row cites evidence or remaining gap | This matrix + final audit | PARTIAL: no full compliance claim |
-| DEL-11 | Genuine development log | Docs | Real timestamps, prompts/files/decisions/tests/errors/fixes/commit/next | development-log.md | IN PROGRESS |
+| DEL-11 | Genuine development log | Docs | Real timestamps, prompts/files/decisions/tests/errors/fixes/commit/next | development-log.md actual session + commit | PASS first checkpoint |
 | DEL-12 | Decision log | Docs | Context/decision/alternatives/trade-offs/consequences | decisions.md | PASS initial design |
 | DEL-13 | Actual prompts/session evidence | Docs | Actual prompt/excerpt labeled accurately | docs/prompts | PASS user prompt only |
 | DEL-14 | AI human responsibilities | Docs | Tool/model uncertainty/review explained | ai-development.md | PASS disclosure; exact model unknown |
-| DEL-15 | Resume context | Docs | AGENTS + requirements + progress enough to continue | docs/progress.md | IN PROGRESS |
-| DEL-16 | Genuine Git history/feature branches | Git | Logical local commits, actual timestamps, clean diff | git log/status | IN PROGRESS |
+| DEL-15 | Resume context | Docs | AGENTS + requirements + progress enough to continue | docs/progress.md with continuation instructions | PASS first checkpoint |
+| DEL-16 | Genuine Git history/feature branches | Git | Logical local commits, actual timestamps, clean diff | local 4f212d9 and documentation follow-up; git log/status | PASS first checkpoint |
 | DEL-17 | Publication controlled by owner | Git | No remote push/PR/merge without consent | git remote -v; no publication | PASS so far |
 | DEL-18 | GitHub repository and real PR links | Submission | Actual published repo approved by owner | Remote link | TODO: approval required later |
 | DEL-19 | Exactly ten-sentence personal essay | Owner/docs | Owner-authored and approved final ten sentences | docs/essay.md; final count | TODO: template only |
 | DEL-20 | Attribution | Docs | Actual libraries/templates/generators identified | README attribution | NOT VERIFIED |
 | DEL-21 | Deadline 2026-10-26, P0 before P2 | Planning | Phase gates; no future work claims | progress + development log | IN PROGRESS |
-| DEL-22 | First checkpoint then stop | Workflow | Real slice verified, documented, committed and owner report | smoke + Git + report | IN PROGRESS |
+| DEL-22 | First checkpoint then stop | Workflow | Real slice verified, documented, committed and owner report | artifacts/checkpoint.json + local Git + owner report | PASS first checkpoint |
 
 ## Phase gates and effort estimates
 

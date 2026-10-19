@@ -13,7 +13,7 @@
 ## In Progress
 
 No product implementation is in progress. First slice verified; waiting for owner review.
-Final Git/evidence bookkeeping is recorded in the continuation entry below.
+Checkpoint committed locally; consolidated evidence: artifacts/checkpoint.json.
 This is the owner-review checkpoint; no phase 2 implementation begins without continuation.
 
 ## Blocked
@@ -51,9 +51,10 @@ recovery, live external TLS and final security/product audit. These are required
 
 ## Latest Commit
 
-First checkpoint not yet committed when this progress entry was written. Exact implementation
-commit will be recorded after verification; `git log -1 --format=fuller` is authoritative for
-the newest documentation commit too. Do not assume a published GitHub history exists.
+Implementation checkpoint: `4f212d959b63f590d3438c3c6ed86089069347e3` —
+`feat: implement verified monitoring vertical slice`, 2026-10-19 19:51:16 +05:00, Codex Agent.
+This entry belongs to a subsequent documentation commit; `git log -1 --format=fuller`
+resolves current HEAD (a file cannot embed its own commit hash). No publication occurred.
 
 ## Important Context
 
