@@ -212,7 +212,7 @@ These are owner/engineering criteria from prompts/003-phase3.md, not extra emplo
 | INC-12 | Slow checks/worker | >interval HTTP has no ordinary overlap; fast target completes | Actual 32s/30s live smoke + deterministic cancellation test | PASS within documented fault model |
 | INC-13 | Restart/DB/worker | Incident ID/config survive actual restart; no gap backfill | phase3-smoke.json | PASS |
 | INC-14 | Future notifications/model | Confirmed UUID; recovered/admin closures distinct; proposed idempotent keys | ADR-009, architecture.md | PASS design only; outbox/SMTP not implemented |
-| INC-15 | Git/workflow | Branch from actual phase2; prepared stacked PR commands, no unauthorized PR/merge | pr-phase3.md; git history; gh PR list | PASS preparation; final push pending gate |
+| INC-15 | Git/workflow | Branch from actual phase2; prepared stacked PR commands, no unauthorized PR/merge | pr-phase3.md; private push 5b43b20; hosted run 39323301037 | PASS private upload/CI; no PR/merge |
 
 ## Phase gates and effort estimates (planning)
 

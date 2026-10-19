@@ -1,6 +1,6 @@
 # ServicePulse progress — phase 3
 
-Current checkpoint: [v0.3 incidents](phase3-checkpoint.md), local verification complete.
+Current checkpoint: [v0.3 incidents](phase3-checkpoint.md), verified and uploaded privately.
 Prior [v0.2 management](phase2-checkpoint.md) and v0.1 evidence below are historical.
 Current branch is feat/incident-lifecycle, based on real phase2 commit 3569b1c.
 
@@ -22,18 +22,18 @@ Current branch is feat/incident-lifecycle, based on real phase2 commit 3569b1c.
 
 ## In Progress
 
-Phase3 local checks/review complete; commit and authorized private upload/hosted CI pending.
-No phase4 implementation. Stop after phase3 checkpoint for owner review.
+Phase3 complete, implementation 5b43b20 uploaded and hosted CI passed. Waiting for owner review.
+No phase4 implementation. No automatic PR or merge.
 
 ## Blocked
 
 No local product blocker. GitHub CLI is authenticated; origin is a private repository.
-Hosted CI passed for implementation 034b4bd (run 39319384324). Exact model identifier and essay remain
+Hosted CI passed for implementation 5b43b20 (run 39323301037). Exact model identifier and essay remain
 submission inputs, not blockers for current implementation. No credentials belong in chat/Git.
 
 ## Next Tasks
 
-1. Finish phase3 verified checkpoint and private upload; owner reviews before next phase.
+1. Owner reviews completed phase3 before explicitly continuing phase4.
 2. No PR exists as of phase3 discovery. Prepared phase2/phase3 descriptions and creation commands.
 3. No automatic PR creation or merge; phase3 base is phase2 until phase2 is merged.
 4. Phase 4: maintenance windows, transactional outbox, retries and actual Mailpit assertions.
@@ -45,7 +45,8 @@ submission inputs, not blockers for current implementation. No credentials belon
 
 Phase3 final: 75 PostgreSQL tests (3.48s), two legacy migration fixtures/ORM check, 11 component tests,
 4 browser tests (15.2s); actual restart/slow smoke PASS (73.031s). Forced different-IP proxy regression
-PASS (4.563s) after fixing a discovered HIGH stale nginx upstream. See phase3-checkpoint.md.
+PASS (4.563s) after fixing a discovered HIGH stale nginx upstream. Hosted CI PASS on 5b43b20:
+https://github.com/azimkhanrazdva/servicepulse/actions/runs/39323301037. See phase3-checkpoint.md.
 
 Historical phase2: 53 PostgreSQL backend tests (zero skips), legacy migration/ORM check,
 9 frontend tests, 3 real browser tests, Python/ESLint/format/typecheck/build and zero npm findings.
@@ -74,7 +75,10 @@ main and first-slice branch published at bd43629; no PR/merge.
 
 ## Latest Commit
 
-Phase3 commit pending final local gate; `git log -1` resolves current HEAD.
+Phase3 implementation: 5b43b208df112694082d8c4640c5ec012d2ca4a6 —
+feat(incidents): persist lifecycle and verify scheduler recovery, 2026-10-19 20:55:01 +05:00.
+Pushed to origin/feat/incident-lifecycle; hosted CI passed this exact commit.
+A documentation-only handoff commit follows; `git log -1` resolves current HEAD.
 
 Historical phase2 implementation: 034b4bda783e0a69a47d4c4875ea05fc36819e19 —
 feat: add versioned monitor management and groups, 2026-10-19 20:26:42 +05:00.

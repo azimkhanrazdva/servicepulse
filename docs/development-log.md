@@ -320,3 +320,22 @@ and incident lifecycle. Screenshots now show actual v0.3 styling, with dark acce
 Critical review updated; no unresolved BLOCKER/HIGH for the requested local phase. Limited secret-pattern
 scan found no matches, .env is ignored, whitespace diff check passed. Only two original UP demo monitors
 remain. Final local implementation is ready for a real commit and authorized private branch upload.
+
+### Phase3 commit and private hosted verification — 2026-10-19T20:55:48.7420141+05:00
+
+Initial git commit attempt failed because no repository/global author identity was configured. Used
+explicit per-command Codex Agent <codex-agent@localhost>, matching previous real agent commits;
+no global identity change or invented human author. Created 5b43b208df112694082d8c4640c5ec012d2ca4a6,
+feat(incidents): persist lifecycle and verify scheduler recovery, at 2026-10-19 20:55:01 +05:00.
+Pushed feat/incident-lifecycle with tracking, verified repository isPrivate=true. Automatic push CI run
+39323301037 completed SUCCESS for that exact commit: frontend 28s, backend 37s. All configured
+lint/format/PostgreSQL tests/frontend tests/types/build/audit steps passed. `gh run watch --exit-status`
+returned success; raw result saved in artifacts/github-ci-phase3.json. GitHub API timestamps are
+preserved exactly as returned; local chronological log uses actual system UTC+5 timestamps above.
+Run URL: https://github.com/azimkhanrazdva/servicepulse/actions/runs/39323301037.
+Same non-failing Node-action/ubuntu migration annotations as phase2 remain LOW follow-ups.
+Consolidated phase3-checkpoint.json derives counts from actual JUnit/Vitest/Playwright/live/CI reports.
+Temporary test DB stopped, original application services left running with two UP demo monitors.
+No PR or merge; prepared exact phase2 and stacked phase3 commands for future owner authorization.
+This documentation-only handoff follows the verified implementation. Phase3 stops for owner review;
+next explicitly requested work will be maintenance and transactional email outbox, not started here.

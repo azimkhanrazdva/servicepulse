@@ -1,0 +1,67 @@
+{
+  "recorded_at": "2026-10-19T15:56:10.467605+00:00",
+  "implementation_commit": "5b43b208df112694082d8c4640c5ec012d2ca4a6",
+  "branch": "feat/incident-lifecycle",
+  "host": "Windows-10-10.0.26200-SP0",
+  "host_python": "3.11.9",
+  "backend": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "75",
+    "time": "3.484",
+    "timestamp": "2026-10-19T15:52:00.430310+00:00",
+    "hostname": "ee1c9d4b8d34"
+  },
+  "frontend": {
+    "passed": 11,
+    "failed": 0
+  },
+  "browser": {
+    "startTime": "2026-10-19T15:53:55.184Z",
+    "duration": 15183.898,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "live_smoke": {
+    "started_at": "2026-10-19T15:51:22.676461+00:00",
+    "checks": {
+      "threshold_and_continuous_outage_one_incident": "PASS",
+      "cancelled_http_and_stopped_worker_no_synthetic_results": "PASS",
+      "restart_expired_lease_same_incident_and_config": "PASS",
+      "real_recovery_exactly_one_closed_incident": "PASS",
+      "32s_http_exceeds_30s_interval_fast_target_unblocked_no_overlap": "PASS"
+    },
+    "observation_gap": {
+      "started_at": "2026-10-19T15:51:25.818255+00:00",
+      "ended_at": "2026-10-19T15:51:27.829729+00:00"
+    },
+    "slow_elapsed_seconds": 32.719,
+    "incident_id": "df3c5c14-edcc-47bd-91cc-1e8a1414cbdf",
+    "status": "PASS",
+    "elapsed_seconds": 73.031
+  },
+  "proxy_recreation": {
+    "started_at": "2026-10-19T15:53:45.477450+00:00",
+    "status": "PASS",
+    "old_ip": "172.18.0.6",
+    "new_ip": "172.18.0.9",
+    "frontend_container_unchanged": true,
+    "proxied_ready_and_api": "PASS",
+    "elapsed_seconds": 4.563
+  },
+  "hosted_ci": {
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/azimkhanrazdva/servicepulse/actions/runs/39323301037",
+    "headSha": "5b43b208df112694082d8c4640c5ec012d2ca4a6"
+  },
+  "limits": [
+    "no SMTP/outbox/maintenance/public page/month aggregates yet",
+    "50-monitor sustained load not verified",
+    "arbitrary suspension beyond lease expiry may overlap physical HTTP"
+  ]
+}
