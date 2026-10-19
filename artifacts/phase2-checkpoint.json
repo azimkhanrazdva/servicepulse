@@ -1,0 +1,61 @@
+{
+  "recorded_at": "2026-10-19T20:25:58.947711+05:00",
+  "phase": "2",
+  "backend": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "53",
+    "time": "1.690",
+    "timestamp": "2026-10-19T15:23:30.153558+00:00",
+    "hostname": "160925e67b3b"
+  },
+  "frontend": {
+    "passed": 9,
+    "failed": 0
+  },
+  "browser": {
+    "startTime": "2026-10-19T15:24:06.368Z",
+    "duration": 16872.1,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "live_smoke": {
+    "started_at": "2026-10-19T15:23:55.688448+00:00",
+    "checks": {
+      "pause_over_original_interval": "PASS",
+      "manual_run_persists_new_observation": "PASS",
+      "edit_during_real_http_keeps_lease": "PASS",
+      "backend_worker_restart_preserves_config_and_group": "PASS",
+      "restart_has_no_synthetic_failures_or_stale_result": "PASS"
+    },
+    "observations": {
+      "before_restart": 3,
+      "after_restart": 4,
+      "latest_config_version": 5
+    },
+    "result": "PASS",
+    "elapsed_seconds": 57.328
+  },
+  "npm_vulnerabilities": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0,
+    "total": 0
+  },
+  "private_repository": "https://github.com/azimkhanrazdva/servicepulse",
+  "hosted_ci": "NOT VERIFIED until actual run",
+  "not_implemented": [
+    "incidents",
+    "maintenance",
+    "email delivery/outbox",
+    "public page",
+    "month history/charts",
+    "sustained 50-monitor benchmark"
+  ]
+}

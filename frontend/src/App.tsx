@@ -1,18 +1,9 @@
 import { useEffect, useState } from "react";
-import type { FormEvent } from "react";
+import { request } from "./api";
+import type { Monitor, Group } from "./api";
+import { MonitorForm } from "./MonitorForm";
+import { GroupsPanel } from "./GroupsPanel";
 
-export type Monitor = {
-  id: string;
-  name: string;
-  url: string;
-  state: string;
-  interval_seconds: number;
-  timeout_seconds: number;
-  last_status_code: number | null;
-  last_response_ms: number | null;
-  last_checked_at: string | null;
-  consecutive_failures: number;
-};
 type Result = {
   id: string;
   checked_at: string;
@@ -22,21 +13,6 @@ type Result = {
   error: string | null;
 };
 
-async function request<T>(path: string, options?: RequestInit): Promise<T> {
-  const response = await fetch(`/api${path}`, options);
-  if (!response.ok) {
-    let message = `Request failed (${response.status})`;
-    try {
-      const data = await response.json();
-      if (typeof data.detail === "string") message = data.detail;
-    } catch {
-      /* no JSON error body */
-    }
-    throw new Error(message);
-  }
-  return response.status === 204 ? (undefined as T) : response.json();
-}
-
 export function App() {
   const [monitors, setMonitors] = useState<Monitor[]>([]);
   const [loading, setLoading] = useState(true);
@@ -44,6 +20,10 @@ export function App() {
   const [error, setError] = useState("");
   const [form, setForm] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [editing, setEditing] = useState<Monitor | undefined>();
+  const [groups, setGroups] = useState<Group[]>([]);
+  const [groupFilter, setGroupFilter] = useState<string | null>(null);
+  const [notice, setNotice] = useState("");
   const [selected, setSelected] = useState<Monitor | null>(null);
   const [results, setResults] = useState<Result[]>([]);
   const [historyLoading, setHistoryLoading] = useState(false);
@@ -51,6 +31,14 @@ export function App() {
   useEffect(() => {
     let active = true;
     let receivedSnapshot = false;
+    let receivedGroups = false;
+    request<Group[]>("/groups")
+      .then((data) => {
+        if (active && !receivedGroups) setGroups(data);
+      })
+      .catch((e) => {
+        if (active) setError(e.message);
+      });
     request<Monitor[]>("/monitors")
       .then((data) => {
         if (active && !receivedSnapshot) setMonitors(data);
@@ -65,6 +53,14 @@ export function App() {
     const connect = () => {
       events?.close();
       events = new EventSource("/api/events");
+      events.addEventListener("groups", (event) => {
+        try {
+          receivedGroups = true;
+          setGroups(JSON.parse((event as MessageEvent).data));
+        } catch {
+          setError("Could not read the group update.");
+        }
+      });
       events.onopen = () => setConnection("Live");
       events.onmessage = (event) => {
         try {
@@ -116,52 +112,86 @@ export function App() {
     };
   }, [selectedId, selectedCheck]);
 
-  async function create(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  async function action(
+    monitor: Monitor,
+    operation: "run" | "pause" | "resume" | "delete",
+  ) {
+    if (
+      operation === "delete" &&
+      !window.confirm(
+        `Delete monitor “${monitor.name}” and its observation history?`,
+      )
+    )
+      return;
     setBusy(true);
     setError("");
-    const data = new FormData(event.currentTarget);
+    setNotice("");
     try {
-      const monitor = await request<Monitor>("/monitors", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: data.get("name"),
-          url: data.get("url"),
-          interval_seconds: Number(data.get("interval")),
-          timeout_seconds: Number(data.get("timeout")),
-          expected_status: Number(data.get("status")),
-          expected_body: data.get("body") || null,
-        }),
-      });
-      setMonitors((previous) => [
-        ...previous.filter((m) => m.id !== monitor.id),
-        monitor,
-      ]);
-      setForm(false);
+      if (operation === "delete") {
+        await request(
+          `/monitors/${monitor.id}?config_version=${monitor.config_version}`,
+          { method: "DELETE" },
+        );
+        setMonitors((previous) => previous.filter((m) => m.id !== monitor.id));
+        if (selected?.id === monitor.id) setSelected(null);
+      } else if (operation === "run") {
+        await request(`/monitors/${monitor.id}/run`, { method: "POST" });
+      } else {
+        const updated = await request<Monitor>(
+          `/monitors/${monitor.id}/${operation}`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ config_version: monitor.config_version }),
+          },
+        );
+        setMonitors((previous) =>
+          previous.map((m) => (m.id === updated.id ? updated : m)),
+        );
+      }
+      setNotice(
+        operation === "run"
+          ? "Check queued."
+          : operation === "delete"
+            ? "Monitor deleted."
+            : operation === "pause"
+              ? "Monitor paused."
+              : "Monitor resumed.",
+      );
     } catch (e) {
       setError((e as Error).message);
     } finally {
       setBusy(false);
     }
   }
-
-  async function run(id: string) {
-    setBusy(true);
-    setError("");
-    try {
-      await request(`/monitors/${id}/run`, { method: "POST" });
-    } catch (e) {
-      setError((e as Error).message);
-    } finally {
-      setBusy(false);
-    }
+  function saved(monitor: Monitor) {
+    setMonitors((previous) => [
+      ...previous.filter((m) => m.id !== monitor.id),
+      monitor,
+    ]);
+    setForm(false);
+    setEditing(undefined);
+    setGroupFilter(null);
+    setNotice("Monitor saved.");
+  }
+  function groupChanged(value: Group | string) {
+    setGroups((previous) =>
+      typeof value === "string"
+        ? previous.filter((g) => g.id !== value)
+        : [...previous.filter((g) => g.id !== value.id), value],
+    );
+    if (typeof value === "string" && groupFilter === value)
+      setGroupFilter(null);
   }
 
   const counts = ["UP", "DOWN", "UNKNOWN", "PAUSED"].map(
     (state) => monitors.filter((m) => m.state === state).length,
   );
-  const current = monitors.find((m) => m.id === selected?.id) || selected;
+  const current = monitors.find((m) => m.id === selected?.id);
+  const filteredGroup = groups.find((g) => g.id === groupFilter);
+  const visible = filteredGroup
+    ? monitors.filter((m) => filteredGroup.monitor_ids.includes(m.id))
+    : monitors;
   return (
     <div className="shell">
       <aside>
@@ -180,19 +210,20 @@ export function App() {
             <small>{monitors.length}</small>
           </a>
         </nav>
+        <a className="group-nav" href="#groups">
+          Groups
+        </a>
         <div className="sidebar-note">
-          <span className="tag">FIRST CHECKPOINT</span>
+          <span className="tag">MANAGEMENT / V0.2</span>
           <p>
             Real checks.
             <br />
             Observable results.
           </p>
-          <small>
-            Incidents, groups and email are planned for the next phases.
-          </small>
+          <small>Incidents and email are planned for the next phases.</small>
         </div>
         <footer>
-          ServicePulse <span>v0.1</span>
+          ServicePulse <span>v0.2</span>
         </footer>
       </aside>
       <main id="overview">
@@ -218,7 +249,13 @@ export function App() {
               automatically.
             </p>
           </div>
-          <button className="primary" onClick={() => setForm(!form)}>
+          <button
+            className="primary"
+            onClick={() => {
+              setEditing(undefined);
+              setForm(!form);
+            }}
+          >
             {form ? "Close form" : "+ Add monitor"}
           </button>
         </div>
@@ -230,77 +267,27 @@ export function App() {
             </button>
           </div>
         )}
+        {notice && (
+          <div className="notice" aria-live="polite">
+            {notice}
+            <button
+              aria-label="Dismiss confirmation"
+              onClick={() => setNotice("")}
+            >
+              ×
+            </button>
+          </div>
+        )}
         {form && (
-          <section className="panel form-panel">
-            <h2>New monitor</h2>
-            <form onSubmit={create}>
-              <div className="fields">
-                <label>
-                  Name
-                  <input
-                    name="name"
-                    required
-                    maxLength={120}
-                    placeholder="API / production"
-                  />
-                </label>
-                <label className="wide">
-                  URL
-                  <input
-                    name="url"
-                    type="url"
-                    required
-                    maxLength={2048}
-                    placeholder="https://example.com/health"
-                  />
-                </label>
-                <label>
-                  Interval (seconds)
-                  <input
-                    name="interval"
-                    type="number"
-                    min={30}
-                    max={3600}
-                    defaultValue={30}
-                    required
-                  />
-                </label>
-                <label>
-                  Timeout (seconds)
-                  <input
-                    name="timeout"
-                    type="number"
-                    min={0.1}
-                    max={120}
-                    step={0.1}
-                    defaultValue={5}
-                    required
-                  />
-                </label>
-                <label>
-                  Expected HTTP status
-                  <input
-                    name="status"
-                    type="number"
-                    min={100}
-                    max={599}
-                    defaultValue={200}
-                    required
-                  />
-                </label>
-                <label className="wide">
-                  Expected text (optional)
-                  <input name="body" maxLength={1000} />
-                </label>
-              </div>
-              <div className="form-actions">
-                <small>Two consecutive failures confirm a DOWN state.</small>
-                <button className="primary" disabled={busy}>
-                  {busy ? "Creating…" : "Create monitor"}
-                </button>
-              </div>
-            </form>
-          </section>
+          <MonitorForm
+            key={editing?.id ?? "new"}
+            initial={editing}
+            onSaved={saved}
+            onCancel={() => {
+              setForm(false);
+              setEditing(undefined);
+            }}
+          />
         )}
         <section className="stats" aria-label="Monitor summary">
           {[
@@ -337,11 +324,17 @@ export function App() {
           <div className="section-heading">
             <div>
               <h2>
-                Service monitors <span>{monitors.length}</span>
+                Service monitors <span>{visible.length}</span>
               </h2>
               <p>HTTP checks · 30 seconds to 1 hour</p>
             </div>
-            <span className="subtle">Latest observations</span>
+            {filteredGroup ? (
+              <button onClick={() => setGroupFilter(null)}>
+                Show all monitors · {filteredGroup.name}
+              </button>
+            ) : (
+              <span className="subtle">Latest observations</span>
+            )}
           </div>
           <div className="table-scroll">
             <table>
@@ -356,7 +349,7 @@ export function App() {
                 </tr>
               </thead>
               <tbody>
-                {monitors.map((m) => (
+                {visible.map((m) => (
                   <tr key={m.id}>
                     <td>
                       <button
@@ -389,24 +382,57 @@ export function App() {
                     <td>
                       <button
                         className="run"
-                        disabled={busy}
-                        onClick={() => run(m.id)}
+                        disabled={
+                          busy ||
+                          m.state === "PAUSED" ||
+                          m.run_requested ||
+                          m.is_running
+                        }
+                        onClick={() => action(m, "run")}
                       >
                         Run now ↗
                       </button>
+                      <div className="row-actions">
+                        <button
+                          disabled={busy}
+                          onClick={() => {
+                            setEditing(m);
+                            setForm(true);
+                          }}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          disabled={busy}
+                          onClick={() =>
+                            action(m, m.state === "PAUSED" ? "resume" : "pause")
+                          }
+                        >
+                          {m.state === "PAUSED" ? "Resume" : "Pause"}
+                        </button>
+                        <button
+                          className="danger"
+                          disabled={busy}
+                          onClick={() => action(m, "delete")}
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          {!monitors.length && (
+          {!visible.length && (
             <div className="empty">
               <div className="empty-icon">⌁</div>
               <h3>
                 {loading
                   ? "Loading monitors…"
-                  : "Start with your first service"}
+                  : filteredGroup
+                    ? "No monitors in this group"
+                    : "Start with your first service"}
               </h3>
               <p>
                 {loading
@@ -476,6 +502,18 @@ export function App() {
             </p>
           </section>
         )}
+        <GroupsPanel
+          groups={groups}
+          monitors={monitors}
+          onChange={groupChanged}
+          onFilter={(id) => {
+            setGroupFilter(id);
+            document
+              .getElementById("monitors")
+              ?.scrollIntoView({ behavior: "instant" });
+          }}
+          notify={setNotice}
+        />
         <div className="bottom-note">
           <span>BUILT TO KNOW, NOT TO GUESS.</span>
           <span>Local development · private management console</span>

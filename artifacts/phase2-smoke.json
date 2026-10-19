@@ -1,0 +1,17 @@
+{
+  "started_at": "2026-10-19T15:23:55.688448+00:00",
+  "checks": {
+    "pause_over_original_interval": "PASS",
+    "manual_run_persists_new_observation": "PASS",
+    "edit_during_real_http_keeps_lease": "PASS",
+    "backend_worker_restart_preserves_config_and_group": "PASS",
+    "restart_has_no_synthetic_failures_or_stale_result": "PASS"
+  },
+  "observations": {
+    "before_restart": 3,
+    "after_restart": 4,
+    "latest_config_version": 5
+  },
+  "result": "PASS",
+  "elapsed_seconds": 57.328
+}

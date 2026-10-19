@@ -175,3 +175,21 @@ async def test_mixed_public_private_dns_is_blocked(monkeypatch):
 def test_custom_threshold():
     assert transition("UP", 0, False, 1) == ("DOWN", 1)
     assert transition("UP", 2, False, 4) == ("UP", 3)
+
+
+@pytest.mark.parametrize(
+    "states,expected",
+    [
+        ([], "UNKNOWN"),
+        (["PAUSED"], "PAUSED"),
+        (["UP", "PAUSED"], "UP"),
+        (["UP", "UNKNOWN"], "UNKNOWN"),
+        (["DOWN", "UNKNOWN", "UP"], "DOWN"),
+        (["PAUSED", "UNKNOWN"], "UNKNOWN"),
+        (["UP", "UP"], "UP"),
+    ],
+)
+def test_group_state(states, expected):
+    from app.groups import group_state
+
+    assert group_state(states) == expected

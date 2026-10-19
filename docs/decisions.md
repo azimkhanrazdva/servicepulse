@@ -37,3 +37,32 @@ even when another address is reachable. Consequences: test construction and deny
 add live TLS test and network egress defense before public deployment.
 Sources: [HTTPX transports](https://www.python-httpx.org/advanced/transports/),
 [HTTPCore SNI extension](https://www.encode.io/httpcore/extensions/).
+
+## ADR-006 — optimistic editing with retained leases
+Context: two clients may edit the same monitor while HTTP work is running.
+Decision: captured integer config_version plus row lock; 409 preserves the losing draft.
+Keep active lease through edit/pause/resume; discard stale version results before/after I/O.
+Every edit resets current metrics/state, retaining versioned history. Resume schedules UNKNOWN.
+Alternatives: last-write-wins loses edits; clearing leases can start overlapping requests;
+holding a DB transaction over the network occupies connections and locks excessively.
+Trade-offs: a changed monitor may wait for the old request/lease; rename also resets state.
+Consequences: deterministic conflict UX, simple durable recovery; incident interactions belong to phase 3.
+
+## ADR-007 — normalized groups and independent versions
+Context: membership, per-group recipients and aggregate state must remain consistent.
+Decision: join table and recipient table with FK cascades; group row version guards full replacement.
+Lock group then selected monitors in UUID order; monitor settings and group edits use separate versions.
+Group state: ignore paused members, then DOWN > UNKNOWN > UP; all paused PAUSED, empty UNKNOWN.
+Alternatives: embedding membership/recipients in JSON, one global settings version.
+Trade-offs: extra small queries; not an unbounded-fleet aggregation implementation.
+Consequences: no silent lost same-group edits; deleting a group retains monitors; email sending stays deferred.
+
+## ADR-008 — authentic GitHub baseline
+Context: first slice already consisted of a root code commit plus docs; no main/origin existed.
+Decision: owner authorized stage uploads and chose private visibility. Create main at existing
+bd43629 and publish main plus first-slice branch unchanged. Phase 2 branches from that same head.
+Alternatives: synthetic empty root to manufacture a first full-code PR, rewriting the initial commits.
+Trade-offs: no meaningful full first-slice PR (branches have identical trees); first slice is reviewed
+through actual commits, subsequent stage gets a meaningful main...feature diff.
+Consequences: authentic original history, private repo, no automatic PR/merge or force-push.
+Repository: https://github.com/azimkhanrazdva/servicepulse. Owner controls employer access.

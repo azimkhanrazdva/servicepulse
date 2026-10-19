@@ -137,3 +137,101 @@ reports: 31 backend + 4 frontend + 2 browser tests passed; zero npm findings.
 Final continuation docs recorded in a separate documentation commit with actual Git time.
 Application left running with two seeded monitors for owner review; no further feature work
 will run after this response. Next command from owner should authorize phase 2 continuation.
+
+## Phase 2 — monitor management, groups and private GitHub
+
+Log entry written at 2026-10-19T20:24:16.020621+05:00. First explicit audit clock in this pass:
+2026-10-19T20:02:12.6841729+05:00. Earlier steps are reported from actual current-session
+commands, not separately authored/backdated historical entries. Real prompt preserved at
+[002-phase2.md](prompts/002-phase2.md). Owner also authorized uploads after completed stages,
+chose private visibility and completed browser GitHub CLI login; no device code/token is saved.
+
+### Audit and baseline
+
+Confirmed cwd, clean Git, bd43629/4f212d9, first-slice branch, no main/origin and missing gh.
+Read AGENTS, README, requirements, architecture, progress, decisions, development log,
+models/migration, endpoints, worker/SSE and tests. Containers were healthy (test-db stopped).
+Baseline rerun: 31 backend tests passed in 0.77s, 4 frontend tests passed; typecheck,
+format and build passed. 133 project IDs were incorrectly easy to read as 133 employer
+requirements; added per-ID requirements-provenance.md distinguishing PDF, owner additions,
+technical acceptance choices and optional features without deleting obligations.
+
+Created feat/monitor-management-groups from bd43629, preserving the original work.
+No obsolete-main checkout, reset, history rewrite or deletion of user data.
+
+### Implementation and choices
+
+Files: backend/app/{models,schemas,main,groups,worker}.py, additive migration 0002,
+backend/tests/{test_core,test_database,run}.py, backend dependency files;
+frontend/src/{api,MonitorForm,GroupsPanel,App}.tsx/ts and tests/styles, ESLint config,
+browser management test, scripts/phase2_smoke.py, CI and documentation.
+
+Monitor settings/state actions use integer versions under row locks (409 on stale clients),
+active leases survive edit/pause/resume, old results are discarded before I/O/commit.
+Manual requests coalesce and remain due if an expired-lease completion arrives late.
+All edits reset live metrics/state (PAUSED retained), history remains versioned.
+Groups use separate version, normalized membership/recipient tables and deterministic lock order.
+SSE default monitor payload retained, named group event added from one repeatable-read snapshot.
+UI reuses a shared create/edit form and preserves conflicting drafts until explicit reload.
+No incident/maintenance/outbox/public-page implementation was added.
+
+### Actual verification and corrections
+
+- First expanded suite: 52 tests passed with real test PostgreSQL; original tests retained.
+- New field/recipient validator tests passed. Pydantic EmailStr uses email-validator 2.3.0 and
+  dnspython 2.9.0, installed/resolved and locked; no network deliverability checks.
+- Frontend initially 9 tests passed, TypeScript/build passed. ESLint caught the old mock's
+  local alias of this; replaced with a static captured instance rather than disabling the rule.
+  Formatting check later caught two test files; applied Prettier, reran successfully.
+- Browser run: 3 tests passed in 17.4s, including original reconnect/mobile paths plus two-client
+  CRUD/pause/resume/groups/recipients/confirmation/version-conflict/draft-preservation.
+- First live phase2 smoke at 2026-10-19T15:17:30.565102Z passed in 56.86s: paused longer than
+  original 30s interval, manual check persisted, edit while real delayed HTTP retained lease,
+  backend/worker restart preserved settings and group, results grew 3 to 4 with no stale/fake failures.
+- Separate final review caught group post-commit reread/delete race; response snapshot now
+  built under lock before commit. Also fixed manual queue overwritten by late completion;
+  regression test added. Mounted final source test run: 53 passed in 1.97s.
+- Migration runner now creates a real test monitor/result at 0001, verifies all settings/state/IDs
+  and observation survive upgrade to 0002, then checks ORM agreement and runs tests.
+- npm audit after ESLint dependencies: zero vulnerabilities. Frontend 9-test JSON report saved.
+- Final rebuilt-image checks and second live smoke are recorded after completion below.
+
+### Private GitHub publication of completed stage 1
+
+GitHub CLI 2.102.0 installed with winget; user completed browser login, keyring used.
+Created private azimkhanrazdva/servicepulse. Created main ref at existing bd43629 and pushed
+main plus feat/first-vertical-slice unchanged. Verified private=true and both remote refs
+bd4362991d1b74e52b46fa35d53cb04fb9f38835 at 2026-10-19T20:15:13.5894672+05:00.
+No synthetic root, force-push, PR or merge. Prepared exact requested PR1 title/body and explained
+why first-slice branch has no diff against the authentic v0.1 baseline. Phase2 PR text prepared.
+Actions is enabled and baseline workflow active, but initial run-list queries returned no runs;
+no baseline hosted-CI PASS is inferred. Phase2 adds manual dispatch for explicit verification.
+
+### Eight concurrency requirements mapped to actual evidence
+
+1. Edit during HTTP: DB event-gated race + real delayed simulator smoke.
+2. Delete during HTTP: DB event-gated race, no stale observation/resurrection.
+3. Repeated Run Now: persisted coalescing + leased 409 + late-completion regression.
+4. Pause during HTTP: DB gated race; active lease retained; PAUSED rejects new claims.
+5. Two clients edit: concurrent API requests yield one 200/one 409; browser preserves losing draft.
+6. Interval change: next_due uses new interval; browser/API reads match.
+7. Worker restart after edit: actual backend/worker restart in phase2 smoke, settings preserved.
+8. Group + monitor edit: concurrent DB/API transactions retain both independent changes.
+
+Next: finish final verification, record actual local commit, push the verified feature branch,
+read hosted CI outcome, stop for owner review. Incident engine is the next requested phase.
+
+### Phase2 final local gate — 2026-10-19T20:26:41.917971+05:00
+
+Final rebuilt test image: legacy 0001 fixture preservation and ORM check PASS;
+53 backend tests passed in 1.69s, zero skips. Final browser run: 3 passed in 16.9s.
+Second real restart smoke at 2026-10-19T15:23:55.688448Z PASS in 57.328s, same five
+asserted behaviors and observation count 3 -> 4. Frontend 9-test JSON, ESLint/types/build/format,
+Python lint/format and npm audit (0) passed. Reports consolidated in artifacts/phase2-checkpoint.json.
+No required local Phase2 scenario remains unverified; later phase features remain explicitly pending.
+Full progress-file rewrite command was rejected by automatic review with generic blocked-by-policy;
+preserved its original history and made incremental checkpoint updates with a separate phase2 record.
+No application code or test was bypassed/removed in response to that rejection.
+
+Prepared an authentic phase2 implementation commit after diff/secret review. Will push only this
+verified feature branch; main remains bd43629 until owner authorizes a PR/merge.

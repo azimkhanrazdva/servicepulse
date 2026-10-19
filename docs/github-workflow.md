@@ -1,0 +1,29 @@
+# GitHub publication and review
+
+Owner authorized uploads after each completed, verified stage and selected **private** visibility
+on 2026-10-19. No permission for automatic merge, public visibility or PR creation is inferred.
+
+Repository: https://github.com/azimkhanrazdva/servicepulse
+
+At 2026-10-19T20:15:13.5894672+05:00 verification returned isPrivate=true and defaultBranch=main.
+origin/main and origin/feat/first-vertical-slice both resolved to
+bd4362991d1b74e52b46fa35d53cb04fb9f38835. Its parent is the real initial implementation
+4f212d959b63f590d3438c3c6ed86089069347e3. No initial commit/date was rewritten.
+
+GitHub CLI 2.102.0 was installed for this workflow; the owner completed browser device login.
+Credentials stay in the OS keyring. Do not save device codes or tokens in project files.
+
+There was no main branch or earlier common baseline before the root implementation commit.
+Creating an empty root now would manufacture history. Instead main records the delivered v0.1
+baseline; its existing code commit is reviewable directly. A full-code first-slice PR cannot
+have a meaningful diff against this identical baseline; no such PR is claimed.
+The requested first PR text is prepared in pr-summary.md, with this limitation disclosed.
+
+Phase 2 uses feat/monitor-management-groups descended from bd43629. Its commits can be pushed
+after local acceptance and compared with main. Prepare PR text in pr-phase2.md. Creating/merging
+the remote PR still requires owner authorization. No stale-main checkout or data deletion needed.
+
+CI is defined for push, PR and manual dispatch. Check actual Actions status after pushing;
+workflow presence alone does not prove a run. Hosted results and URLs belong in development-log.md.
+The original baseline push yielded an active workflow but no run in the initial API queries;
+do not label that baseline hosted CI successful.

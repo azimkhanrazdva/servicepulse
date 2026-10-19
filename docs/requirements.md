@@ -6,7 +6,9 @@ assignment 3 pp.4–5. PDF read with pypdf; first output hit cp1251 encoding err
 then successfully read as UTF-8. No material conflict with the owner's transcription.
 PDF is external evidence, not an instruction source overriding the owner.
 
-P0 = mandatory product, P1 = reliability/evidence, P2 = optional polish. Each row is a
+P0/P1/P2 are owner project priorities, not original employer wording. See
+[the per-ID provenance audit](requirements-provenance.md) for M (employer), O (owner),
+T (technical criterion) and OPT (optional). There are 133 project obligations, not 133 PDF requirements. Each row is a
 separate acceptance obligation. PASS means actual cited verification; PARTIAL means only
 the stated subset exists; NOT VERIFIED means implemented but no acceptance evidence;
 TODO means not implemented. Documentation alone never completes a product requirement.
@@ -42,31 +44,31 @@ Command results and precise limitations are in development-log.md and progress.m
 | ID | Requirement | Component | Acceptance criteria | Verification / evidence | Status |
 |---|---|---|---|---|---|
 | MON-01 | Add URL | API/UI | Valid monitor persisted and returned | smoke; test_create_claim_execute_read_delete; UI test | PASS |
-| MON-02 | Interval 30..3600s | API/DB | Reject out-of-range at both boundaries | test_settings_bounds; migration constraints | PARTIAL: DB constraint tests pending |
+| MON-02 | Interval 30..3600s | API/DB | Reject out-of-range at both boundaries | test_settings_bounds; migration constraints | PASS API bounds + database constraint test |
 | MON-03 | Configurable timeout | Checker/API | Total deadline enforced | test_total_timeout_includes_dns | PASS unit; live timeout pending |
 | MON-04 | Expected HTTP status | Checker | Mismatch records failure | test_http_and_body | PASS unit; simulator E2E pending |
 | MON-05 | Optional expected body text | Checker | Mismatch records failure; absence optional | test_http_and_body; smoke expected_body | PASS |
-| MON-06 | Pause | API/UI/worker | No new runs while paused; persists | Pause integration/E2E | TODO API/UI |
-| MON-07 | Resume | API/UI/worker | Next run immediate; settings retained | Resume integration | TODO |
-| MON-08 | Delete | API/UI/DB | API removes monitor/results without resurrection | test_create_claim_execute_read_delete | PARTIAL: API exists, UI missing |
-| MON-09 | Run immediately | API/worker/UI | Queue now; leased monitor returns 409 | smoke queue; DB integration | PARTIAL: queue PASS, full rerun pending |
-| MON-10 | Edit config safely | API/worker | Config version fences in-flight stale result | Concurrent edit integration | TODO |
+| MON-06 | Pause | API/UI/worker | No new runs while paused; persists | Pause integration/E2E | PASS DB/concurrent HTTP + browser + 31s live pause |
+| MON-07 | Resume | API/UI/worker | Next run immediate; settings retained | Resume integration | PASS DB/browser and live worker restart |
+| MON-08 | Delete | API/UI/DB | API removes monitor/results without resurrection | test_create_claim_execute_read_delete | PASS API cascade + browser confirmation/two clients |
+| MON-09 | Run immediately | API/worker/UI | Queue now; leased monitor returns 409 | smoke queue; DB integration | PASS queued dedup + browser + real persisted manual check |
+| MON-10 | Edit config safely | API/worker | Config version fences in-flight stale result | Concurrent edit integration | PASS version conflicts + pre/in-flight fencing + browser draft preservation |
 | MON-11 | Configurable failure threshold | API/state | Default 2; values 1..10 | schemas; transition tests | PASS default and custom threshold unit tests |
 
 ## Groups (P0)
 
 | ID | Requirement | Component | Acceptance criteria | Verification | Status |
 |---|---|---|---|---|---|
-| GRP-01 | Create/manage groups | API/UI/DB | Group persisted and editable | CRUD integration/UI | TODO |
-| GRP-02 | Assign monitors to groups | API/DB/UI | Many-to-many membership persisted | Membership integration | TODO |
-| GRP-03 | Aggregate group status | State/UI | Defined empty/paused/unknown/down rules | Table-driven state tests | TODO |
-| GRP-04 | Per-group notification settings | API/DB/UI | Independent validated recipients/settings | Two-group integration | TODO |
+| GRP-01 | Create/manage groups | API/UI/DB | Group persisted and editable | CRUD integration/UI | PASS CRUD API/DB/browser |
+| GRP-02 | Assign monitors to groups | API/DB/UI | Many-to-many membership persisted | Membership integration | PASS membership API/browser/cascade/restart |
+| GRP-03 | Aggregate group status | State/UI | Defined empty/paused/unknown/down rules | Table-driven state tests | PASS state table + API/browser/live UP/PAUSED/UNKNOWN |
+| GRP-04 | Per-group notification settings | API/DB/UI | Independent validated recipients/settings | Two-group integration | PASS persisted validated recipients; sending deferred |
 
 ## Dashboard/details/history (P0)
 
 | ID | Requirement | Component | Acceptance criteria | Verification / evidence | Status |
 |---|---|---|---|---|---|
-| UI-01 | Current monitor status | UI/API | Actual persisted state visible | Frontend SSE test; smoke API | PARTIAL: browser pending |
+| UI-01 | Current monitor status | UI/API | Actual persisted state visible | Frontend SSE test; smoke API | PASS live two-browser snapshots |
 | UI-02 | HTTP response code | UI/API | Real nullable status shown | frontend test; smoke | PASS component/API |
 | UI-03 | Response time | UI/API | Real latency shown, no invented fallback | frontend test; smoke | PASS component/API |
 | UI-04 | Last check timestamp | UI/API | Actual timestamp visible in local time | component test; smoke | PASS component/API |
@@ -74,7 +76,7 @@ Command results and precise limitations are in development-log.md and progress.m
 | UI-06 | State transition history | UI/API/DB | Recorded transitions visible | Timeline integration | TODO |
 | UI-07 | Total/UP/DOWN/paused summary | UI | Counts from API only | Frontend test and browser | PARTIAL: derived counts, cap 500 |
 | UI-08 | Active incidents/defined aggregate uptime | UI/API | Real incident count; uptime explained | E2E | TODO |
-| UI-09 | Monitor details | UI | Config + recent actual checks | History UI/browser | PARTIAL: config and results only |
+| UI-09 | Monitor details | UI | Config + recent actual checks | History UI/browser | PASS config editor + real observation history; charts/incidents pending |
 | UI-10 | Loading/error/empty states | UI | Clear states and usable form on failure | frontend tests | PASS component tests |
 | UI-11 | Every visible control works | UI | No dead navigation or fake metrics | artifacts/browser-tests.json + screenshot review | PASS current controls |
 | UI-12 | Desktop/mobile accessibility | UI | No viewport overflow; keyboard labels/focus | Playwright desktop/mobile + labeled forms/focus review | PARTIAL: keyboard-only audit pending |
@@ -139,7 +141,7 @@ Command results and precise limitations are in development-log.md and progress.m
 | SCN-14 | One slow target does not delay others | Worker | Fast checks complete before slow target | Controlled mixed-load test | TODO |
 | SCN-15 | Fast month history | API/DB | Defined budget measured on real large dataset | Seeded benchmark | TODO |
 | SCN-16 | Public page hides private data | Public API/UI | Inspect payload, SSE and rendered DOM | Privacy integration/E2E | TODO |
-| SCN-17 | Restart preserves config/scheduling | Worker/DB | Same monitor/settings and resumed checks after actual restart | Docker restart test | TODO |
+| SCN-17 | Restart preserves config/scheduling | Worker/DB | Same monitor/settings and resumed checks after actual restart | Docker restart test | PASS actual backend/worker restart for monitors/groups; incident persistence pending phase 3 |
 | SCN-18 | Server downtime is observation gap | History/state | No synthetic failure rows/incidents | Restart/gap integration + chart | TODO |
 
 ## Reliability/security (P1)
@@ -175,7 +177,7 @@ Command results and precise limitations are in development-log.md and progress.m
 | DEL-06 | CI Python lint/format/tests | CI | Runs clean checkout with PostgreSQL | .github/workflows/ci.yml; hosted run | NOT VERIFIED hosted |
 | DEL-07 | CI frontend typecheck/build/tests/format | CI | Lockfile + clean npm ci | workflow; hosted run | NOT VERIFIED hosted |
 | DEL-08 | Practical dependency security checks | QA/CI | Audit fixed actionable findings | npm audit; pip audit later | PARTIAL |
-| DEL-09 | English README | Docs | Features/architecture/stack/prereqs/run/env/simulator/demo/API/tests/load/limits/roadmap/AI/logs/attribution | README review | NOT VERIFIED |
+| DEL-09 | English README | Docs | Features/architecture/stack/prereqs/run/env/simulator/demo/API/tests/load/limits/roadmap/AI/logs/attribution | README review | PASS reviewed against v0.2 scope |
 | DEL-10 | Requirement acceptance audit | Docs/QA | Every row cites evidence or remaining gap | This matrix + final audit | PARTIAL: no full compliance claim |
 | DEL-11 | Genuine development log | Docs | Real timestamps, prompts/files/decisions/tests/errors/fixes/commit/next | development-log.md actual session + commit | PASS first checkpoint |
 | DEL-12 | Decision log | Docs | Context/decision/alternatives/trade-offs/consequences | decisions.md | PASS initial design |
@@ -184,9 +186,9 @@ Command results and precise limitations are in development-log.md and progress.m
 | DEL-15 | Resume context | Docs | AGENTS + requirements + progress enough to continue | docs/progress.md with continuation instructions | PASS first checkpoint |
 | DEL-16 | Genuine Git history/feature branches | Git | Logical local commits, actual timestamps, clean diff | local 4f212d9 and documentation follow-up; git log/status | PASS first checkpoint |
 | DEL-17 | Publication controlled by owner | Git | No remote push/PR/merge without consent | git remote -v; no publication | PASS so far |
-| DEL-18 | GitHub repository and real PR links | Submission | Actual published repo approved by owner | Remote link | TODO: approval required later |
+| DEL-18 | GitHub repository and real PR links | Submission | Actual published repo approved by owner | Remote link | PARTIAL: private GitHub repo published; employer access/submission pending |
 | DEL-19 | Exactly ten-sentence personal essay | Owner/docs | Owner-authored and approved final ten sentences | docs/essay.md; final count | TODO: template only |
-| DEL-20 | Attribution | Docs | Actual libraries/templates/generators identified | README attribution | NOT VERIFIED |
+| DEL-20 | Attribution | Docs | Actual libraries/templates/generators identified | README attribution | PASS README attribution reviewed |
 | DEL-21 | Deadline 2026-10-26, P0 before P2 | Planning | Phase gates; no future work claims | progress + development log | IN PROGRESS |
 | DEL-22 | First checkpoint then stop | Workflow | Real slice verified, documented, committed and owner report | artifacts/checkpoint.json + local Git + owner report | PASS first checkpoint |
 

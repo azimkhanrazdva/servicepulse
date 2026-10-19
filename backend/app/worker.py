@@ -37,14 +37,25 @@ async def claim_due(limit):
         for monitor in monitors:
             monitor.lease_token = uuid.uuid4()
             monitor.lease_until = now() + timedelta(seconds=monitor.timeout_seconds + 15)
+            monitor.run_requested = False
         return monitors
 
 
 async def execute(monitor, client):
+    async with Session() as db, db.begin():
+        current = await db.scalar(select(Monitor).where(Monitor.id == monitor.id).with_for_update())
+        if current is None or current.lease_token != monitor.lease_token:
+            return
+        if current.config_version != monitor.config_version or current.state == "PAUSED":
+            current.lease_token = current.lease_until = None
+            return
     observation = await check(monitor, client)
     async with Session() as db, db.begin():
         current = await db.scalar(select(Monitor).where(Monitor.id == monitor.id).with_for_update())
         if current is None or current.lease_token != monitor.lease_token:
+            return
+        if current.config_version != monitor.config_version or current.state == "PAUSED":
+            current.lease_token = current.lease_until = None
             return
         current.state, current.consecutive_failures = transition(
             current.state,
@@ -55,7 +66,9 @@ async def execute(monitor, client):
         current.last_checked_at = now()
         current.last_status_code = observation.status_code
         current.last_response_ms = observation.response_ms
-        current.next_due_at = now() + timedelta(seconds=current.interval_seconds)
+        current.next_due_at = (
+            now() if current.run_requested else now() + timedelta(seconds=current.interval_seconds)
+        )
         current.lease_token = current.lease_until = None
         db.add(
             CheckResult(
@@ -65,6 +78,7 @@ async def execute(monitor, client):
                 status_code=observation.status_code,
                 response_ms=observation.response_ms,
                 error=observation.error,
+                config_version=monitor.config_version,
             )
         )
     log.info(

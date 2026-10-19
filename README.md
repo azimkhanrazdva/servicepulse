@@ -1,14 +1,16 @@
 # ServicePulse
 
 A website availability monitoring platform built for Mad Devs' Junior Agentic Developer
-take-home assignment #3. **Version 0.1 is a verified first vertical slice, not the complete assignment.**
+take-home assignment #3. **Version 0.2 adds verified monitor/group management; incidents, notifications and public status remain pending.**
 
 Create a monitor, let an independent worker request a real HTTP target, persist observations
 in PostgreSQL and see the dashboard update through SSE. No fabricated metrics or HTTP results.
 
 ## Current features
 
-- Create/list/detail/delete API and create form; configurable interval, timeout, status and body match.
+- Create/edit/delete/pause/resume/run-now through React and API; configurable interval, timeout, status, body match and confirmation threshold.
+- Versioned edits with explicit conflict recovery; active HTTP leases survive changes and stale results are discarded.
+- Group CRUD, many-to-many membership, aggregate status and validated per-group email recipients (storage only).
 - Separate asynchronous worker with bounded concurrency, durable scheduling, fenced database leases.
 - UNKNOWN → UP/DOWN state with two consecutive failures by default; manual run queue.
 - Dark responsive React dashboard, real HTTP code/latency/timestamps and recent observation history.
@@ -16,7 +18,7 @@ in PostgreSQL and see the dashboard update through SSE. No fabricated metrics or
 - Alembic migration, isolated PostgreSQL integration tests, HTTP simulator and Mailpit container.
 - URL/DNS destination policy, pinned numeric connections, no redirects/proxies, bounded response/time.
 
-**Not implemented:** edit/pause/resume UI/API, groups, persisted incidents, email/outbox,
+**Not implemented:** persisted incidents, email/outbox,
 maintenance, public status page, uptime aggregates, response charts, monthly history endpoint.
 Mailpit running does not mean email notifications work. See [acceptance matrix](docs/requirements.md).
 
@@ -120,13 +122,18 @@ This changes displayed state only; incident records and email are subsequent wor
 | GET | /api/health | Process liveness |
 | GET | /api/ready | Database/schema readiness |
 | GET / POST | /api/monitors | List (max 500) / create |
-| GET / DELETE | /api/monitors/{uuid} | Read / delete and cascade results |
+| GET / PUT / DELETE | /api/monitors/{uuid} | Read / replace config with version / delete with optional version |
+| POST | /api/monitors/{uuid}/pause or /resume | Version-guarded state action; resume schedules immediately |
 | POST | /api/monitors/{uuid}/run | Queue check; 409 if already leased/paused |
 | GET | /api/monitors/{uuid}/results | Most recent 100 observations |
-| GET | /api/events | SSE snapshots every 2 seconds |
+| GET / POST | /api/groups | List / create group with members and recipients |
+| GET / PUT / DELETE | /api/groups/{uuid} | Read / versioned replacement / versioned deletion |
+| GET | /api/events | Monitor array + named groups event from one DB snapshot every 2 seconds |
 
 FastAPI publishes schemas and example requests at `/docs`. Invalid input returns 422;
-missing monitor 404. URL syntax is checked on input; DNS destination policy is enforced at
+missing monitor/group 404. PUT and pause/resume require config_version; stale versions return 409.
+Browser deletes include config_version in the query; unversioned monitor DELETE remains compatible
+with v0.1 scripts and is unconditional. Group DELETE always requires a version. URL syntax is checked on input; DNS destination policy is enforced at
 execution to account for changing DNS. A blocked destination records a bounded failure reason.
 
 ## Testing
@@ -140,7 +147,8 @@ docker compose --profile test run --rm --build tests
 The profile's `test-db` uses tmpfs and a dedicated `servicepulse_test` database. Tests refuse
 to reset a database whose name differs or whose two configured URLs do not match. The runner
 clears only test tables/migration metadata, applies Alembic from scratch, checks ORM/schema
-agreement and runs pytest. This never resets the application's `db` volume.
+agreement and runs pytest. The runner inserts a legacy monitor/result at migration 0001 and
+asserts their settings, IDs, state and history survive upgrade to 0002 before running the suite. This never resets the application's `db` volume.
 
 Host development (optional):
 
@@ -156,6 +164,7 @@ cd frontend
 npm ci
 npm test
 npm run typecheck
+npm run lint
 npm run format:check
 npm run build
 npx playwright install chromium
@@ -164,22 +173,40 @@ npm run test:e2e
 
 Without `TEST_DATABASE_URL`, host pytest deliberately skips DB tests. Use the Compose test
 command for full backend evidence. Browser tests require the running Compose application;
-they exercise the real form, worker result, two independent contexts and SSE reconnect.
+they retain the original real-form/worker/two-context/reconnect checks and add edit conflicts,
+pause/resume, Run Now, confirmed deletion, membership filtering and group recipient management.
 Screenshots are written to `output/playwright/`; machine report is `artifacts/browser-tests.json`.
-Actual first-slice captures: [desktop](output/playwright/desktop.png) and
-[mobile](output/playwright/mobile.png). Consolidated results: [checkpoint evidence](artifacts/checkpoint.json).
+Actual browser captures (updated by the latest test run): [desktop](output/playwright/desktop.png) and
+[mobile](output/playwright/mobile.png). Current phase: [management checkpoint](docs/phase2-checkpoint.md).
 On restricted Windows execution, local socket access and launching Chromium may require
 host permission. A sandbox denial is not proof of an application failure or passing test.
 
 GitHub Actions specifies Python lint/format/PostgreSQL tests and frontend format/tests/types/build.
 Hosted CI is **NOT VERIFIED** until a repository is published and Actions actually runs.
-No CI badge, PR URL or GitHub repository is claimed before publication is authorized.
+Private repository: https://github.com/azimkhanrazdva/servicepulse. main records v0.1;
+feat/monitor-management-groups carries v0.2 after its verified stage push. No remote PR or merge is claimed.
+See [GitHub workflow](docs/github-workflow.md) for the authentic baseline and publication policy.
+
+## Management semantics
+
+Editing any monitor field resets current metrics/streak and UNKNOWN state, retaining historical
+observations with their config_version; paused monitors stay PAUSED. Old HTTP work keeps its lease
+until completion/expiry and cannot commit stale observations. Resume sets UNKNOWN and schedules now.
+Two same-version edits cannot silently overwrite each other: the loser gets 409, keeps its draft,
+and explicitly discards/reloads before retrying. Name-only edits follow the same reset policy.
+
+Groups ignore PAUSED members, then choose DOWN over UNKNOWN over UP. All paused gives PAUSED;
+empty gives UNKNOWN. Membership and recipient replacement is atomic; deleting a group keeps monitors.
+Recipients are syntactically validated/deduplicated; **no email is sent in v0.2**.
 
 ## Concurrency and performance
 
 Claims use `FOR UPDATE SKIP LOCKED`; an expired UUID lease fences stale results. Unit/integration
 tests cover disjoint claims for 50 rows and stale completion. This does **not** constitute the
-required 50-monitor/30s multi-cycle load test. There is no published throughput or monthly
+required 50-monitor/30s multi-cycle load test. The separate live phase-2 smoke holds a monitor paused for over 30s, edits during HTTP,
+restarts backend/worker, and asserts settings/group persistence without stale or fake failures:
+`python scripts/phase2_smoke.py`. It touches only its own uniquely named resources.
+Evidence: [phase-2 smoke](artifacts/phase2-smoke.json). There is no published throughput or monthly
 history benchmark yet. Those remain mandatory before final submission.
 
 Cadence is completion + interval (fixed delay); slow checks extend their own cycle. Missing
@@ -202,7 +229,7 @@ server time creates no observations. Charts with explicit gaps and coverage are 
 
 ## Next iteration / roadmap
 
-1. Complete monitor CRUD/edit/pause/resume and groups with concurrent configuration fencing.
+1. Review the v0.2 management checkpoint and private feature branch.
 2. Persist incident lifecycle and transactional outbox; maintenance suppression/reconciliation.
 3. Deliver group email through Mailpit with logical deduplication and retries.
 4. Finish charts, uptime with coverage, incident UI and public projection/privacy tests.
@@ -217,7 +244,7 @@ Codex suits this work because changes, tests and local commands can be reviewed 
 See [AI disclosure](docs/ai-development.md), [actual prompt](docs/prompts/001-master-prompt.md),
 [decisions](docs/decisions.md), [chronological log](docs/development-log.md),
 [progress](docs/progress.md), [first PR summary](docs/pr-summary.md).
-No remote PR exists at this checkpoint.
+No remote PR exists at this checkpoint; private GitHub upload is authorized after verified stages.
 
 The project was written from an empty workspace, without a third-party application template.
 Libraries: FastAPI, Pydantic, SQLAlchemy, Alembic, asyncpg, HTTPX/httpcore, Uvicorn, React,

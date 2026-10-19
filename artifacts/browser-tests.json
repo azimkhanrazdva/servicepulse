@@ -17,7 +17,7 @@
     "grepInvert": null,
     "maxFailures": 0,
     "metadata": {
-      "actualWorkers": 1
+      "actualWorkers": 2
     },
     "preserveOutput": "always",
     "projects": [
@@ -26,7 +26,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 1
+          "actualWorkers": 2
         },
         "id": "",
         "name": "",
@@ -46,7 +46,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 1
+          "actualWorkers": 2
         },
         "name": "",
         "testDir": "C:\\Users\\sayo\\Documents\\Codex\\2026-10-19\\master-prompt-mad-devs-junior-agentic\\frontend\\e2e",
@@ -90,6 +90,48 @@
   },
   "suites": [
     {
+      "title": "management.spec.ts",
+      "file": "management.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "versioned management and groups synchronize across two clients",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 16367,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T15:24:06.727Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a9916703f81b98e496f1-ba063f7892e7722b223e",
+          "file": "management.spec.ts",
+          "line": 3,
+          "column": 1
+        }
+      ]
+    },
+    {
       "title": "slice.spec.ts",
       "file": "slice.spec.ts",
       "column": 0,
@@ -108,15 +150,15 @@
               "projectName": "",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 4267,
+                  "duration": 4333,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-19T14:49:06.150Z",
+                  "startTime": "2026-10-19T15:24:06.726Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -142,15 +184,15 @@
               "projectName": "",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 237,
+                  "duration": 243,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-19T14:49:10.512Z",
+                  "startTime": "2026-10-19T15:24:11.159Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -168,9 +210,9 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-10-19T14:49:05.820Z",
-    "duration": 5001.561,
-    "expected": 2,
+    "startTime": "2026-10-19T15:24:06.368Z",
+    "duration": 16872.1,
+    "expected": 3,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0

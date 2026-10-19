@@ -1,0 +1,170 @@
+import { useState } from "react";
+import type { FormEvent } from "react";
+import { ApiError, request } from "./api";
+import type { Monitor } from "./api";
+
+export function MonitorForm({
+  initial,
+  onSaved,
+  onCancel,
+}: {
+  initial?: Monitor;
+  onSaved: (monitor: Monitor) => void;
+  onCancel: () => void;
+}) {
+  const [source, setSource] = useState(initial);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const [conflict, setConflict] = useState(false);
+  async function save(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setBusy(true);
+    setError("");
+    setConflict(false);
+    const form = new FormData(event.currentTarget);
+    const payload = {
+      name: form.get("name"),
+      url: form.get("url"),
+      interval_seconds: Number(form.get("interval")),
+      timeout_seconds: Number(form.get("timeout")),
+      expected_status: Number(form.get("status")),
+      expected_body: form.get("body") || null,
+      failure_threshold: Number(form.get("threshold")),
+      ...(source ? { config_version: source.config_version } : {}),
+    };
+    try {
+      const monitor = await request<Monitor>(
+        source ? `/monitors/${source.id}` : "/monitors",
+        {
+          method: source ? "PUT" : "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        },
+      );
+      onSaved(monitor);
+    } catch (e) {
+      setError((e as Error).message);
+      setConflict(e instanceof ApiError && e.status === 409);
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function reload() {
+    setBusy(true);
+    try {
+      setSource(await request<Monitor>(`/monitors/${source!.id}`));
+      setConflict(false);
+      setError("");
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  return (
+    <section className="panel form-panel" aria-label="Monitor editor">
+      <h2>{source ? "Edit monitor" : "New monitor"}</h2>
+      {error && (
+        <p className="error" role="alert">
+          {error}
+        </p>
+      )}
+      {conflict && (
+        <button disabled={busy} onClick={reload}>
+          Discard draft and reload
+        </button>
+      )}
+      <form key={source?.config_version ?? "new"} onSubmit={save}>
+        <div className="fields">
+          <label>
+            Name
+            <input
+              name="name"
+              required
+              maxLength={120}
+              defaultValue={source?.name}
+              placeholder="API / production"
+            />
+          </label>
+          <label className="wide">
+            URL
+            <input
+              name="url"
+              type="url"
+              required
+              maxLength={2048}
+              defaultValue={source?.url}
+              placeholder="https://example.com/health"
+            />
+          </label>
+          <label>
+            Interval (seconds)
+            <input
+              name="interval"
+              type="number"
+              min={30}
+              max={3600}
+              defaultValue={source?.interval_seconds ?? 30}
+              required
+            />
+          </label>
+          <label>
+            Timeout (seconds)
+            <input
+              name="timeout"
+              type="number"
+              min={0.1}
+              max={120}
+              step={0.1}
+              defaultValue={source?.timeout_seconds ?? 5}
+              required
+            />
+          </label>
+          <label>
+            Expected HTTP status
+            <input
+              name="status"
+              type="number"
+              min={100}
+              max={599}
+              defaultValue={source?.expected_status ?? 200}
+              required
+            />
+          </label>
+          <label className="wide">
+            Expected text (optional)
+            <input
+              name="body"
+              maxLength={1000}
+              defaultValue={source?.expected_body ?? ""}
+            />
+          </label>
+          <label>
+            Failures to confirm DOWN
+            <input
+              name="threshold"
+              type="number"
+              min={1}
+              max={10}
+              defaultValue={source?.failure_threshold ?? 2}
+              required
+            />
+          </label>
+        </div>
+        <div className="form-actions">
+          <small>
+            Changes reset current state; previous observations are retained.
+          </small>
+          <div className="actions">
+            <button type="button" onClick={onCancel} disabled={busy}>
+              Cancel
+            </button>
+            <button className="primary" disabled={busy}>
+              {busy ? "Saving…" : source ? "Save monitor" : "Create monitor"}
+            </button>
+          </div>
+        </div>
+      </form>
+    </section>
+  );
+}

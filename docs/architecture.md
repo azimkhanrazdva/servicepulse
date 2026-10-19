@@ -1,7 +1,8 @@
-# Architecture — first checkpoint and target design
+# Architecture — monitor management checkpoint and target design
 
-The owner prescribed this stack; this design keeps it. Scope of this delivery is foundation
-and a real create → schedule → HTTP → persist → display slice. Later components below are
+The owner prescribed this stack; this design keeps it. Shipped scope includes foundation,
+versioned monitor CRUD/pause/resume, group membership/recipients and real HTTP observations.
+Later incident, outbox, maintenance and public components below are
 **designs**, not implementation claims. See requirements.md for individual status.
 
 ```mermaid
@@ -23,23 +24,26 @@ flowchart LR
 - Worker: separate process; bounded asyncio tasks and one pooled HTTPX client. Claims due
   monitors using PostgreSQL `FOR UPDATE SKIP LOCKED`. A UUID claim token and expiring lease
   fence stale workers. HTTP total deadline is shorter than the lease. No backfilled checks.
-- PostgreSQL: authoritative config, results and scheduling state. Later incidents/outbox/groups
+- PostgreSQL: authoritative config, results, groups, recipients and scheduling state. Later incidents/outbox
   are separate tables added through reviewed migrations.
 - Simulator: controllable local HTTP status, delay, body and redirect responses; no external dependency.
 - Mailpit: local SMTP capture included in Compose; dispatch is a later phase.
 
-## Initial persisted model
+## Persisted model (Alembic 0001 + additive 0002)
 
 Monitor: UUID, name, URL, interval (30..3600 seconds), timeout (0.1..120 seconds), expected
 status (100..599), optional expected string, failure threshold (1..10, default 2), state,
-consecutive failures, last observation/status/latency, next due time, lease token/expiry.
+consecutive failures, last observation/status/latency, next due time, lease token/expiry,
+config_version and a coalesced manual-run request flag.
 CheckResult: UUID, monitor FK with cascade delete, timestamp, success, HTTP code, latency,
 bounded error category. Composite index (monitor_id, checked_at) supports recent history.
-Schema constraints also enforce bounds; times are UTC timestamptz.
+Each result carries the configuration version used. Schema constraints enforce bounds;
+times are UTC timestamptz. Group stores name/version; MonitorGroup is a many-to-many join
+with cascading FKs and a monitor lookup index; GroupRecipient has unique (group_id,email).
+Deleting a group never deletes its monitors. Deleting a monitor removes its memberships/results.
 
 ## Target model (not migrated yet)
 
-Group + MonitorGroup join table (many-to-many); GroupRecipient validates email addresses.
 Incident has monitor FK, opened_at, recovered_at; partial unique index permits one open
 incident per monitor. MaintenanceWindow targets exactly one monitor or group, has start/end
 and end > start constraint. Outbox uses unique (incident_id, group_id, event_type), frozen
@@ -52,14 +56,38 @@ Initial UNKNOWN. First success → UP. First failure preserves UNKNOWN or UP unt
 consecutive failures; threshold (default two) → DOWN. Success resets failures and → UP.
 The threshold reduces false alerts without an extra state. An HTTP response must match both
 status and optional body string. Manual runs use the same queue/claim and state rules.
-The initial slice computes state; **incident records and alert delivery are not implemented**.
+State is computed; **incident records and alert delivery are not implemented**.
 
-Target: threshold opens one incident transactionally; first success closes it. PAUSED prevents
-scheduled/manual launches; resume schedules immediately and resets the confirmation streak,
-but preserves open incident until an observed success. Configuration edits increment a version;
-in-flight results are discarded if version changed (edit/pause are not in the initial API).
+PAUSED prevents scheduled/manual launches. Resume schedules immediately, clears the streak
+and sets UNKNOWN until a new observation. Every configuration edit increments its version,
+clears current metrics/streak and sets UNKNOWN (or retains PAUSED); old history is retained.
+Even rename-only edits follow this conservative rule. Target incident phase must reconcile
+these edits with open incidents; current state changes do not create/close incident records.
 Group: DOWN if any active member DOWN, otherwise UNKNOWN if any active member UNKNOWN,
 otherwise UP; all paused → PAUSED; empty → UNKNOWN. Maintenance is a badge/policy, never UP.
+Group recipients are validated with Pydantic EmailStr/email-validator and normalized/deduplicated,
+up to 100 addresses. Deliverability and actual sending are not checked in this phase.
+
+## Concurrent mutations
+
+PUT monitor/group and pause/resume require the captured config_version. A row lock serializes
+the version comparison and mutation; mismatch returns 409 and the browser preserves the draft.
+Reloading a conflicting draft is explicit. Group membership/recipients are replaced atomically
+in one transaction, with group lock followed by monitor locks sorted by UUID. Group changes
+do not modify monitor configuration versions, so independent edits can both succeed.
+Group responses are built before committing while the group lock is held, avoiding a
+read-after-commit delete race. Cascade removal of a deleted monitor does not bump group
+version; submitting an unknown monitor ID is rejected instead of silently restoring it.
+Monitor DELETE accepts an optional version for compatibility; browser DELETE always includes
+it. Unversioned API DELETE remains intentionally unconditional; trusted API callers own that choice.
+
+Active leases are **never cleared by edits/pause/resume**. Worker checks version/state before
+network I/O and at commit; stale work releases its own lease without recording a result.
+Thus changing URL or pause/resume cannot immediately launch a parallel request. The old
+HTTP request may finish, but its outcome is ignored. Deleting a monitor fences completion
+by absence of the row. Worker crash retains the lease until expiry; no fabricated observation.
+Manual requests coalesce through run_requested; queued/running/paused returns 409. If an old
+completion arrives after a manual request on an expired lease, the pending request stays due.
 
 ## Scheduling, crashes and races
 
@@ -84,7 +112,8 @@ Ordering between DOWN and recovery and pending-send maintenance races need trans
 
 ## Realtime and history
 
-SSE emits current monitor snapshots every two seconds from PostgreSQL. Native EventSource
+SSE retains the default monitor-array message for compatibility and adds a named `groups`
+event every two seconds. Both snapshots read one REPEATABLE READ transaction. Native EventSource
 reconnects and receives a complete snapshot: clients need no in-memory shared broadcaster.
 This is low-volume polling over SSE, not PostgreSQL NOTIFY; scales to the assignment, not a
 large fleet. First slice history returns the most recent 100 bounded results; monthly time

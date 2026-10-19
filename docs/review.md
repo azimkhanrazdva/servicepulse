@@ -52,3 +52,34 @@ security review remains mandatory when those features exist.
 
 These are visible checkpoint limits, not a release approval. No full security compliance or
 exactly-once SMTP claim is made. See requirements.md for pending acceptance tests.
+
+## Phase 2 review pass
+
+This is another implementation-agent code review, not a claimed independent reviewer.
+No fundamental architecture replacement was required.
+
+- Monitor/group edits compare versions under row lock. Missing/invalid/stale versions produce
+  explicit validation/conflict responses. Browser drafts are not silently replaced by SSE.
+- Active lease stays in place through edit/pause/resume; worker checks both version/state
+  before HTTP and before committing; deleted rows cannot be recreated by old tasks.
+- Found and fixed a late completion overriding a queued immediate run after lease expiry;
+  pending request now remains due, with a dedicated PostgreSQL regression test.
+- Found and fixed a group post-commit reread race: concurrent delete could turn a successful
+  mutation into 500. Responses are now assembled before commit while holding the group lock.
+- Group updates lock group first and monitor IDs in sorted order; monitor config updates never
+  acquire a group lock. Membership/recipient replacement is atomic, with FKs and cascade semantics.
+- Monitor DELETE has optional config_version for old API clients. Browser always sends it;
+  unversioned API deletion remains unconditional by design, not optimistic protection.
+- Existing response/body/DNS/redirect guards remain. Email validation does not check actual
+  deliverability or send messages; settings UI explicitly states delivery is future work.
+- Default SSE monitor message preserved; named group snapshot uses the same DB transaction.
+- New checks include 0001 legacy data upgrade, concurrent edits/mutations, a real >30s pause,
+  actual backend/worker restart and browser two-client conflict/reload and group state updates.
+- ESLint flagged the existing fake EventSource this-alias; fixed capture instead of suppressing.
+  Prettier found two test files later; corrected and reran formatting successfully.
+
+Remaining boundaries: no auth/public hosting approval, no incident/outbox/maintenance/public
+projection, no sustained 50-monitor benchmark/month buckets, no full independent final audit.
+Old HTTP work may finish after configuration change; it is discarded, not reclassified as an
+observation under the new URL. All edits (including rename) conservatively reset live state.
+Full arbitrary process-suspension non-overlap remains outside expiring-lease guarantees.

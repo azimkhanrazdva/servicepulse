@@ -3,16 +3,19 @@ import json
 import uuid
 from typing import Annotated
 
-from fastapi import Depends, FastAPI, HTTPException, Request
+from fastapi import Depends, FastAPI, HTTPException, Query, Request
 from fastapi.responses import StreamingResponse
 from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db import Session, session_dependency
+from app.groups import group_snapshots, require_version
+from app.groups import router as groups_router
 from app.models import CheckResult, Monitor, now
-from app.schemas import MonitorCreate, MonitorRead, ResultRead
+from app.schemas import MonitorCreate, MonitorRead, MonitorUpdate, ResultRead, VersionRequest
 
-app = FastAPI(title="ServicePulse", version="0.1.0")
+app = FastAPI(title="ServicePulse", version="0.2.0")
+app.include_router(groups_router)
 DB = Annotated[AsyncSession, Depends(session_dependency)]
 
 
@@ -56,18 +59,65 @@ async def detail(monitor_id: uuid.UUID, db: DB):
 
 
 @app.delete("/api/monitors/{monitor_id}", status_code=204)
-async def delete_monitor(monitor_id: uuid.UUID, db: DB):
+async def delete_monitor(
+    monitor_id: uuid.UUID, db: DB, config_version: Annotated[int | None, Query(ge=1)] = None
+):
     monitor = await find_monitor(db, monitor_id, lock=True)
+    if config_version is not None:
+        require_version(monitor, config_version)
     await db.delete(monitor)
     await db.commit()
+
+
+@app.put("/api/monitors/{monitor_id}", response_model=MonitorRead)
+async def update_monitor(monitor_id: uuid.UUID, payload: MonitorUpdate, db: DB):
+    monitor = await find_monitor(db, monitor_id, lock=True)
+    require_version(monitor, payload.config_version)
+    for key, value in payload.model_dump(exclude={"config_version"}).items():
+        setattr(monitor, key, value)
+    monitor.config_version += 1
+    monitor.state = "PAUSED" if monitor.state == "PAUSED" else "UNKNOWN"
+    monitor.consecutive_failures = 0
+    monitor.last_checked_at = monitor.last_status_code = monitor.last_response_ms = None
+    monitor.next_due_at = now()
+    monitor.run_requested = False
+    await db.commit()
+    return monitor
+
+
+@app.post("/api/monitors/{monitor_id}/pause", response_model=MonitorRead)
+async def pause_monitor(monitor_id: uuid.UUID, payload: VersionRequest, db: DB):
+    monitor = await find_monitor(db, monitor_id, lock=True)
+    require_version(monitor, payload.config_version)
+    monitor.state = "PAUSED"
+    monitor.consecutive_failures = 0
+    monitor.config_version += 1
+    monitor.run_requested = False
+    await db.commit()
+    return monitor
+
+
+@app.post("/api/monitors/{monitor_id}/resume", response_model=MonitorRead)
+async def resume_monitor(monitor_id: uuid.UUID, payload: VersionRequest, db: DB):
+    monitor = await find_monitor(db, monitor_id, lock=True)
+    require_version(monitor, payload.config_version)
+    if monitor.state != "PAUSED":
+        raise HTTPException(409, "Monitor is not paused")
+    monitor.state = "UNKNOWN"
+    monitor.consecutive_failures = 0
+    monitor.config_version += 1
+    monitor.next_due_at = now()
+    await db.commit()
+    return monitor
 
 
 @app.post("/api/monitors/{monitor_id}/run", status_code=202)
 async def run_now(monitor_id: uuid.UUID, db: DB):
     monitor = await find_monitor(db, monitor_id, lock=True)
-    if monitor.state == "PAUSED" or (monitor.lease_until and monitor.lease_until > now()):
-        raise HTTPException(409, "Monitor is paused or already running")
+    if monitor.state == "PAUSED" or monitor.is_running or monitor.run_requested:
+        raise HTTPException(409, "Monitor is paused, already queued or running")
     monitor.next_due_at = now()
+    monitor.run_requested = True
     await db.commit()
     return {"status": "queued"}
 
@@ -90,11 +140,14 @@ async def events(request: Request):
     async def stream():
         while not await request.is_disconnected():
             async with Session() as db:
+                await db.connection(execution_options={"isolation_level": "REPEATABLE READ"})
                 rows = (
                     await db.scalars(select(Monitor).order_by(Monitor.created_at).limit(500))
                 ).all()
                 data = [MonitorRead.model_validate(row).model_dump(mode="json") for row in rows]
+                groups = [row.model_dump(mode="json") for row in await group_snapshots(db)]
             yield f"data: {json.dumps(data)}\n\n"
+            yield f"event: groups\ndata: {json.dumps(groups)}\n\n"
             await asyncio.sleep(2)
 
     return StreamingResponse(

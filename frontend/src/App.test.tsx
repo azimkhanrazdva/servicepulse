@@ -9,14 +9,15 @@ import {
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { App } from "./App";
 
-let eventSource: FakeEvents;
 class FakeEvents {
+  static latest: FakeEvents;
+  addEventListener = vi.fn();
   onopen: (() => void) | null = null;
   onmessage: ((event: { data: string }) => void) | null = null;
   onerror: (() => void) | null = null;
   close = vi.fn();
   constructor() {
-    eventSource = this;
+    FakeEvents.latest = this;
   }
 }
 const monitor = {
@@ -30,6 +31,12 @@ const monitor = {
   last_response_ms: 12,
   last_checked_at: "2026-10-19T10:00:00Z",
   consecutive_failures: 0,
+  config_version: 1,
+  expected_status: 200,
+  expected_body: null,
+  failure_threshold: 2,
+  run_requested: false,
+  is_running: false,
 };
 
 beforeEach(() => {
@@ -47,7 +54,7 @@ it("renders empty state then accepts an SSE snapshot", async () => {
   );
   render(<App />);
   await screen.findByText("Start with your first service");
-  eventSource.onmessage?.({ data: JSON.stringify([monitor]) });
+  FakeEvents.latest.onmessage?.({ data: JSON.stringify([monitor]) });
   expect(await screen.findByText("Test API")).toBeTruthy();
   expect(screen.getByText("● UP")).toBeTruthy();
 });
@@ -68,22 +75,24 @@ it("reconnects and receives a full snapshot after browser network loss", async (
   );
   render(<App />);
   await screen.findByText("Start with your first service");
-  const old = eventSource;
+  const old = FakeEvents.latest;
   act(() => window.dispatchEvent(new Event("offline")));
   expect(old.close).toHaveBeenCalled();
   expect(screen.getByRole("status").textContent).toBe("● Reconnecting");
   act(() => window.dispatchEvent(new Event("online")));
-  expect(eventSource).not.toBe(old);
-  act(() => eventSource.onmessage?.({ data: JSON.stringify([monitor]) }));
+  expect(FakeEvents.latest).not.toBe(old);
+  act(() => FakeEvents.latest.onmessage?.({ data: JSON.stringify([monitor]) }));
   expect(await screen.findByText("Test API")).toBeTruthy();
   expect(screen.getByRole("status").textContent).toBe("● Live");
 });
 
 it("creates a monitor using real form values", async () => {
-  const fetcher = vi
-    .fn()
-    .mockResolvedValueOnce({ ok: true, json: async () => [] })
-    .mockResolvedValueOnce({ ok: true, json: async () => monitor });
+  const fetcher = vi.fn().mockImplementation((_url, options) =>
+    Promise.resolve({
+      ok: true,
+      json: async () => (options?.method === "POST" ? monitor : []),
+    }),
+  );
   vi.stubGlobal("fetch", fetcher);
   render(<App />);
   await screen.findByText("Start with your first service");
@@ -96,8 +105,9 @@ it("creates a monitor using real form values", async () => {
   });
   fireEvent.click(screen.getByRole("button", { name: "Create monitor" }));
   await screen.findByText("Test API");
-  await waitFor(() => expect(fetcher).toHaveBeenCalledTimes(2));
-  expect(JSON.parse(fetcher.mock.calls[1][1].body)).toMatchObject({
+  await waitFor(() => expect(fetcher).toHaveBeenCalledTimes(3));
+  const posted = fetcher.mock.calls.find((call) => call[1]?.method === "POST")!;
+  expect(JSON.parse(posted[1].body)).toMatchObject({
     interval_seconds: 30,
     timeout_seconds: 5,
   });
