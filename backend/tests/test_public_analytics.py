@@ -139,7 +139,9 @@ async def test_month_aggregate_is_one_bounded_query_on_dense_fixture(record_test
             elapsed = time.perf_counter() - started
         finally:
             event.remove(engine.sync_engine, "before_cursor_execute", executed)
-        assert len(statements) == 1
+        assert len(statements) == 2
+        assert statements[0] == "SET LOCAL jit = off"
+        assert statements[1].lstrip().startswith("WITH observations AS")
         assert result["samples"] == 10000 and result["successful"] == 9000
         assert result["uptime_percent"] == 90 and len(result["buckets"]) == 360
         assert 20 < result["coverage_percent"] < 25
@@ -398,3 +400,12 @@ async def test_dashboard_observed_uptime_and_live_incident_summary(monkeypatch):
         await sample(api, m["id"], monkeypatch, True)
         async with Session() as db:
             assert await live_overview(db) == {"active_incidents": 0, "opened_at": {}}
+
+
+async def test_analytics_jit_setting_is_transaction_local():
+    async with Session() as db:
+        baseline = await db.scalar(text("SHOW jit"))
+        await aggregate(db, uuid.uuid4(), "30d")
+        assert await db.scalar(text("SHOW jit")) == "off"
+        await db.rollback()
+        assert await db.scalar(text("SHOW jit")) == baseline

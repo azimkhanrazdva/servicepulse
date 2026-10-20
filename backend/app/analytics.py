@@ -57,6 +57,9 @@ async def aggregate(db, monitor_id, period, timestamp=None):
     end = timestamp or now()
     seconds, width = PERIODS[period]
     start = end - timedelta(seconds=seconds)
+    # The dense-history plan spends more time compiling JIT than executing useful work.
+    # Keep this transaction-local; do not change PostgreSQL or connection defaults.
+    await db.execute(text("SET LOCAL jit = off"))
     rows = (
         (
             await db.execute(
