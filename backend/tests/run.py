@@ -14,12 +14,14 @@ from sqlalchemy.engine import make_url
 from app.db import Session, engine
 from app.models import (
     Base,
+    CheckResult,
     Incident,
     MaintenanceWindow,
     Monitor,
-    NotificationDelivery,
     NotificationEvent,
     NotificationRoute,
+    Publication,
+    PublicPage,
     now,
 )
 
@@ -208,15 +210,14 @@ async def phase4_fixture(expected=None):
                     event_id=event.id, group_id=uuid.uuid4(), email="fixture@example.com"
                 )
             )
-            db.add(
-                NotificationDelivery(
-                    event_id=event.id,
-                    email="fixture@example.com",
-                    status="SENT",
-                    attempts=2,
-                    sent_at=now(),
-                    send_started_at=now(),
-                )
+            # Raw legacy columns: the current ORM also knows additive 0006 fields.
+            await db.execute(
+                text("""
+                INSERT INTO notification_deliveries
+                (id,event_id,email,status,attempts,created_at,next_attempt_at,sent_at,send_started_at)
+                VALUES (:id,:event,'fixture@example.com','SENT',2,:at,:at,:at,:at)
+            """),
+                {"id": uuid.uuid4(), "event": event.id, "at": now()},
             )
             db.add(
                 MaintenanceWindow(
@@ -239,11 +240,23 @@ async def phase4_fixture(expected=None):
         ):
             values[table] = (
                 await db.scalars(
-                    text(f"SELECT to_jsonb(t) FROM {table} t ORDER BY to_jsonb(t)::text")
+                    text(
+                        f"SELECT to_jsonb(t) - 'down_eligible_at' - 'down_required' "
+                        f"FROM {table} t ORDER BY to_jsonb(t)::text"
+                    )
                 )
             ).all()
         if expected is not None:
             assert values == expected[1]
+            assert (
+                await db.scalar(
+                    text(
+                        "SELECT count(*) FROM notification_deliveries "
+                        "WHERE down_eligible_at IS NOT NULL OR down_required"
+                    )
+                )
+                == 0
+            )
             assert await db.scalar(text("SELECT count(*) FROM public_pages")) == 0
             assert await db.scalar(text("SELECT count(*) FROM publications")) == 0
             assert (
@@ -255,6 +268,62 @@ async def phase4_fixture(expected=None):
             await db.execute(text("DELETE FROM monitors WHERE id=:id"), {"id": mid})
     await engine.dispose()
     return mid, values
+
+
+async def phase5_fixture(expected=None):
+    """An explicitly published 0005 page and captured cadence must survive 0006 unchanged."""
+    async with Session() as db, db.begin():
+        if expected is None:
+            monitor = Monitor(name="0005 fixture", url="http://example.com", state="PAUSED")
+            page = PublicPage(
+                slug="migration-fixture", title="Explicit owner publication", enabled=True
+            )
+            db.add_all([monitor, page])
+            await db.flush()
+            db.add_all(
+                [
+                    Publication(
+                        page_id=page.id,
+                        monitor_id=monitor.id,
+                        public_name="Published fixture",
+                        show_history=True,
+                    ),
+                    CheckResult(
+                        monitor_id=monitor.id,
+                        checked_at=now(),
+                        success=True,
+                        response_ms=12,
+                        config_version=1,
+                        interval_seconds=30,
+                    ),
+                ]
+            )
+            await db.flush()
+            ids = monitor.id, page.id
+        else:
+            ids = expected[0]
+        values = {}
+        for table, clause, identity in (
+            ("monitors", "id", ids[0]),
+            ("check_results", "monitor_id", ids[0]),
+            ("public_pages", "id", ids[1]),
+            ("publications", "page_id", ids[1]),
+        ):
+            values[table] = (
+                await db.scalars(
+                    text(
+                        f"SELECT to_jsonb(t) FROM {table} t WHERE {clause}=:id "
+                        "ORDER BY to_jsonb(t)::text"
+                    ),
+                    {"id": identity},
+                )
+            ).all()
+        if expected is not None:
+            assert values == expected[1]
+            await db.execute(text("DELETE FROM public_pages WHERE id=:id"), {"id": ids[1]})
+            await db.execute(text("DELETE FROM monitors WHERE id=:id"), {"id": ids[0]})
+    await engine.dispose()
+    return ids, values
 
 
 if __name__ == "__main__":
@@ -271,7 +340,11 @@ if __name__ == "__main__":
     incident_fixture = asyncio.run(legacy_incidents(down_id, incident_ids))
     subprocess.run(["alembic", "upgrade", "0004"], cwd=root, check=True)
     outbox_fixture = asyncio.run(phase4_fixture())
+    subprocess.run(["alembic", "upgrade", "0005"], cwd=root, check=True)
+    publication_fixture = asyncio.run(phase5_fixture())
     subprocess.run(["alembic", "upgrade", "head"], cwd=root, check=True)
+    asyncio.run(phase5_fixture(publication_fixture))
+    print("0005 -> head preserved explicit publication/cadence; fixture-only cleanup", flush=True)
     asyncio.run(phase4_fixture(outbox_fixture))
     print("0004 -> head preserved outbox/windows; no publication or cadence backfill", flush=True)
     asyncio.run(legacy_incidents(down_id, incident_ids, incident_fixture))

@@ -99,7 +99,8 @@ async def snapshot(db, slug):
                 "show_history": row.show_history,
             }
         )
-    states = [s["state"] for s in services if s["state"] != "PAUSED"]
+    active_services = [s for s in services if s["state"] != "PAUSED"]
+    states = [s["state"] for s in active_services]
     overall = (
         "NO_DATA"
         if not services
@@ -108,7 +109,7 @@ async def snapshot(db, slug):
         else "DOWN"
         if "DOWN" in states
         else "UNKNOWN"
-        if "UNKNOWN" in states or any(s["freshness"] != "FRESH" for s in services)
+        if "UNKNOWN" in states or any(s["freshness"] != "FRESH" for s in active_services)
         else "UP"
     )
     return {"title": page.title, "state": overall, "services": services}

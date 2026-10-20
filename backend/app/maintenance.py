@@ -10,6 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.db import session_dependency
 from app.groups import require_version
 from app.models import Group, MaintenanceWindow, Monitor, MonitorGroup, now
+from app.notifications import refresh_down_eligibility
 from app.schemas import VersionRequest
 
 router = APIRouter(prefix="/api/maintenance", tags=["maintenance"])
@@ -135,6 +136,19 @@ async def validate_target(db, payload):
         raise HTTPException(404, "Maintenance target not found")
 
 
+async def affected_monitors(db, targets):
+    ids = {w.monitor_id for w in targets if w.monitor_id is not None}
+    groups = {w.group_id for w in targets if w.group_id is not None}
+    ids.update(
+        (
+            await db.scalars(
+                select(MonitorGroup.monitor_id).where(MonitorGroup.group_id.in_(groups))
+            )
+        ).all()
+    )
+    return ids
+
+
 @router.get("")
 async def windows(
     db: DB,
@@ -148,9 +162,12 @@ async def windows(
 @router.post("", response_model=WindowRead, status_code=201)
 async def create_window(payload: WindowCreate, db: DB):
     await validate_target(db, payload)
+    ids = await affected_monitors(db, [payload])
+    await refresh_down_eligibility(db, ids)
     window = MaintenanceWindow(**payload.model_dump())
     db.add(window)
     await db.flush()
+    await refresh_down_eligibility(db, ids, recompute=True)
     response = window_read(window, now())
     await db.commit()
     return response
@@ -176,16 +193,13 @@ async def update_window(identity: uuid.UUID, payload: WindowUpdate, db: DB):
         raise HTTPException(404, "Maintenance window not found")
     # Parent locks before window: parent DELETE cascades to windows. Group before monitor
     # matches existing group membership edits, with UUID ordering within each kind.
-    for model, ids in (
-        (Group, {previous.group_id, payload.group_id}),
-        (Monitor, {previous.monitor_id, payload.monitor_id}),
-    ):
-        for target in sorted(x for x in ids if x is not None):
-            if (
-                await db.scalar(select(model.id).where(model.id == target).with_for_update())
-                is None
-            ):
-                raise HTTPException(404, "Maintenance target not found")
+    for target in sorted({x for x in (previous.group_id, payload.group_id) if x is not None}):
+        if await db.scalar(select(Group.id).where(Group.id == target).with_for_update()) is None:
+            raise HTTPException(404, "Maintenance target not found")
+    ids = await affected_monitors(db, [previous, payload])
+    await refresh_down_eligibility(db, ids)
+    if payload.monitor_id and await db.get(Monitor, payload.monitor_id) is None:
+        raise HTTPException(404, "Maintenance target not found")
     # Refresh the cached row under lock, so concurrent edits cannot pass a stale version.
     await db.refresh(previous)
     window = await find_window(db, identity, payload.config_version)
@@ -193,6 +207,7 @@ async def update_window(identity: uuid.UUID, payload: WindowUpdate, db: DB):
         setattr(window, key, value)
     window.config_version += 1
     await db.flush()
+    await refresh_down_eligibility(db, ids, recompute=True)
     response = window_read(window, now())
     await db.commit()
     return response
@@ -200,5 +215,13 @@ async def update_window(identity: uuid.UUID, payload: WindowUpdate, db: DB):
 
 @router.delete("/{identity}", status_code=204)
 async def delete_window(identity: uuid.UUID, db: DB, config_version: Annotated[int, Query(ge=1)]):
+    previous = await db.get(MaintenanceWindow, identity)
+    if previous is None:
+        raise HTTPException(404, "Maintenance window not found")
+    await validate_target(db, previous)
+    ids = await affected_monitors(db, [previous])
+    await refresh_down_eligibility(db, ids)
     await db.delete(await find_window(db, identity, config_version))
+    await db.flush()
+    await refresh_down_eligibility(db, ids, recompute=True)
     await db.commit()

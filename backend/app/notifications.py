@@ -64,12 +64,126 @@ async def create_event(db, incident, monitor_name, event_type):
     db.add_all(
         [NotificationRoute(event_id=event.id, group_id=gid, email=email) for gid, email in distinct]
     )
-    db.add_all(
-        [
-            NotificationDelivery(event_id=event.id, email=email, next_attempt_at=now())
-            for email in {r[1] for r in distinct}
-        ]
-    )
+    await db.flush()
+    for email in {r[1] for r in distinct}:
+        delivery = NotificationDelivery(event_id=event.id, email=email, next_attempt_at=now())
+        if event_type == "DOWN":
+            delivery.down_eligible_at = await earliest_allowed(
+                db, event.id, incident.monitor_id, email, incident.opened_at
+            )
+            delivery.down_required = delivery.down_eligible_at == incident.opened_at
+        db.add(delivery)
+    if event_type == "RECOVERY":
+        downs = (
+            await db.scalars(
+                select(NotificationDelivery)
+                .join(NotificationEvent)
+                .where(
+                    NotificationEvent.incident_id == incident.id,
+                    NotificationEvent.event_type == "DOWN",
+                )
+            )
+        ).all()
+        for down in downs:
+            # Ending maintenance exactly at recovery does not prove DOWN after the window.
+            if down.down_eligible_at:
+                down.down_required = (
+                    down.down_eligible_at == incident.opened_at
+                    or down.down_eligible_at < incident.recovered_at
+                )
+
+
+async def earliest_allowed(db, event_id, monitor_id, email, timestamp):
+    """First uncovered instant in the union of monitor + each frozen group windows."""
+    groups = (
+        await db.scalars(
+            select(NotificationRoute.group_id)
+            .join(
+                MonitorGroup,
+                and_(
+                    MonitorGroup.group_id == NotificationRoute.group_id,
+                    MonitorGroup.monitor_id == monitor_id,
+                ),
+            )
+            .join(
+                GroupRecipient,
+                and_(
+                    GroupRecipient.group_id == NotificationRoute.group_id,
+                    func.lower(GroupRecipient.email) == NotificationRoute.email,
+                ),
+            )
+            .where(NotificationRoute.event_id == event_id, NotificationRoute.email == email)
+        )
+    ).all()
+    if not groups:
+        return None
+    windows = (
+        await db.scalars(
+            select(MaintenanceWindow)
+            .where(
+                MaintenanceWindow.end_at > timestamp,
+                or_(
+                    MaintenanceWindow.monitor_id == monitor_id,
+                    MaintenanceWindow.group_id.in_(groups),
+                ),
+            )
+            .order_by(MaintenanceWindow.start_at, MaintenanceWindow.end_at)
+        )
+    ).all()
+    candidates = []
+    for gid in groups:
+        cursor = timestamp
+        for window in windows:
+            if window.monitor_id != monitor_id and window.group_id != gid:
+                continue
+            if window.start_at > cursor:
+                break
+            cursor = max(cursor, window.end_at)
+        candidates.append(cursor)
+    return min(candidates)
+
+
+async def refresh_down_eligibility(db, monitor_ids, recompute=False):
+    """Maintenance mutations serialize with HTTP completion; earned obligations never regress."""
+    for identity in sorted(set(monitor_ids)):
+        await db.scalar(select(Monitor.id).where(Monitor.id == identity).with_for_update())
+    timestamp = now()  # Evaluate after waiting for all parent locks.
+    rows = (
+        await db.execute(
+            select(NotificationDelivery, NotificationEvent, Incident)
+            .select_from(NotificationDelivery)
+            .join(NotificationEvent)
+            .join(Incident)
+            .where(
+                Incident.monitor_id.in_(monitor_ids),
+                NotificationDelivery.status.in_(["PENDING", "INFLIGHT"]),
+            )
+            .order_by(NotificationDelivery.id)
+            .with_for_update(of=NotificationDelivery)
+        )
+    ).all()
+    for delivery, event, incident in rows:
+        if (
+            event.event_type == "DOWN"
+            and not incident.closed_at
+            and delivery.down_eligible_at
+            and delivery.down_eligible_at <= timestamp
+        ):
+            delivery.down_required = True
+        if recompute:
+            eligible_at = await earliest_allowed(
+                db, event.id, incident.monitor_id, delivery.email, timestamp
+            )
+            if eligible_at is None:
+                # Offline revocation is terminal; re-addition applies to future incidents.
+                release(delivery, "CANCELLED", timestamp)
+            elif (
+                event.event_type == "DOWN"
+                and not incident.closed_at
+                and not delivery.down_required
+                and delivery.down_eligible_at is not None
+            ):
+                delivery.down_eligible_at = eligible_at
 
 
 async def applicable_routes(db, event_id, monitor_id, email, timestamp):
@@ -184,8 +298,15 @@ async def prepare(claim, authorize=True):
         # Refresh incident after waiting for the monitor lock (READ COMMITTED statement snapshot).
         await db.refresh(incident)
         if event.event_type == "DOWN":
+            if (
+                not incident.closed_at
+                and row.down_eligible_at
+                and row.down_eligible_at <= timestamp
+            ):
+                row.down_required = True
             if incident.closed_at and (
-                incident.closure_reason != "RECOVERED" or row.send_started_at is None
+                incident.closure_reason != "RECOVERED"
+                or (not row.down_required and row.send_started_at is None)
             ):
                 release(row, "CANCELLED", timestamp)
                 return None

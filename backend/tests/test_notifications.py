@@ -354,7 +354,7 @@ async def test_two_dispatchers_expiry_and_stale_ack(monkeypatch):
         assert (await records())[0].status == "SENT"
 
 
-async def test_recovered_before_down_send_cancels_both(monkeypatch):
+async def test_recovered_before_down_send_preserves_required_pair(monkeypatch):
     async with api_client() as api:
         m, _ = await setup(api)
         await sample(api, m["id"], monkeypatch)
@@ -367,7 +367,8 @@ async def test_recovered_before_down_send_cancels_both(monkeypatch):
         await drain(sender)
         await reconcile()
         await drain(sender)
-        assert not sent and all(r.status == "CANCELLED" for r in await records())
+        assert [p["event_type"] for p in sent] == ["DOWN", "RECOVERY"]
+        assert all(r.status == "SENT" for r in await records())
 
 
 async def test_inflight_down_ack_after_recovery_preserves_order(monkeypatch):

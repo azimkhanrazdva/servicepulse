@@ -14,7 +14,7 @@ from test_database import database as database
 
 from app.analytics import PERIODS, aggregate
 from app.db import Session, engine
-from app.models import CheckResult, Publication, now
+from app.models import CheckResult, Monitor, Publication, now
 from app.public import app as public_app
 from app.public import public_events, readonly
 
@@ -146,6 +146,42 @@ async def test_month_aggregate_is_one_bounded_query_on_dense_fixture(record_test
         record_testsuite_property("month_fixture_rows", 10000)
         record_testsuite_property("month_aggregate_seconds", round(elapsed, 6))
         record_testsuite_property("month_returned_buckets", 360)
+
+
+@pytest.mark.parametrize(
+    "states,expected",
+    [
+        ([("UP", "FRESH")], "UP"),
+        ([("DOWN", "FRESH"), ("UP", "FRESH")], "DOWN"),
+        ([("UNKNOWN", "NO_DATA")], "UNKNOWN"),
+        ([("PAUSED", "STALE")], "PAUSED"),
+        ([("PAUSED", "NO_DATA"), ("PAUSED", "STALE")], "PAUSED"),
+        ([("UP", "FRESH"), ("PAUSED", "STALE")], "UP"),
+        ([("UP", "FRESH"), ("PAUSED", "NO_DATA")], "UP"),
+        ([("UP", "STALE")], "UNKNOWN"),
+        ([("DOWN", "STALE")], "DOWN"),
+        ([], "NO_DATA"),
+    ],
+)
+async def test_public_health_ignores_paused_freshness(states, expected):
+    async with api_client() as api, public_client() as public:
+        publications = []
+        for index, (state, freshness) in enumerate(states):
+            m = await create(api, name=f"Service {index}")
+            async with Session() as db, db.begin():
+                row = await db.get(Monitor, uuid.UUID(m["id"]))
+                row.state = state
+                row.last_checked_at = (
+                    None
+                    if freshness == "NO_DATA"
+                    else now() - timedelta(hours=1 if freshness == "STALE" else 0)
+                )
+            publications.append({"monitor_id": m["id"], "public_name": f"Service {index}"})
+        await page(api, None, publications=publications)
+        response = await public.get("/api/public/pages/customer-status")
+        assert response.status_code == 200
+        assert response.json()["state"] == expected
+        assert [(s["state"], s["freshness"]) for s in response.json()["services"]] == states
 
 
 async def test_public_default_private_allowlist_permissions_and_route_isolation():

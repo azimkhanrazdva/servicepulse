@@ -7,6 +7,7 @@ from fastapi import Depends, FastAPI, HTTPException, Query, Request
 from fastapi.responses import StreamingResponse
 from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession
+from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from app.analytics import router as analytics_router
 from app.dashboard import live_overview
@@ -24,6 +25,7 @@ from app.publication import router as publication_router
 from app.schemas import MonitorCreate, MonitorRead, MonitorUpdate, ResultRead, VersionRequest
 
 app = FastAPI(title="ServicePulse", version="0.5.0")
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=["localhost", "127.0.0.1", "backend"])
 app.include_router(analytics_router)
 app.include_router(publication_router)
 app.include_router(dashboard_router)

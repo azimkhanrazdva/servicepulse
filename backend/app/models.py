@@ -226,5 +226,8 @@ class NotificationDelivery(Base):
     lease_token: Mapped[uuid.UUID | None] = mapped_column(Uuid)
     lease_until: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     send_started_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    # Earliest unsuppressed instant, captured independently of dispatcher availability.
+    down_eligible_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    down_required: Mapped[bool] = mapped_column(default=False, server_default="false")
     sent_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     last_error: Mapped[str | None] = mapped_column(String(80))

@@ -38,7 +38,7 @@ async def test_create_claim_execute_read_delete(monkeypatch):
 
     monkeypatch.setattr("app.worker.check", observed)
     async with httpx.AsyncClient(
-        transport=httpx.ASGITransport(app=app), base_url="http://test"
+        transport=httpx.ASGITransport(app=app), base_url="http://localhost"
     ) as api:
         response = await api.post(
             "/api/monitors", json={"name": "demo", "url": "http://example.com"}
@@ -56,6 +56,24 @@ async def test_create_claim_execute_read_delete(monkeypatch):
         assert len(history) == 1 and history[0]["response_ms"] == 12.5
         assert (await api.delete(f"/api/monitors/{monitor_id}")).status_code == 204
         assert (await api.get(f"/api/monitors/{monitor_id}")).status_code == 404
+    async with Session() as db:
+        assert await db.scalar(select(func.count()).select_from(CheckResult)) == 0
+
+
+async def test_expired_claim_never_starts_http(monkeypatch):
+    async with Session() as db, db.begin():
+        db.add(Monitor(name="expired preflight", url="https://example.com"))
+    claim = (await claim_due(1))[0]
+    async with Session() as db, db.begin():
+        row = await db.get(Monitor, claim.id)
+        row.lease_until = now() - timedelta(seconds=1)
+
+    async def forbidden(*args):
+        pytest.fail("Expired lease started HTTP")
+
+    monkeypatch.setattr("app.worker.check", forbidden)
+    await execute(claim, None)
+    assert len(await claim_due(1)) == 1
     async with Session() as db:
         assert await db.scalar(select(func.count()).select_from(CheckResult)) == 0
 
@@ -94,7 +112,7 @@ async def test_competing_claims_are_disjoint():
 
 async def test_api_rejects_invalid_settings():
     async with httpx.AsyncClient(
-        transport=httpx.ASGITransport(app=app), base_url="http://test"
+        transport=httpx.ASGITransport(app=app), base_url="http://localhost"
     ) as api:
         response = await api.post("/api/monitors", json={"name": "test", "url": "file:///tmp/a"})
         assert response.status_code == 422
@@ -102,7 +120,7 @@ async def test_api_rejects_invalid_settings():
 
 
 def api_client():
-    return httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url="http://test")
+    return httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url="http://localhost")
 
 
 async def create(api, **fields):

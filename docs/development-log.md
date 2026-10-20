@@ -707,3 +707,91 @@ Verified Phase5 complete in its stated scope. ACC-EMAIL-01 remains open HIGH fin
 not a newly fixed SMTP guarantee. No Phase6 fleet/load/final-security work started, no independent
 human review fabricated, no merge/new remote PR/public repository visibility change performed.
 Next action belongs to owner review and a separate continuation command.
+
+### Phase6 first reliability increment — recorded2026-10-20T09:34:08.6762942+05:00
+
+Start was actual2026-10-20T08:58:02.3904662+05:00, clean4696798. Read current attachment
+8736573c-3dbf-44d7-8371-9040b447f1f0 in bounded sections after initial full output truncation;
+preserved exact bytes as docs/prompts/006-audit-reliability-redesign.md. No prior prompt receipt
+or exported session history was invented. Inspected AGENTS/current requirements/provenance,
+architecture/progress/decisions/review/audits/checkpoint/workflow and code paths. Original PDF
+actually re-extracted with pypdf/python-Xutf8; employer wording supports the email correction.
+
+Actual git status/log/branch/remotes, git fetch origin and gh pr list confirmed three open stacked
+PRs/no Phase5 PR. gh run list confirmed Phase5 exact4696798 run39390995802 SUCCESS.
+Created requested feat/reliability-audit-redesign from4696798, not main. No push/remote PR/merge.
+
+Used ponytail for minimal root-cause changes, security-best-practices for explicit security review,
+frontend-design for the narrow responsive correction. Three separate read-only review agents
+reviewed backend/PostgreSQL/reliability, security, and frontend/acceptance. They did not claim
+running the test suites; root agent ran actual tests. Agent findings/provenance in phase6-audit.md.
+
+Reproduction command:
+docker compose --profile test run --rm --build tests python -m pytest -q -p no:cacheprovider
+tests/test_notifications.py::test_recovered_before_down_send_preserves_required_pair
+tests/test_database.py::test_expired_claim_never_starts_http
+tests/test_public_analytics.py::test_public_health_ignores_paused_freshness
+--junitxml=/evidence/phase6-reproduction.xml.
+Actual result4FAIL/8PASS in4.32s: missing email pair, expired checker invocation and two paused
+aggregate cases. Renamed/changed the old cancellation assertion because owner explicitly changed
+the business policy; it was not deleted/loosened to disguise failure. All other existing cases retained.
+
+Added0006 nullable down_eligible_at/false down_required, no old migration edits/backfill. New
+incident confirmation stores eligibility independently of dispatcher/SMTP. Mutation hooks preserve
+deadlines/revoke pending routes under group->monitor->delivery locks. Recovery compares actual
+HTTP completion time, not delayed processing time. Separate send/retry/ack/IDs/finite attempts remain.
+Independent second review identified NULL route-restoration and observed-time edges: corrected and
+tested. Final review identified terminal revocation also needed recovered pending pairs; expanded
+hook to pending deliveries in both open/closed incidents, locked delivery rows, added regressions.
+
+Fixed expired worker preflight/renewed valid lease budget, public active-only freshness and Host
+boundary (normal local names only). No public API or SSRF-policy replacement. Analytics SQL stayed
+unchanged; manual bursts/equal timestamps/legacy/end boundary now checked against PostgreSQL.
+
+Real command/error chronology (times below are suite reports, not invented separate work sessions):
+- First full runner stopped before pytest: current ORM attempted new fields while constructing0004
+  fixture. Replaced only legacy delivery insertion with explicit old-column SQL; compare all old
+  JSON fields, assert additive defaults/no replay. Added actual0005 publication/cadence snapshot
+  before0006 and exact comparison afterward, with cleanup of its own fixture only.
+- Full run then132PASS26.61s. Expanded clock tests initially5FAIL/134PASS29.64s because frozen
+  worker clock preceded real API due-time; moved controlled test start to next day, no production
+  time changed. Later139PASS30.27s,141PASS38.44s/30.33s,146PASS35.84s, final148PASS29.69s.
+  All actual runs used docker compose --profile test run --rm --build tests, disposable DB only.
+- Ruff found import/line-length/format issues during edits; fixed imports/format/long SQL/comments.
+  Final ruff check and format --check backend scripts/phase6* PASS. Missing backend/alembic path
+  read failed; discovered actual backend/migrations path. One Python -c plan-inspection command
+  failed quoting, retried successfully via PowerShell literal here-string. No test outcome hidden.
+- npm typecheck/lint/format:check/test/build PASS; actual final26component tests and npm audit0.
+  JSON reporter rerun writes artifacts/frontend-tests.json, not a reused Phase5 report.
+- docker compose up -d --build --wait PASS, additive migration on original main volume, no reset.
+  Final actual Chromium run7PASS19.1s on rebuilt code. Original seven cases retained; mobile
+  viewport assertion strengthened to detect document overflow without emulation viewport expansion.
+- Actual existing smokes rerun: slice0.641s,phase2 57.281s,phase3 57.578s,proxy6.641s, allPASS.
+  Phase3 still proves32s HTTP/30s interval with independent fast target and genuine observation gap.
+- New isolated phase6_email_smoke finalPASS52.0s: no dispatcher until recovery; restart and real
+  DOWN->RECOVERY acceptance with same persisted IDs; SMTP refusal, recovery before retry, restart.
+  Existing phase4_fault_smoke finalPASS93.14s seven groups, physical3/logical2 crash evidence.
+  Earlier genuine runs48.797/48.734s(email) and88.703s(fault) also passed; latest raw reports replace
+  current files, Git/tool history retains previous evidence. Exactly-once SMTP never asserted.
+- Actual mixed50x30 experiment first301.875s,475results/max40/nooverlap. Resource collector omitted
+  stopped worker ID: corrected ps --all and actually reran300s,475results/max41/nooverlap, resources
+  for backend/DB/worker. Both run raw files retained. No extrapolated fixed-rate count claimed.
+- Actual browser under50 at390/768/1440/1920 found390px overflow. Wrapped labelled mobile nav;
+  repeated actual four-width runPASS, screenshots baseline theme, not a monochrome redesign.
+  One frontend container rebuild and other host regressions shared first-run resources; documented.
+- Synthetic benchmark ran in own servicepulse-phase6-benchmark volume:10k/100k/500k/1m across50,
+  then dense100k one monitor. Seven warm repeats plus first, real plans/bytes/JSON saved. Warm
+  dense p95~609ms, first1.143s and temporary disk sorts remain explicitly PARTIAL budget.
+- Actual local Host GET matrix eight assertionsPASS; pip-audit in ephemeral Python3.12 container
+  against pinned requirements reports0known vulnerabilities, npm0. Pattern-only tracked Git
+  history private-key/GitHub/AWS scan found0 matches; .env untracked. Not a comprehensive guarantee.
+
+Current measurements/limitations and command reproduction: phase6-performance.md. Actual machine
+Docker Linux/x86_64,16CPUs/8170147840bytes,Python3.12.15/PostgreSQL17.11/Node24.15.0.
+Isolated test project down-v commands applied only explicit performance/benchmark/email/fault
+names verified against servicepulse_test; main DB never removed. Main stack remains running.
+
+Prepared audit/policy/performance/design-review/checkpoint/roadmap/PR6 continuation and refreshed
+current docs. Phase6 remains PARTIAL: no full monochrome redesign/a11y/50-fault matrix/final
+acceptance/Phase6 hosted CI. No Phase6 upload while stage unfinished. Next: local staged review,
+limited secret/whitespace checks and genuine logical commits, then safe checkpoint handoff.

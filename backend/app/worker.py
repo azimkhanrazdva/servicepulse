@@ -47,9 +47,14 @@ async def execute(monitor, client):
         current = await db.scalar(select(Monitor).where(Monitor.id == monitor.id).with_for_update())
         if current is None or current.lease_token != monitor.lease_token:
             return
+        timestamp = now()
+        if current.lease_until is None or current.lease_until <= timestamp:
+            return
         if current.config_version != monitor.config_version or current.state == "PAUSED":
             current.lease_token = current.lease_until = None
             return
+        # Budget starts after obtaining the preflight lock, rather than before its wait.
+        current.lease_until = timestamp + timedelta(seconds=monitor.timeout_seconds + 15)
     observation = await check(monitor, client)
     observed_at = now()  # HTTP completion, before waiting for the persistence row lock.
     async with Session() as db, db.begin():

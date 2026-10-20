@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db import session_dependency
 from app.models import Group, GroupRecipient, Monitor, MonitorGroup
+from app.notifications import refresh_down_eligibility
 from app.schemas import GroupCreate, GroupRead, GroupUpdate
 
 router = APIRouter(prefix="/api/groups", tags=["groups"])
@@ -76,6 +77,15 @@ def require_version(current, version):
 
 async def replace_members_and_recipients(db, group, payload):
     # Group lock first, then monitor locks in UUID order; edits use the same order.
+    old_members = set(
+        (
+            await db.scalars(
+                select(MonitorGroup.monitor_id).where(MonitorGroup.group_id == group.id)
+            )
+        ).all()
+    )
+    affected = old_members | set(payload.monitor_ids)
+    await refresh_down_eligibility(db, affected)
     members = (
         await db.scalars(
             select(Monitor.id)
@@ -92,6 +102,8 @@ async def replace_members_and_recipients(db, group, payload):
     db.add_all(
         [GroupRecipient(group_id=group.id, email=str(email)) for email in payload.recipients]
     )
+    await db.flush()
+    await refresh_down_eligibility(db, affected, recompute=True)
 
 
 @router.get("", response_model=list[GroupRead])
@@ -136,5 +148,15 @@ async def update(group_id: uuid.UUID, payload: GroupUpdate, db: DB):
 async def remove(group_id: uuid.UUID, db: DB, config_version: Annotated[int, Query(ge=1)]):
     group = await find_group(db, group_id)
     require_version(group, config_version)
+    affected = set(
+        (
+            await db.scalars(
+                select(MonitorGroup.monitor_id).where(MonitorGroup.group_id == group.id)
+            )
+        ).all()
+    )
+    await refresh_down_eligibility(db, affected)
     await db.delete(group)
+    await db.flush()
+    await refresh_down_eligibility(db, affected, recompute=True)
     await db.commit()
