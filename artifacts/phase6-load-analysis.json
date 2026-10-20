@@ -1,0 +1,85 @@
+{
+  "source": "phase6-load.json + phase6-load-events.jsonl",
+  "steady_delay_seconds": {
+    "count": 425,
+    "mean": 0.2988327011764706,
+    "min": 0.039532,
+    "p50": 0.256221,
+    "p95": 0.552489,
+    "p99": 0.597043,
+    "max": 0.602766
+  },
+  "mixed_fixed_delay_start_cadence_seconds": {
+    "count": 425,
+    "mean": 32.329575889411764,
+    "min": 30.295878,
+    "p50": 30.552306,
+    "p95": 32.57045,
+    "p99": 62.470419,
+    "max": 62.479369
+  },
+  "cpu_percent_samples": {
+    "servicepulse-phase6-performance-backend-1": {
+      "count": 43,
+      "mean": 11.228837209302325,
+      "min": 1.7,
+      "p50": 12.38,
+      "p95": 14.99,
+      "p99": 16.82,
+      "max": 16.82
+    },
+    "servicepulse-phase6-performance-db-1": {
+      "count": 43,
+      "mean": 6.376046511627907,
+      "min": 2.3,
+      "p50": 4.92,
+      "p95": 12.56,
+      "p99": 35.97,
+      "max": 35.97
+    },
+    "servicepulse-phase6-performance-worker-1": {
+      "count": 43,
+      "mean": 4.327441860465116,
+      "min": 0.55,
+      "p50": 0.85,
+      "p95": 26.74,
+      "p99": 39.61,
+      "max": 39.61
+    }
+  },
+  "container_memory_usage_bytes_samples": {
+    "servicepulse-phase6-performance-backend-1": {
+      "count": 43,
+      "mean": 65994691.03627907,
+      "min": 63700992.0,
+      "p50": 64980254.72,
+      "p95": 73410805.76,
+      "p99": 75927388.16,
+      "max": 75927388.16
+    },
+    "servicepulse-phase6-performance-db-1": {
+      "count": 43,
+      "mean": 68876811.90697674,
+      "min": 58688798.72,
+      "p50": 70034391.04,
+      "p95": 72079114.24,
+      "p99": 75644272.64,
+      "max": 75644272.64
+    },
+    "servicepulse-phase6-performance-worker-1": {
+      "count": 43,
+      "mean": 68889004.65116279,
+      "min": 66962063.36,
+      "p50": 68849500.16,
+      "p95": 70265077.76,
+      "p99": 70642565.12,
+      "max": 70642565.12
+    }
+  },
+  "limits": [
+    "Docker MemUsage, not process RSS or host peak; sampled, not continuous",
+    "Initial due delay includes fixture provisioning while worker stopped",
+    "Other local Compose regression/browser/build activity shared the Docker host",
+    "No unbounded suspension or sustained multi-worker fault guarantee"
+  ]
+}

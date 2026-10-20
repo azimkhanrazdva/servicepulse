@@ -1,0 +1,1 @@
+{"sample_at" : "2026-10-20T04:18:41.221868+00:00", "xact_commit" : 1699, "xact_rollback" : 1876, "blks_read" : 323, "blks_hit" : 104548, "tup_inserted" : 1206, "numbackends" : 17}
