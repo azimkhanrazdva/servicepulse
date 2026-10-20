@@ -1,6 +1,6 @@
 # ServicePulse progress — phase 4
 
-Current checkpoint: [v0.4 maintenance/email](phase4-checkpoint.md), local gate complete; upload/CI pending.
+Current checkpoint: [v0.4 maintenance/email](phase4-checkpoint.md), verified and uploaded privately; hosted CI PASS.
 Prior [v0.3 incidents](phase3-checkpoint.md), [v0.2 management](phase2-checkpoint.md) and v0.1 are historical.
 Current branch is feat/maintenance-email-outbox, based on phase3 HEAD 3529b66.
 
@@ -26,18 +26,18 @@ Current branch is feat/maintenance-email-outbox, based on phase3 HEAD 3529b66.
 
 Phase4 local implementation/review verified: 107 backend, 15 component, 5 browser tests;
 actual isolated SMTP/DB/acceptance-crash suite and all prior smoke scenarios passed.
-Final documentation/authorized private upload and hosted CI pending. See phase4-design.md.
-No phase5, PR or merge authorization inferred. Stop after completed stage4 checkpoint.
+Implementation ade9c13 uploaded; hosted run 39379923079 passed both jobs. Waiting for owner review.
+No phase5, PR or merge authorization inferred. Stop at completed stage4 checkpoint.
 
 ## Blocked
 
 No local product blocker. GitHub CLI is authenticated; origin is a private repository.
-Hosted CI passed for implementation 5b43b20 (run 39323301037). Exact model identifier and essay remain
+Hosted CI passed for implementation ade9c13 (run 39379923079). Exact model identifier and essay remain
 submission inputs, not blockers for current implementation. No credentials belong in chat/Git.
 
 ## Next Tasks
 
-1. Finish stage4 private upload/hosted CI, then owner reviews before requesting phase5.
+1. Owner reviews completed stage4 before explicitly requesting phase5.
 2. No PR exists as of phase4 discovery. Prepared phase2/3/4 descriptions and creation commands.
 3. No automatic PR/merge; chain: phase2 -> main, phase3 -> phase2, phase4 -> phase3 until bases merge.
 4. Maintenance/outbox gate is now implemented; do not silently begin next phase.
@@ -52,6 +52,7 @@ Phase4 final local: 107 PostgreSQL tests (17.83s), three legacy fixture stages +
 Real isolated Mailpit/fault suite PASS (77.437s), including SMTP outage, queue/process restart, DB outage
 and accepted-before-ack crash. Actual 3 physical messages/2 logical deliveries, not exactly-once SMTP.
 HTTP, phase2, phase3 and forced-IP proxy regressions all rerun successfully. See phase4-checkpoint.md.
+Hosted CI PASS on ade9c13: https://github.com/azimkhanrazdva/servicepulse/actions/runs/39379923079.
 
 Historical phase3: 75 PostgreSQL tests (3.48s), two legacy migration fixtures/ORM check, 11 component tests,
 4 browser tests (15.2s); actual restart/slow smoke PASS (73.031s). Forced different-IP proxy regression
@@ -84,8 +85,10 @@ main and first-slice branch published at bd43629; no PR/merge.
 
 ## Latest Commit
 
-Phase4 backend checkpoint: 2a159d1 — feat(notifications): add maintenance and transactional delivery outbox.
-Final UI/reliability checkpoint follows this local gate; git log -1 resolves current HEAD.
+Phase4 implementation: ade9c13b470dc02a9437d488b724b7a05eb54417 —
+feat(ui): manage maintenance and verify notification failure recovery, 2026-10-20T06:21:35+05:00.
+Backend checkpoint: 2a159d1 — feat(notifications): add maintenance and transactional delivery outbox,
+2026-10-20T06:02:32+05:00. Both pushed privately. A docs-only handoff follows; git log -1 resolves HEAD.
 
 Phase3 implementation: 5b43b208df112694082d8c4640c5ec012d2ca4a6 —
 feat(incidents): persist lifecycle and verify scheduler recovery, 2026-10-19 20:55:01 +05:00.

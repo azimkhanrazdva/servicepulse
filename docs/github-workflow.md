@@ -45,3 +45,8 @@ Phase4 discovery confirmed clean phase3 HEAD 3529b66 and no PR in any state. New
 feat/maintenance-email-outbox starts there. pr-phase4.md prepares the full review chain and exact
 creation command (base feat/incident-lifecycle). Local backend commit 2a159d1 is a real incremental
 checkpoint; it was kept local while UI/fault verification continued. Private upload follows final local gate.
+
+Phase4 verified commits 2a159d1 + ade9c13 were pushed after all local gates passed. Automatic run
+39379923079 completed SUCCESS for ade9c13b470dc02a9437d488b724b7a05eb54417 (backend 47s/frontend 21s,
+including real local SMTP/Mailpit CI service). Private=true and no PR in any state rechecked after push.
+Actual result: artifacts/github-ci-phase4.json. main/phase2/phase3 remain unchanged; no merge or force-push.

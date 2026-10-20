@@ -1,8 +1,13 @@
 # Phase 4 — maintenance and email checkpoint
 
-Local implementation verified; private stage upload and hosted CI are recorded after their actual completion.
+Implementation verified locally, uploaded privately and passed hosted CI on exact SHA ade9c13.
 Branch: feat/maintenance-email-outbox, based on phase3 documentation HEAD 3529b66.
 First backend checkpoint: 2a159d1, feat(notifications): add maintenance and transactional delivery outbox.
+Final UI/reliability implementation: ade9c13b470dc02a9437d488b724b7a05eb54417, created at
+2026-10-20T06:21:35+05:00. Hosted CI: backend 47s, frontend 21s, both successful:
+https://github.com/azimkhanrazdva/servicepulse/actions/runs/39379923079.
+Raw result: artifacts/github-ci-phase4.json; consolidated actual reports: artifacts/phase4-checkpoint.json.
+Later documentation-only handoff records these outcomes without product logic changes.
 
 ## Implemented
 

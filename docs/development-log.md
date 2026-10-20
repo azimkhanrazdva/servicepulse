@@ -420,3 +420,23 @@ checks PASS; no unexplained BLOCKER/HIGH in the requested scope. Remaining bound
 cannot recall SMTP already in flight; finite retry exhaustion needs investigation; no physical exactly-once,
 external mailbox/production SMTP integration, public pages, monthly aggregates or sustained 50-load claim.
 Final documentation, private stage push and hosted CI follow; phase5 has not started.
+
+### Phase4 private publication and hosted CI — 2026-10-20T06:22:37.1114290+05:00
+
+After reviewing staged diff, whitespace and limited secret patterns (.env and trace outputs ignored),
+created ade9c13b470dc02a9437d488b724b7a05eb54417 at 2026-10-20T06:21:35+05:00,
+feat(ui): manage maintenance and verify notification failure recovery. Earlier real backend commit
+2a159d1 was created at 2026-10-20T06:02:32+05:00. Both pushed to private origin/feat/maintenance-email-outbox,
+tracking established. Repository isPrivate=true; gh pr list --state all returned [] after push.
+main and previous phase branches were not merged/rewritten. No public action or PR creation.
+
+Automatic Actions run 39379923079 completed SUCCESS for exact implementation ade9c13: backend 47s,
+frontend 21s. PostgreSQL migrations/107 backend tests/real Mailpit acceptance, Python lint/format,
+15 frontend tests/types/lint/format/build/audit all configured steps passed. gh run watch --exit-status
+returned 0; full actual response in artifacts/github-ci-phase4.json. Remote timestamps are preserved as
+reported; this chronology uses actual local UTC+5 clock. Existing Node-action/ubuntu annotations are LOW
+non-failing follow-ups. Consolidated phase4-checkpoint.json asserts counts/statuses from real report files.
+Visual review of actual v0.4 screenshot completed. Main app remains running with only two original UP
+monitors; groups/windows from tests removed, isolated fault project absent, temporary test DB stopped.
+This final docs-only handoff changes no product/test logic. Stage4 stops for owner review; public status,
+month analytics, sustained 50-monitor measurement and full final security audit remain later requested work.
