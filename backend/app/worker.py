@@ -12,6 +12,7 @@ from sqlalchemy import or_, select
 from app.checker import check, transition
 from app.config import settings
 from app.db import Session, engine
+from app.incidents import observe_incident
 from app.models import CheckResult, Monitor, now
 
 log = logging.getLogger("servicepulse.worker")
@@ -50,6 +51,7 @@ async def execute(monitor, client):
             current.lease_token = current.lease_until = None
             return
     observation = await check(monitor, client)
+    observed_at = now()  # HTTP completion, before waiting for the persistence row lock.
     async with Session() as db, db.begin():
         current = await db.scalar(select(Monitor).where(Monitor.id == monitor.id).with_for_update())
         if current is None or current.lease_token != monitor.lease_token:
@@ -63,7 +65,8 @@ async def execute(monitor, client):
             observation.success,
             current.failure_threshold,
         )
-        current.last_checked_at = now()
+        current.last_checked_at = observed_at
+        await observe_incident(db, current, observation.success, observed_at)
         current.last_status_code = observation.status_code
         current.last_response_ms = observation.response_ms
         current.next_due_at = (

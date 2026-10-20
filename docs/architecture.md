@@ -2,7 +2,7 @@
 
 The owner prescribed this stack; this design keeps it. Shipped scope includes foundation,
 versioned monitor CRUD/pause/resume, group membership/recipients and real HTTP observations.
-Later incident, outbox, maintenance and public components below are
+Persisted incidents ship in phase 3. Outbox, maintenance and public components below are
 **designs**, not implementation claims. See requirements.md for individual status.
 
 ```mermaid
@@ -19,17 +19,19 @@ flowchart LR
 
 - Frontend: React, TypeScript, Vite production build, nginx same-origin /api proxy.
   Dark operations console, native form validation, semantic table, honest empty/error states.
+  nginx resolves backend through Docker DNS with a 2s TTL, preserving URI/SSE settings when container
+  replacement changes the IP. A dedicated regression forces a different address without restarting UI.
 - API: FastAPI + Pydantic + SQLAlchemy async sessions, Alembic schema. Create/list/detail/history,
   enqueue run-now, health/readiness and SSE snapshots in the first slice.
 - Worker: separate process; bounded asyncio tasks and one pooled HTTPX client. Claims due
   monitors using PostgreSQL `FOR UPDATE SKIP LOCKED`. A UUID claim token and expiring lease
   fence stale workers. HTTP total deadline is shorter than the lease. No backfilled checks.
-- PostgreSQL: authoritative config, results, groups, recipients and scheduling state. Later incidents/outbox
+- PostgreSQL: authoritative config, results, groups, recipients, incidents and scheduling state. Later outbox
   are separate tables added through reviewed migrations.
 - Simulator: controllable local HTTP status, delay, body and redirect responses; no external dependency.
 - Mailpit: local SMTP capture included in Compose; dispatch is a later phase.
 
-## Persisted model (Alembic 0001 + additive 0002)
+## Persisted model (Alembic 0001 + additive 0002/0003)
 
 Monitor: UUID, name, URL, interval (30..3600 seconds), timeout (0.1..120 seconds), expected
 status (100..599), optional expected string, failure threshold (1..10, default 2), state,
@@ -44,8 +46,7 @@ Deleting a group never deletes its monitors. Deleting a monitor removes its memb
 
 ## Target model (not migrated yet)
 
-Incident has monitor FK, opened_at, recovered_at; partial unique index permits one open
-incident per monitor. MaintenanceWindow targets exactly one monitor or group, has start/end
+MaintenanceWindow targets exactly one monitor or group, has start/end
 and end > start constraint. Outbox uses unique (incident_id, group_id, event_type), frozen
 recipient payload, attempts, next_attempt_at, lease, sent_at. PublicPage + publication join
 table selects public name and state only; no private URL, errors, recipients or config.
@@ -56,17 +57,62 @@ Initial UNKNOWN. First success → UP. First failure preserves UNKNOWN or UP unt
 consecutive failures; threshold (default two) → DOWN. Success resets failures and → UP.
 The threshold reduces false alerts without an extra state. An HTTP response must match both
 status and optional body string. Manual runs use the same queue/claim and state rules.
-State is computed; **incident records and alert delivery are not implemented**.
+State and incident records are committed atomically with the observation. Alert delivery is not implemented.
 
 PAUSED prevents scheduled/manual launches. Resume schedules immediately, clears the streak
 and sets UNKNOWN until a new observation. Every configuration edit increments its version,
 clears current metrics/streak and sets UNKNOWN (or retains PAUSED); old history is retained.
-Even rename-only edits follow this conservative rule. Target incident phase must reconcile
-these edits with open incidents; current state changes do not create/close incident records.
+Even rename-only edits follow this conservative rule. Edits close open incidents with
+CONFIG_CHANGED; pause closes with PAUSED. Neither is a successful recovery.
 Group: DOWN if any active member DOWN, otherwise UNKNOWN if any active member UNKNOWN,
 otherwise UP; all paused → PAUSED; empty → UNKNOWN. Maintenance is a badge/policy, never UP.
 Group recipients are validated with Pydantic EmailStr/email-validator and normalized/deduplicated,
 up to 100 addresses. Deliverability and actual sending are not checked in this phase.
+
+## Phase 3 incident persistence and API
+
+Incident stores UUID, cascading monitor FK, opened_at, closed_at, recovered_at, closure_reason,
+created_at. All times use UTC timestamptz. opened_at is the completion time of the observation
+that confirms DOWN, captured immediately after HTTP and before waiting for the persistence lock.
+created_at records persistence processing time; these are distinct concepts. An observation's
+checked_at equals this completion time. Recovery closes on the first valid successful observation.
+Closed duration is closed_at - opened_at; open duration is max(0, now - opened_at). Clock rollback
+clamps closing time to opened_at, preventing negative stored durations; this is not precision
+timing across a host clock correction. HTTP latency remains measured by the monotonic clock.
+
+The unique partial index is monitor_id WHERE closed_at IS NULL, rather than recovered_at IS NULL:
+administrative closures intentionally leave recovered_at null. Constraints enforce matching closure
+fields, nonnegative time and RECOVERED-only recovery timestamps. Incident/state/streak/result/lease
+changes share the worker completion transaction and monitor row lock. Repeated failures keep the
+same open ID; completion retry with an obsolete token cannot append another result. Transactions
+roll back together after a PostgreSQL error. Mutation order is monitor lock, then incident lookup;
+no network request runs inside a database transaction. Delete cascades incidents, as with results.
+The journal joins the current monitor name, not a frozen historical name.
+
+Migration 0003 creates no historical incidents and does not modify legacy DOWN rows. The next
+valid failed observation on such a row opens one incident at that fresh observation's time;
+its unknown earlier outage duration is excluded. A first success before a new failure creates no
+fake recovery record. The migration harness preserves an actual v0.2 DOWN monitor, result, group,
+recipient and configuration version. Pause/resume clears the streak and resumes UNKNOWN.
+
+GET /api/incidents and /api/monitors/{id}/incidents return {items,has_more,limit,offset}.
+Filters: monitor_id, state=OPEN|CLOSED, since/until (inclusive opened_at bounds with explicit
+timezone); order=asc|desc with UUID tie-break. Limit 1..100 (default 50), offset 0..10000;
+use time filters for deeper history. GET /api/incidents/active applies OPEN; /api/incidents/{id}
+returns detail or 404. One joined query fetches limit+1 rows without a count query/N+1.
+Indexes cover (monitor_id,opened_at,id), (opened_at,id), and the partial open-monitor key.
+
+SSE retains monitor and group messages; a named incidents event sends the newest incident page
+(default 50, same envelope as REST) from the same REPEATABLE READ snapshot every two seconds.
+The journal treats each event as invalidation and refreshes its own filtered/paginated REST page,
+so closing an older incident outside the newest 50 still updates the visible page. This adds
+one bounded request per connected client per two seconds. Reconnect receives a full snapshot.
+Open duration ticks every second in React; no backend or page refresh is needed for the clock.
+
+No outbox table or SMTP action is added here. Future logical keys are (incident UUID, event type,
+group UUID); DOWN is represented by confirmation, RECOVERY only by closure_reason=RECOVERED.
+PAUSED and CONFIG_CHANGED must never create recovery mail. Event creation must join the same
+transaction when outbox ships; existing incident IDs allow a future explicit reconciliation policy.
 
 ## Concurrent mutations
 
@@ -97,7 +143,8 @@ and state. A process crash leaves a recoverable lease, not a synthetic failure. 
 completion + interval (fixed delay; no catch-up storm). A run-now while leased returns 409.
 HTTP work has an outer asyncio deadline covering DNS and streaming. Cancellation releases no
 fake observation: restart waits for lease expiry. First slice supports multiple workers via
-DB claims; restart, multi-worker and 50-monitor performance still require dedicated tests.
+DB claims; competing claims, expiry, stale completion, cancellation and actual restart are now tested.
+Sustained 50-monitor/30s cadence remains a separate mandatory performance experiment.
 
 ## Notifications and maintenance (target)
 
@@ -112,8 +159,8 @@ Ordering between DOWN and recovery and pending-send maintenance races need trans
 
 ## Realtime and history
 
-SSE retains the default monitor-array message for compatibility and adds a named `groups`
-event every two seconds. Both snapshots read one REPEATABLE READ transaction. Native EventSource
+SSE retains the default monitor-array message and named `groups`, adding `incidents`
+every two seconds. All snapshots read one REPEATABLE READ transaction. Native EventSource
 reconnects and receives a complete snapshot: clients need no in-memory shared broadcaster.
 This is low-volume polling over SSE, not PostgreSQL NOTIFY; scales to the assignment, not a
 large fleet. First slice history returns the most recent 100 bounded results; monthly time

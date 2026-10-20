@@ -83,3 +83,42 @@ projection, no sustained 50-monitor benchmark/month buckets, no full independent
 Old HTTP work may finish after configuration change; it is discarded, not reclassified as an
 observation under the new URL. All edits (including rename) conservatively reset live state.
 Full arbitrary process-suspension non-overlap remains outside expiring-lease guarantees.
+
+## Phase 3 critical review
+
+Implementation-agent review of the final migration, lifecycle, API, React and tests. No separate
+reviewer or independent-session claim. No BLOCKER/HIGH found within this phase's trusted-local scope.
+
+- Atomicity: monitor row lock serializes worker completion with edit/pause/delete; incident insert,
+  close, state, streak, result and lease commit together. Actual PostgreSQL division-by-zero test
+  after lifecycle flush rolls changes back. A future outbox must join this same transaction.
+- Uniqueness: partial unique monitor_id WHERE closed_at IS NULL is enforced by PostgreSQL;
+  repeated/concurrent completions and old token returns cannot duplicate logical incidents.
+  Direct invalid inserts test both uniqueness and administrative-vs-recovery constraints.
+- Migration: no backfill or rewrite of settings/results; actual 0002 DOWN/group/recipient fixture
+  stays unchanged. Fresh failure starts the tracked interval; missing earlier duration remains unknown.
+- Recovery: only valid success sets recovered_at; PAUSED/CONFIG_CHANGED close with null recovery.
+  Resume/reset policy and delete cascades remain consistent with v0.2, including rename resets.
+- Concurrency: HTTP outside transactions, deadline shorter than lease; slow pair test demonstrates
+  fast progress during 32s HTTP. Claim/expiry/cancel/restart tests retained, stale successes and
+  failures tested. Arbitrary suspension beyond expiry and physical SMTP exactly-once are not claimed.
+- API: bounded limits/offsets, validated UUID/state/order/timezones/ranges, one JOIN and no per-row
+  query (150-row test). Name is current monitor name. Indexes cover time and monitor/time order.
+- Realtime: additive named incidents event preserves original messages; filtered REST invalidation
+  handles older incidents outside newest 50. Client cleanup prevents obsolete requests overwriting
+  a new filter; reconnect and two contexts exercised in a real browser. Duration uses local clock.
+- Security: no new target access path, redirect/private-target policy or proxy change. Simulator control
+  stays internal. Management API/journal is private local data; public projection remains future work.
+
+Deployment review subsequently found HIGH nginx DNS caching after backend container replacement:
+direct API healthy but proxy 502, 3 browser tests failed. Fixed bounded Docker DNS refresh in proxy;
+same-origin paths/headers/SSE settings preserved. A deterministic IP-replacement regression passed
+with unchanged frontend container and final browser suite 4/4 passed. No unresolved HIGH remains.
+
+Remaining priorities:
+- MEDIUM: full-month aggregates/coverage charts and sustained 50-monitor experiment belong to later gates.
+- MEDIUM: no authentication; trusted-local deployment only, unchanged. Public hosting needs its own review.
+- LOW: offset pages can move during insertions; cap 10000 requires narrowing with time filters for deep history.
+- LOW: each incidents SSE tick refreshes a bounded journal page; measure before replacing with revisions/keysets.
+- LOW: wall-clock correction clamps negative incident duration; monotonic HTTP latency remains separate.
+- LOW: container tags/action majors are not digest/current-major locked, as previously documented.

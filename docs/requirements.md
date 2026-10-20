@@ -32,7 +32,7 @@ Command results and precise limitations are in development-log.md and progress.m
 | GEN-12 | Honest project status | Docs/UI | Missing functionality explicitly marked | progress.md; README; UI checkpoint note | PASS |
 | GEN-13 | Demonstrable functionality | QA | Repeatable real vertical-slice command | scripts/smoke.py + artifacts/smoke.json | PASS initial slice only |
 | FND-01 | Migration-controlled schema | DB | Alembic head applies on empty PostgreSQL | Compose migrate exit 0 | PASS |
-| FND-02 | Database integrity/indexes | DB | Bounds/FKs/indexes in migration and ORM agree | DB integration; schema audit | PARTIAL: initial tables only |
+| FND-02 | Database integrity/indexes | DB | Bounds/FKs/indexes in migration and ORM agree | DB integration; schema audit | PARTIAL: monitors/groups/results/incidents restart verified; outbox absent |
 | FND-03 | Separate worker | Worker | Independent container writes HTTP results | artifacts/smoke.json; worker log | PASS |
 | FND-04 | Structured logging | Worker/API | Machine-readable operational events; no secrets | Worker JSON logs | PARTIAL: API access logs plain |
 | FND-05 | Health/readiness | API | Liveness + schema-aware DB readiness | smoke /api/ready; healthcheck | PASS |
@@ -72,11 +72,11 @@ Command results and precise limitations are in development-log.md and progress.m
 | UI-02 | HTTP response code | UI/API | Real nullable status shown | frontend test; smoke | PASS component/API |
 | UI-03 | Response time | UI/API | Real latency shown, no invented fallback | frontend test; smoke | PASS component/API |
 | UI-04 | Last check timestamp | UI/API | Actual timestamp visible in local time | component test; smoke | PASS component/API |
-| UI-05 | Current outage duration | UI/API | Open incident duration ticks | E2E with clock | TODO |
-| UI-06 | State transition history | UI/API/DB | Recorded transitions visible | Timeline integration | TODO |
+| UI-05 | Current outage duration | UI/API | Open incident duration ticks | IncidentsPanel clock test + incidents.spec.ts | PASS live journal |
+| UI-06 | State transition history | UI/API/DB | Recorded transitions visible | Incident journal + observation history | PARTIAL: confirmed DOWN/closure; full state timeline later |
 | UI-07 | Total/UP/DOWN/paused summary | UI | Counts from API only | Frontend test and browser | PARTIAL: derived counts, cap 500 |
 | UI-08 | Active incidents/defined aggregate uptime | UI/API | Real incident count; uptime explained | E2E | TODO |
-| UI-09 | Monitor details | UI | Config + recent actual checks | History UI/browser | PASS config editor + real observation history; charts/incidents pending |
+| UI-09 | Monitor details | UI | Config + recent actual checks | History UI/browser | PASS config editor + real observation history; incidents via journal filter, charts pending |
 | UI-10 | Loading/error/empty states | UI | Clear states and usable form on failure | frontend tests | PASS component tests |
 | UI-11 | Every visible control works | UI | No dead navigation or fake metrics | artifacts/browser-tests.json + screenshot review | PASS current controls |
 | UI-12 | Desktop/mobile accessibility | UI | No viewport overflow; keyboard labels/focus | Playwright desktop/mobile + labeled forms/focus review | PARTIAL: keyboard-only audit pending |
@@ -85,10 +85,10 @@ Command results and precise limitations are in development-log.md and progress.m
 | HIS-02 | Uptime 24h | API/UI | Documented sample denominator + coverage | Seeded aggregate test | TODO |
 | HIS-03 | Uptime 7d | API/UI | Correct week bounds/coverage | Seeded aggregate test | TODO |
 | HIS-04 | Uptime 30d | API/UI | Correct month bounds/coverage | Seeded aggregate test | TODO |
-| HIS-05 | Incident journal | DB/API/UI | Persisted open/closed incidents listed | Lifecycle E2E | TODO |
-| HIS-06 | Incident start | DB/API/UI | Threshold transition timestamp stored | Lifecycle integration | TODO |
-| HIS-07 | Incident recovery | DB/API/UI | First successful observation closes | Lifecycle integration | TODO |
-| HIS-08 | Incident duration | API/UI | Recovery-start or now-start | Clock-based tests | TODO |
+| HIS-05 | Incident journal | DB/API/UI | Persisted open/closed incidents listed | test_incident_threshold_recovery_timestamps_and_pagination; incidents.spec.ts | PASS phase3 |
+| HIS-06 | Incident start | DB/API/UI | Threshold transition timestamp stored | Clock-controlled threshold test | PASS phase3 |
+| HIS-07 | Incident recovery | DB/API/UI | First successful observation closes | Lifecycle DB + live phase3-smoke.json | PASS phase3 |
+| HIS-08 | Incident duration | API/UI | Recovery-start or now-start | Clock-controlled DB/component tests + two-client E2E | PASS phase3 |
 | HIS-09 | Fast monthly history | DB/API | Bounded bucket response; measured p95 under 1s locally | Real seeded month benchmark | TODO |
 
 ## Maintenance and email (P0)
@@ -131,18 +131,18 @@ Command results and precise limitations are in development-log.md and progress.m
 | SCN-04 | Recovery causes email | Incident/outbox | Mailpit captures recovery | Live E2E | TODO |
 | SCN-05 | Continuous outage no repeat | Outbox | Many failures yield one DOWN event | Fault loop integration | TODO |
 | SCN-06 | Single failure is transient | State | First failure preserves UP/UNKNOWN | test_transition | PASS unit |
-| SCN-07 | Threshold opens incident | Incident | One open incident at configured threshold | Lifecycle integration | TODO |
-| SCN-08 | Recovery closes incident | Incident | First success closes with duration | Lifecycle integration | TODO |
+| SCN-07 | Threshold opens incident | Incident | One open incident at configured threshold | DB uniqueness/competing completion + live smoke | PASS phase3 |
+| SCN-08 | Recovery closes incident | Incident | First success closes with duration | DB clock test + real simulator recovery | PASS phase3 |
 | SCN-09 | Maintenance keeps checking | Worker | Actual results continue | Mailpit/simulator E2E | TODO |
 | SCN-10 | Maintenance suppresses email | Dispatcher | Zero captured mail in window | Mailpit E2E | TODO |
 | SCN-11 | End of maintenance alerts if down | Dispatcher | One deferred DOWN | Clock/Mailpit E2E | TODO |
-| SCN-12 | Slow check never overlaps itself | Scheduler | One lease and bounded HTTP across interval | competing-claims unit + slow live test | PARTIAL: live test pending |
+| SCN-12 | Slow check never overlaps itself | Scheduler | One lease and bounded HTTP across interval | phase3-smoke.json: real 32s HTTP / 30s interval; lease race tests | PASS within documented lease fault model; arbitrary suspension beyond expiry excluded |
 | SCN-13 | 50 checks every 30s | Worker/API | Three cycles; record counts/cadence/late/missed/concurrency/UI latency | Load report | TODO |
-| SCN-14 | One slow target does not delay others | Worker | Fast checks complete before slow target | Controlled mixed-load test | TODO |
+| SCN-14 | One slow target does not delay others | Worker | Fast checks complete before slow target | phase3-smoke.json: fast result during real 32s request | PASS phase3 mixed pair; 50-load separate |
 | SCN-15 | Fast month history | API/DB | Defined budget measured on real large dataset | Seeded benchmark | TODO |
 | SCN-16 | Public page hides private data | Public API/UI | Inspect payload, SSE and rendered DOM | Privacy integration/E2E | TODO |
-| SCN-17 | Restart preserves config/scheduling | Worker/DB | Same monitor/settings and resumed checks after actual restart | Docker restart test | PASS actual backend/worker restart for monitors/groups; incident persistence pending phase 3 |
-| SCN-18 | Server downtime is observation gap | History/state | No synthetic failure rows/incidents | Restart/gap integration + chart | TODO |
+| SCN-17 | Restart preserves config/scheduling | Worker/DB | Same monitor/settings and resumed checks after actual restart | phase2/phase3-smoke.json | PASS actual restart for monitors/groups/incidents |
+| SCN-18 | Server downtime is observation gap | History/state | No synthetic failure rows/incidents | phase3-smoke.json stopped-worker assertions | PARTIAL: DB gap verified; chart not implemented |
 
 ## Reliability/security (P1)
 
@@ -152,7 +152,7 @@ Command results and precise limitations are in development-log.md and progress.m
 | REL-02 | Cancellation and network errors | Worker | No fabricated results on cancellation; errors bounded | Timeout unit + fault/restart tests | PARTIAL |
 | REL-03 | Durable scheduling and fenced leases | DB/worker | Competing claims disjoint; stale completion ignored | test_competing_claims_are_disjoint; test_expired_lease_fences_stale_result | PASS initial integration; final rerun recorded in log |
 | REL-04 | Reconnect full synchronization | SSE/UI | Disconnect/reconnect receives full current state | artifacts/browser-tests.json offline/online two-client test | PASS first slice |
-| REL-05 | Persistent groups/results/incidents/outbox | DB | Actual restart preserves all data | Restart suite | PARTIAL: initial tables only |
+| REL-05 | Persistent groups/results/incidents/outbox | DB | Actual restart preserves all data | Restart suite | PARTIAL: monitors/groups/results/incidents restart verified; outbox absent |
 | REL-06 | Real load evidence | QA | Record environment, successful launches, cadence, peak concurrency, late/missed, slow influence | Load JSON + report | TODO |
 | SEC-01 | HTTP/HTTPS URL boundary | API/checker | Reject credentials/schemes/fragments/control chars | test_url_rejects | PASS unit |
 | SEC-02 | Block forbidden destinations | Checker | Reject all non-global DNS answers incl mixed answers | test_dns_policy_and_pinning + expanded tests | PASS unit incl mixed DNS; live egress audit pending |
@@ -177,7 +177,7 @@ Command results and precise limitations are in development-log.md and progress.m
 | DEL-06 | CI Python lint/format/tests | CI | Runs clean checkout with PostgreSQL | .github/workflows/ci.yml; hosted run | PASS hosted run 39319384324 on 034b4bd |
 | DEL-07 | CI frontend typecheck/build/tests/format | CI | Lockfile + clean npm ci | workflow; hosted run | PASS hosted run 39319384324 on 034b4bd |
 | DEL-08 | Practical dependency security checks | QA/CI | Audit fixed actionable findings | npm audit; pip audit later | PARTIAL |
-| DEL-09 | English README | Docs | Features/architecture/stack/prereqs/run/env/simulator/demo/API/tests/load/limits/roadmap/AI/logs/attribution | README review | PASS reviewed against v0.2 scope |
+| DEL-09 | English README | Docs | Features/architecture/stack/prereqs/run/env/simulator/demo/API/tests/load/limits/roadmap/AI/logs/attribution | README review | PASS reviewed against v0.3 scope |
 | DEL-10 | Requirement acceptance audit | Docs/QA | Every row cites evidence or remaining gap | This matrix + final audit | PARTIAL: no full compliance claim |
 | DEL-11 | Genuine development log | Docs | Real timestamps, prompts/files/decisions/tests/errors/fixes/commit/next | development-log.md actual session + commit | PASS first checkpoint |
 | DEL-12 | Decision log | Docs | Context/decision/alternatives/trade-offs/consequences | decisions.md | PASS initial design |
@@ -185,14 +185,36 @@ Command results and precise limitations are in development-log.md and progress.m
 | DEL-14 | AI human responsibilities | Docs | Tool/model uncertainty/review explained | ai-development.md | PASS disclosure; exact model unknown |
 | DEL-15 | Resume context | Docs | AGENTS + requirements + progress enough to continue | docs/progress.md with continuation instructions | PASS first checkpoint |
 | DEL-16 | Genuine Git history/feature branches | Git | Logical local commits, actual timestamps, clean diff | local 4f212d9 and documentation follow-up; git log/status | PASS first checkpoint |
-| DEL-17 | Publication controlled by owner | Git | No remote push/PR/merge without consent | git remote -v; no publication | PASS so far |
+| DEL-17 | Publication controlled by owner | Git | No remote push/PR/merge without consent | Private origin; owner-authorized stage pushes, no PR/merge | PASS |
 | DEL-18 | GitHub repository and real PR links | Submission | Actual published repo approved by owner | Remote link | PARTIAL: private GitHub repo published; employer access/submission pending |
 | DEL-19 | Exactly ten-sentence personal essay | Owner/docs | Owner-authored and approved final ten sentences | docs/essay.md; final count | TODO: template only |
 | DEL-20 | Attribution | Docs | Actual libraries/templates/generators identified | README attribution | PASS README attribution reviewed |
 | DEL-21 | Deadline 2026-10-26, P0 before P2 | Planning | Phase gates; no future work claims | progress + development log | IN PROGRESS |
 | DEL-22 | First checkpoint then stop | Workflow | Real slice verified, documented, committed and owner report | artifacts/checkpoint.json + local Git + owner report | PASS first checkpoint |
 
-## Phase gates and effort estimates
+## Phase 3 owner acceptance additions
+
+These are owner/engineering criteria from prompts/003-phase3.md, not extra employer PDF requirements.
+
+| ID | Requirement/component | Acceptance criterion | Executed evidence | Status |
+|---|---|---|---|---|
+| INC-01 | Threshold/worker | Default 2 failures; first preserves UP, repeated failures retain ID | Clock DB lifecycle + live smoke | PASS |
+| INC-02 | Recovery/worker | First success closes; repeated success adds no incident | DB lifecycle + live/browser recovery | PASS |
+| INC-03 | Migration/DB | 0002 DOWN/settings/results/groups/recipients preserved, no inferred events | tests/run.py legacy fixtures + Alembic check | PASS |
+| INC-04 | Integrity/DB | One open incident; valid closure timestamps/reasons | Partial unique/check constraints + direct invalid insert tests | PASS |
+| INC-05 | Atomicity/worker | DB save fault leaves no partial transition/result/incident | Real SELECT 1/0 rollback and lease recovery test | PASS |
+| INC-06 | Pause/resume/API | PAUSED admin closure, no recovery; resume UNKNOWN/new threshold | Parameterized administrative closure test | PASS |
+| INC-07 | Edit/delete/API | CONFIG_CHANGED admin closure; stale results discarded; delete cascades | Administrative + stale-success/failure race tests | PASS |
+| INC-08 | Journal/API | Filter monitor/state/time, order, pagination, bounded validation, 404 | DB API tests, 150-row one-query test | PASS |
+| INC-09 | Duration/API/UI | UTC confirmation/recovery times; closed duration fixed, open ticking | Clock DB/component tests + browser | PASS |
+| INC-10 | Realtime/SSE/UI | Two clients see open/closed; reconnect synchronizes | incidents.spec.ts + original reconnect E2E | PASS |
+| INC-11 | Fault fencing/worker | Old expiry return/retried completion cannot duplicate/close newer incident | DB gated races and competing claims | PASS |
+| INC-12 | Slow checks/worker | >interval HTTP has no ordinary overlap; fast target completes | Actual 32s/30s live smoke + deterministic cancellation test | PASS within documented fault model |
+| INC-13 | Restart/DB/worker | Incident ID/config survive actual restart; no gap backfill | phase3-smoke.json | PASS |
+| INC-14 | Future notifications/model | Confirmed UUID; recovered/admin closures distinct; proposed idempotent keys | ADR-009, architecture.md | PASS design only; outbox/SMTP not implemented |
+| INC-15 | Git/workflow | Branch from actual phase2; prepared stacked PR commands, no unauthorized PR/merge | pr-phase3.md; private push 5b43b20; hosted run 39323301037 | PASS private upload/CI; no PR/merge |
+
+## Phase gates and effort estimates (planning)
 
 Estimates are planning ranges, not promises or hours already spent. Deadline is 2026-10-26.
 

@@ -3,6 +3,7 @@ import { request } from "./api";
 import type { Monitor, Group } from "./api";
 import { MonitorForm } from "./MonitorForm";
 import { GroupsPanel } from "./GroupsPanel";
+import { IncidentsPanel } from "./IncidentsPanel";
 
 type Result = {
   id: string;
@@ -27,6 +28,7 @@ export function App() {
   const [selected, setSelected] = useState<Monitor | null>(null);
   const [results, setResults] = useState<Result[]>([]);
   const [historyLoading, setHistoryLoading] = useState(false);
+  const [incidentRevision, setIncidentRevision] = useState(0);
 
   useEffect(() => {
     let active = true;
@@ -53,6 +55,9 @@ export function App() {
     const connect = () => {
       events?.close();
       events = new EventSource("/api/events");
+      events.addEventListener("incidents", () =>
+        setIncidentRevision((value) => value + 1),
+      );
       events.addEventListener("groups", (event) => {
         try {
           receivedGroups = true;
@@ -209,21 +214,24 @@ export function App() {
             ▤ <span>All monitors</span>
             <small>{monitors.length}</small>
           </a>
+          <a href="#incidents">Incident journal</a>
         </nav>
         <a className="group-nav" href="#groups">
           Groups
         </a>
         <div className="sidebar-note">
-          <span className="tag">MANAGEMENT / V0.2</span>
+          <span className="tag">INCIDENTS / V0.3</span>
           <p>
             Real checks.
             <br />
             Observable results.
           </p>
-          <small>Incidents and email are planned for the next phases.</small>
+          <small>
+            Confirmed incidents persist. Email is planned for the next phase.
+          </small>
         </div>
         <footer>
-          ServicePulse <span>v0.2</span>
+          ServicePulse <span>v0.3</span>
         </footer>
       </aside>
       <main id="overview">
@@ -497,11 +505,12 @@ export function App() {
               </div>
             )}
             <p className="subtle">
-              Most recent 100 checks. Monthly charts and incident history are
-              not available in this checkpoint.
+              Most recent 100 checks. Monthly charts are not available in this
+              checkpoint.
             </p>
           </section>
         )}
+        <IncidentsPanel revision={incidentRevision} monitors={monitors} />
         <GroupsPanel
           groups={groups}
           monitors={monitors}
