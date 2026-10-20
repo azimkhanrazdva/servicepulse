@@ -1,0 +1,20 @@
+{
+  "started_at": "2026-10-20T11:32:53.538Z",
+  "name": "release-1792495973317",
+  "messages": [
+    {
+      "id": "oVWvzq9K3zYtdS6ECehfx3",
+      "subject": "ServicePulse RECOVERY: release-1792495973317"
+    },
+    {
+      "id": "jREsSCWdaWBcpUvGM3Bamx",
+      "subject": "ServicePulse DOWN: release-1792495973317"
+    }
+  ],
+  "redirect": {
+    "status": 302,
+    "error": "unexpected_status"
+  },
+  "status": "PASS",
+  "ended_at": "2026-10-20T11:33:19.771Z"
+}

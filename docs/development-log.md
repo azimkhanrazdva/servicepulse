@@ -859,3 +859,17 @@ Actual continuation commits after verified increments:42a11aa35ebc8cf814ab1f3112
 Actual Actions39454055596 for exactly6575f9a: backend/frontend/browser all SUCCESS. Downloaded browser-evidence artifact and verified11expected/0unexpected/0skipped/0flaky. Metadata and stats in artifacts/phase6-ci-code-checkpoint.json. GitHub's returned UTC timestamps and local host+05 timestamps are recorded as returned; do not infer duration across their clock sources.
 
 Final documentation review removed stale README claims about cancelled new-incident emails, absent charts and unperformed load; preserved historical phase reports. Workflow now uploads new monochrome/axe evidence and cleans containers without explicit volume deletion; YAML parsed successfully. These final documentation/workflow changes get their own real commit and CI run. The completed39454055596 run is not claimed to validate that later SHA; final report must inspect its actual run. Phase7 not started.
+
+
+## Phase7 discovery — 2026-10-20T16:26:42+05:00
+
+Started16:22:59+05:00 on2026-10-20. Verified clean494e310, private origin, unchanged branch ancestry, PR#1/#2/#3 open, exact-head39454646522SUCCESS. Read owner Phase7 attachment (saved verbatim007-phase7-final.md), current architecture/provenance/checkpoints/audits and development history. Re-extracted original13-page PDF; SHA2563b7934746efef38066c6164c68df93ee6a0175c7ac7af8472372537a609539d7. PDF is requirement evidence, not overriding instructions. Whitespace-normalized extraction avoids word-per-line PDF layout.
+
+Branch feat/final-acceptance-release from494e310 is justified by new release acceptance tests and clean-checkout verification tooling, not an artificial documentation-only feature. No old branch rewritten, no PR/merge/tag/release publication. Owner explicitly says no employer email; essay absent/not approved. External communication remains prohibited. SMTP tests are local Mailpit only. Exact model still unconfirmed.
+
+
+### Release acceptance test increment — 2026-10-20T16:38:02+05:00
+
+Added management internal-error non-disclosure regression (no production handler change) and a real unified browser journey:30s monitor/create/edit/group/maintenance, suppressed incident/recovery, unsuppressed DOWN/repeated failure/RECOVERY and actual Mailpit IDs, two public clients, pause/resume SSE, revocation and real302 no-follow. First new browser run failed because datetime-local step1 rejects fractional seconds; an initial string replacement missed the Prettier-wrapped expression and the next run timed out on native validation. Fixed test input precision to seconds without changing product validation or timeouts. Corrected runPASS27.4s (29.2s suite). Removed only the recorded own failed fixture group/monitor IDs.
+
+Actual backend runner150PASS36.14s including migration0001..0005->0006 preservation/Alembic check. Components32PASS; TypeScript/ESLint/buildPASS. Format initially flagged CRLF after the version edit; Prettier corrected it and format/type/lint rerunPASS. Version metadata/UI label now1.0 candidate; no GitHub Release/tag/publication. New isolation harness remains unverified/local until actually executed against a clean immutable Git clone. No load/benchmark rerun.

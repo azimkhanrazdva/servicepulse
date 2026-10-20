@@ -377,7 +377,7 @@ export function App() {
           <a href="http://localhost:8000/docs" target="_blank" rel="noreferrer">
             API documentation ↗
           </a>
-          <span>ServicePulse v0.6</span>
+          <span>ServicePulse v1.0</span>
         </footer>
       </aside>
       <main id="overview" tabIndex={-1}>
