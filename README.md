@@ -188,6 +188,9 @@ The 0003 fixture additionally preserves actual open/closed incidents byte-for-va
 their notifications_enabled remains false and no historical email events are created.
 The 0004 fixture additionally preserves actual maintenance/outbox/delivery rows through 0005,
 with no automatic publications and no inferred cadence for legacy observations.
+The0005 fixture preserves public pages/publications and captured cadence through0006;
+the earlier outbox fixture checks its existing delivery rows across the same upgrade;
+unknown legacy notification eligibility is not guessed or replayed.
 
 Host development (optional):
 
@@ -230,8 +233,10 @@ On restricted Windows execution, local socket access and launching Chromium may 
 host permission. A sandbox denial is not proof of an application failure or passing test.
 
 GitHub Actions runs Python lint/format/PostgreSQL tests, frontend format/tests/types/build/audit,
-and real Docker Compose/Chromium E2E. Current exact-SHA evidence is in artifacts/phase7-ci.json
-(after verified private upload); never substitute a previous green run for a changed commit.
+and real Docker Compose/Chromium E2E. Exact code-checkpoint42e4001 passed all3jobs in [Actions39463440225](https://github.com/azimkhanrazdva/servicepulse/actions/runs/39463440225),
+with150backend/32component/12browser tests and downloaded12axe0violations. Snapshot: artifacts/phase7-ci.json.
+The final documentation-head SHA gets a separate live Actions check reported at handoff; never substitute
+a previous green run for a changed commit.
 The genuine [development log](docs/development-log.md) records exact run URLs and failures.
 
 Private repository: [azimkhanrazdva/servicepulse](https://github.com/azimkhanrazdva/servicepulse).
@@ -269,7 +274,7 @@ The acceptance audit rechecks retained raw data and the authored matrix; it does
 or promote documentation existence to a passing product test. Commands may overwrite fixed report
 paths; copy new reports with their actual stage prefix before restoring historical tracked evidence.
 
-## Public status and observed analytics (v0.5)
+## Public status and observed analytics
 
 In the dashboard's **Public status pages** section, create a page, enter a title and slug,
 select each permitted monitor and supply its public label. Enable the page explicitly.

@@ -149,7 +149,7 @@
       ],
       "status": "PARTIAL",
       "limitation": "Tool/family/reasons are disclosed; exact deployed model has not been confirmed by owner.",
-      "acceptance": "Truthful tool and exact model or explicit unknown",
+      "acceptance": "Tool/model/reasons disclosed; exact deployed model confirmed before submission; unknown explicitly pending meanwhile.",
       "component": "Docs"
     },
     {
@@ -2557,12 +2557,12 @@
       "test": [
         "command: gh run list --branch feat/final-acceptance-release"
       ],
-      "test_result": "NOT VERIFIED",
+      "test_result": "Exact42e4001 Actions39463440225:3/3jobsSUCCESS,150backend/32component/12browser; downloaded12/0skip/flaky/unexpected +12axe0violations verified.",
       "evidence": [
         "artifacts/phase7-ci.json"
       ],
-      "status": "NOT VERIFIED",
-      "limitation": "Exact SHA only; final report must separately verify later documentation commits.",
+      "status": "PASS",
+      "limitation": "Snapshot validates42e4001 exactly. Final handoff-only commit must receive its own actual live Actions check after push; its link is reported separately, without a self-referential commit-proof claim.",
       "acceptance": "Runs clean checkout with PostgreSQL",
       "component": "CI"
     },
@@ -2577,12 +2577,12 @@
       "test": [
         "command: gh run list --branch feat/final-acceptance-release"
       ],
-      "test_result": "NOT VERIFIED",
+      "test_result": "Exact42e4001 Actions39463440225:3/3jobsSUCCESS,150backend/32component/12browser; downloaded12/0skip/flaky/unexpected +12axe0violations verified.",
       "evidence": [
         "artifacts/phase7-ci.json"
       ],
-      "status": "NOT VERIFIED",
-      "limitation": "Exact SHA only; final report must separately verify later documentation commits.",
+      "status": "PASS",
+      "limitation": "Snapshot validates42e4001 exactly. Final handoff-only commit must receive its own actual live Actions check after push; its link is reported separately, without a self-referential commit-proof claim.",
       "acceptance": "Lockfile + clean npm ci",
       "component": "CI"
     },
@@ -2812,7 +2812,7 @@
       ],
       "status": "PARTIAL",
       "limitation": "Repository URL exists; employer access/submission not granted or performed. PRs are optional evidence, not a separate employer feature.",
-      "acceptance": "Actual published repo approved by owner",
+      "acceptance": "Private source repository and accurate reviewer branch link provided with verified employer read access; PRs are optional owner workflow.",
       "component": "Submission"
     },
     {
@@ -4892,9 +4892,9 @@
       "evidence": [
         "artifacts/phase7-ci.json"
       ],
-      "status": "NOT VERIFIED",
-      "test_result": "NOT VERIFIED",
-      "limitation": "Exact uploaded SHA required; never substitute an old green run.",
+      "status": "PASS",
+      "test_result": "Exact42e4001 Actions39463440225:3/3jobsSUCCESS,150backend/32component/12browser; downloaded12/0skip/flaky/unexpected +12axe0violations verified.",
+      "limitation": "Snapshot validates42e4001 exactly. Final handoff-only commit must receive its own actual live Actions check after push; its link is reported separately, without a self-referential commit-proof claim.",
       "acceptance": "Latest uploaded SHA CI verified; verify the linked concrete behavior and stated limitations.",
       "component": "Acceptance / .github"
     },

@@ -328,10 +328,24 @@ def readiness(rows):
 
 def matrix():
     assert (
-        readiness([{"status": s} for s in ["PASS", "PARTIAL", "N/A"]])["percent"] == 50
+        readiness([{"status": s} for s in ["PASS", "PARTIAL", "NOT APPLICABLE"]])[
+            "percent"
+        ]
+        == 50
     )
     rows = read("docs/phase7-criteria.json")["rows"]
     assert len(rows) == len({r["id"] for r in rows}) == 232
+    previous_ids = set(
+        re.findall(
+            r"^\| ([A-Z0-9]+(?:-REQ)?-\d{2}) \|",
+            git("show", "494e310:docs/requirements.md"),
+            re.MULTILINE,
+        )
+    )
+    assert len(previous_ids) == 202
+    assert {r["id"] for r in rows} == previous_ids | {
+        f"P7-{i:02}" for i in range(1, 31)
+    }
     backend = ET.parse(ROOT / "artifacts/phase7-backend-tests.xml")
     backend_names = {c.attrib["name"] for c in backend.iter("testcase")}
     assert (
@@ -374,13 +388,32 @@ def matrix():
     for width in [390, 768, 1440, 1920]:
         scans.extend(read(f"artifacts/phase7-accessibility-{width}.json"))
     assert len(scans) == 12 and all(not scan["violations"] for scan in scans)
+    if any(
+        r["status"] == "PASS" and r["id"] in {"DEL-06", "DEL-07", "P7-24"} for r in rows
+    ):
+        ci = read("artifacts/phase7-ci.json")
+        assert ci["status"] == "completed" and ci["conclusion"] == "success"
+        assert len(ci["jobs"]) == 3 and all(
+            j["conclusion"] == "success" for j in ci["jobs"]
+        )
+        hosted = ci["downloaded_browser_evidence"]
+        assert hosted["stats"]["expected"] == 12
+        assert not any(
+            hosted["stats"][key] for key in ["unexpected", "flaky", "skipped"]
+        )
+        assert hosted["axe_scans"] == 12 and hosted["axe_violations"] == 0
+        subprocess.run(
+            ["git", "merge-base", "--is-ancestor", ci["headSha"], "HEAD"],
+            cwd=ROOT,
+            check=True,
+        )
     for r in rows:
         assert r["origin"] in {"M", "O", "T", "OPT"} and r["status"] in {
             "PASS",
             "PARTIAL",
             "FAIL",
             "NOT VERIFIED",
-            "N/A",
+            "NOT APPLICABLE",
         }
         for path in r["implementation"]:
             assert (ROOT / path).exists(), (r["id"], "implementation", path)
@@ -413,17 +446,19 @@ def matrix():
     write(
         "artifacts/phase7-readiness.json",
         {
-            "formula": "PASS/(PASS+PARTIAL+FAIL+NOT VERIFIED)*100; N/A excluded only with justification",
+            "formula": "PASS/(PASS+PARTIAL+FAIL+NOT VERIFIED)*100; NOT APPLICABLE excluded only with justification",
             "origins": summary,
-            "total": readiness(rows),
+            "mandatory_project": readiness([r for r in rows if r["origin"] != "OPT"]),
+            "all_rows_inventory": dict(Counter(r["status"] for r in rows)),
+            "total_rows": len(rows),
         },
     )
     lines = [
         "# Phase7 — per-ID final acceptance",
         "",
-        "Canonical authored ledger: [phase7-criteria.json](phase7-criteria.json). These232 split project criteria are not232 employer requirements. M=employer, O=owner, T=engineering, OPT=optional choice. Baseline133 +69 earlier phase additions +30 final acceptance criteria. No weighted credit for PARTIAL. N/A excluded only with an explicit reason.",
+        "Canonical authored ledger: [phase7-criteria.json](phase7-criteria.json). These232 split project criteria are not232 employer requirements. M=employer, O=owner, T=engineering, OPT=optional choice. Baseline133 +69 earlier phase additions +30 final acceptance criteria. No weighted credit for PARTIAL. NOT APPLICABLE excluded only with an explicit reason.",
         "",
-        "| Origin | PASS | PARTIAL | FAIL | NOT VERIFIED | N/A | Strict % |",
+        "| Origin | PASS | PARTIAL | FAIL | NOT VERIFIED | NOT APPLICABLE | Strict % |",
         "|---|---:|---:|---:|---:|---:|---:|",
     ]
     for origin, value in summary.items():
@@ -432,7 +467,7 @@ def matrix():
             f"| {origin} | "
             + " | ".join(
                 str(c.get(k, 0))
-                for k in ["PASS", "PARTIAL", "FAIL", "NOT VERIFIED", "N/A"]
+                for k in ["PASS", "PARTIAL", "FAIL", "NOT VERIFIED", "NOT APPLICABLE"]
             )
             + f" | {value['percent']} |"
         )
@@ -440,7 +475,7 @@ def matrix():
         "",
         "Product acceptance and submission are separate. GEN-07 exact model and DEL-18 employer access remain incomplete; personal essay is an owner obligation. Optional authentication is a deployment choice, not an implemented login. Scope limitations remain attached to every row.",
         "",
-        "| ID / origin | Requirement / acceptance scope | Implementation | Concrete verification | Actual result / evidence | Status / limits |",
+        "| ID / origin / priority | Requirement / acceptance scope | Implementation | Concrete verification | Actual result / evidence | Status / limits |",
         "|---|---|---|---|---|---|",
     ]
 
@@ -452,7 +487,7 @@ def matrix():
 
     for r in rows:
         columns = [
-            r["id"] + " / " + r["origin"],
+            r["id"] + " / " + r["origin"] + " / " + r["priority"],
             r["requirement"]
             + "; "
             + r.get(

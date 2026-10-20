@@ -1,7 +1,7 @@
 # AI-assisted development disclosure
 
 Tool: OpenAI Codex desktop workspace / API agent. Model family reported by system: GPT-6.
-Exact model identifier: **OWNER TO CONFIRM**; no reliable exact identifier is exposed to the agent.
+Exact model identifier: **OWNER TO CONFIRM** — **MODEL CONFIRMATION REQUIRED FROM OWNER**; no reliable exact identifier is exposed to the agent.
 Codex was selected for local file editing, executable test feedback, Git and inspectable changes.
 Owner supplied scope, stack, acceptance constraints, deadline and publication policy.
 Agent performs implementation, local commands, test authoring, review and documentation.

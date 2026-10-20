@@ -52,3 +52,6 @@ python scripts/phase7_clean_checkout.py --ref feat/final-acceptance-release
 ```
 
 First command requires npm ci and npx playwright install chromium. The isolated command uses ports28000/28080/28081/28025, creates a unique DB volume and retains it after stopping its project. It does not remove volumes or reset owner data. Browser automation needs installed dependencies in the workspace. Evidence: phase7-release-journey.json and phase7-clean-checkout.json. Fault suites and300s/large-history experiments are separate, outside the5–10 minute presentation.
+
+
+During the final engineering-evidence minute, open actual private PR#3 (with its dependent bases), the current branch Actions run and phase7-final-acceptance.md. Show the preserved475 steady/295 fault raw evidence and the warm1.180s outlier. Do not call prepared laterPR descriptions existingPRs or an empty-data uptime a measured SLA. No extra load run is needed during the demo.
