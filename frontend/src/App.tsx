@@ -4,6 +4,8 @@ import type { Monitor, Group } from "./api";
 import { MonitorForm } from "./MonitorForm";
 import { GroupsPanel } from "./GroupsPanel";
 import { IncidentsPanel } from "./IncidentsPanel";
+import { MaintenancePanel } from "./MaintenancePanel";
+import type { MaintenanceSnapshot } from "./MaintenancePanel";
 
 type Result = {
   id: string;
@@ -29,6 +31,13 @@ export function App() {
   const [results, setResults] = useState<Result[]>([]);
   const [historyLoading, setHistoryLoading] = useState(false);
   const [incidentRevision, setIncidentRevision] = useState(0);
+  const [maintenanceRevision, setMaintenanceRevision] = useState(0);
+  const [maintenance, setMaintenance] = useState<MaintenanceSnapshot>({
+    items: [],
+    has_more: false,
+    active_monitor_ids: [],
+    active_group_ids: [],
+  });
 
   useEffect(() => {
     let active = true;
@@ -55,6 +64,14 @@ export function App() {
     const connect = () => {
       events?.close();
       events = new EventSource("/api/events");
+      events.addEventListener("maintenance", (event) => {
+        try {
+          setMaintenance(JSON.parse((event as MessageEvent).data));
+          setMaintenanceRevision((v) => v + 1);
+        } catch {
+          setError("Could not read maintenance update.");
+        }
+      });
       events.addEventListener("incidents", () =>
         setIncidentRevision((value) => value + 1),
       );
@@ -215,23 +232,22 @@ export function App() {
             <small>{monitors.length}</small>
           </a>
           <a href="#incidents">Incident journal</a>
+          <a href="#maintenance">Maintenance</a>
         </nav>
         <a className="group-nav" href="#groups">
           Groups
         </a>
         <div className="sidebar-note">
-          <span className="tag">INCIDENTS / V0.3</span>
+          <span className="tag">ALERTS / V0.4</span>
           <p>
             Real checks.
             <br />
             Observable results.
           </p>
-          <small>
-            Confirmed incidents persist. Email is planned for the next phase.
-          </small>
+          <small>Local SMTP alerts with scheduled maintenance.</small>
         </div>
         <footer>
-          ServicePulse <span>v0.3</span>
+          ServicePulse <span>v0.4</span>
         </footer>
       </aside>
       <main id="overview">
@@ -375,6 +391,14 @@ export function App() {
                       <span className={`badge ${m.state.toLowerCase()}`}>
                         ● {m.state}
                       </span>
+                      {maintenance.active_monitor_ids?.includes(m.id) && (
+                        <small
+                          className="maintenance-badge"
+                          title="One or more notification routes suppressed; real status is unchanged."
+                        >
+                          MAINTENANCE
+                        </small>
+                      )}
                     </td>
                     <td className="mono">{m.last_status_code ?? "—"}</td>
                     <td className="mono">
@@ -511,8 +535,15 @@ export function App() {
           </section>
         )}
         <IncidentsPanel revision={incidentRevision} monitors={monitors} />
+        <MaintenancePanel
+          monitors={monitors}
+          groups={groups}
+          revision={maintenanceRevision}
+          onSnapshot={setMaintenance}
+        />
         <GroupsPanel
           groups={groups}
+          maintenanceGroupIds={maintenance.active_group_ids ?? []}
           monitors={monitors}
           onChange={groupChanged}
           onFilter={(id) => {

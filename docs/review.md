@@ -122,3 +122,55 @@ Remaining priorities:
 - LOW: each incidents SSE tick refreshes a bounded journal page; measure before replacing with revisions/keysets.
 - LOW: wall-clock correction clamps negative incident duration; monotonic HTTP latency remains separate.
 - LOW: container tags/action majors are not digest/current-major locked, as previously documented.
+
+## Phase 4 separate critical review pass
+
+This is an implementation-agent review pass from a critical-reader perspective, not a claim of an
+independent model/reviewer. Code, actual SQL/SMTP faults and browser results underpin the conclusions.
+No unexplained BLOCKER/HIGH remains in the requested trusted-local phase4 scope.
+
+- Transaction boundary: lifecycle invokes event/routes/delivery creation before completion commit.
+  Real SQL division-by-zero after flush rolls all of it back; original atomic-result tests remain.
+- Routing: immutable confirmation snapshot, per-event/address uniqueness, current membership and
+  recipient revocation. Shared addresses can use an eligible group without a suppressed group
+  blocking an independent route. Group deletion cannot authorize mail; monitor deletion cascades work.
+- Lock ordering: worker/dispatcher monitor before lifecycle/delivery; group edits group then monitors;
+  route group UUID has no FK to avoid reverse FK locks. Maintenance replacement locks old/new parent
+  groups then monitors (sorted UUIDs) before the child window; populated version read avoids stale ORM cache.
+- Maintenance: database target XOR/time constraints, UTC half-open intervals, overlap union and real
+  DOWN retained. Reconciliation acts without a new CheckResult and never invents observations.
+- Send boundary: preflight/authorization transaction ends before SMTP. An in-flight send cannot be
+  recalled by a concurrent new window, deletion, pause or recipient change; subsequent attempts
+  recheck policy. A test pauses successfully while sender is blocked, proving no monitor transaction held.
+- Delivery uncertainty: stable IDs and token fencing do not make SMTP exactly once. The actual isolated
+  acceptance-before-ack crash produced a duplicate DOWN followed by RECOVERY, 3 physical/2 logical.
+  Unattempted DOWN cancels on recovery; known rejection clears authorization; uncertain attempt drains
+  before recovery. Permanent failure/exhaustion is terminal and requires operator investigation.
+- Cancellation and restart: claimed leases persist; stale old owner cannot ack a new claim. Actual
+  isolated dispatcher/worker restart and PostgreSQL outage retain IDs/config and create no fake results.
+- SMTP error handling: bounded codes only, no raw server response or credential API. 4xx retry/5xx fail,
+  timeout/disconnect ambiguous. DATA success is acceptance; failed QUIT cannot reclassify success.
+- Resource limits: batches of five, socket timeouts, finite retry count, indexed claim query, bounded
+  diagnostics and Docker dispatcher log rotation (10 MiB x 3). No SMTP network inside DB transaction.
+- Frontend: actual API state, no fictitious controls; local timezone disclosed, UTC submitted. Exact
+  select-label locator failed in browser and was corrected to observed combobox role. Tests retained.
+  Review found a real LOW stale refresh error after reconnect; separate loading/mutation errors now
+  clear only recovered fetch errors, preserving a 409 draft. Added component/browser regression.
+- Security: local Mailpit, internal SMTP, loopback UI/API, no credentials in new source/config. Public
+  projection remains absent, so no new public exposure of recipients, maintenance names or delivery state.
+
+Remaining MEDIUM/LOW boundaries: no production SMTP/TLS/auth integration or rate limits; finite retry
+exhaustion needs investigation and there is no manual retry UI; recipient local parts are case-normalized
+by declared policy; SMTP batch time can extend the 2s loop cadence; arbitrary suspension can overlap
+physical attempts; month/50-monitor/full security audit remain later phase gates. These are not hidden PASS claims.
+
+## Later owner-requested Phase4 audit
+
+See [phase4-audit.md](phase4-audit.md) for the original PDF mapping, exact attachment provenance,
+PR #3/CI checks, current 109/15/5 test gate and rerun real SMTP/process faults (78.781s).
+No confirmed BLOCKER/HIGH found within the trusted-local phase4 contract; product logic unchanged.
+Audit added default-two-failure/outbox lifecycle and permanent-550 dispatch regressions, and explicit
+first-failure assertions to the live harness. Queued-but-unattempted DOWN cancellation outside
+maintenance is a material policy limit: no guarantee of mail for every historical outage after
+dispatcher downtime. Other SMTP/exhaustion/public-deployment limits remain explicit in that report.
+This remains an implementation-agent review, not an independent human/model approval.

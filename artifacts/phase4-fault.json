@@ -1,0 +1,28 @@
+{
+  "started_at": "2026-10-20T02:10:22.487973+00:00",
+  "project": "servicepulse-phase4-fault",
+  "checks": {
+    "real_smtp_down_recovery_shared_address_dedup": "PASS",
+    "maintenance_keeps_checks_and_down_releases_without_new_result": "PASS",
+    "previous_down_recovery_deferred_until_maintenance_ends": "PASS",
+    "recovered_inside_window_no_stale_pair": "PASS",
+    "real_smtp_outage_retry_and_dispatcher_worker_restart": "PASS",
+    "isolated_postgres_outage_recovery_no_fake_observations": "PASS",
+    "crash_after_acceptance_before_ack_lease_recovery_and_order": "PASS"
+  },
+  "normal_messages": [
+    {
+      "id": "AAC4ervRNELFiKfeVGHHkD",
+      "subject": "ServicePulse RECOVERY: phase4-d8f56751-normal"
+    },
+    {
+      "id": "6D2qV6yVoQWrCY853GDfgA",
+      "subject": "ServicePulse DOWN: phase4-d8f56751-normal"
+    }
+  ],
+  "retry_attempts": 2,
+  "acceptance_crash_physical_messages": 3,
+  "acceptance_crash_logical_deliveries": 2,
+  "status": "PASS",
+  "elapsed_seconds": 78.781
+}

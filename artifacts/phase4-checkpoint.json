@@ -1,0 +1,158 @@
+{
+  "recorded_at": "2026-10-20T01:23:33.910734+00:00",
+  "status": "PASS",
+  "implementation_commit": "ade9c13b470dc02a9437d488b724b7a05eb54417",
+  "backend_checkpoint": "2a159d1a3eaa49a359ec70a47546e2de5a76c069",
+  "branch": "feat/maintenance-email-outbox",
+  "host": "Windows-10-10.0.26200-SP0",
+  "host_python": "3.11.9",
+  "backend": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "107",
+    "time": "17.831",
+    "timestamp": "2026-10-20T01:12:26.520131+00:00",
+    "hostname": "9caf432d8d81"
+  },
+  "frontend": {
+    "passed": 15,
+    "failed": 0
+  },
+  "browser": {
+    "startTime": "2026-10-20T01:18:55.142Z",
+    "duration": 19073.318,
+    "expected": 5,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "actual_mailpit_browser": {
+    "recorded_at": "2026-10-20T01:19:13.165Z",
+    "status": "PASS",
+    "messages": [
+      {
+        "id": "YKQZtEweVVuKuW54tNDrqd",
+        "subject": "ServicePulse RECOVERY: maintenance-1792459137104"
+      },
+      {
+        "id": "VPAhVRYok5q6DuocQVwSvv",
+        "subject": "ServicePulse DOWN: maintenance-1792459137104"
+      }
+    ]
+  },
+  "isolated_fault_suite": {
+    "started_at": "2026-10-20T01:02:54.136136+00:00",
+    "project": "servicepulse-phase4-fault",
+    "checks": {
+      "real_smtp_down_recovery_shared_address_dedup": "PASS",
+      "maintenance_keeps_checks_and_down_releases_without_new_result": "PASS",
+      "previous_down_recovery_deferred_until_maintenance_ends": "PASS",
+      "recovered_inside_window_no_stale_pair": "PASS",
+      "real_smtp_outage_retry_and_dispatcher_worker_restart": "PASS",
+      "isolated_postgres_outage_recovery_no_fake_observations": "PASS",
+      "crash_after_acceptance_before_ack_lease_recovery_and_order": "PASS"
+    },
+    "normal_messages": [
+      {
+        "id": "Nm4d4ng7jnFwqK9JAX3X9z",
+        "subject": "ServicePulse RECOVERY: phase4-98b293ec-normal"
+      },
+      {
+        "id": "ajscMcE4K7ztMsJFYm8ZBU",
+        "subject": "ServicePulse DOWN: phase4-98b293ec-normal"
+      }
+    ],
+    "retry_attempts": 2,
+    "acceptance_crash_physical_messages": 3,
+    "acceptance_crash_logical_deliveries": 2,
+    "status": "PASS",
+    "elapsed_seconds": 77.437
+  },
+  "smoke_regressions": {
+    "smoke.json": {
+      "started_at": "2026-10-20T01:12:00.503494+00:00",
+      "checks": {
+        "frontend_and_database_ready": "PASS",
+        "create_worker_http_persist_read": "PASS",
+        "manual_queue": "PASS"
+      },
+      "observation": {
+        "name": "Smoke 268055c2",
+        "url": "http://simulator:8090/target/smoke",
+        "interval_seconds": 30,
+        "timeout_seconds": 5.0,
+        "expected_status": 200,
+        "expected_body": "ServicePulse ready",
+        "failure_threshold": 2,
+        "id": "36a164a9-d1a6-4a18-9012-31241276871c",
+        "state": "UP",
+        "last_checked_at": "2026-10-20T01:12:00.910182Z",
+        "last_status_code": 200,
+        "last_response_ms": 5.16,
+        "consecutive_failures": 0,
+        "config_version": 1,
+        "run_requested": false,
+        "is_running": false
+      },
+      "result": "PASS",
+      "elapsed_seconds": 0.609
+    },
+    "phase2-smoke.json": {
+      "started_at": "2026-10-20T01:12:01.452961+00:00",
+      "checks": {
+        "pause_over_original_interval": "PASS",
+        "manual_run_persists_new_observation": "PASS",
+        "edit_during_real_http_keeps_lease": "PASS",
+        "backend_worker_restart_preserves_config_and_group": "PASS",
+        "restart_has_no_synthetic_failures_or_stale_result": "PASS"
+      },
+      "observations": {
+        "before_restart": 3,
+        "after_restart": 4,
+        "latest_config_version": 5
+      },
+      "result": "PASS",
+      "elapsed_seconds": 56.953
+    },
+    "phase3-smoke.json": {
+      "started_at": "2026-10-20T01:14:02.109915+00:00",
+      "checks": {
+        "threshold_and_continuous_outage_one_incident": "PASS",
+        "cancelled_http_and_stopped_worker_no_synthetic_results": "PASS",
+        "restart_expired_lease_same_incident_and_config": "PASS",
+        "real_recovery_exactly_one_closed_incident": "PASS",
+        "32s_http_exceeds_30s_interval_fast_target_unblocked_no_overlap": "PASS"
+      },
+      "observation_gap": {
+        "started_at": "2026-10-20T01:14:06.553656+00:00",
+        "ended_at": "2026-10-20T01:14:08.579733+00:00"
+      },
+      "slow_elapsed_seconds": 32.531,
+      "incident_id": "463f086d-0c6c-4235-9311-3c61d430de63",
+      "status": "PASS",
+      "elapsed_seconds": 57.813
+    },
+    "proxy-recreate.json": {
+      "started_at": "2026-10-20T01:15:00.243118+00:00",
+      "status": "PASS",
+      "old_ip": "172.18.0.4",
+      "new_ip": "172.18.0.10",
+      "frontend_container_unchanged": true,
+      "proxied_ready_and_api": "PASS",
+      "elapsed_seconds": 8.984
+    }
+  },
+  "hosted_ci": {
+    "headSha": "ade9c13b470dc02a9437d488b724b7a05eb54417",
+    "url": "https://github.com/azimkhanrazdva/servicepulse/actions/runs/39379923079",
+    "conclusion": "success"
+  },
+  "limits": [
+    "SMTP acceptance-before-ack can duplicate physical mail",
+    "in-flight SMTP cannot be recalled after authorization",
+    "retry exhaustion requires investigation",
+    "public page/month aggregates/sustained 50-monitor load remain later phases"
+  ]
+}

@@ -1,3 +1,9 @@
+# Actual review PR
+
+Created on the owner's subsequent request: https://github.com/azimkhanrazdva/servicepulse/pull/2
+(base feat/monitor-management-groups, depends on #1). Prepared text below is historical.
+No backdating or merge occurred.
+
 # feat: persist confirmed incidents and synchronize the incident journal
 
 Prepared description only; no PR created. Base: feat/monitor-management-groups. Head: feat/incident-lifecycle.

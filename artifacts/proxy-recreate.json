@@ -1,9 +1,9 @@
 {
-  "started_at": "2026-10-19T15:53:45.477450+00:00",
+  "started_at": "2026-10-20T01:15:00.243118+00:00",
   "status": "PASS",
-  "old_ip": "172.18.0.6",
-  "new_ip": "172.18.0.9",
+  "old_ip": "172.18.0.4",
+  "new_ip": "172.18.0.10",
   "frontend_container_unchanged": true,
   "proxied_ready_and_api": "PASS",
-  "elapsed_seconds": 4.563
+  "elapsed_seconds": 8.984
 }

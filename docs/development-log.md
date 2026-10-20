@@ -339,3 +339,228 @@ Temporary test DB stopped, original application services left running with two U
 No PR or merge; prepared exact phase2 and stacked phase3 commands for future owner authorization.
 This documentation-only handoff follows the verified implementation. Phase3 stops for owner review;
 next explicitly requested work will be maintenance and transactional email outbox, not started here.
+
+## Phase4 discovery — 2026-10-19T21:07:37.9243468+05:00
+
+Owner supplied full phase4 prompt, saved exactly as prompts/004-phase4.md. Clean HEAD 3529b66,
+branch feat/incident-lifecycle, no PR in any state. Created feat/maintenance-email-outbox from that
+actual HEAD. Reviewed project contracts, requirements/provenance, architecture, models/lifecycle,
+API/groups/worker/config, migrations/tests, frontend and Compose. Baseline: 75 PostgreSQL tests passed
+in 3.37s, 11 frontend tests/types/lint passed. No user database reset or old migration edit.
+
+Added normalized event/route/delivery outbox, maintenance CRUD/version checks, default-false legacy
+incident notification opt-in, atomic lifecycle integration, dispatcher and independent reconciliation.
+Architecture/routing/SMTP boundary decisions are in phase4-design.md. Used existing libraries plus
+stdlib smtplib/EmailMessage/to_thread, with no new application dependency. Added Mailpit to backend CI.
+Alembic autogeneration initially failed because script.py.mako was absent; added a minimal standard
+Alembic template, regenerated additive 0004 and reviewed its schema. No application data changed by
+generation. Extended test runner with real 0003 open/closed incident fixtures, preserving all timestamps
+and settings through 0004, notifications disabled and no backfill events.
+
+Intermediate expanded run: 101 passed, 2 failed. Controlled notification clock preceded the default
+delivery due timestamp; initialized next_attempt_at from the notification clock. Rerun: 103 passed
+in 18.74s, then migration-expanded run 103 passed in 18.41s. Real SMTP acceptance and Mailpit API test
+passed. Ruff import/line-length corrections applied. Frontend test's obsolete “delivery future” text
+failed after the feature shipped; updated its assertion to the actual local-catcher/suppression policy.
+Expanded frontend: 14 tests/types/lint passed. New frontend/API still need real-browser verification.
+
+### Continued verification — 2026-10-20T05:57:00.0519587+05:00
+
+Actual environment clock now reports October 20. This log does not infer continuous work during the
+clock gap or invent intermediate timestamps. Client timezone remains Asia/Qyzylorda, UTC+5.
+New work: isolated compose.notifications-test.yaml and phase4_fault_smoke.py for actual SMTP/DB/process
+faults, using project servicepulse-phase4-fault and its own database volume. Owner application volume
+is untouched. Acceptance-crash helper exits only in that isolated test after actual SMTP acceptance.
+Version 0.4 build started; reordered Dockerfile dependency copy to keep locked installs cached when
+only application version/source changes (previous rebuilds had repeated slow downloads).
+Next: finish real Mailpit/fault/browser checks, fix findings, complete review/docs and authorized private upload.
+
+### Phase4 backend checkpoint and actual fault results — 2026-10-20T06:19:31.9775398+05:00
+
+Created local 2a159d1, feat(notifications): add maintenance and transactional delivery outbox, after
+103 PostgreSQL tests, migration preservation and lint. Did not push the unfinished stage. Added a
+maintenance React editor/list with target selection, local timezone input -> UTC, filters/pages,
+409 draft preservation, monitor/group badges, named maintenance SSE and readable local mail settings.
+
+Actual isolated `python scripts/phase4_fault_smoke.py` began 2026-10-20T01:02:54.136136+00:00,
+PASS in 77.437s. Seven groups of assertions: real normal DOWN/RECOVERY/shared-address dedup;
+window-end DOWN with unchanged HTTP history; prior DOWN recovery deferred through maintenance;
+recovered-inside-window no stale pair; stopped Mailpit/retry/process restart; stopped PostgreSQL
+recovery with no fake observations; SMTP acceptance-before-ack crash/lease/recovery order.
+Actual retry attempts: 2. Crash produced 3 physical messages, 2 logical deliveries, explicitly demonstrating
+SMTP ambiguity. Artifacts contain actual Mailpit IDs/subjects and bounded logs. Dedicated test project
+and its own volume removed; owner DB never reset. No test hook was added to the running dispatcher:
+tests/acceptance_crash.py is invoked only by the isolated harness and intentionally exits after acceptance.
+
+Additional controlled fault review tests cover monitor-wide two-group suppression, exact future/start/end
+boundaries, final preflight after claim, cancelled dispatcher reclaim, and an API pause finishing while
+the sender waits (proves no monitoring transaction spans SMTP). Full rebuilt-image command
+`docker compose --profile test run --rm --build tests`: 107 passed in 17.83s, no skips; metadata check
+and all 0001/0002/0003 legacy fixtures PASS. Ruff check/format PASS (backend + fault script).
+
+Browser history is explicit: first full run had 4 PASS and maintenance timeout; diagnostic single run
+also timed out. Trace showed getByLabel exact native select lookup failed after target-type remount.
+Used its observed combobox role, retained same target/value assertions. New case then passed in 18.4s;
+full five passed in 18.0s. Hardened cleanup against timed-out fixture request disposal, and removed only
+the two identified failed fixtures by exact known IDs/names. No user-created resource was deleted.
+Critical review found LOW stale refresh error on reconnect; separated fetch and mutation errors and
+added a clearing regression without clearing 409 drafts. Final component JSON: 15 passed; types/lint/
+format/build PASS, npm audit 0. Rebuilt Compose after that fix: final browser 5 passed in 19.1s,
+including no remaining maintenance refresh alert after reconnect. Screenshot phase4-maintenance.png
+is an actual capture; phase4-browser-mail.json records two real SMTP messages observed by that test.
+
+Old smoke regressions were actually rerun sequentially: HTTP smoke PASS 0.609s; phase2 pause/edit/
+backend-worker restart PASS 56.953s; phase3 incident/cancellation/restart/32s target PASS 57.813s;
+forced backend-IP replacement proxy test PASS 8.984s. Their files hold current measurements; previous
+phase logs retain their earlier historical results. No test removed or disabled.
+
+Dispatcher logs now rotate 10 MiB x 3, verified via Docker inspect. Separate critical source review
+recorded in review.md (implementation-agent pass, no independent model claimed). All required local
+checks PASS; no unexplained BLOCKER/HIGH in the requested scope. Remaining boundaries: authorization
+cannot recall SMTP already in flight; finite retry exhaustion needs investigation; no physical exactly-once,
+external mailbox/production SMTP integration, public pages, monthly aggregates or sustained 50-load claim.
+Final documentation, private stage push and hosted CI follow; phase5 has not started.
+
+### Phase4 private publication and hosted CI — 2026-10-20T06:22:37.1114290+05:00
+
+After reviewing staged diff, whitespace and limited secret patterns (.env and trace outputs ignored),
+created ade9c13b470dc02a9437d488b724b7a05eb54417 at 2026-10-20T06:21:35+05:00,
+feat(ui): manage maintenance and verify notification failure recovery. Earlier real backend commit
+2a159d1 was created at 2026-10-20T06:02:32+05:00. Both pushed to private origin/feat/maintenance-email-outbox,
+tracking established. Repository isPrivate=true; gh pr list --state all returned [] after push.
+main and previous phase branches were not merged/rewritten. No public action or PR creation.
+
+Automatic Actions run 39379923079 completed SUCCESS for exact implementation ade9c13: backend 47s,
+frontend 21s. PostgreSQL migrations/107 backend tests/real Mailpit acceptance, Python lint/format,
+15 frontend tests/types/lint/format/build/audit all configured steps passed. gh run watch --exit-status
+returned 0; full actual response in artifacts/github-ci-phase4.json. Remote timestamps are preserved as
+reported; this chronology uses actual local UTC+5 clock. Existing Node-action/ubuntu annotations are LOW
+non-failing follow-ups. Consolidated phase4-checkpoint.json asserts counts/statuses from real report files.
+Visual review of actual v0.4 screenshot completed. Main app remains running with only two original UP
+monitors; groups/windows from tests removed, isolated fault project absent, temporary test DB stopped.
+This final docs-only handoff changes no product/test logic. Stage4 stops for owner review; public status,
+month analytics, sustained 50-monitor measurement and full final security audit remain later requested work.
+
+### Owner-authorized stacked review PRs — 2026-10-20T06:36:10.4271060+05:00
+
+Started this review-workflow task at actual local 2026-10-20T06:33:13.4427151+05:00.
+Prompt: docs/prompts/005-stacked-pull-requests.md. Owner explicitly requested phase2/3/4 PRs
+before final audit, retaining dependencies and real commit dates; no merge requested.
+
+Read AGENTS, requirements, architecture, progress, previous PR summaries and development log.
+`git status --short` was empty. `git fetch origin` succeeded. Three `git merge-base --is-ancestor`
+checks returned 0: main -> phase2 -> phase3 -> phase4. `git log base..head` confirmed 2/2/3
+existing commits respectively. `gh repo view --json nameWithOwner,isPrivate` returned private=true;
+`gh pr list --state all` returned []. Existing heads: bd43629 / 3569b1c / 3529b66 / 446c124.
+
+Prepared exact English bodies in ignored artifacts/local/pr2.md, pr3.md, pr4.md, with checkpoint
+links, previously executed verification and explicit limits. Executed `gh pr create --base ...
+--head ... --title ... --body-file ...` sequentially, exit 0 each:
+
+- https://github.com/azimkhanrazdva/servicepulse/pull/1 — phase2 -> main.
+- https://github.com/azimkhanrazdva/servicepulse/pull/2 — phase3 -> phase2.
+- https://github.com/azimkhanrazdva/servicepulse/pull/3 — phase4 -> phase3.
+
+Attached each actual PR to this Codex task; `gh pr edit --body-file` added mutual review links
+and a future owner-approved merge/retarget procedure. `gh pr list --json ...` verified all OPEN,
+non-draft and correctly based. Raw initial response: ignored artifacts/local/pr-creation.json.
+No code changed, so no new local product-test claim is made. New actual pull_request CI runs
+all completed SUCCESS, observed through `gh run list --event pull_request` after creation:
+39381266717 (#1), 39381277581 (#2), 39381291388 (#3). Existing checkpoint counts remain historical.
+
+Updated README, progress, GitHub workflow, prepared-summary headers and this log to reflect
+actual PRs while retaining prior no-PR entries as historical facts. No backdating, amend,
+rebase, force push, merge, public publication or simulated reviewer approval. Documentation
+follow-up is committed on phase4 and uploaded under existing verified-stage authorization;
+earlier branches/main remain unchanged. Next step: owner review; no phase5 or final audit begun.
+
+Documentation verification: `git diff --check` initially found three trailing blank lines in
+prepared PR summaries; normalized them and reran staged whitespace check successfully. Limited
+staged token/private-key pattern scan found no matches. First `git commit` failed because no
+author identity was configured (exit 128); nothing was committed or pushed by that attempt.
+Existing history/log explicitly uses Codex Agent <codex-agent@localhost> per command, so the
+retry uses `git -c user.name='Codex Agent' -c user.email=codex-agent@localhost commit ...`.
+No global Git identity or human authorship is invented.
+
+## Owner-requested Phase4 audit — 2026-10-20T07:14:28.1622250+05:00
+
+First recorded audit clock: 2026-10-20T07:06:39.2780462+05:00. Prompt preserved as
+prompts/006-phase4-audit.md. Clean starting HEAD e03f5edf6c4a2160e10f44c740f01b899f9e08b0,
+feat/maintenance-email-outbox. No phase5 work requested or begun. Read AGENTS/requirements/
+architecture/progress, original PDF common rules and task3, 0004 migration, models, maintenance,
+notifications, dispatcher, worker/lifecycle, routing, React maintenance/SSE and tests/fault harness/CI.
+Read skill guidance; used minimal existing patterns rather than rewriting working product components.
+
+Owner clarified no separate detailed phase4 prompt. Did not overwrite history or invent receipt:
+Get-FileHash found existing 004-phase4.md and available previous attachment
+b42112d7-bbcc-40b8-a253-e31e87472024/Pasted text.txt byte-identical, SHA-256
+25b32eb6eb718ee0dd56f6723b5aef524d1b47a90968eef19e7d0718075c5148.
+git log shows first tracked in real 2a159d1. Later audit records only these facts and uses the
+original PDF/master prompt as baseline. First pypdf console extraction failed cp1251 encoding;
+`python -X utf8 -c ...` successfully extracted/normalized task3 text. No PDF modified.
+
+`gh pr view 3 --json ...`: OPEN, MERGEABLE, base feat/incident-lifecycle, head e03f5ed,
+reviews=[]; attached existing PR to task. `gh run view 39381498023 --json ...` and `--log`
+verified success on exact e03f5ed, 107 backend tests in 11.89s, 15 frontend, migration preservation,
+lint/types/format/build/audit. This workflow does not run real browser or isolated process-fault suites.
+No reviewer approval, merge or public visibility inferred from green CI.
+
+Actual local commands/results:
+- docker compose ps: existing services running; working DB SELECT alembic_version -> 0004.
+- docker compose --profile test run --rm --build tests: 107 passed in 17.16s, fixtures 0001/2/3
+  through head and Alembic metadata check passed. Disposable test-db only, application DB not reset.
+- From frontend, npm test: 15 passed (5 files, 26.29s); npm run typecheck, lint, format:check,
+  build all exited 0. npm audit initially executed from root failed ENOLOCK; correct frontend
+  directory run exited 0, found 0 vulnerabilities. No new lockfile or dependency added.
+- python scripts/phase4_fault_smoke.py initial repeat PASS 78.468s: seven real SMTP/DB/process
+  scenarios; normal one DOWN/one RECOVERY, retry attempts=2, acceptance crash 3 physical/2 logical.
+
+Review found LOW evidence gap: notification fixtures usually used threshold=1. Added integrated
+test_default_threshold_transient_failure_and_logical_email_pair (default2, streak reset, zero
+incident/event/route/delivery on first error, repeated outage no duplicate, same-incident recovery).
+Added test_permanent_smtp_rejection_is_terminal_without_false_recovery (550 -> FAILED, no retry,
+no recovery message for rejected DOWN). Added real first-error UP/no-incident assertions in live
+fault harness. No application code or old migration changed; no tests deleted/weakened.
+
+`ruff check backend scripts/phase4_fault_smoke.py` and `ruff format --check ...`: PASS.
+Rebuilt Docker tests after additions: 109 passed in 20.33s, no skips; migrations/metadata PASS.
+`npm run test:e2e`: all 5 passed in 17.0s, including maintenance CRUD/two clients/offline reconnect/
+real SMTP release and all four existing browser cases. New reports record actual IDs/times.
+Final live fault rerun with added transient assertion: PASS 78.781s; all seven scenario groups,
+retry attempts=2, acceptance crash 3 physical/2 logical. Isolated stack and its own volume removed
+by the existing harness. Restored only test-generated screenshot churn to baseline because no UI
+code changed; new browser JSON and Mailpit receipts retained. Stopped disposable test-db afterward.
+
+Audit report phase4-audit.md maps original requirements/18 scenarios and limitations. Machine report
+artifacts/phase4-audit.json asserts current backend XML counts, browser stats and live-fault PASS;
+frontend count cites actual console, not stale historical frontend-tests.json. Earlier versions of
+overwritten report files remain in real Git history. Updated requirements/progress/checkpoint links/
+prompt provenance/README/review, retaining prior historical log entries. No confirmed BLOCKER/HIGH
+in local phase4 scope. Explicit MEDIUM limits: unattempted DOWN cancels on quick recovery even
+outside maintenance; bounded retry exhaustion; in-flight authorization/SMTP ambiguity; no production
+TLS/auth/mailbox claim. Public page/privacy, month charts/uptime and sustained 50x30 remain TODO.
+
+Next: review staged diff, commit/push audit follow-up to existing private PR #3 under standing
+verified-stage upload authorization, inspect new hosted CI, then stop for owner review. No new PR,
+merge, history rewrite, architectural replacement or phase5 implementation authorized/performed.
+
+### Phase4 audit publication and hosted result — 2026-10-20T07:17:05.9068913+05:00
+
+Reviewed staged code/docs/evidence diff; git diff --cached --check PASS and limited token/private-key
+scan had no matches. Created real fd3663505e0c8173eb521cf1c4a9bda9879def14 at
+2026-10-20T07:15:44+05:00, test: audit phase four maintenance and notification guarantees,
+using existing explicit per-command Codex Agent identity. Push to existing private phase4 branch
+succeeded; working tree clean. PR #3 body now links the Russian audit and material policy limits.
+
+`gh run watch 39385378283 --exit-status --interval 10` exited 0. Actual pull_request run on exact
+fd36635 completed SUCCESS: backend 47s (109 tests in 10.53s), frontend 29s (15 tests), all configured
+lint/format/migration/types/build/audit steps passed. `gh run view --json ...` saved actual result in
+artifacts/github-ci-phase4-audit.json; consolidated audit report now references it. Node/ubuntu
+annotations remain non-failing LOW follow-ups. This records local and remote timestamps as reported,
+without treating their clock offset as work duration or fabricating intermediate chronology.
+
+Final read-only app check: 2 monitors UP,UP; 0 groups/windows. Main stack remains running;
+isolated fault project absent and disposable test-db stopped. git diff HEAD for product directories
+empty. gh repo view still private; PR #3 OPEN/MERGEABLE/base feat/incident-lifecycle/reviews=[].
+This final evidence follow-up changes documents/reports only. Stop for owner review;
+Phase5 is explicitly not started, and no merge or additional PR was performed.

@@ -105,7 +105,7 @@ it("creates a monitor using real form values", async () => {
   });
   fireEvent.click(screen.getByRole("button", { name: "Create monitor" }));
   await screen.findByRole("button", { name: "Test API" });
-  await waitFor(() => expect(fetcher).toHaveBeenCalledTimes(4));
+  await waitFor(() => expect(fetcher).toHaveBeenCalledTimes(5));
   const posted = fetcher.mock.calls.find((call) => call[1]?.method === "POST")!;
   expect(JSON.parse(posted[1].body)).toMatchObject({
     interval_seconds: 30,

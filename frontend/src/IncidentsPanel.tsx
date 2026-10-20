@@ -184,7 +184,8 @@ export function IncidentsPanel({
       </div>
       <p className="subtle">
         Start time is threshold confirmation. Closure by pause or configuration
-        change does not mean recovery. No email is sent yet.
+        change does not mean recovery. Alerts use group recipients and local
+        Mailpit.
       </p>
     </section>
   );

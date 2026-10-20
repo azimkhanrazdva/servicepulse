@@ -17,7 +17,7 @@
     "grepInvert": null,
     "maxFailures": 0,
     "metadata": {
-      "actualWorkers": 3
+      "actualWorkers": 4
     },
     "preserveOutput": "always",
     "projects": [
@@ -26,7 +26,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 3
+          "actualWorkers": 4
         },
         "id": "",
         "name": "",
@@ -46,7 +46,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 3
+          "actualWorkers": 4
         },
         "name": "",
         "testDir": "C:\\Users\\sayo\\Documents\\Codex\\2026-10-19\\master-prompt-mad-devs-junior-agentic\\frontend\\e2e",
@@ -111,7 +111,7 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 7450,
+                  "duration": 8283,
                   "errors": [],
                   "stdout": [],
                   "stderr": [
@@ -126,7 +126,7 @@
                     }
                   ],
                   "retry": 0,
-                  "startTime": "2026-10-19T15:53:55.603Z",
+                  "startTime": "2026-10-20T02:10:10.646Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -137,6 +137,58 @@
           "id": "589074615abccf633020-3bda97e12380180d9d9f",
           "file": "incidents.spec.ts",
           "line": 22,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "maintenance.spec.ts",
+      "file": "maintenance.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "maintenance CRUD, two clients, DOWN state, suppression and actual Mailpit release",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 14851,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "buffer": ""
+                    },
+                    {
+                      "buffer": ""
+                    },
+                    {
+                      "buffer": ""
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-20T02:10:10.646Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2ddc135d3caca248d6d1-7ac749b324b171691cd8",
+          "file": "maintenance.spec.ts",
+          "line": 29,
           "column": 1
         }
       ]
@@ -160,15 +212,15 @@
               "projectName": "",
               "results": [
                 {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
                   "status": "passed",
-                  "duration": 14624,
+                  "duration": 15420,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-19T15:53:55.588Z",
+                  "startTime": "2026-10-20T02:10:10.664Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -202,15 +254,15 @@
               "projectName": "",
               "results": [
                 {
-                  "workerIndex": 2,
-                  "parallelIndex": 2,
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
                   "status": "passed",
-                  "duration": 4471,
+                  "duration": 5496,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-19T15:53:55.588Z",
+                  "startTime": "2026-10-20T02:10:10.646Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -236,15 +288,15 @@
               "projectName": "",
               "results": [
                 {
-                  "workerIndex": 2,
-                  "parallelIndex": 2,
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
                   "status": "passed",
-                  "duration": 265,
+                  "duration": 489,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-19T15:54:00.175Z",
+                  "startTime": "2026-10-20T02:10:16.572Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -262,9 +314,9 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-10-19T15:53:55.184Z",
-    "duration": 15183.898,
-    "expected": 4,
+    "startTime": "2026-10-20T02:10:09.634Z",
+    "duration": 17027.307999999997,
+    "expected": 5,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0

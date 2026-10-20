@@ -1,3 +1,8 @@
+# Actual review PR
+
+Created on the owner's subsequent request: https://github.com/azimkhanrazdva/servicepulse/pull/1
+(base main). The prepared checkpoint text below is historical; no backdating or merge occurred.
+
 # feat: add versioned monitor management and groups
 
 Prepared PR description; no remote PR is created automatically. Base: main (bd43629).

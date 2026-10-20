@@ -88,3 +88,37 @@ Trade-offs: pre-upgrade outage duration remains unknown; one extra REST request/
 offset cap 10000 (time filters narrow deeper history), page boundaries can move during concurrent inserts.
 Consequences: honest provenance and reconnect synchronization, including changes to older visible pages;
 future scale may justify keyset pagination and revision-only events, after measurement.
+
+## ADR-011 — event, route and address delivery outbox
+Context: one monitor can belong to multiple groups, with shared addresses and different maintenance.
+Decision: unique incident/type event; frozen group/email routes at confirmation; unique event/email
+delivery. Case-normalize delivery addresses. Preserve route group UUID historically without a group FK,
+and require live membership/recipients at authorization. New recipients apply only to future incidents.
+Alternatives: one outbox row/group (duplicates common addresses); JSON-only mutable payload; a broker.
+Trade-offs: three small tables, extra eligibility joins, case-sensitive local parts intentionally treated
+as one operational address; group UUID is historical, avoiding group->monitor/monitor->group FK inversion.
+Consequences: one logical delivery/address across routes, group-specific maintenance and safe recipient
+revocation, no external queue or new runtime dependency. DB constraints enforce identity, not in-memory sets alone.
+
+## ADR-012 — SMTP authorization, ordering and finite retries
+Context: SMTP cannot commit atomically with PostgreSQL, nor recall a command already in flight.
+Decision: final DB policy preflight plus persisted send_started_at, then SMTP outside any DB transaction.
+Cancelled unattempted DOWN produces no recovery. A possibly accepted attempt is retried before recovery;
+known rejection clears authorization. RECOVERY requires the address's known DOWN acceptance and can wait
+through maintenance. Admin closure never creates recovery. Persist 5..300s backoff, at most eight attempts.
+Alternatives: hold DB transaction across SMTP; assume exactly-once delivery; send recovery before pending DOWN.
+Trade-offs: post-authorization maintenance/setting changes cannot recall in-flight SMTP; ambiguous crash
+can cause physical duplicates/stale DOWN. Exhaustion needs investigation. Bounded threads/socket timeouts
+and lease margins do not guarantee non-overlap under arbitrary process suspension.
+Consequences: explicit, tested boundary and stable Message-ID; real acceptance-crash experiment produced
+3 physical messages for 2 logical deliveries, in correct event order. No eventual mailbox delivery promise.
+
+## ADR-013 — no upgrade mass mailing; independent reconciliation
+Context: v0.3 may contain historical/open incidents with no recipient intent at their confirmation.
+Decision: 0004 adds notifications_enabled=false to existing incidents; only newly confirmed incidents
+explicitly enable notifications. Persist pending events/routes even under maintenance; poll independently
+of HTTP results to release/cancel deliveries. UTC windows use inclusive start/exclusive end, overlaps per route.
+Alternatives: backfill old DOWN emails; invent CheckResult to trigger window-end logic; global group suppression.
+Trade-offs: existing incidents do not start mailing after upgrade; SMTP batch duration adds to the two-second
+poll cadence. All old results/settings/timestamps remain unchanged. No catch-up historical email is inferred.
+Consequences: honest migration and deterministic late notification without duplicate incidents or fake observations.

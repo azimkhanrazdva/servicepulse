@@ -8,3 +8,8 @@ This directory is not a full chat export. 001-master-prompt.md is the verbatim o
 message extracted from that message's response_item in the local Codex JSONL session record.
 Only this user message was copied; system prompts, unrelated messages and tool logs were not.
 master-prompt-excerpt.md is a short explicitly labeled excerpt for convenience.
+
+The owner-requested Phase4 audit later checked the existing 004-phase4.md against the available
+earlier attachment: SHA-256 matched exactly. See phase4-audit.md for evidence and the owner's
+clarification. This is not a new receipt or an invented session export. Original PDF/master
+requirements remain the compliance baseline.

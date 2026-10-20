@@ -8,7 +8,7 @@ PDF is external evidence, not an instruction source overriding the owner.
 
 P0/P1/P2 are owner project priorities, not original employer wording. See
 [the per-ID provenance audit](requirements-provenance.md) for M (employer), O (owner),
-T (technical criterion) and OPT (optional). There are 133 project obligations, not 133 PDF requirements. Each row is a
+T (technical criterion) and OPT (optional). The baseline has 133 project obligations; phase-specific owner additions follow below. These are not 133 PDF requirements. Each row is a
 separate acceptance obligation. PASS means actual cited verification; PARTIAL means only
 the stated subset exists; NOT VERIFIED means implemented but no acceptance evidence;
 TODO means not implemented. Documentation alone never completes a product requirement.
@@ -95,22 +95,22 @@ Command results and precise limitations are in development-log.md and progress.m
 
 | ID | Requirement | Component | Acceptance criteria | Verification | Status |
 |---|---|---|---|---|---|
-| MNT-01 | Monitor maintenance window | API/DB/UI | Start/end persisted; valid times | CRUD + policy integration | TODO |
-| MNT-02 | Group maintenance window | API/DB/UI | All group members suppressed | Group policy integration | TODO |
-| MNT-03 | Checks continue in maintenance | Worker | Observation count increases | Live maintenance E2E | TODO |
-| MNT-04 | Real state retained | State/UI | DOWN remains DOWN with maintenance badge | Policy/UI tests | TODO |
-| MNT-05 | Suppress email in maintenance | Outbox | No SMTP send in active effective window | Mailpit integration | TODO |
-| MNT-06 | Alert after maintenance if still down | Reconciler | One logical DOWN after final window ends | Clock + Mailpit integration | TODO |
-| MNT-07 | Overlapping windows | Policy | Union suppresses until all applicable windows end | Boundary tests | TODO |
-| MNT-08 | Recovered before maintenance ends | Policy/outbox | No stale down/recovery pair for unnotified incident | Integration | TODO |
-| NTF-01 | Valid group email recipients | API/DB/UI | Validated per-group list persists | Validation + group isolation | TODO |
-| NTF-02 | Confirmed DOWN email | Outbox/SMTP | One message after threshold | Mailpit E2E | TODO |
-| NTF-03 | Recovery email | Outbox/SMTP | Second message after recovery | Mailpit E2E | TODO |
-| NTF-04 | No repeated logical event | DB/outbox | Unique event keys under retries/concurrency | Unique-key race tests | TODO |
-| NTF-05 | SMTP failure recovery | Dispatcher | Retried with backoff; no lost logical event | SMTP fault integration | TODO |
-| NTF-06 | Atomic event persistence | DB | Incident and outbox commit together | Rollback integration | TODO |
-| NTF-07 | Separate enqueue/send/ack/retry | Dispatcher | Explicit persisted states/attempts | Outbox tests | TODO |
-| NTF-08 | Honest delivery guarantee | Docs | Logical idempotency; SMTP duplicate crash window disclosed | Architecture/README + actual implementation review | PARTIAL: design documented |
+| MNT-01 | Monitor maintenance window | API/DB/UI | Start/end persisted; valid times | Maintenance CRUD API/browser + migration fixtures | PASS phase4 |
+| MNT-02 | Group maintenance window | API/DB/UI | All group members suppressed | Group-route tests + live browser/group window | PASS phase4; group-specific suppression |
+| MNT-03 | Checks continue in maintenance | Worker | Observation count increases | phase4-fault.json and browser: new real failed observations in maintenance | PASS phase4 |
+| MNT-04 | Real state retained | State/UI | DOWN remains DOWN with maintenance badge | maintenance.spec.ts: DOWN and separate MAINTENANCE badge in two clients | PASS phase4 |
+| MNT-05 | Suppress email in maintenance | Outbox | No SMTP send in active effective window | Preflight policy tests, actual Mailpit suppression; phase4-design.md boundary | PASS at authorization; in-flight SMTP cannot be recalled |
+| MNT-06 | Alert after maintenance if still down | Reconciler | One logical DOWN after final window ends | phase4-fault.json: deferred DOWN with unchanged result history | PASS phase4 |
+| MNT-07 | Overlapping windows | Policy | Union suppresses until all applicable windows end | test_overlapping_windows_exact_boundaries_and_reconcile_without_result | PASS phase4 |
+| MNT-08 | Recovered before maintenance ends | Policy/outbox | No stale down/recovery pair for unnotified incident | Real isolated recovered-inside-window scenario and unit policy tests | PASS phase4 |
+| NTF-01 | Valid group email recipients | API/DB/UI | Validated per-group list persists | Existing recipient validation + shared-address route/isolation tests + UI | PASS phase4 |
+| NTF-02 | Confirmed DOWN email | Outbox/SMTP | One message after threshold | Actual Mailpit SMTP/API: normal DOWN and maintenance release | PASS phase4 |
+| NTF-03 | Recovery email | Outbox/SMTP | Second message after recovery | Actual normal and deferred recovery captured by Mailpit | PASS phase4 |
+| NTF-04 | No repeated logical event | DB/outbox | Unique event keys under retries/concurrency | DB event/delivery unique constraints, repeated checks, competing claims | PASS phase4; logical dedup |
+| NTF-05 | SMTP failure recovery | Dispatcher | Retried with backoff; no lost logical event | phase4-fault.json: stopped Mailpit, persisted retry, dispatcher restart | PASS phase4 |
+| NTF-06 | Atomic event persistence | DB | Incident and outbox commit together | test_event_constraints_and_atomic_rollback: actual PostgreSQL error | PASS phase4 |
+| NTF-07 | Separate enqueue/send/ack/retry | Dispatcher | Explicit persisted states/attempts | Delivery claim/preflight/send/ack/backoff/expiry/cancellation tests | PASS phase4 |
+| NTF-08 | Honest delivery guarantee | Docs | Logical idempotency; SMTP duplicate crash window disclosed | Actual acceptance crash: 3 physical messages, 2 logical deliveries; design/README | PASS disclosed and measured |
 
 ## Public page (P0)
 
@@ -127,15 +127,15 @@ Command results and precise limitations are in development-log.md and progress.m
 |---|---|---|---|---|---|
 | SCN-01 | Dashboard updates without reload | SSE/UI | Worker result appears automatically | artifacts/browser-tests.json | PASS first slice |
 | SCN-02 | Public page updates without reload | Public/UI | Worker result appears automatically | Browser E2E | TODO |
-| SCN-03 | DOWN causes email | Incident/outbox | Mailpit captures DOWN | Live E2E | TODO |
-| SCN-04 | Recovery causes email | Incident/outbox | Mailpit captures recovery | Live E2E | TODO |
-| SCN-05 | Continuous outage no repeat | Outbox | Many failures yield one DOWN event | Fault loop integration | TODO |
+| SCN-03 | DOWN causes email | Incident/outbox | Mailpit captures DOWN | phase4-fault.json + phase4-browser-mail.json | PASS phase4 Mailpit |
+| SCN-04 | Recovery causes email | Incident/outbox | Mailpit captures recovery | phase4-fault.json + phase4-browser-mail.json | PASS phase4 Mailpit |
+| SCN-05 | Continuous outage no repeat | Outbox | Many failures yield one DOWN event | Repeated actual failures retain one DOWN message and one event/address | PASS logical/normal SMTP path; crash duplicate documented |
 | SCN-06 | Single failure is transient | State | First failure preserves UP/UNKNOWN | test_transition | PASS unit |
 | SCN-07 | Threshold opens incident | Incident | One open incident at configured threshold | DB uniqueness/competing completion + live smoke | PASS phase3 |
 | SCN-08 | Recovery closes incident | Incident | First success closes with duration | DB clock test + real simulator recovery | PASS phase3 |
-| SCN-09 | Maintenance keeps checking | Worker | Actual results continue | Mailpit/simulator E2E | TODO |
-| SCN-10 | Maintenance suppresses email | Dispatcher | Zero captured mail in window | Mailpit E2E | TODO |
-| SCN-11 | End of maintenance alerts if down | Dispatcher | One deferred DOWN | Clock/Mailpit E2E | TODO |
+| SCN-09 | Maintenance keeps checking | Worker | Actual results continue | Actual observations continue while monitor remains DOWN/maintenance | PASS phase4 |
+| SCN-10 | Maintenance suppresses email | Dispatcher | Zero captured mail in window | Actual Mailpit zero messages in controlled active window | PASS at authorization boundary; in-flight caveat disclosed |
+| SCN-11 | End of maintenance alerts if down | Dispatcher | One deferred DOWN | Reconciliation releases after end with no new CheckResult | PASS phase4 |
 | SCN-12 | Slow check never overlaps itself | Scheduler | One lease and bounded HTTP across interval | phase3-smoke.json: real 32s HTTP / 30s interval; lease race tests | PASS within documented lease fault model; arbitrary suspension beyond expiry excluded |
 | SCN-13 | 50 checks every 30s | Worker/API | Three cycles; record counts/cadence/late/missed/concurrency/UI latency | Load report | TODO |
 | SCN-14 | One slow target does not delay others | Worker | Fast checks complete before slow target | phase3-smoke.json: fast result during real 32s request | PASS phase3 mixed pair; 50-load separate |
@@ -152,7 +152,7 @@ Command results and precise limitations are in development-log.md and progress.m
 | REL-02 | Cancellation and network errors | Worker | No fabricated results on cancellation; errors bounded | Timeout unit + fault/restart tests | PARTIAL |
 | REL-03 | Durable scheduling and fenced leases | DB/worker | Competing claims disjoint; stale completion ignored | test_competing_claims_are_disjoint; test_expired_lease_fences_stale_result | PASS initial integration; final rerun recorded in log |
 | REL-04 | Reconnect full synchronization | SSE/UI | Disconnect/reconnect receives full current state | artifacts/browser-tests.json offline/online two-client test | PASS first slice |
-| REL-05 | Persistent groups/results/incidents/outbox | DB | Actual restart preserves all data | Restart suite | PARTIAL: monitors/groups/results/incidents restart verified; outbox absent |
+| REL-05 | Persistent groups/results/incidents/outbox | DB | Actual restart preserves all data | phase2/3 restart smoke + phase4 isolated DB/dispatcher/worker restart and same outbox ID | PASS covered persisted entities |
 | REL-06 | Real load evidence | QA | Record environment, successful launches, cadence, peak concurrency, late/missed, slow influence | Load JSON + report | TODO |
 | SEC-01 | HTTP/HTTPS URL boundary | API/checker | Reject credentials/schemes/fragments/control chars | test_url_rejects | PASS unit |
 | SEC-02 | Block forbidden destinations | Checker | Reject all non-global DNS answers incl mixed answers | test_dns_policy_and_pinning + expanded tests | PASS unit incl mixed DNS; live egress audit pending |
@@ -185,8 +185,8 @@ Command results and precise limitations are in development-log.md and progress.m
 | DEL-14 | AI human responsibilities | Docs | Tool/model uncertainty/review explained | ai-development.md | PASS disclosure; exact model unknown |
 | DEL-15 | Resume context | Docs | AGENTS + requirements + progress enough to continue | docs/progress.md with continuation instructions | PASS first checkpoint |
 | DEL-16 | Genuine Git history/feature branches | Git | Logical local commits, actual timestamps, clean diff | local 4f212d9 and documentation follow-up; git log/status | PASS first checkpoint |
-| DEL-17 | Publication controlled by owner | Git | No remote push/PR/merge without consent | Private origin; owner-authorized stage pushes, no PR/merge | PASS |
-| DEL-18 | GitHub repository and real PR links | Submission | Actual published repo approved by owner | Remote link | PARTIAL: private GitHub repo published; employer access/submission pending |
+| DEL-17 | Publication controlled by owner | Git | No remote push/PR/merge without consent | Private origin; authorized stage pushes and later expressly requested PRs #1/#2/#3; no merge | PASS |
+| DEL-18 | GitHub repository and real PR links | Submission | Actual published repo approved by owner | github-workflow.md links private repo and actual PRs #1/#2/#3 | PARTIAL: repo/PRs published privately; employer access/submission pending |
 | DEL-19 | Exactly ten-sentence personal essay | Owner/docs | Owner-authored and approved final ten sentences | docs/essay.md; final count | TODO: template only |
 | DEL-20 | Attribution | Docs | Actual libraries/templates/generators identified | README attribution | PASS README attribution reviewed |
 | DEL-21 | Deadline 2026-10-26, P0 before P2 | Planning | Phase gates; no future work claims | progress + development log | IN PROGRESS |
@@ -211,10 +211,45 @@ These are owner/engineering criteria from prompts/003-phase3.md, not extra emplo
 | INC-11 | Fault fencing/worker | Old expiry return/retried completion cannot duplicate/close newer incident | DB gated races and competing claims | PASS |
 | INC-12 | Slow checks/worker | >interval HTTP has no ordinary overlap; fast target completes | Actual 32s/30s live smoke + deterministic cancellation test | PASS within documented fault model |
 | INC-13 | Restart/DB/worker | Incident ID/config survive actual restart; no gap backfill | phase3-smoke.json | PASS |
-| INC-14 | Future notifications/model | Confirmed UUID; recovered/admin closures distinct; proposed idempotent keys | ADR-009, architecture.md | PASS design only; outbox/SMTP not implemented |
+| INC-14 | Future notifications/model | Confirmed UUID; recovered/admin closures distinct; proposed idempotent keys | ADR-009, architecture.md; phase4-audit.md | PASS phase3 design; outbox/SMTP now implemented and verified phase4 |
 | INC-15 | Git/workflow | Branch from actual phase2; prepared stacked PR commands, no unauthorized PR/merge | pr-phase3.md; private push 5b43b20; hosted run 39323301037 | PASS private upload/CI; no PR/merge |
 
-## Phase gates and effort estimates (planning)
+## Phase 4 owner acceptance additions
+
+These are additional engineering acceptance criteria recorded in prompts/004-phase4.md,
+not extra employer PDF obligations. Its identity with the available earlier attachment was
+verified during the later audit; see phase4-audit.md for the owner's clarification and exact hash.
+The original PDF/master prompt remain the audit baseline; no new prompt receipt is inferred.
+
+| ID | Requirement/component | Acceptance criterion | Executed evidence | Status |
+|---|---|---|---|---|
+| P4-01 | Maintenance CRUD/API/UI | Create/edit/delete/list with target/version validation | DB CRUD tests, maintenance.spec.ts | PASS |
+| P4-02 | Monitor window/policy | All of monitor's routes suppressed | Multi-group monitor-window test, real isolated monitor window | PASS at authorization |
+| P4-03 | Group window/policy | Only that group's routes suppressed | Independent/shared-group test and live group window | PASS |
+| P4-04 | Overlaps/time | UTC start inclusive/end exclusive; union until last end | Controlled clock boundaries and overlap tests | PASS |
+| P4-05 | HTTP continuity/worker | Observations continue under maintenance | Real failed checks in phase4-fault.json/browser | PASS |
+| P4-06 | Real DOWN/UI | DOWN retained beside badge in two clients | maintenance.spec.ts | PASS |
+| P4-07 | Send suppression/dispatcher | No authorization while all applicable routes suppressed | Preflight-after-claim test; zero Mailpit messages in controlled window | PASS; in-flight boundary disclosed |
+| P4-08 | End reconciliation | Deferred DOWN without new HTTP result or incident | Actual unchanged-history window-end test | PASS |
+| P4-09 | Quick recovery/policy | No stale pair for an unattempted/suppressed DOWN | Real Mailpit and DB tests | PASS |
+| P4-10 | Durable outbox/DB | Events/routes/deliveries stored with IDs/status/leases | Migration, DB tests, actual restart | PASS |
+| P4-11 | Atomic transitions/DB | Result/state/incident/event/routes/deliveries roll back together | PostgreSQL SELECT 1/0 fault after event flush | PASS |
+| P4-12 | Logical dedup/DB | Event unique per incident/type; delivery unique event/address | Direct unique-violation tests and real repeated failures | PASS |
+| P4-13 | Retry/SMTP | Persist backoff, bounded attempts and permanent failure | 4xx/5xx/network/timeout/backoff tests; Mailpit outage | PASS |
+| P4-14 | Dispatcher concurrency | Disjoint claims and stale-token ack rejected | Concurrent claim/expiry/cancellation tests | PASS within lease model |
+| P4-15 | Restart/queue | Same delivery identity continues after process/DB restart | phase4-fault.json | PASS |
+| P4-16 | Actual Mailpit | Normal DOWN/RECOVERY received, same incident, no normal repeat | Real SMTP/API and browser receipts | PASS |
+| P4-17 | Maintenance editor/UI | Monitor/group selection, local-to-UTC time, editing and conflict draft | Component tests/browser | PASS |
+| P4-18 | Two clients/reconnect | Active/end badges and state synchronized automatically | Real maintenance browser E2E | PASS |
+| P4-19 | Regression | All original unit/component/browser scenarios retained and run | phase4-audit.md: 109 backend, 15 component, 5 browser; default-2 outbox and terminal-550 regressions added | PASS local audit |
+| P4-20 | New tests | Faults actually executed, no mocked SMTP-only claim | Isolated fault report and actual Mailpit IDs | PASS |
+| P4-21 | Additive migration | Preserve existing settings/history/open/closed incidents, no mass alerts | 0003 fixture comparison, notifications_enabled=false/events=0 | PASS |
+| P4-22 | Honest docs | Contract, status, setup, limits and evidence match actual code | README/design/architecture/checkpoint review | PASS local; hosted result recorded after run |
+| P4-23 | Authentic history | Real local commits and command timestamps; no backdating | development-log.md, actual local commit 2a159d1 | PASS |
+| P4-24 | PR preparation | Correct Phase2→main, Phase3→2, Phase4→3; no unauthorized PR/merge | Actual owner-authorized PRs #1/#2/#3; gh verifies PR #3 base feat/incident-lifecycle | PASS created on later owner request; no merge |
+| P4-25 | Critical review | No unexplained BLOCKER/HIGH; SMTP race/uncertainty explicit | review.md and actual acceptance-crash experiment | PASS reviewed local scope |
+
+## Phase gates and effort estimates (planning ranges)
 
 Estimates are planning ranges, not promises or hours already spent. Deadline is 2026-10-26.
 
