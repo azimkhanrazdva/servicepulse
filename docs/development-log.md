@@ -339,3 +339,38 @@ Temporary test DB stopped, original application services left running with two U
 No PR or merge; prepared exact phase2 and stacked phase3 commands for future owner authorization.
 This documentation-only handoff follows the verified implementation. Phase3 stops for owner review;
 next explicitly requested work will be maintenance and transactional email outbox, not started here.
+
+## Phase4 discovery — 2026-10-19T21:07:37.9243468+05:00
+
+Owner supplied full phase4 prompt, saved exactly as prompts/004-phase4.md. Clean HEAD 3529b66,
+branch feat/incident-lifecycle, no PR in any state. Created feat/maintenance-email-outbox from that
+actual HEAD. Reviewed project contracts, requirements/provenance, architecture, models/lifecycle,
+API/groups/worker/config, migrations/tests, frontend and Compose. Baseline: 75 PostgreSQL tests passed
+in 3.37s, 11 frontend tests/types/lint passed. No user database reset or old migration edit.
+
+Added normalized event/route/delivery outbox, maintenance CRUD/version checks, default-false legacy
+incident notification opt-in, atomic lifecycle integration, dispatcher and independent reconciliation.
+Architecture/routing/SMTP boundary decisions are in phase4-design.md. Used existing libraries plus
+stdlib smtplib/EmailMessage/to_thread, with no new application dependency. Added Mailpit to backend CI.
+Alembic autogeneration initially failed because script.py.mako was absent; added a minimal standard
+Alembic template, regenerated additive 0004 and reviewed its schema. No application data changed by
+generation. Extended test runner with real 0003 open/closed incident fixtures, preserving all timestamps
+and settings through 0004, notifications disabled and no backfill events.
+
+Intermediate expanded run: 101 passed, 2 failed. Controlled notification clock preceded the default
+delivery due timestamp; initialized next_attempt_at from the notification clock. Rerun: 103 passed
+in 18.74s, then migration-expanded run 103 passed in 18.41s. Real SMTP acceptance and Mailpit API test
+passed. Ruff import/line-length corrections applied. Frontend test's obsolete “delivery future” text
+failed after the feature shipped; updated its assertion to the actual local-catcher/suppression policy.
+Expanded frontend: 14 tests/types/lint passed. New frontend/API still need real-browser verification.
+
+### Continued verification — 2026-10-20T05:57:00.0519587+05:00
+
+Actual environment clock now reports October 20. This log does not infer continuous work during the
+clock gap or invent intermediate timestamps. Client timezone remains Asia/Qyzylorda, UTC+5.
+New work: isolated compose.notifications-test.yaml and phase4_fault_smoke.py for actual SMTP/DB/process
+faults, using project servicepulse-phase4-fault and its own database volume. Owner application volume
+is untouched. Acceptance-crash helper exits only in that isolated test after actual SMTP acceptance.
+Version 0.4 build started; reordered Dockerfile dependency copy to keep locked installs cached when
+only application version/source changes (previous rebuilds had repeated slow downloads).
+Next: finish real Mailpit/fault/browser checks, fix findings, complete review/docs and authorized private upload.

@@ -10,6 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db import session_dependency
 from app.models import Incident, Monitor, now
+from app.notifications import create_event
 from app.schemas import IncidentPage, IncidentRead
 
 router = APIRouter()
@@ -25,6 +26,8 @@ async def close_incident(db, monitor_id, reason, at):
         incident.closure_reason = reason
         if reason == "RECOVERED":
             incident.recovered_at = incident.closed_at
+            monitor = await db.get(Monitor, monitor_id)
+            await create_event(db, incident, monitor.name, "RECOVERY")
 
 
 async def observe_incident(db, monitor, success, observed_at):
@@ -37,7 +40,12 @@ async def observe_incident(db, monitor, success, observed_at):
             )
         )
         if existing is None:
-            db.add(Incident(monitor_id=monitor.id, opened_at=observed_at))
+            incident = Incident(
+                monitor_id=monitor.id, opened_at=observed_at, notifications_enabled=True
+            )
+            db.add(incident)
+            await db.flush()
+            await create_event(db, incident, monitor.name, "DOWN")
 
 
 async def incident_page(

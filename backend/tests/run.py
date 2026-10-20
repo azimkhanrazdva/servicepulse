@@ -137,6 +137,43 @@ async def phase2_down_fixture(mid, gid, verify=False):
     await engine.dispose()
 
 
+async def legacy_incidents(mid, identities, expected=None):
+    async with engine.begin() as connection:
+        if expected is None:
+            for index, identity in enumerate(identities):
+                await connection.execute(
+                    text("""INSERT INTO incidents
+                    (id,monitor_id,opened_at,closed_at,recovered_at,closure_reason,created_at)
+                    VALUES (:id,:mid,now()-interval '2 minutes',
+                    CASE WHEN :closed THEN now() ELSE NULL END,
+                    CASE WHEN :closed THEN now() ELSE NULL END,
+                    CASE WHEN :closed THEN 'RECOVERED' ELSE NULL END,now())"""),
+                    {"id": identity, "mid": mid, "closed": bool(index)},
+                )
+        rows = (
+            await connection.execute(
+                text("""SELECT id,monitor_id,opened_at,closed_at,
+                    recovered_at,closure_reason,created_at FROM incidents WHERE monitor_id=:mid
+                    ORDER BY id"""),
+                {"mid": mid},
+            )
+        ).all()
+        values = [tuple(row) for row in rows]
+        if expected is not None:
+            assert values == expected
+            assert (
+                await connection.scalar(
+                    text("SELECT count(*) FROM incidents WHERE notifications_enabled")
+                )
+            ) == 0
+            assert (await connection.scalar(text("SELECT count(*) FROM notification_events"))) == 0
+            await connection.execute(
+                text("DELETE FROM incidents WHERE monitor_id=:mid"), {"mid": mid}
+            )
+    await engine.dispose()
+    return values
+
+
 if __name__ == "__main__":
     asyncio.run(reset_test_schema())
     root = Path(__file__).resolve().parents[1]
@@ -146,7 +183,15 @@ if __name__ == "__main__":
     subprocess.run(["alembic", "upgrade", "0002"], cwd=root, check=True)
     down_id, group_id = uuid.uuid4(), uuid.uuid4()
     asyncio.run(phase2_down_fixture(down_id, group_id))
+    subprocess.run(["alembic", "upgrade", "0003"], cwd=root, check=True)
+    incident_ids = [uuid.uuid4(), uuid.uuid4()]
+    incident_fixture = asyncio.run(legacy_incidents(down_id, incident_ids))
     subprocess.run(["alembic", "upgrade", "head"], cwd=root, check=True)
+    asyncio.run(legacy_incidents(down_id, incident_ids, incident_fixture))
+    print(
+        "0003 -> head preserved incidents, notifications disabled; no email backfill",
+        flush=True,
+    )
     asyncio.run(phase2_down_fixture(down_id, group_id, verify=True))
     asyncio.run(legacy_fixture(monitor_id, result_id, verify=True))
     print("Migration preserved legacy monitor/settings/state/observation", flush=True)

@@ -1,8 +1,8 @@
-# ServicePulse progress — phase 3
+# ServicePulse progress — phase 4 in progress
 
 Current checkpoint: [v0.3 incidents](phase3-checkpoint.md), verified and uploaded privately.
 Prior [v0.2 management](phase2-checkpoint.md) and v0.1 evidence below are historical.
-Current branch is feat/incident-lifecycle, based on real phase2 commit 3569b1c.
+Current branch is feat/maintenance-email-outbox, based on phase3 HEAD 3529b66.
 
 ## Completed
 
@@ -22,8 +22,10 @@ Current branch is feat/incident-lifecycle, based on real phase2 commit 3569b1c.
 
 ## In Progress
 
-Phase3 complete, implementation 5b43b20 uploaded and hosted CI passed. Waiting for owner review.
-No phase4 implementation. No automatic PR or merge.
+Owner requested phase4. Maintenance CRUD, transactional events/routes/deliveries and SMTP dispatcher
+implemented; 103 backend and 14 component tests passed in development. Migration preservation checked.
+Browser and isolated live fault scenarios, review, final docs/CI/upload remain in progress.
+See phase4-design.md. No phase5, PR or merge authorization inferred.
 
 ## Blocked
 

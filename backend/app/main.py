@@ -13,12 +13,17 @@ from app.groups import group_snapshots, require_version
 from app.groups import router as groups_router
 from app.incidents import close_incident, incident_page
 from app.incidents import router as incidents_router
+from app.maintenance import router as maintenance_router
+from app.maintenance import window_snapshot
 from app.models import CheckResult, Monitor, now
+from app.notifications import router as notifications_router
 from app.schemas import MonitorCreate, MonitorRead, MonitorUpdate, ResultRead, VersionRequest
 
-app = FastAPI(title="ServicePulse", version="0.3.0")
+app = FastAPI(title="ServicePulse", version="0.4.0")
 app.include_router(groups_router)
 app.include_router(incidents_router)
+app.include_router(maintenance_router)
+app.include_router(notifications_router)
 DB = Annotated[AsyncSession, Depends(session_dependency)]
 
 
@@ -152,9 +157,11 @@ async def events(request: Request):
                 data = [MonitorRead.model_validate(row).model_dump(mode="json") for row in rows]
                 groups = [row.model_dump(mode="json") for row in await group_snapshots(db)]
                 incidents = (await incident_page(db)).model_dump(mode="json")
+                maintenance = await window_snapshot(db)
             yield f"data: {json.dumps(data)}\n\n"
             yield f"event: groups\ndata: {json.dumps(groups)}\n\n"
             yield f"event: incidents\ndata: {json.dumps(incidents)}\n\n"
+            yield f"event: maintenance\ndata: {json.dumps(maintenance)}\n\n"
             await asyncio.sleep(2)
 
     return StreamingResponse(

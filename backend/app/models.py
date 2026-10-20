@@ -1,7 +1,17 @@
 import uuid
 from datetime import UTC, datetime
 
-from sqlalchemy import CheckConstraint, DateTime, ForeignKey, Index, String, Text, Uuid, text
+from sqlalchemy import (
+    CheckConstraint,
+    DateTime,
+    ForeignKey,
+    Index,
+    String,
+    Text,
+    UniqueConstraint,
+    Uuid,
+    text,
+)
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -92,6 +102,7 @@ class Incident(Base):
     recovered_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     closure_reason: Mapped[str | None] = mapped_column(String(20))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+    notifications_enabled: Mapped[bool] = mapped_column(default=False, server_default="false")
 
 
 class MonitorGroup(Base):
@@ -118,3 +129,75 @@ class GroupRecipient(Base):
         ForeignKey("groups.id", ondelete="CASCADE"), primary_key=True
     )
     email: Mapped[str] = mapped_column(String(254), primary_key=True)
+
+
+class MaintenanceWindow(Base):
+    __tablename__ = "maintenance_windows"
+    __table_args__ = (
+        CheckConstraint("(monitor_id IS NULL) <> (group_id IS NULL)"),
+        CheckConstraint("end_at > start_at"),
+        CheckConstraint("config_version >= 1"),
+        Index("ix_maintenance_monitor_time", "monitor_id", "start_at", "end_at"),
+        Index("ix_maintenance_group_time", "group_id", "start_at", "end_at"),
+    )
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    name: Mapped[str] = mapped_column(String(120))
+    monitor_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("monitors.id", ondelete="CASCADE")
+    )
+    group_id: Mapped[uuid.UUID | None] = mapped_column(ForeignKey("groups.id", ondelete="CASCADE"))
+    start_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    end_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+    config_version: Mapped[int] = mapped_column(default=1, server_default="1")
+
+
+class NotificationEvent(Base):
+    __tablename__ = "notification_events"
+    __table_args__ = (
+        UniqueConstraint("incident_id", "event_type"),
+        CheckConstraint("event_type IN ('DOWN','RECOVERY')"),
+    )
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    incident_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("incidents.id", ondelete="CASCADE"))
+    event_type: Mapped[str] = mapped_column(String(10))
+    monitor_name: Mapped[str] = mapped_column(String(120))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+
+class NotificationRoute(Base):
+    __tablename__ = "notification_routes"
+    event_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("notification_events.id", ondelete="CASCADE"), primary_key=True
+    )
+    # Historical routing UUID, deliberately no group FK: avoid group->monitor / monitor->group
+    # FK lock inversion; frozen routes survive deletion, but eligibility joins live groups.
+    group_id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True)
+    email: Mapped[str] = mapped_column(String(254), primary_key=True)
+
+
+class NotificationDelivery(Base):
+    __tablename__ = "notification_deliveries"
+    __table_args__ = (
+        UniqueConstraint("event_id", "email"),
+        CheckConstraint("status IN ('PENDING','INFLIGHT','SENT','CANCELLED','FAILED')"),
+        CheckConstraint("attempts >= 0"),
+        CheckConstraint("(lease_token IS NULL) = (lease_until IS NULL)"),
+        CheckConstraint("(status = 'INFLIGHT') = (lease_token IS NOT NULL)"),
+        CheckConstraint("(status = 'SENT') = (sent_at IS NOT NULL)"),
+        Index("ix_delivery_due", "status", "next_attempt_at", "lease_until"),
+    )
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    event_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("notification_events.id", ondelete="CASCADE")
+    )
+    email: Mapped[str] = mapped_column(String(254))
+    status: Mapped[str] = mapped_column(String(10), default="PENDING")
+    attempts: Mapped[int] = mapped_column(default=0)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+    next_attempt_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+    lease_token: Mapped[uuid.UUID | None] = mapped_column(Uuid)
+    lease_until: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    send_started_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    sent_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    last_error: Mapped[str | None] = mapped_column(String(80))

@@ -47,6 +47,20 @@ services:
     depends_on:
       backend: {condition: service_healthy}
     restart: unless-stopped
+  dispatcher:
+    build: ./backend
+    environment:
+      <<: *backend-env
+      SMTP_HOST: ${SMTP_HOST:-mailpit}
+      SMTP_PORT: ${SMTP_PORT:-1025}
+      SMTP_SENDER: ${SMTP_SENDER:-servicepulse@example.com}
+      SMTP_TIMEOUT_SECONDS: ${SMTP_TIMEOUT_SECONDS:-5}
+    command: [python, -m, app.dispatcher]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      mailpit: {condition: service_started}
+    restart: unless-stopped
+    stop_grace_period: 60s
   simulator:
     build: ./simulator
   mailpit:
@@ -59,10 +73,13 @@ services:
       DATABASE_URL: postgresql+asyncpg://servicepulse:local-development-only@test-db/servicepulse_test
       TEST_DATABASE_URL: postgresql+asyncpg://servicepulse:local-development-only@test-db/servicepulse_test
       TEST_REPORT_PATH: /evidence/backend-tests.xml
+      SMTP_HOST: mailpit
+      MAILPIT_URL: http://mailpit:8025
     volumes: ['./artifacts:/evidence']
     command: [python, tests/run.py]
     depends_on:
       test-db: {condition: service_healthy}
+      mailpit: {condition: service_started}
   test-db:
     profiles: [test]
     image: postgres:17-alpine
