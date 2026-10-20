@@ -222,9 +222,12 @@ On restricted Windows execution, local socket access and launching Chromium may 
 host permission. A sandbox denial is not proof of an application failure or passing test.
 
 GitHub Actions specifies Python lint/format/PostgreSQL tests and frontend format/tests/types/build.
-Hosted CI **passed** for v0.4 implementation ade9c13, including actual SMTP/Mailpit integration:
-[actual Actions run](https://github.com/azimkhanrazdva/servicepulse/actions/runs/39379923079).
-Both backend and frontend jobs completed successfully. Later handoff documentation does not alter code.
+Hosted CI **passed** for v0.5 implementation 9c155c3:
+[actual Actions run](https://github.com/azimkhanrazdva/servicepulse/actions/runs/39390308186).
+Backend (121 tests), frontend (26 tests) and the new actual Compose/Chromium browser job
+(seven E2E tests, 0 skipped/flaky) completed successfully. Local browser duration was 18.5s;
+hosted duration 56.5s. The full phase1–4 process-fault smoke regression was run locally.
+See [v0.5 checkpoint](docs/phase5-checkpoint.md) and the downloaded hosted browser report.
 Private repository: https://github.com/azimkhanrazdva/servicepulse. main records v0.1;
 feat/monitor-management-groups carries v0.2; feat/incident-lifecycle v0.3;
 feat/maintenance-email-outbox carries verified v0.4. Open review chain:
@@ -234,6 +237,8 @@ feat/maintenance-email-outbox carries verified v0.4. Open review chain:
 See [GitHub workflow](docs/github-workflow.md) for the authentic baseline and publication policy.
 The later [Phase 4 audit](docs/phase4-audit.md) maps original requirements to code/evidence,
 records 109 backend/15 component/5 browser checks and explicitly lists SMTP/policy limits.
+feat/public-status-analytics carries v0.5, based on audited phase4 442496f. Its next PR description
+is [prepared](docs/pr-phase5.md); no additional remote PR or merge is claimed.
 
 ## Public status and observed analytics (v0.5)
 

@@ -2,7 +2,7 @@
   "recorded_at": "2026-10-20T07:59:05.8262291+05:00",
   "base": "442496f980b7e9ef14179b1895bdcbf517f5152c",
   "branch": "feat/public-status-analytics",
-  "status": "PASS_LOCAL_PHASE5_GATE",
+  "status": "PASS_LOCAL_AND_HOSTED_PHASE5_GATE",
   "backend": {
     "skipped": 0,
     "tests": 121,
@@ -138,5 +138,20 @@
       "status": "PASS",
       "elapsed_seconds": 74.672
     }
+  },
+  "hosted_ci": {
+    "run": 39390308186,
+    "browser_stats": {
+      "startTime": "2026-10-20T08:01:58.199Z",
+      "duration": 56455.643000000004,
+      "expected": 7,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "head": "9c155c3335a4bf035c8a398b7b5f31a0940e16aa",
+    "conclusion": "success",
+    "browser_report": "artifacts/github-browser-phase5.json",
+    "report": "artifacts/github-ci-phase5.json"
   }
 }

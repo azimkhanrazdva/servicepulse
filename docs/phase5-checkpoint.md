@@ -1,6 +1,10 @@
 # ServicePulse v0.5 — public status and observed analytics
 
-Phase5 local gate verified; private stage upload/hosted CI recorded in the chronological log after execution.
+Phase5 local and hosted gates verified. Implementation privately uploaded as
+9c155c3335a4bf035c8a398b7b5f31a0940e16aa, feat(ui): ship public status analytics and privacy regression,
+2026-10-20T08:00:13+05:00. [Actual hosted run 39390308186](https://github.com/azimkhanrazdva/servicepulse/actions/runs/39390308186)
+passed backend (63s), frontend (34s) and the new Compose/Chromium browser job (157s).
+Raw results: artifacts/github-ci-phase5.json and downloaded artifacts/github-browser-phase5.json.
 Branch feat/public-status-analytics starts at audited v0.4 442496f. First backend increment:
 c489815, feat(api): isolate public status and aggregate observed availability, 2026-10-20T07:43:50+05:00.
 No rewrite/merge of previous stages, no automatic public repository/PR creation. Phase6 not started.
@@ -35,7 +39,8 @@ No rewrite/merge of previous stages, no automatic public repository/PR creation.
 - Full real browser gate: seven tests (all original five retained), including public admin opt-in,
   REST/SSE privacy, two public clients, DOWN/UP/reconnect, permission removal/disable, mobile width,
   real PostgreSQL charts and genuinely unobserved paused service showing NO DATA for all periods.
-  Current measured duration is in artifacts/browser-tests.json, not fabricated from an estimate.
+  Final local duration 18.5s; hosted clean-checkout duration 56.5s, seven expected/zero skipped,
+  unexpected or flaky cases. These are suite timings, not service performance benchmarks.
 - Dense SQL fixture: **10000 rows → one query → 360 buckets**, 90% observed success, partial coverage.
   Latest measured aggregate **0.055304s**, from backend JUnit suite properties. Not p95, not universal latency.
   Environment: Docker Linux/x86_64, 16 reported CPUs, 8170147840 bytes memory; Python 3.12.15,

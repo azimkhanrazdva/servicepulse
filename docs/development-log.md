@@ -673,3 +673,37 @@ has locally validated Compose --wait + seven browser tests, but hosted execution
 until the authorized completed-stage push triggers it. Next: staged diff/secret-pattern review,
 commit verified UI/integration evidence, push private feature branch, inspect hosted jobs, then owner
 checkpoint. No new remote PR, merge, public visibility change or Phase6 work authorized/performed.
+
+### Phase5 private publication and hosted browser proof — 2026-10-20T08:05:19.9078116+05:00
+
+After staged whitespace and limited token/private-key checks passed, created real
+9c155c3335a4bf035c8a398b7b5f31a0940e16aa at 2026-10-20T08:00:13+05:00,
+feat(ui): ship public status analytics and privacy regression. Pushed both genuine stage commits
+with git push -u origin feat/public-status-analytics, exit0; unfinished work had not been pushed.
+Repo remains isPrivate=true. Existing PRs #1/#2/#3 and their bases unchanged, no new PR created.
+
+`gh run watch 39390308186 --exit-status --interval 15` exited0. Exact 9c155c3 push run completed
+SUCCESS in all three jobs: backend63s, frontend34s, browser157s. gh run view --log confirms
+121 backend tests in 20.49s, 26 component tests and seven actual browser tests in 56.5s.
+New browser job installed Chromium, built/started Compose from clean checkout with example config,
+ran E2E, uploaded artifacts and tore down its own CI volumes, all steps successful. Local and remote
+suite durations differ; neither is treated as a universal service performance metric.
+
+Saved actual structured gh response as artifacts/github-ci-phase5.json. Downloaded browser-evidence
+to ignored artifacts/local/ci-phase5-39390308186 with gh run download, then preserved its real JSON
+as artifacts/github-browser-phase5.json: expected7, skipped0, unexpected0, flaky0, duration56455.643ms.
+Consolidated phase5-checkpoint.json now asserts success of current local reports and exact hosted
+SHA/result. Kept reported GitHub timestamps as-is; did not rewrite dates to match local clock offset.
+Non-failing Node/ubuntu annotations and esbuild/encoding dependency notices remain LOW follow-ups.
+
+Final app/API check: two original UP monitors, zero groups/status pages; test pages/resources removed
+only by their own IDs. Public ingress deliberately has no listing/root page; owner may publish via
+the functional UI. Disposable test-db stopped, main stack running, isolated fault project absent.
+Final progress was condensed into an unambiguous current v0.5 handoff with links to historical
+checkpoints, preserving their full logs and Git versions. README/requirements/checkpoint now cite
+actual hosted browser proof. This last evidence follow-up changes documents/reports only.
+
+Verified Phase5 complete in its stated scope. ACC-EMAIL-01 remains open HIGH final-acceptance risk,
+not a newly fixed SMTP guarantee. No Phase6 fleet/load/final-security work started, no independent
+human review fabricated, no merge/new remote PR/public repository visibility change performed.
+Next action belongs to owner review and a separate continuation command.

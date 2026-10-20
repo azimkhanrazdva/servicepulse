@@ -271,8 +271,8 @@ Detailed implementation contract: phase5-design.md. Individual local evidence do
 | P5-13 | Local failures | Loading/errors/retry; no stale public restoration after unavailable/disconnect | PublicApp/AnalyticsPanel component tests | PASS local |
 | P5-14 | No Phase4 policy rewrite | Carry queued DOWN issue to final acceptance review | ACC-EMAIL-01; notifications/dispatcher diff remains empty | PASS recorded; acceptance risk OPEN |
 | P5-15 | Full regression | All prior backend/component/browser and live smoke/fault scenarios retained | 121 backend, 26 component, 7 browser, phase1/2/3/proxy/4 real reruns | PASS local |
-| P5-16 | Hosted CI | Python + UI + actual Compose browser job successful on published implementation | GitHub Actions exact commit run | NOT VERIFIED yet |
-| P5-17 | Review/docs/checkpoint | Privacy/races/query review, README/progress/evidence, real commits, stop before Phase6 | Review/checkpoint/log | IN PROGRESS |
+| P5-16 | Hosted CI | Python + UI + actual Compose browser job successful on published implementation | Run 39390308186 on exact 9c155c3: 121 backend/26 component/7 browser, three jobs SUCCESS | PASS hosted |
+| P5-17 | Review/docs/checkpoint | Privacy/races/query review, README/progress/evidence, real commits, stop before Phase6 | review.md, phase5-checkpoint.md, actual log/commits; ACC-EMAIL-01 retained | PASS phase5 scope; owner review next |
 
 ## Phase gates and effort estimates (planning ranges)
 
