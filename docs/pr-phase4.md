@@ -1,3 +1,9 @@
+# Actual review PR
+
+Created on the owner's subsequent request: https://github.com/azimkhanrazdva/servicepulse/pull/3
+(base feat/incident-lifecycle, depends on #2). Prepared text below is historical.
+No backdating or merge occurred.
+
 # feat: add maintenance windows and durable email notifications
 
 Prepared description only; no PR created. Base feat/incident-lifecycle, head feat/maintenance-email-outbox.

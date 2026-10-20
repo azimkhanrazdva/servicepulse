@@ -1,7 +1,8 @@
 # GitHub publication and review
 
 Owner authorized uploads after each completed, verified stage and selected **private** visibility
-on 2026-10-19. No permission for automatic merge, public visibility or PR creation is inferred.
+on 2026-10-19. The owner subsequently explicitly authorized phase2/3/4 PR creation;
+no permission for automatic merge or public visibility is inferred.
 
 Repository: https://github.com/azimkhanrazdva/servicepulse
 
@@ -21,7 +22,8 @@ The requested first PR text is prepared in pr-summary.md, with this limitation d
 
 Phase 2 uses feat/monitor-management-groups descended from bd43629. Its commits can be pushed
 after local acceptance and compared with main. Prepare PR text in pr-phase2.md. Creating/merging
-the remote PR still requires owner authorization. No stale-main checkout or data deletion needed.
+the remote PR required separate owner authorization, subsequently provided below.
+No stale-main checkout or data deletion needed.
 
 CI is defined for push, PR and manual dispatch. Check actual Actions status after pushing;
 workflow presence alone does not prove a run. Hosted results and URLs belong in development-log.md.
@@ -50,3 +52,24 @@ Phase4 verified commits 2a159d1 + ade9c13 were pushed after all local gates pass
 39379923079 completed SUCCESS for ade9c13b470dc02a9437d488b724b7a05eb54417 (backend 47s/frontend 21s,
 including real local SMTP/Mailpit CI service). Private=true and no PR in any state rechecked after push.
 Actual result: artifacts/github-ci-phase4.json. main/phase2/phase3 remain unchanged; no merge or force-push.
+
+## Later owner-authorized review PRs — 2026-10-20
+
+Created ready-for-review private-repository PRs for the existing completed commits:
+
+| Phase | PR | Head | Base |
+| --- | --- | --- | --- |
+| 2 | [#1](https://github.com/azimkhanrazdva/servicepulse/pull/1) | feat/monitor-management-groups | main |
+| 3 | [#2](https://github.com/azimkhanrazdva/servicepulse/pull/2) | feat/incident-lifecycle | feat/monitor-management-groups |
+| 4 | [#3](https://github.com/azimkhanrazdva/servicepulse/pull/3) | feat/maintenance-email-outbox | feat/incident-lifecycle |
+
+Each description links its dependency, actual checkpoint and implementation CI, with limitations.
+These are newly created review artifacts, not retroactive evidence of an earlier review.
+All three initial pull_request CI runs passed: 39381266717, 39381277581, 39381291388.
+The chronological log records commands and actual local time. GitHub timestamps are retained as
+reported; they are not used to overwrite local chronology.
+
+Merge is not authorized. When separately approved, merge in phase order 2 → 3 → 4 and retarget
+the next PR to main after its base lands. Prefer merge commits to preserve shared ancestry;
+squash/rebase would require explicit repair of dependent branches. Do not delete a base while
+another PR depends on it. No history rewrite, force push, visibility change or fabricated review.

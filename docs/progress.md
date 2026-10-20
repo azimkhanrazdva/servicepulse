@@ -27,7 +27,8 @@ Current branch is feat/maintenance-email-outbox, based on phase3 HEAD 3529b66.
 Phase4 local implementation/review verified: 107 backend, 15 component, 5 browser tests;
 actual isolated SMTP/DB/acceptance-crash suite and all prior smoke scenarios passed.
 Implementation ade9c13 uploaded; hosted run 39379923079 passed both jobs. Waiting for owner review.
-No phase5, PR or merge authorization inferred. Stop at completed stage4 checkpoint.
+Owner subsequently authorized PRs for completed phases 2–4; all three are now open (see below).
+No phase5 or merge authorization inferred. Stop at completed stage4 checkpoint.
 
 ## Blocked
 
@@ -38,14 +39,25 @@ submission inputs, not blockers for current implementation. No credentials belon
 ## Next Tasks
 
 1. Owner reviews completed stage4 before explicitly requesting phase5.
-2. No PR exists as of phase4 discovery. Prepared phase2/3/4 descriptions and creation commands.
-3. No automatic PR/merge; chain: phase2 -> main, phase3 -> phase2, phase4 -> phase3 until bases merge.
+2. Review [phase2 #1](https://github.com/azimkhanrazdva/servicepulse/pull/1),
+   [phase3 #2](https://github.com/azimkhanrazdva/servicepulse/pull/2),
+   [phase4 #3](https://github.com/azimkhanrazdva/servicepulse/pull/3), created on the subsequent explicit owner request.
+3. No automatic merge; bases: phase2 -> main, phase3 -> phase2, phase4 -> phase3 until bases merge.
+   After separately authorized merges, retarget the next PR to main; retain dependency commits
+   with merge commits rather than squash/rebase to avoid replaying earlier phase diffs.
 4. Maintenance/outbox gate is now implemented; do not silently begin next phase.
 5. Phase 5: remaining UI, coverage-aware uptime/charts, public projection and privacy tests.
 6. Phase 6: sustained 50 monitors / 30s, actual restarts, month history benchmark and final review.
 7. Phase 7: audit all pending requirements, owner essay (exactly ten sentences), approve publication.
 
 ## Verification Status
+
+Later PR-creation verification: all three initial pull_request CI runs PASS:
+[phase2](https://github.com/azimkhanrazdva/servicepulse/actions/runs/39381266717),
+[phase3](https://github.com/azimkhanrazdva/servicepulse/actions/runs/39381277581),
+[phase4](https://github.com/azimkhanrazdva/servicepulse/actions/runs/39381291388).
+Verified ancestry and exact PR bases; repo remains private. Documentation-only follow-up
+records links without changing product logic or the original commits.
 
 Phase4 final local: 107 PostgreSQL tests (17.83s), three legacy fixture stages + ORM check,
 15 component tests, 5 real browser tests (19.1s), types/lint/format/build and npm audit zero findings.
@@ -81,7 +93,7 @@ outbox restart/persistence is now verified. External mailbox delivery is not cla
 
 `feat/maintenance-email-outbox`, descended from phase3 3529b66.
 origin: https://github.com/azimkhanrazdva/servicepulse (private).
-main and first-slice branch published at bd43629; no PR/merge.
+main and first-slice branch remain at bd43629. PRs #1–#3 open; no merge.
 
 ## Latest Commit
 

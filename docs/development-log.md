@@ -440,3 +440,44 @@ Visual review of actual v0.4 screenshot completed. Main app remains running with
 monitors; groups/windows from tests removed, isolated fault project absent, temporary test DB stopped.
 This final docs-only handoff changes no product/test logic. Stage4 stops for owner review; public status,
 month analytics, sustained 50-monitor measurement and full final security audit remain later requested work.
+
+### Owner-authorized stacked review PRs — 2026-10-20T06:36:10.4271060+05:00
+
+Started this review-workflow task at actual local 2026-10-20T06:33:13.4427151+05:00.
+Prompt: docs/prompts/005-stacked-pull-requests.md. Owner explicitly requested phase2/3/4 PRs
+before final audit, retaining dependencies and real commit dates; no merge requested.
+
+Read AGENTS, requirements, architecture, progress, previous PR summaries and development log.
+`git status --short` was empty. `git fetch origin` succeeded. Three `git merge-base --is-ancestor`
+checks returned 0: main -> phase2 -> phase3 -> phase4. `git log base..head` confirmed 2/2/3
+existing commits respectively. `gh repo view --json nameWithOwner,isPrivate` returned private=true;
+`gh pr list --state all` returned []. Existing heads: bd43629 / 3569b1c / 3529b66 / 446c124.
+
+Prepared exact English bodies in ignored artifacts/local/pr2.md, pr3.md, pr4.md, with checkpoint
+links, previously executed verification and explicit limits. Executed `gh pr create --base ...
+--head ... --title ... --body-file ...` sequentially, exit 0 each:
+
+- https://github.com/azimkhanrazdva/servicepulse/pull/1 — phase2 -> main.
+- https://github.com/azimkhanrazdva/servicepulse/pull/2 — phase3 -> phase2.
+- https://github.com/azimkhanrazdva/servicepulse/pull/3 — phase4 -> phase3.
+
+Attached each actual PR to this Codex task; `gh pr edit --body-file` added mutual review links
+and a future owner-approved merge/retarget procedure. `gh pr list --json ...` verified all OPEN,
+non-draft and correctly based. Raw initial response: ignored artifacts/local/pr-creation.json.
+No code changed, so no new local product-test claim is made. New actual pull_request CI runs
+all completed SUCCESS, observed through `gh run list --event pull_request` after creation:
+39381266717 (#1), 39381277581 (#2), 39381291388 (#3). Existing checkpoint counts remain historical.
+
+Updated README, progress, GitHub workflow, prepared-summary headers and this log to reflect
+actual PRs while retaining prior no-PR entries as historical facts. No backdating, amend,
+rebase, force push, merge, public publication or simulated reviewer approval. Documentation
+follow-up is committed on phase4 and uploaded under existing verified-stage authorization;
+earlier branches/main remain unchanged. Next step: owner review; no phase5 or final audit begun.
+
+Documentation verification: `git diff --check` initially found three trailing blank lines in
+prepared PR summaries; normalized them and reran staged whitespace check successfully. Limited
+staged token/private-key pattern scan found no matches. First `git commit` failed because no
+author identity was configured (exit 128); nothing was committed or pushed by that attempt.
+Existing history/log explicitly uses Codex Agent <codex-agent@localhost> per command, so the
+retry uses `git -c user.name='Codex Agent' -c user.email=codex-agent@localhost commit ...`.
+No global Git identity or human authorship is invented.

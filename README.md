@@ -222,7 +222,10 @@ Hosted CI **passed** for v0.4 implementation ade9c13, including actual SMTP/Mail
 Both backend and frontend jobs completed successfully. Later handoff documentation does not alter code.
 Private repository: https://github.com/azimkhanrazdva/servicepulse. main records v0.1;
 feat/monitor-management-groups carries v0.2; feat/incident-lifecycle v0.3;
-feat/maintenance-email-outbox carries verified v0.4. No remote PR or merge is claimed.
+feat/maintenance-email-outbox carries verified v0.4. Open review chain:
+[phase 2 PR #1](https://github.com/azimkhanrazdva/servicepulse/pull/1) →
+[phase 3 PR #2](https://github.com/azimkhanrazdva/servicepulse/pull/2) →
+[phase 4 PR #3](https://github.com/azimkhanrazdva/servicepulse/pull/3). No merge has been performed.
 See [GitHub workflow](docs/github-workflow.md) for the authentic baseline and publication policy.
 
 ## Management semantics
@@ -316,7 +319,8 @@ Codex suits this work because changes, tests and local commands can be reviewed 
 See [AI disclosure](docs/ai-development.md), [actual prompt](docs/prompts/001-master-prompt.md),
 [decisions](docs/decisions.md), [chronological log](docs/development-log.md),
 [progress](docs/progress.md), [first PR summary](docs/pr-summary.md).
-No remote PR exists at this checkpoint; private GitHub upload is authorized after verified stages.
+These PRs were created on the owner's later request for the completed checkpoints, preserving
+actual commit dates and branch dependencies. See the chronological log for creation evidence.
 
 The project was written from an empty workspace, without a third-party application template.
 Libraries: FastAPI, Pydantic, SQLAlchemy, Alembic, asyncpg, HTTPX/httpcore, Uvicorn, React,
