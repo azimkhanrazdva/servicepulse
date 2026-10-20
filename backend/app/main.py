@@ -24,7 +24,7 @@ from app.notifications import router as notifications_router
 from app.publication import router as publication_router
 from app.schemas import MonitorCreate, MonitorRead, MonitorUpdate, ResultRead, VersionRequest
 
-app = FastAPI(title="ServicePulse", version="0.5.0")
+app = FastAPI(title="ServicePulse", version="0.6.0")
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=["localhost", "127.0.0.1", "backend"])
 app.include_router(analytics_router)
 app.include_router(publication_router)

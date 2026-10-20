@@ -107,3 +107,20 @@ docker compose -p servicepulse-phase6-benchmark -f compose.performance.yaml down
 
 Raw source: artifacts/phase6-history-benchmark.json. Benchmark PASS means completed correctly with
 verified counts/buckets/plans; it is not a universal <1s performance acceptance PASS.
+
+
+## 2026-10-20T15:53:12+05:00 — Additional fault and cold/warm experiments
+
+No repeat of the steady300s load was performed in this continuation. New unique test projects retain volumes; cleanup uses `down --remove-orphans` without `-v`. Main owner volumes were not reset.
+
+`python scripts/phase6_fault_load.py`:206.172s end-to-end including startup/configuration;50 monitors,30s interval,47 fast200 + one32s200 + one500 + one8s/2s timeout. Worker, database, backend and simulator restarts; edit/run/pause/resume/delete/replacement/group changes; two real Chromium clients with OPEN/CLOSED incident assertions and a fresh post-reconnect snapshot. Six scenario groups PASS. Worker recovery16.547s; PostgreSQL recovery22.360s (includes waiting for actual next observation).
+
+Logged HTTP starts295/ends295:266 success,7 unexpected status,13 timeout,9 network errors caused by the scenario. Maximum concurrency17; same-monitor overlaps0; scheduler delay p50 .319s/p95 1.740s/p99 7.162s/max8.560s including faults and manual scheduling. This is not a fixed-rate missed-count denominator. API overview20 samples p50 9.826ms/p95 24.752ms/p99 25.762ms. One resource snapshot, not percentiles: backend12.48%CPU/62.79MiB; DB5.55%/54.25MiB; worker1.98%/63.25MiB. Final live snapshot289 results; after shutdown persistence audit290 (one in-flight completion). Each persisted timestamp matches a real logged HTTP completion within1s, duplicate timestamp groups0, incidents only on intentionally failed monitors. No synthetic gap results or false fleet incident found. Raw counter values are in phase6-fault-load.json; PostgreSQL xact_rollback includes normal session rollback and is not an application-error count.
+
+First fault run failed because the harness checked simulator recovery before HTTP readiness; phase6-fault-load-first.json retained. A second earlier background attempt was host-interrupted (exit1073807364), not counted PASS. Final UUID project f82127 passed after harness corrections. Browser and log/persistence evidence are separate files.
+
+Dense synthetic fixture:100000 results for one paused monitor over~28.9days,360 month buckets,~55.4KB JSON. `python scripts/phase6_cold_history.py` restarts PostgreSQL three times; shared_buffers cold, OS cache retained. Three fresh-process first calls and21 warm calls. Before fix cold p50 1.101s/max1.327s; warm p50 1.009s/p95 1.599s/p99 1.694s. Host also ran builds/browser tests: CPU was not reserved.
+
+Retained original EXPLAIN identifies468.637ms JIT compilation as a major additional cost, alongside external sorts. Minimal transaction-local JIT fix keeps SQL/indices/semantics. After fix cold p50 .554s/p95/max .635s (only3 samples); warm p50 .532s/p95 .867s/p99/max1.180s (21 samples). All counts asserted100000/360; total statements2 =1 setting +1 aggregation SELECT. Timings include connection/session/bounded Python transformation, exclude HTTP; serialization1–3ms is separately measured. `phase6-history-plan-no-jit.json` records instrumented589.301ms, no JIT section; temp sorts remain. Do not call three samples a production p95 or promise every call under1s.
+
+The first new cold harness fixture placed earliest data exactly30days ago; later trials correctly failed the100000-count assertion as samples aged out. Retained failure evidence; fixture now starts29days ago and remains within the month for the experiment. No assertion was weakened. Before/after successful raw reports are retained separately. New files: phase6-cold-history-first-failure.json, phase6-cold-history-before-jit-fix.json, phase6-cold-history.json.

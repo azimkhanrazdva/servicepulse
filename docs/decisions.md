@@ -169,3 +169,20 @@ management names and a default nginx400 host. Public entrypoint remains separate
 Alternatives: full authentication now; rely only on CORS/loopback. Trade-offs: custom local hostname
 deployments need an explicitly reviewed allowlist/configuration; no production-auth claim.
 Consequences: normal localhost/127.0.0.1 remains valid; hostile Host tests reject both surfaces.
+
+
+## 2026-10-20T15:53:12+05:00 — Transaction-local JIT policy for bounded analytics
+
+Context: the retained dense-history EXPLAIN shows 468.637ms of JIT compilation; three additional restart trials before the change had cold p50 1.101s and warm p95 1.599s. Serialization was only 1–3ms.
+Decision: issue `SET LOCAL jit = off` inside aggregate() before the existing bounded SELECT. Preserve query semantics, indexes and observation gaps. Regression proves rollback restores the connection setting. SQL counters now explicitly include one setting statement plus one aggregation SELECT.
+Alternatives: global PostgreSQL settings, additional indexes, work_mem tuning, rewriting the coverage query or a cache. These would expand scope without corresponding evidence.
+Trade-offs: one extra small round trip per aggregate; JIT stays off for the containing transaction, including the public read-only transaction. New independent trials are local measurements, not a universal service-level guarantee.
+Consequences: measured cold max 635ms and warm p95 867ms; warm max/p99 1.180s remains disclosed. Separate post-change instrumented EXPLAIN is 589.301ms and has no JIT section. No migration or infrastructure change.
+
+## 2026-10-20T15:53:12+05:00 — One monochrome stylesheet and bounded browser operations
+
+Context: existing CSS overlapped with phase5.css; loaded500 scope, coverage, navigation and indefinite fetch waits were misleading or incomplete.
+Decision: consolidate actual components into style.css with shared neutral tokens; preserve the existing mounted sections and APIs. Use a native dialog with guarded saving, explicit Tab wrap, Escape and focus return. A shared request deadline covers fetch plus body decoding; no automatic mutation retry.
+Alternatives: a new component framework, router rewrite, state/query library or chart dependency. Existing React and SVG are sufficient.
+Trade-offs: sections remain on one document and tables scroll internally; selection metrics/search/sort disclose the API cap500. A deadline cannot prove a timed-out write was not accepted by the server; users should refresh before retrying changes.
+Consequences: no new production dependency; axe is test-only. Public entry uses neutral network.ts and still imports no management API/panels. Native inputs remain user-agent rendered; selected text may use the operating system highlight color.

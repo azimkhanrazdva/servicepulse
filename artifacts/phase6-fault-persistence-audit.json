@@ -1,0 +1,27 @@
+{
+  "checked_at": "2026-10-20T10:45:52.550710+00:00",
+  "project": "servicepulse-phase6-fault-load-f82127",
+  "persisted_observations": 290,
+  "observations_without_matching_actual_http_end": [],
+  "duplicate_timestamp_groups": 0,
+  "incident_monitors": [
+    {
+      "name": "fault-48",
+      "closed": null
+    },
+    {
+      "name": "fault-49",
+      "closed": null
+    },
+    {
+      "name": "fault-00",
+      "closed": "2026-10-20T10:37:21.048112+00:00"
+    },
+    {
+      "name": "fault-04",
+      "closed": null
+    }
+  ],
+  "status": "PASS",
+  "limit": "Matches each persisted timestamp to logged real HTTP completion within 1s; does not infer theoretical missed fixed-rate launches."
+}

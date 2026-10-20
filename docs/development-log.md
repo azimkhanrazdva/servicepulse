@@ -811,3 +811,42 @@ Repo isPrivate=true rechecked at2026-10-20T09:37:16.1864886+05:00; no remote mut
 Final staged whitespace check caught pytest-generated traceback trailing spaces in the original
 failing phase6-reproduction.xml. Preserved that raw report exactly and scoped a .gitattributes
 whitespace exception to that single evidence file; no source/test assertion was relaxed.
+
+
+## Phase6 continuation — recorded 2026-10-20T15:56:46+05:00
+
+Actual start discovery09:47:27+05 on2026-10-20, clean927bbca on existing feature branch. Read the owner's full continuation attachment, saved verbatim as prompts/009-phase6-continuation.md; then owner said “продолжи”. Prior architecture/requirements/progress/audit/performance read. No invented new Phase4 prompt receipt or retrospective commits. Host clock advanced across interruptions; do not interpret wall-clock09:47..15:56 as continuous execution.
+
+Read/used ponytail and frontend-design, later Playwright for explicitly requested test files, security-best-practices for scoped final review. Two independent read-only reviewers examined frontend/harness; did not execute tests or write implementation. Actual model family remains GPT-6; exact deployment identifier is not reliably exposed.
+
+Implementation: neutral tokens/one stylesheet, selected navigation, explicit500 selection scope, real filter/search/sort, coverage and warning, bounded15s complete requests, notification delivery diagnostics, copy/preview and guarded keyboard editor. First tests caught a Windows cp1251 source transform corrupting original Unicode; corrected using original Git text, assertions retained. New navigation test used unsupported Testing Library exact option (typecheck failed), then ambiguous Groups locator (unit failure); corrected to scoped navigation. New modal test initially called nonexistent fireEvent.cancel; corrected to a real cancel Event. No failing tests removed.
+
+Docker API stopped responding and background fault/cold processes exited1073807364. These are interrupted attempts, not product PASS. Actual `docker desktop start` at15:30:58+05 restored the API. Main stack rebuilt without resetting data. First fault attempt failed simulator recovery readiness; retained phase6-fault-load-first.json. Reviewer tightened post-edit nonempty config2 assertion, two-client ready handshake, real OPEN/CLOSED events, fresh post-reconnect snapshot and reliable cleanup/report persistence. Final unique project f82127 passed206.172s. Separate read-only retained-volume SQL audit matched290 persisted timestamps to real logged HTTP ends;295starts/295ends, no overlaps. Live final snapshot289 before one shutdown completion; no counts hidden.
+
+Cold fixture initially aged observations out at exactly30days; count assertion failed and report retained. Fixture moved to29days; before-fix3cold/21warm complete report retained. Existing EXPLAIN showed468.637ms JIT. Minimal transaction-local JIT correction adds one setting statement before one bounded aggregate SELECT. Dense-query regression now explicitly asserts exactly these two statements rather than weakening query bounds. New rollback regression proves session defaults restored. Repeated benchmark and separate EXPLAIN passed; all raw data retained. Warm outlier1.180s remains disclosed.
+
+Actual browser failures: axe detected #777 contrast4.47 and scrollable regions without keyboard access; fixed #666 and labeled focusable containers. Native modal Tab wrap made explicit. A management E2E timed out because CSS decorative × changed Delete's accessible name; traced and removed that pseudo-text. Test timeout was not increased. Review also found pending-save dismissal and missing Paused count; fixed, including delayed-save integration component regression. Final independent frontend follow-up: no additional actionable issue. Screenshots inspected; compacted action rows, then recaptured. Only recorded IDs created by failed tests were deleted; owner Demo monitors retained.
+
+Actual commands/results:
+
+- `docker compose up -d --build --wait`: PASS including final0.6 builds.
+- `docker compose --profile test run --rm --build tests`: first148PASS35.42s; after JIT regression149PASS40.29s, legacy0001..0005 preservation through0006/Alembic check.
+- `python -m ruff check backend scripts/phase6*` and `python -m ruff format --check backend scripts/phase6*`: PASS42files. Earlier check flagged missing explicit check=False and formatting in new harness/test; fixed.
+- Frontend `npm test -- --reporter=json --outputFile=../artifacts/phase6-frontend-tests.json`: final32PASS. `npm run typecheck`, `npm run lint`, `npm run format:check`, `npm run build`: PASS.
+- `npm run test:e2e -- --workers=2`: final11PASS46.2s on final rebuilt app. Original7 retained; four new viewport/keyboard/axe cases;12scans0violations, incomplete checks retained.
+- `python scripts/phase6_fault_load.py`: PASS six groups, real50monitors; resources and raw worker events retained. No repeated steady300s experiment.
+- `python scripts/phase6_cold_history.py`: actual before/after3cold/21warm sets; post-fix coldmax635ms/warmp95867ms/max1180ms;1aggregateSELECT+1setting. Separate retained-volume EXPLAIN589.301ms/noJIT.
+- `python scripts/phase6_email_smoke.py`: PASS49.859s, delayed dispatcher/quick recovery and SMTP refusal/retry/restart; UUID project, cleanup without-v.
+- `python scripts/phase6_host_smoke.py`:8actualGET assertionsPASS. `npm audit --json` and ephemeral Python3.12 `pip-audit -r requirements.lock --format=json`:0known vulnerabilities. No real secrets supplied.
+- One oversized documentation-writing shell call was rejected by tool policy before execution; switched to smaller file patches. No permission bypass or user-data change.
+
+Current docs updated with actual limits; old checkpoint/history evidence retained. Prepared stacked PR text only (Phase5 base maintenance-email-outbox, Phase6 base public-status-analytics). Existing#1/#2/#3 remain open. Repository isPrivate=true rechecked15:53; no PR/merge/visibility mutation. Real logical commits and authorized private verified-stage push follow review, with actual hashes/CI recorded in the next entry.
+
+
+### Final visual/control follow-up — 2026-10-20T16:01:57+05:00
+
+Real clipboard read/write and preview URL assertions added at all four widths. Initial supplemental test incorrectly searched the page slug as visible card text (slug is only in the link href), then direct API fixture setup needed a fresh document load. Interrupted the targeted test runs, corrected setup/selectors to the actual link href, and removed only the recorded test fixture IDs. Four supplemental journeys now PASS20.9s, including actual clipboard content. No product assertion/timeout was relaxed. Mobile visual inspection showed anchors scrolling the menu out of view; made the header sticky with anchor scroll margins and recaptured actual screenshots. Full browser/static gates repeated for this final UI change. Performance commit42a11aa was created with actual current time after staged diff/whitespace review; no backdating.
+
+Final UI follow-up full gate:11Chromium PASS41.7s, including actual clipboard/preview checks at four widths and sticky mobile navigation. TypeScript/ESLint/Prettier PASS. Original baseline artifact bytes restored from Git after copying fresh phase6-prefixed reports/captures.
+
+Actual continuation commits after verified increments:42a11aa35ebc8cf814ab1f31129034446669bf29 at2026-10-20T16:00:24+05:00 (JIT/history); e687f076fe333067a7903eda85ecd36e42cfff90 at2026-10-20T16:02:54+05:00 (monochrome UI/keyboard/clipboard/evidence). Both staged diff checks passed. Fault/security/documentation checkpoint follows as a separate logical commit.

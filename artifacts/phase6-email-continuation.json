@@ -1,0 +1,27 @@
+{
+  "started_at": "2026-10-20T10:44:24.467202+00:00",
+  "project": "servicepulse-phase6-email-79538d",
+  "checks": {
+    "offline_dispatcher_quick_recovery_restart_order_and_dedup": "PASS",
+    "smtp_refusal_recovery_before_retry_and_dispatcher_restart": "PASS"
+  },
+  "messages": [
+    {
+      "ID": "eZ595ddKAouFAMDFnssDX2",
+      "Subject": "ServicePulse DOWN: phase6-email-f0f33eeb",
+      "Created": "2026-10-20T10:44:48.452Z"
+    },
+    {
+      "ID": "LpX2NckumFokBF2NdkCPeN",
+      "Subject": "ServicePulse RECOVERY: phase6-email-f0f33eeb",
+      "Created": "2026-10-20T10:44:50.503Z"
+    }
+  ],
+  "retry_attempts": {
+    "RECOVERY": 1,
+    "DOWN": 2
+  },
+  "status": "PASS",
+  "ended_at": "2026-10-20T10:45:14.317908+00:00",
+  "elapsed_seconds": 49.859
+}

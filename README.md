@@ -1,13 +1,9 @@
 # ServicePulse
 
-**Phase6 is in progress; this is not the final v0.6 release.** The first reliability increment
-fixes confirmed notification loss, expired-lease preflight and paused-public freshness; migration0006
-is additive. See [audit](docs/phase6-audit.md), [notification policy](docs/phase6-notification-policy.md),
-[performance evidence](docs/phase6-performance.md) and [remaining work](docs/progress.md).
-The complete monochrome redesign and final acceptance/security/accessibility gates remain pending.
+**v0.6 local checkpoint:** reliability fixes, fault recovery, monochrome UI and accessible browser journeys. See [checkpoint](docs/phase6-final-checkpoint.md), [performance](docs/phase6-performance.md), [security scope](docs/phase6-security-review.md) and [progress](docs/progress.md). Phase7 remains.
 
 A website availability monitoring platform built for Mad Devs' Junior Agentic Developer
-take-home assignment #3. **Version 0.5 adds isolated public status pages, explicit publication controls,
+take-home assignment #3. **Version 0.6 includes isolated public status pages, explicit publication controls,
 24h/7d/30d observed uptime and PostgreSQL-aggregated response charts with honest gaps.**
 
 Create a monitor, let an independent worker request a real HTTP target, persist observations
@@ -24,7 +20,7 @@ in PostgreSQL and see the dashboard update through SSE. No fabricated metrics or
 - UNKNOWN → UP/DOWN state with two consecutive failures by default; manual run queue.
 - Atomic incident lifecycle, one open incident per monitor, recovery and distinct administrative closures.
 - Filtered/paginated incident API and live journal with ticking durations and two-client reconnect.
-- Dark responsive React dashboard, real HTTP code/latency/timestamps and recent observation history.
+- Monochrome responsive React dashboard, real HTTP code/latency/timestamps and recent observation history.
 - SSE snapshots and automatic browser reconnect; full resynchronization on the next snapshot.
 - Alembic migration, isolated PostgreSQL integration tests, HTTP simulator and Mailpit container.
 - URL/DNS destination policy, pinned numeric connections, no redirects/proxies, bounded response/time.

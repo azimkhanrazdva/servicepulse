@@ -11,7 +11,7 @@ import phase4_fault_smoke as harness
 
 def main():
     started = time.monotonic()
-    project = "servicepulse-phase6-email"
+    project = "servicepulse-phase6-email-" + uuid.uuid4().hex[:6]
     harness.PROJECT = project
     harness.PREFIX = [
         "docker",
@@ -98,12 +98,12 @@ def main():
         report.update(status="FAIL", error=f"{type(exc).__name__}: {exc}")
         raise
     finally:
-        cleanup = harness.compose("down", "-v", "--remove-orphans", check=False)
+        cleanup = harness.compose("down", "--remove-orphans", check=False)
         if cleanup.returncode:
             report.update(status="FAIL", cleanup_error=cleanup.stderr[-1000:])
         report["ended_at"] = datetime.now(UTC).isoformat()
         report["elapsed_seconds"] = round(time.monotonic() - started, 3)
-        Path("artifacts/phase6-email-smoke.json").write_text(
+        Path("artifacts/phase6-email-continuation.json").write_text(
             json.dumps(report, indent=2), encoding="utf-8"
         )
         print(json.dumps(report, indent=2))

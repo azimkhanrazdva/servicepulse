@@ -322,3 +322,19 @@ status remains PARTIAL for unconditional first-query latency. See phase6-perform
 
 Do not combine these additional owner/engineering criteria with the133 baseline as literal employer
 PDF wording. No full-product readiness percentage, exactly-once SMTP or unlimited-scale claim.
+
+
+## 2026-10-20T15:56:02+05:00 — v0.6 continuation evidence
+
+This dated amendment supersedes earlier partial current-status wording; historical phase evidence remains.
+
+| IDs | Disposition | Evidence / limits |
+|---|---|---|
+| UI-01..13; P6-REQ-10 | PASS delivered UI scope |Admin/public monochrome; real controls;32components/11browser, four widths.12axe scans0violations; not complete WCAG certification |
+| UI-07; P6-005..008 findings | PASS honest selection/deadline/navigation/coverage |Paused/UNKNOWN retained, maximum500 disclosed; no unlimited-list claim |
+| P6-REQ-01/02/03/04/05/09 | PASS defined audit/local-security scope |149PostgreSQL tests/migrations; independent follow-up; real SMTP/Host/privacy/dependency review |
+| P6-REQ-06/08; SCN-12..14/17/18 | PASS measured steady+fault scope |Original300s retained; new50-monitor faults206s,295HTTPends,0loggedoverlaps,290persisted at shutdown matched to actualHTTP. No theoretical fixed-rate missed count claimed |
+| P6-REQ-07; HIS-09; SCN-15 | PASS bounded measurement; universal<1s LIMITED |100000single-monitor rows;3cold/21warm;1aggregateSELECT+1localsetting; coldmax635ms/warmp95867ms/warmp99max1180ms. Synthetic/sharedhost/OS-cache limits |
+| P6-REQ-11/12 | Responsive/a11y/local checkpoint PASS; hosted CI requires exact-SHA outcome |phase6-final-checkpoint.md/log; no remote PR/merge falsely claimed |
+
+GEN-07 exact model identifier, owner's essay and final employer access/submission remain owner inputs. This is a phase checkpoint, not final submission acceptance.

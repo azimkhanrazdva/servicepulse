@@ -239,3 +239,10 @@ Smoke script creates its own monitor, waits for worker result, verifies API/hist
 only that monitor. Later browser tests cover two clients, reconnect and public privacy; load
 test records actual throughput/concurrency/lateness and history latency. CI runs lint, pytest
 with PostgreSQL, frontend tests/typecheck/build. No future test is labeled passed.
+
+
+## 2026-10-20T15:53:12+05:00 — v0.6 continuation amendment
+
+The work area and public page now use a shared white/black/gray token system with a black admin sidebar, replacing the former dark work area. phase5.css was consolidated into style.css. Existing service boundaries and SSE/public projections are preserved. Management operations have a 15s complete-request deadline; analytics also abort on unmount. There are no automatic mutation retries.
+
+Analytics remains bounded PostgreSQL aggregation: one transaction-local `SET LOCAL jit = off` plus one aggregate SELECT, at most360 month buckets. The setting rolls back with the session and is valid in the public read-only transaction. The original one-SELECT claim refers to aggregation, not the total round-trip count after this correction. See phase6-final-checkpoint.md and the preserved before/after performance evidence.

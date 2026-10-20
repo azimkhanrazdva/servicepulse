@@ -81,3 +81,22 @@ Pinned Python pip-audit and npm audit completed with zero known vulnerabilities;
 history private-key/GitHub/AWS patterns found zero matches and .env is untracked. These are
 bounded checks, not a complete secret/security guarantee. The final complete security pass is
 still required before Phase6 completion. No real secret was requested or sent to an external scanner.
+
+
+## 2026-10-20T15:53:12+05:00 — Continuation closure review
+
+The earlier sections describe the first checkpoint and remain as historical evidence. Current disposition:
+
+| Finding | Current disposition | New evidence |
+|---|---|---|
+| P6-001..004 | Prior corrections retained; new full regression green |149 PostgreSQL tests incl migrations; real delayed/failed SMTP continuation; public browser privacy/revocation |
+| P6-005 | FIXED: coverage gets an explicit numeric block and continuity warning beside sample uptime |AnalyticsPanel regression; four-width public/detail screenshots and axe |
+| P6-006 | FIXED for honest scope: maximum500 selection is explicit on counters/filter/search/sort; active incident count remains server-wide |App regression and four-width browser journey. This does not implement unbounded management pagination |
+| P6-007 | FIXED: hash selection and aria-current follow the chosen section |App regression; every section at four widths |
+| P6-008 | FIXED:15s deadline includes body decoding, cancellation and cleared timers |network deadline tests; existing API error/conflict tests; actual browser reconnect |
+| P6-009 | Retained and broadened |Four strict viewport widths; keyboard-scrollable tables; no document overflow |
+| P6-010 | MEASURED + MINIMALLY CORRECTED: expensive JIT disabled transaction-locally |Three cold/21 warm trials, one aggregate SELECT+one setting, separate EXPLAIN. Warm outlier1.180s remains a performance limitation |
+
+Follow-up read-only frontend review found two MEDIUM regressions: dismissal while saving and lost Paused count. Both fixed with guarded dismissal/32 component tests and restored Paused/UNKNOWN counts. Follow-up reviewer found no additional actionable issue; that review did not itself run tests. Harness review corrected a vacuous post-edit check, both-client startup race, empty-incident counting, weak reconnect evidence and cleanup/report persistence. Actual rerun passed; logs separately prove295 launches/295 ends/no overlaps.
+
+No unresolved confirmed BLOCKER/HIGH in the tested local deployment. Production limitations remain explicit in phase6-security-review.md. No full WCAG certification, exactly-once SMTP or unconditional subsecond-history claim.
