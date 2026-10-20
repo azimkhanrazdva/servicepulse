@@ -2,8 +2,8 @@
 
 The owner prescribed this stack; this design keeps it. Shipped scope includes foundation,
 versioned monitor CRUD/pause/resume, group membership/recipients and real HTTP observations.
-Persisted incidents ship in phase 3. Outbox, maintenance and public components below are
-**designs**, not implementation claims. See requirements.md for individual status.
+Persisted incidents, maintenance and transactional SMTP outbox now ship through phase 4.
+Public projection remains a target design. See requirements.md and phase4-design.md for exact contracts.
 
 ```mermaid
 flowchart LR
@@ -12,7 +12,8 @@ flowchart LR
   Worker[async Python worker] --> DB
   Worker --> Targets[HTTP targets / simulator]
   API -->|SSE snapshot invalidation| UI
-  Worker -. future outbox dispatcher .-> SMTP[Mailpit]
+  Dispatcher[SMTP dispatcher / reconciler] --> DB
+  Dispatcher --> SMTP[Mailpit]
 ```
 
 ## Services and boundaries
@@ -26,12 +27,12 @@ flowchart LR
 - Worker: separate process; bounded asyncio tasks and one pooled HTTPX client. Claims due
   monitors using PostgreSQL `FOR UPDATE SKIP LOCKED`. A UUID claim token and expiring lease
   fence stale workers. HTTP total deadline is shorter than the lease. No backfilled checks.
-- PostgreSQL: authoritative config, results, groups, recipients, incidents and scheduling state. Later outbox
-  are separate tables added through reviewed migrations.
+- PostgreSQL: authoritative config, results, groups, recipients, incidents, maintenance, outbox and scheduling state.
 - Simulator: controllable local HTTP status, delay, body and redirect responses; no external dependency.
-- Mailpit: local SMTP capture included in Compose; dispatch is a later phase.
+- Dispatcher: separate process, leased per-recipient work and two-second reconciliation independent of HTTP results.
+- Mailpit: real local SMTP acceptance catcher with HTTP API evidence; no external relay/provider.
 
-## Persisted model (Alembic 0001 + additive 0002/0003)
+## Persisted model (Alembic 0001 + additive 0002/0003/0004)
 
 Monitor: UUID, name, URL, interval (30..3600 seconds), timeout (0.1..120 seconds), expected
 status (100..599), optional expected string, failure threshold (1..10, default 2), state,
@@ -44,12 +45,19 @@ times are UTC timestamptz. Group stores name/version; MonitorGroup is a many-to-
 with cascading FKs and a monitor lookup index; GroupRecipient has unique (group_id,email).
 Deleting a group never deletes its monitors. Deleting a monitor removes its memberships/results.
 
-## Target model (not migrated yet)
+## Maintenance and outbox model (0004)
 
-MaintenanceWindow targets exactly one monitor or group, has start/end
-and end > start constraint. Outbox uses unique (incident_id, group_id, event_type), frozen
-recipient payload, attempts, next_attempt_at, lease, sent_at. PublicPage + publication join
-table selects public name and state only; no private URL, errors, recipients or config.
+MaintenanceWindow targets exactly one monitor or group, has UTC start/end, end > start constraint,
+version, FK cascades and target/time indexes. NotificationEvent is unique (incident_id,event_type).
+NotificationRoute freezes group UUID/email at confirmation; NotificationDelivery is unique(event_id,email),
+with persisted status/attempts/due time/lease token/send authorization/sent timestamp/bounded error.
+The group route UUID is historical, deliberately not a FK (avoids reverse lock ordering); eligibility
+requires live membership/recipients. Monitor deletion cascades incident/outbox; group deletion revokes routes.
+See phase4-design.md for case normalization, frozen recipients, retries, ordering and SMTP uncertainty.
+
+## Target public model (not migrated yet)
+
+PublicPage + publication join selects public name and state only; no private URL, errors, recipients or config.
 
 ## State and incident policy
 
@@ -57,7 +65,7 @@ Initial UNKNOWN. First success → UP. First failure preserves UNKNOWN or UP unt
 consecutive failures; threshold (default two) → DOWN. Success resets failures and → UP.
 The threshold reduces false alerts without an extra state. An HTTP response must match both
 status and optional body string. Manual runs use the same queue/claim and state rules.
-State and incident records are committed atomically with the observation. Alert delivery is not implemented.
+State, observation, incident and notification event/routes/deliveries commit atomically. SMTP runs outside that transaction.
 
 PAUSED prevents scheduled/manual launches. Resume schedules immediately, clears the streak
 and sets UNKNOWN until a new observation. Every configuration edit increments its version,
@@ -67,7 +75,7 @@ CONFIG_CHANGED; pause closes with PAUSED. Neither is a successful recovery.
 Group: DOWN if any active member DOWN, otherwise UNKNOWN if any active member UNKNOWN,
 otherwise UP; all paused → PAUSED; empty → UNKNOWN. Maintenance is a badge/policy, never UP.
 Group recipients are validated with Pydantic EmailStr/email-validator and normalized/deduplicated,
-up to 100 addresses. Deliverability and actual sending are not checked in this phase.
+up to 100 addresses. SMTP acceptance is verified with Mailpit; external mailbox deliverability is not claimed.
 
 ## Phase 3 incident persistence and API
 
@@ -109,10 +117,10 @@ so closing an older incident outside the newest 50 still updates the visible pag
 one bounded request per connected client per two seconds. Reconnect receives a full snapshot.
 Open duration ticks every second in React; no backend or page refresh is needed for the clock.
 
-No outbox table or SMTP action is added here. Future logical keys are (incident UUID, event type,
-group UUID); DOWN is represented by confirmation, RECOVERY only by closure_reason=RECOVERED.
-PAUSED and CONFIG_CHANGED must never create recovery mail. Event creation must join the same
-transaction when outbox ships; existing incident IDs allow a future explicit reconciliation policy.
+The phase3 incident identity/closure semantics feed phase4 outbox. DOWN corresponds to confirmation,
+RECOVERY only to closure_reason=RECOVERED; administrative closure never creates recovery mail.
+Migration 0004 disables notifications on existing incidents, avoiding upgrade backfill/mass mailing.
+New incidents explicitly enable notifications and create events in the existing completion transaction.
 
 ## Concurrent mutations
 
@@ -146,20 +154,25 @@ fake observation: restart waits for lease expiry. First slice supports multiple 
 DB claims; competing claims, expiry, stale completion, cancellation and actual restart are now tested.
 Sustained 50-monitor/30s cadence remains a separate mandatory performance experiment.
 
-## Notifications and maintenance (target)
+## Notifications and maintenance (implemented phase 4)
 
-State transition + incident + outbox insert share a transaction. Two consecutive failures open
-an incident; repeated failed checks do not create new logical events. Maintenance does not stop
-checks. Effective suppression is the union of monitor and group windows. At every dispatcher
-tick re-evaluate windows and open incidents; enqueue deferred DOWN after last window ends if
-still down. If recovered during maintenance, suppress the deferred alert; send recovery only
-to groups for which the DOWN event was delivered. Freeze recipients per event, back off SMTP
-errors. SMTP acceptance + DB crash can duplicate physical delivery; do not claim exactly once.
-Ordering between DOWN and recovery and pending-send maintenance races need transaction tests.
+Full contract: [phase4-design.md](phase4-design.md). Suppression is evaluated per frozen group route;
+a monitor window suppresses all routes, a group window only itself. Any allowed route can authorize
+one shared-address delivery. Reconciliation advances pending delivery without fabricating HTTP results.
+Queued unattempted DOWN is cancelled on recovery; recovery waits for known DOWN acceptance. An
+uncertain in-flight/accepted-before-ack DOWN is retried before recovery, with possible physical duplicates.
+Known rejection clears its authorization marker. Backoff is 5..300s, at most eight attempts; permanent
+errors fail without aggressive retry. Retry exhaustion needs operator investigation, not an eventual
+delivery guarantee. Diagnostic API lists bounded delivery state, not SMTP controls or secrets.
+
+Preflight is the authorization boundary. Maintenance/settings changing after authorization cannot recall
+an already in-flight SMTP command. Each new attempt rechecks current policy; no transaction spans SMTP.
+Controlled tests document this boundary, cancellation, concurrent claims and stale tokens. A real isolated
+stack verifies outage/restart/window/SMTP-acceptance crash cases; full evidence in phase4-checkpoint.md.
 
 ## Realtime and history
 
-SSE retains the default monitor-array message and named `groups`, adding `incidents`
+SSE retains the default monitor-array message and named `groups`, `incidents`, adding `maintenance`
 every two seconds. All snapshots read one REPEATABLE READ transaction. Native EventSource
 reconnects and receives a complete snapshot: clients need no in-memory shared broadcaster.
 This is low-volume polling over SSE, not PostgreSQL NOTIFY; scales to the assignment, not a
@@ -167,6 +180,11 @@ large fleet. First slice history returns the most recent 100 bounded results; mo
 buckets, gaps, 24h/7d/30d availability and public projection are later work.
 Uptime target definition: observed successful samples / all observed samples, with sample
 count and coverage shown separately. Missing periods are gaps and excluded, never failures.
+Maintenance event/API envelope includes paginated items plus active_monitor_ids and active_group_ids
+computed from all active windows, so an older active window outside the newest page still has a badge.
+Monitor IDs include current group membership; group IDs denote direct group windows. UI displays
+the actual UP/DOWN alongside a separate suppression badge. Browser local datetime input is converted
+to UTC ISO; timezone and inclusive/exclusive boundary are shown explicitly. SSE reconnect refreshes all.
 
 ## SSRF and deployment
 

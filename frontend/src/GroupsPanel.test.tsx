@@ -40,7 +40,7 @@ it("creates a group and saves recipients, without implying email delivery", asyn
   });
   expect(
     screen.getByText(
-      "Recipients are stored. Email delivery is planned for phase 4.",
+      /Local SMTP catcher: Mailpit\. Maintenance suppresses applicable routes\./,
     ),
   ).toBeTruthy();
   fireEvent.click(screen.getByRole("button", { name: "Create group" }));

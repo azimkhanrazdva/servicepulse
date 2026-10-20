@@ -424,3 +424,106 @@ async def test_actual_smtp_acceptance_and_real_mailpit_api(monkeypatch):
             assert str((await records())[0].id) in message["MessageID"]
             assert "Incident:" in message["Text"]
     await engine.dispose()
+
+
+async def test_monitor_window_blocks_all_groups_and_claim_rechecks_policy(monkeypatch):
+    timestamp = now()
+    monkeypatch.setattr("app.notifications.now", lambda: timestamp)
+    async with api_client() as api:
+        m, _ = await setup(api)
+        await api.post(
+            "/api/groups",
+            json={"name": "B", "monitor_ids": [m["id"]], "recipients": ["other@example.com"]},
+        )
+        await sample(api, m["id"], monkeypatch)
+        claims = await claim_deliveries()
+        response = await api.post("/api/maintenance", json=window(monitor_id=m["id"]))
+        assert response.status_code == 201
+        for claim in claims:
+            assert await prepare(claim) is None
+        assert all(row.status == "PENDING" and row.attempts == 0 for row in await records())
+        timestamp += timedelta(hours=2)
+        await reconcile()
+        sent = []
+
+        async def sender(payload):
+            sent.append(payload)
+
+        await drain(sender)
+        assert {p["email"] for p in sent} == {"ops@example.com", "other@example.com"}
+
+
+async def test_smtp_inflight_holds_no_monitor_transaction_and_admin_no_recovery(monkeypatch):
+    started, finish = asyncio.Event(), asyncio.Event()
+
+    async def sender(payload):
+        started.set()
+        await finish.wait()
+
+    async with api_client() as api:
+        m, _ = await setup(api)
+        await sample(api, m["id"], monkeypatch)
+        claim = (await claim_deliveries())[0]
+        task = asyncio.create_task(dispatch_one(claim, sender))
+        await asyncio.wait_for(started.wait(), 3)
+        try:
+            paused = await asyncio.wait_for(
+                api.post(f"/api/monitors/{m['id']}/pause", json={"config_version": 1}), 3
+            )
+            assert paused.status_code == 200
+        finally:
+            finish.set()
+            await task
+        assert (await records())[0].status == "SENT"  # authorized before pause, cannot recall SMTP
+        async with Session() as db:
+            assert not await db.scalar(select(Event.id).where(Event.event_type == "RECOVERY"))
+
+
+async def test_dispatcher_cancellation_retains_lease_until_reclaim(monkeypatch):
+    started = asyncio.Event()
+
+    async def sender(payload):
+        started.set()
+        await asyncio.Event().wait()
+
+    async with api_client() as api:
+        m, _ = await setup(api)
+        await sample(api, m["id"], monkeypatch)
+        claim = (await claim_deliveries())[0]
+        task = asyncio.create_task(dispatch_one(claim, sender))
+        await asyncio.wait_for(started.wait(), 3)
+        task.cancel()
+        with pytest.raises(asyncio.CancelledError):
+            await task
+        assert await claim_deliveries() == []
+        assert (await records())[0].status == "INFLIGHT"
+        async with Session() as db, db.begin():
+            row = await db.get(Delivery, claim.id)
+            row.lease_until = now() - timedelta(seconds=1)
+        await engine.dispose()
+        fresh = (await claim_deliveries())[0]
+        assert fresh.id == claim.id and fresh.lease_token != claim.lease_token
+        assert await prepare(fresh)
+        await acknowledge(fresh)
+        assert (await records())[0].status == "SENT"
+
+
+async def test_window_future_start_and_end_boundaries(monkeypatch):
+    timestamp = now()
+    monkeypatch.setattr("app.maintenance.now", lambda: timestamp)
+    async with api_client() as api:
+        m = await create(api)
+        payload = window(
+            monitor_id=m["id"],
+            start_at=(timestamp + timedelta(seconds=10)).isoformat(),
+            end_at=(timestamp + timedelta(seconds=20)).isoformat(),
+        )
+        assert (await api.post("/api/maintenance", json=payload)).json()["state"] == "UPCOMING"
+        assert not (await api.get("/api/maintenance?state=ACTIVE")).json()["active_monitor_ids"]
+        timestamp += timedelta(seconds=10)
+        assert (await api.get("/api/maintenance?state=ACTIVE")).json()["active_monitor_ids"] == [
+            m["id"]
+        ]
+        timestamp += timedelta(seconds=10)
+        page = (await api.get("/api/maintenance?state=ENDED")).json()
+        assert page["items"][0]["state"] == "ENDED" and not page["active_monitor_ids"]

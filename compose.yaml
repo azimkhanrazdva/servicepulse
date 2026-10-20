@@ -61,6 +61,9 @@ services:
       mailpit: {condition: service_started}
     restart: unless-stopped
     stop_grace_period: 60s
+    logging:
+      driver: json-file
+      options: {max-size: '10m', max-file: '3'}
   simulator:
     build: ./simulator
   mailpit:

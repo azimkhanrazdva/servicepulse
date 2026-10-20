@@ -40,3 +40,8 @@ Upload authorization remains private branch pushes only, with no automatic PR or
 Phase3 implementation 5b43b20 pushed to origin/feat/incident-lifecycle. Automatic push workflow
 39323301037 passed both backend/frontend jobs on that exact SHA. main and phase2 refs remain unchanged.
 Structured result: artifacts/github-ci-phase3.json. Later docs-only handoff records the verified outcome.
+
+Phase4 discovery confirmed clean phase3 HEAD 3529b66 and no PR in any state. New branch
+feat/maintenance-email-outbox starts there. pr-phase4.md prepares the full review chain and exact
+creation command (base feat/incident-lifecycle). Local backend commit 2a159d1 is a real incremental
+checkpoint; it was kept local while UI/fault verification continued. Private upload follows final local gate.

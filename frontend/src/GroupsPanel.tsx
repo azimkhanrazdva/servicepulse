@@ -9,12 +9,14 @@ export function GroupsPanel({
   onChange,
   onFilter,
   notify,
+  maintenanceGroupIds = [],
 }: {
   groups: Group[];
   monitors: Monitor[];
   onChange: (group: Group | string) => void;
   onFilter: (id: string) => void;
   notify: (message: string) => void;
+  maintenanceGroupIds?: string[];
 }) {
   const [editor, setEditor] = useState<Group | "new" | null>(null);
   const [error, setError] = useState("");
@@ -162,7 +164,9 @@ export function GroupsPanel({
             </fieldset>
             <div className="form-actions">
               <small>
-                Recipients are stored. Email delivery is planned for phase 4.
+                Local SMTP catcher: Mailpit. Maintenance suppresses applicable
+                routes. New recipients apply to future incidents; removal
+                revokes pending mail.
               </small>
               <div className="actions">
                 <button
@@ -191,6 +195,9 @@ export function GroupsPanel({
           <article className="group-card" key={g.id}>
             <div>
               <h3>{g.name}</h3>
+              {maintenanceGroupIds.includes(g.id) && (
+                <small className="maintenance-badge">MAINTENANCE</small>
+              )}
               <span className={`badge ${g.state.toLowerCase()}`}>
                 ● {g.state}
               </span>
@@ -198,6 +205,9 @@ export function GroupsPanel({
             <p>
               {g.monitor_ids.length} monitors · {g.recipients.length} email
               recipients
+            </p>
+            <p className="subtle">
+              {g.recipients.join(", ") || "No email recipients configured."}
             </p>
             <div className="actions">
               <button onClick={() => onFilter(g.id)}>View monitors</button>

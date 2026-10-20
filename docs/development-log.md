@@ -374,3 +374,49 @@ is untouched. Acceptance-crash helper exits only in that isolated test after act
 Version 0.4 build started; reordered Dockerfile dependency copy to keep locked installs cached when
 only application version/source changes (previous rebuilds had repeated slow downloads).
 Next: finish real Mailpit/fault/browser checks, fix findings, complete review/docs and authorized private upload.
+
+### Phase4 backend checkpoint and actual fault results — 2026-10-20T06:19:31.9775398+05:00
+
+Created local 2a159d1, feat(notifications): add maintenance and transactional delivery outbox, after
+103 PostgreSQL tests, migration preservation and lint. Did not push the unfinished stage. Added a
+maintenance React editor/list with target selection, local timezone input -> UTC, filters/pages,
+409 draft preservation, monitor/group badges, named maintenance SSE and readable local mail settings.
+
+Actual isolated `python scripts/phase4_fault_smoke.py` began 2026-10-20T01:02:54.136136+00:00,
+PASS in 77.437s. Seven groups of assertions: real normal DOWN/RECOVERY/shared-address dedup;
+window-end DOWN with unchanged HTTP history; prior DOWN recovery deferred through maintenance;
+recovered-inside-window no stale pair; stopped Mailpit/retry/process restart; stopped PostgreSQL
+recovery with no fake observations; SMTP acceptance-before-ack crash/lease/recovery order.
+Actual retry attempts: 2. Crash produced 3 physical messages, 2 logical deliveries, explicitly demonstrating
+SMTP ambiguity. Artifacts contain actual Mailpit IDs/subjects and bounded logs. Dedicated test project
+and its own volume removed; owner DB never reset. No test hook was added to the running dispatcher:
+tests/acceptance_crash.py is invoked only by the isolated harness and intentionally exits after acceptance.
+
+Additional controlled fault review tests cover monitor-wide two-group suppression, exact future/start/end
+boundaries, final preflight after claim, cancelled dispatcher reclaim, and an API pause finishing while
+the sender waits (proves no monitoring transaction spans SMTP). Full rebuilt-image command
+`docker compose --profile test run --rm --build tests`: 107 passed in 17.83s, no skips; metadata check
+and all 0001/0002/0003 legacy fixtures PASS. Ruff check/format PASS (backend + fault script).
+
+Browser history is explicit: first full run had 4 PASS and maintenance timeout; diagnostic single run
+also timed out. Trace showed getByLabel exact native select lookup failed after target-type remount.
+Used its observed combobox role, retained same target/value assertions. New case then passed in 18.4s;
+full five passed in 18.0s. Hardened cleanup against timed-out fixture request disposal, and removed only
+the two identified failed fixtures by exact known IDs/names. No user-created resource was deleted.
+Critical review found LOW stale refresh error on reconnect; separated fetch and mutation errors and
+added a clearing regression without clearing 409 drafts. Final component JSON: 15 passed; types/lint/
+format/build PASS, npm audit 0. Rebuilt Compose after that fix: final browser 5 passed in 19.1s,
+including no remaining maintenance refresh alert after reconnect. Screenshot phase4-maintenance.png
+is an actual capture; phase4-browser-mail.json records two real SMTP messages observed by that test.
+
+Old smoke regressions were actually rerun sequentially: HTTP smoke PASS 0.609s; phase2 pause/edit/
+backend-worker restart PASS 56.953s; phase3 incident/cancellation/restart/32s target PASS 57.813s;
+forced backend-IP replacement proxy test PASS 8.984s. Their files hold current measurements; previous
+phase logs retain their earlier historical results. No test removed or disabled.
+
+Dispatcher logs now rotate 10 MiB x 3, verified via Docker inspect. Separate critical source review
+recorded in review.md (implementation-agent pass, no independent model claimed). All required local
+checks PASS; no unexplained BLOCKER/HIGH in the requested scope. Remaining boundaries: authorization
+cannot recall SMTP already in flight; finite retry exhaustion needs investigation; no physical exactly-once,
+external mailbox/production SMTP integration, public pages, monthly aggregates or sustained 50-load claim.
+Final documentation, private stage push and hosted CI follow; phase5 has not started.

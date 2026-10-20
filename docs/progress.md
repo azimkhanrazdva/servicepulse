@@ -1,7 +1,7 @@
-# ServicePulse progress — phase 4 in progress
+# ServicePulse progress — phase 4
 
-Current checkpoint: [v0.3 incidents](phase3-checkpoint.md), verified and uploaded privately.
-Prior [v0.2 management](phase2-checkpoint.md) and v0.1 evidence below are historical.
+Current checkpoint: [v0.4 maintenance/email](phase4-checkpoint.md), local gate complete; upload/CI pending.
+Prior [v0.3 incidents](phase3-checkpoint.md), [v0.2 management](phase2-checkpoint.md) and v0.1 are historical.
 Current branch is feat/maintenance-email-outbox, based on phase3 HEAD 3529b66.
 
 ## Completed
@@ -19,13 +19,15 @@ Current branch is feat/maintenance-email-outbox, based on phase3 HEAD 3529b66.
 - Private GitHub publication of unchanged v0.1 baseline; stage uploads authorized by owner.
 - Phase3: additive 0003 incidents, atomic lifecycle, administrative closures, bounded joined API,
   live filtered journal and SSE reconnect. Actual restart/lease/gap and 32s slow HTTP verified.
+- Phase4: UTC maintenance CRUD/UI/SSE, event/route/address outbox, leased SMTP dispatcher/reconciliation,
+  real Mailpit delivery/dedup/backoff, isolated SMTP/DB/process fault evidence and legacy migration preservation.
 
 ## In Progress
 
-Owner requested phase4. Maintenance CRUD, transactional events/routes/deliveries and SMTP dispatcher
-implemented; 103 backend and 14 component tests passed in development. Migration preservation checked.
-Browser and isolated live fault scenarios, review, final docs/CI/upload remain in progress.
-See phase4-design.md. No phase5, PR or merge authorization inferred.
+Phase4 local implementation/review verified: 107 backend, 15 component, 5 browser tests;
+actual isolated SMTP/DB/acceptance-crash suite and all prior smoke scenarios passed.
+Final documentation/authorized private upload and hosted CI pending. See phase4-design.md.
+No phase5, PR or merge authorization inferred. Stop after completed stage4 checkpoint.
 
 ## Blocked
 
@@ -35,17 +37,23 @@ submission inputs, not blockers for current implementation. No credentials belon
 
 ## Next Tasks
 
-1. Owner reviews completed phase3 before explicitly continuing phase4.
-2. No PR exists as of phase3 discovery. Prepared phase2/phase3 descriptions and creation commands.
-3. No automatic PR creation or merge; phase3 base is phase2 until phase2 is merged.
-4. Phase 4: maintenance windows, transactional outbox, retries and actual Mailpit assertions.
+1. Finish stage4 private upload/hosted CI, then owner reviews before requesting phase5.
+2. No PR exists as of phase4 discovery. Prepared phase2/3/4 descriptions and creation commands.
+3. No automatic PR/merge; chain: phase2 -> main, phase3 -> phase2, phase4 -> phase3 until bases merge.
+4. Maintenance/outbox gate is now implemented; do not silently begin next phase.
 5. Phase 5: remaining UI, coverage-aware uptime/charts, public projection and privacy tests.
 6. Phase 6: sustained 50 monitors / 30s, actual restarts, month history benchmark and final review.
 7. Phase 7: audit all pending requirements, owner essay (exactly ten sentences), approve publication.
 
 ## Verification Status
 
-Phase3 final: 75 PostgreSQL tests (3.48s), two legacy migration fixtures/ORM check, 11 component tests,
+Phase4 final local: 107 PostgreSQL tests (17.83s), three legacy fixture stages + ORM check,
+15 component tests, 5 real browser tests (19.1s), types/lint/format/build and npm audit zero findings.
+Real isolated Mailpit/fault suite PASS (77.437s), including SMTP outage, queue/process restart, DB outage
+and accepted-before-ack crash. Actual 3 physical messages/2 logical deliveries, not exactly-once SMTP.
+HTTP, phase2, phase3 and forced-IP proxy regressions all rerun successfully. See phase4-checkpoint.md.
+
+Historical phase3: 75 PostgreSQL tests (3.48s), two legacy migration fixtures/ORM check, 11 component tests,
 4 browser tests (15.2s); actual restart/slow smoke PASS (73.031s). Forced different-IP proxy regression
 PASS (4.563s) after fixing a discovered HIGH stale nginx upstream. Hosted CI PASS on 5b43b20:
 https://github.com/azimkhanrazdva/servicepulse/actions/runs/39323301037. See phase3-checkpoint.md.
@@ -64,18 +72,20 @@ skips), frontend tests (4), TypeScript, build, Python lint/format, frontend form
 two real Chromium E2E tests, npm audit (zero findings), seed idempotency.
 Expanded DB/migration runner: PASS 31 tests, zero skips; artifacts/backend-tests.xml. Final rebuilt-image rerun: PASS 31 tests in 0.61s; final HTTP smoke PASS; final E2E 2 passed in 5.0s.
 
-NOT VERIFIED: SMTP dispatch/dedup/maintenance,
-public privacy page, full-month history/uptime, sustained 50-monitor cadence, full fault recovery,
+NOT VERIFIED: public privacy page, full-month history/uptime, sustained 50-monitor cadence, exhaustive fault recovery,
 live external TLS and final security/product audit. Monitor/group/incident restart is verified;
-outbox persistence remains future work.
+outbox restart/persistence is now verified. External mailbox delivery is not claimed.
 
 ## Current Branch
 
-`feat/incident-lifecycle`, descended from phase2 3569b1c.
+`feat/maintenance-email-outbox`, descended from phase3 3529b66.
 origin: https://github.com/azimkhanrazdva/servicepulse (private).
 main and first-slice branch published at bd43629; no PR/merge.
 
 ## Latest Commit
+
+Phase4 backend checkpoint: 2a159d1 — feat(notifications): add maintenance and transactional delivery outbox.
+Final UI/reliability checkpoint follows this local gate; git log -1 resolves current HEAD.
 
 Phase3 implementation: 5b43b208df112694082d8c4640c5ec012d2ca4a6 —
 feat(incidents): persist lifecycle and verify scheduler recovery, 2026-10-19 20:55:01 +05:00.
@@ -99,14 +109,18 @@ resolves current HEAD (a file cannot embed its own commit hash). No publication 
 Start date 2026-10-19; deadline 2026-10-26. P0 features before polish. Stop at the requested checkpoint.
 Read AGENTS.md, requirements.md, architecture.md and development-log.md before resuming.
 Groups/membership/recipients are implemented; the first-slice notes above are historical.
-Incidents are implemented; outbox/maintenance/public models remain target only. Every monitor edit resets live
+Incidents, maintenance and outbox are implemented; public models remain target only. Every monitor edit resets live
 metrics/streak/state (PAUSED retained), history stays versioned; resume schedules UNKNOWN.
 Use captured config_version for edits; stale clients get 409 and keep their drafts.
 Never release an active lease on edit/pause/resume. Manual requests coalesce. Group updates
-have separate versions and atomically replace membership/recipients. No email is sent yet.
+have separate versions and atomically replace membership/recipients. Local Mailpit email is now sent.
 States/results/incidents now commit atomically. Pause/edit close PAUSED/CONFIG_CHANGED without recovery;
 resume UNKNOWN; successful check alone closes RECOVERED. Legacy DOWN gets an incident only on a fresh
-failed observation, never a historical backfill. Delete cascades incident history. Mailpit sends no email.
+failed observation, never a historical backfill. Delete cascades incident/outbox history. Existing v0.3 incidents
+have notifications disabled on 0004 upgrade; new incidents explicitly opt in. Recipients freeze at confirmation;
+new addresses wait for future incidents, removal revokes pending routes. Shared addresses deduplicate per event.
+Maintenance suppresses applicable routes at final authorization, never monitoring; in-flight SMTP cannot be recalled.
+Uncertain acceptance retries DOWN before recovery, with possible physical duplicates. Read phase4-design.md.
 UNKNOWN/UP preserve their state on the first failure; default second failure → DOWN.
 History is latest 100 rows; monitor lists/SSE cap at 500. Fixed-delay cadence is completion + interval.
 No synthetic results during downtime. Expiring leases fence commits; arbitrary process suspension

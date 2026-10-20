@@ -1,7 +1,7 @@
 # ServicePulse
 
 A website availability monitoring platform built for Mad Devs' Junior Agentic Developer
-take-home assignment #3. **Version 0.3 adds persisted incidents and a live journal; notifications, maintenance and public status remain pending.**
+take-home assignment #3. **Version 0.4 adds maintenance windows and transactional email delivery through Mailpit. Public status and uptime analytics remain pending.**
 
 Create a monitor, let an independent worker request a real HTTP target, persist observations
 in PostgreSQL and see the dashboard update through SSE. No fabricated metrics or HTTP results.
@@ -10,7 +10,9 @@ in PostgreSQL and see the dashboard update through SSE. No fabricated metrics or
 
 - Create/edit/delete/pause/resume/run-now through React and API; configurable interval, timeout, status, body match and confirmation threshold.
 - Versioned edits with explicit conflict recovery; active HTTP leases survive changes and stale results are discarded.
-- Group CRUD, many-to-many membership, aggregate status and validated per-group email recipients (storage only).
+- Group CRUD, many-to-many membership, aggregate status and validated per-group email recipients.
+- Monitor/group maintenance CRUD, overlapping-window suppression and independent post-window reconciliation.
+- Transactional event/route/per-address outbox, shared-recipient deduplication, SMTP retries and delivery diagnostics.
 - Separate asynchronous worker with bounded concurrency, durable scheduling, fenced database leases.
 - UNKNOWN → UP/DOWN state with two consecutive failures by default; manual run queue.
 - Atomic incident lifecycle, one open incident per monitor, recovery and distinct administrative closures.
@@ -20,19 +22,20 @@ in PostgreSQL and see the dashboard update through SSE. No fabricated metrics or
 - Alembic migration, isolated PostgreSQL integration tests, HTTP simulator and Mailpit container.
 - URL/DNS destination policy, pinned numeric connections, no redirects/proxies, bounded response/time.
 
-**Not implemented:** email/outbox,
-maintenance, public status page, uptime aggregates, response charts, monthly history endpoint.
-Mailpit running does not mean email notifications work. See [acceptance matrix](docs/requirements.md).
+**Not implemented:** public status page, uptime aggregates, response charts, monthly history endpoint.
+Actual SMTP/Mailpit tests and failure evidence are in [phase 4 checkpoint](docs/phase4-checkpoint.md).
+The whole assignment is not yet complete. See [acceptance matrix](docs/requirements.md).
 
 ## Architecture and stack
 
 React 19 + TypeScript + Vite → nginx same-origin proxy → FastAPI → PostgreSQL 17.
 A separate Python 3.12 worker claims work in PostgreSQL and uses asynchronous HTTPX.
+A separate SMTP dispatcher processes durable notification deliveries and reconciles maintenance.
 SQLAlchemy 2 and Alembic manage persistence. No Redis, Celery or distributed broker.
 SSE sends full snapshots every two seconds; small-scale database polling is intentional.
 
 See [architecture](docs/architecture.md) and [decisions](docs/decisions.md) for models,
-state/incident policy, intended outbox design, alternatives and limitations.
+state/incident policy, implemented outbox design, alternatives and limitations.
 
 ```text
 backend/       FastAPI, checker, worker, SQLAlchemy, Alembic, pytest
@@ -83,10 +86,15 @@ to 127.0.0.1. Do not expose the management API to an untrusted network.
 | SIMULATOR_ORIGIN | empty in code/Compose | Exact test-only private target origin; .env.example opts into http://simulator:8090 |
 | CONCURRENCY | 50 | Worker task/connection cap, range 1..100 |
 | MAX_BODY_BYTES | 1048576 | Stream body limit, max 10 MiB |
+| SMTP_HOST | mailpit | Local catcher hostname; no external provider required |
+| SMTP_PORT | 1025 | Internal SMTP port |
+| SMTP_SENDER | servicepulse@example.com | Disposable local sender |
+| SMTP_TIMEOUT_SECONDS | 5 | SMTP socket-operation timeout, 0.1..10s |
 
 `CONCURRENCY` and `MAX_BODY_BYTES` are application environment variables; add them explicitly
 under the shared backend environment in Compose to override defaults. `.env` is ignored.
-There are no real keys or SMTP credentials in the repository. Current mail service is only a catcher.
+There are no real keys or SMTP credentials in the repository. SMTP acceptance is captured locally;
+no external mailbox delivery is claimed. This phase has no authenticated/TLS provider integration.
 
 ## Simulator and demonstration
 
@@ -115,7 +123,15 @@ Use `status:200` to recover, `delay:10` with a 5s monitor timeout for timeout be
 404/500 for status failures, and changed text for body mismatch. Control state is in-memory,
 reset on simulator restart. Disconnect simulation is not implemented; delay exceeds client
 deadline instead. Run now twice after failures to cross the default threshold, then recover.
-This changes real monitor state and incident records at the configured threshold. Email is subsequent work.
+This changes real monitor state and incident records at the configured threshold. Put the monitor in a
+group with a disposable recipient to receive DOWN, then RECOVERY, in Mailpit. Repeated failed checks
+produce no additional normal-path DOWN. Mailpit captures messages; it does not forward them externally.
+
+For maintenance, open the Maintenance section, choose a monitor or group, enter local start/end time,
+and save. The UI names your timezone; PostgreSQL stores UTC. Checks and DOWN continue with a separate
+MAINTENANCE badge. A monitor window suppresses all routes; a group window suppresses only its group.
+When the final applicable window ends, DOWN can send without waiting for another HTTP check. Recovery
+entirely inside a window produces no stale pair if DOWN had not been attempted. See the delivery contract below.
 
 ## API
 
@@ -134,7 +150,10 @@ This changes real monitor state and incident records at the configured threshold
 | GET | /api/incidents/{uuid} | Incident detail |
 | GET | /api/monitors/{uuid}/incidents | Per-monitor journal |
 | GET / PUT / DELETE | /api/groups/{uuid} | Read / versioned replacement / versioned deletion |
-| GET | /api/events | Monitor array + named groups/incidents events from one DB snapshot every 2 seconds |
+| GET / POST | /api/maintenance | Paginated list / create monitor or group window |
+| PUT / DELETE | /api/maintenance/{uuid} | Versioned replacement / versioned deletion |
+| GET | /api/notifications | Bounded diagnostic deliveries; optional incident_id, limit, offset |
+| GET | /api/events | Monitor array + named groups/incidents/maintenance events from one DB snapshot every 2 seconds |
 
 FastAPI publishes schemas and example requests at `/docs`. Invalid input returns 422;
 missing monitor/group 404. PUT and pause/resume require config_version; stale versions return 409.
@@ -156,6 +175,8 @@ clears only test tables/migration metadata, applies Alembic from scratch, checks
 agreement and runs pytest. The runner inserts a legacy monitor/result at migration 0001 and
 asserts their settings, IDs, state and history survive upgrades. A second fixture at 0002 verifies a DOWN
 monitor/result/group/recipient survive 0003 without fictional incident backfill. This never resets the application's `db` volume.
+The 0003 fixture additionally preserves actual open/closed incidents byte-for-value through 0004;
+their notifications_enabled remains false and no historical email events are created.
 
 Host development (optional):
 
@@ -188,6 +209,10 @@ Actual browser captures (updated by the latest test run): [desktop](output/playw
 Current incident checkpoint: [phase 3](docs/phase3-checkpoint.md). `python scripts/phase3_smoke.py`
 verifies actual incident/restart/gap behavior and a 32s target across its 30s interval.
 `python scripts/proxy_recreate_smoke.py` verifies nginx recovers after backend replacement at a new IP.
+Phase4 live fault suite: `python scripts/phase4_fault_smoke.py`. It creates a separate Compose project,
+ports 18000/18025 and its own DB volume; tests SMTP outage, restart, DB outage and acceptance-before-ack
+crash, then removes only that isolated project/volume. Leave these ports free. Evidence is in
+artifacts/phase4-fault.json and phase4-fault.log. Browser integration also checks actual Mailpit receipts.
 On restricted Windows execution, local socket access and launching Chromium may require
 host permission. A sandbox denial is not proof of an application failure or passing test.
 
@@ -209,7 +234,34 @@ and explicitly discards/reloads before retrying. Name-only edits follow the same
 
 Groups ignore PAUSED members, then choose DOWN over UNKNOWN over UP. All paused gives PAUSED;
 empty gives UNKNOWN. Membership and recipient replacement is atomic; deleting a group keeps monitors.
-Recipients are syntactically validated/deduplicated; **no email is sent in v0.3**.
+Recipients are syntactically validated; delivery addresses are case-normalized and deduplicated across
+groups. SMTP alerts are now sent through the local Mailpit catcher.
+
+## Delivery and maintenance contract
+
+Logical events are unique (incident UUID, DOWN/RECOVERY). Frozen group routes are captured at confirmation;
+one delivery is unique (event UUID, normalized email), even when that address belongs to multiple groups.
+New recipients/groups apply to future incidents; removed recipients/membership revoke pending routes.
+Any eligible group can authorize a shared address. Monitor maintenance blocks every route; group maintenance
+blocks that group only. Windows use start <= now < end, and overlaps remain effective until all applicable
+windows have ended. A two-second reconciliation tick advances persisted work without fabricated observations.
+
+SMTP runs outside monitoring/database transactions. Each attempt revalidates routes/windows and persists
+authorization immediately before sending. A window/settings change after that point cannot recall SMTP
+already in flight. This boundary is documented/tested, rather than claiming an impossible atomic SMTP/DB operation.
+
+Queued unattempted DOWN is cancelled on recovery; no pointless RECOVERY follows. If DOWN was accepted,
+RECOVERY waits through maintenance and sends afterward. Uncertain acceptance after crash/timeout retries
+the previously authorized DOWN before RECOVERY; physical duplication is possible. Known rejection clears
+that authorization. PAUSED/CONFIG_CHANGED never generates recovery; pending old DOWN is cancelled on preflight.
+Existing incidents at migration 0004 are excluded from alerts, avoiding historical backfill/mass mail.
+
+Claims use persisted leases/UUID fences. Temporary failures back off 5..300 seconds, at most eight attempts;
+permanent rejection or exhaustion is FAILED and requires investigation. Logical creation/dedup is database
+enforced. Delivery attempts are at least once within this retry policy; SMTP acceptance does not prove mailbox
+delivery. The actual crash experiment produced **3 physical messages for 2 logical deliveries**, preserving
+DOWN-before-RECOVERY order. Stable Message-ID helps diagnosis but cannot promise receiver deduplication.
+Full rules and error categories: [phase4 design](docs/phase4-design.md).
 
 Incidents open at threshold confirmation and recover on a successful observation. Pause closes PAUSED;
 any edit closes CONFIG_CHANGED, including name-only edits under the existing reset policy. Those closures
@@ -244,14 +296,14 @@ server time creates no observations. Charts with explicit gaps and coverage are 
 - Worker logs JSON; API currently uses ordinary Uvicorn access logs.
 - Container tags and Python build backend are not fully digest/hash locked. Python application
   versions and npm lockfile are pinned; dependency updates require rerunning verification.
-- Full security audit, sustained load and SMTP retry tests remain pending. Incident restart/cancellation/lease faults are tested.
+- Full security audit and sustained load remain pending. Incident and SMTP retry/restart/lease faults are tested.
 
 ## Next iteration / roadmap
 
-1. Review the v0.3 incident checkpoint and private feature branch.
-2. Add transactional outbox and maintenance suppression/reconciliation.
-3. Deliver group email through Mailpit with logical deduplication and retries.
-4. Finish charts, uptime with coverage, incident UI and public projection/privacy tests.
+1. Review the v0.4 maintenance/email checkpoint and private feature branch.
+2. Add public projection/privacy controls and real public-page reconnect tests.
+3. Add coverage-aware charts and 24h/7d/30d uptime aggregates.
+4. Improve delivery operator tooling if needed; no real SMTP provider is required for this assignment.
 5. Measure mixed 50-monitor load, month history, actual restarts and run independent review.
 6. Complete requirements audit, owner-authored ten-sentence essay and approved GitHub submission.
 
@@ -272,3 +324,6 @@ Infrastructure: PostgreSQL, nginx, Docker Compose and Mailpit official images.
 HTTPX transport/HTTPCore extension documentation informed numeric IP and SNI handling;
 see source links in the decision log. These dependencies retain their own licenses; no
 third-party product UI or assets were copied. No project license has been chosen by the owner.
+Migration 0004 used Alembic schema autogeneration followed by source/constraint review and migration tests.
+SMTP uses Python stdlib smtplib/EmailMessage; Mailpit verification follows its
+[official API documentation](https://mailpit.axllent.org/docs/api-v1/).

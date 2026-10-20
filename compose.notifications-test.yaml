@@ -45,6 +45,9 @@ services:
     environment: *test-env
     command: [python, -m, app.dispatcher]
     stop_grace_period: 2s
+    logging:
+      driver: json-file
+      options: {max-size: '10m', max-file: '3'}
     depends_on:
       migrate: {condition: service_completed_successfully}
       mailpit: {condition: service_started}

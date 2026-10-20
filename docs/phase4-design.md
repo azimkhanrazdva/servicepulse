@@ -52,7 +52,7 @@ the two-second reconciliation tick releases eligible delivery independently of a
 Claims use SKIP LOCKED plus UUID leases; stale tokens cannot acknowledge a newer claim. Attempts are
 counted at actual authorization, not suppressed polls. Retry intervals: 5,10,20,40,80,160,300,300 seconds,
 maximum 8 attempts. SMTP 4xx retry; 5xx permanent failure; bounded category-only errors avoid exposing
-server details. Process cancellation retains lease. SMTP sockets have per-operation timeout; the lease
+server details. Dispatcher Docker logs rotate at 10 MiB, at most three files. Process cancellation retains lease. SMTP sockets have per-operation timeout; the lease
 has a conservative margin. Arbitrary process suspension can still overlap physical network attempts.
 Stable Message-ID is diagnostic, not a receiver deduplication guarantee. DATA success defines acceptance;
 the socket is closed without allowing a failed QUIT to reclassify an accepted message as rejection.

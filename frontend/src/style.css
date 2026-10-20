@@ -55,6 +55,37 @@
 .danger {
   color: #ffb2a9;
 }
+.maintenance-toolbar,
+.maintenance-message {
+  margin: 16px 24px;
+}
+.maintenance-toolbar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: end;
+}
+.maintenance-badge {
+  display: block;
+  color: #edcd83;
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  margin-top: 6px;
+}
+#maintenance select {
+  max-width: 100%;
+  background: #0e1511;
+  color: #edf3ee;
+  border: 1px solid #3b493f;
+  border-radius: 5px;
+  padding: 10px;
+  font: inherit;
+  color-scheme: dark;
+}
+#maintenance select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
 .group-nav {
   padding: 12px 10px;
   font-size: 13px;

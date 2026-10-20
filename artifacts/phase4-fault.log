@@ -1,0 +1,48 @@
+dispatcher-1  | {"event": "smtp_attempt_failed", "delivery_id": "9627e0f9-5306-48e6-85cb-071fc2319908", "category": "smtp_network"}
+dispatcher-1  | {"event": "dispatcher_tick_failed", "type": "gaierror"}
+worker-1      | HTTP Request: GET http://172.19.0.3:8090/target/phase4-98b293ec-normal "HTTP/1.1 200 OK"
+worker-1      | {"event": "check_completed", "monitor_id": "4b96a7b0-3172-4b91-bfc7-75a7fff38cb3", "success": true, "response_ms": 25.26}
+worker-1      | HTTP Request: GET http://172.19.0.3:8090/target/phase4-98b293ec-normal "HTTP/1.1 500 Internal Server Error"
+worker-1      | {"event": "check_completed", "monitor_id": "4b96a7b0-3172-4b91-bfc7-75a7fff38cb3", "success": false, "response_ms": 7.59}
+worker-1      | HTTP Request: GET http://172.19.0.3:8090/target/phase4-98b293ec-normal "HTTP/1.1 500 Internal Server Error"
+worker-1      | {"event": "check_completed", "monitor_id": "4b96a7b0-3172-4b91-bfc7-75a7fff38cb3", "success": false, "response_ms": 5.3}
+worker-1      | HTTP Request: GET http://172.19.0.3:8090/target/phase4-98b293ec-normal "HTTP/1.1 500 Internal Server Error"
+worker-1      | {"event": "check_completed", "monitor_id": "4b96a7b0-3172-4b91-bfc7-75a7fff38cb3", "success": false, "response_ms": 6.98}
+worker-1      | HTTP Request: GET http://172.19.0.3:8090/target/phase4-98b293ec-normal "HTTP/1.1 500 Internal Server Error"
+worker-1      | {"event": "check_completed", "monitor_id": "4b96a7b0-3172-4b91-bfc7-75a7fff38cb3", "success": false, "response_ms": 5.15}
+worker-1      | HTTP Request: GET http://172.19.0.3:8090/target/phase4-98b293ec-normal "HTTP/1.1 200 OK"
+worker-1      | {"event": "check_completed", "monitor_id": "4b96a7b0-3172-4b91-bfc7-75a7fff38cb3", "success": true, "response_ms": 4.9}
+worker-1      | HTTP Request: GET http://172.19.0.3:8090/target/phase4-98b293ec-maintenance "HTTP/1.1 200 OK"
+worker-1      | {"event": "check_completed", "monitor_id": "71149936-284d-4809-9891-1d751384a6ae", "success": true, "response_ms": 4.85}
+worker-1      | HTTP Request: GET http://172.19.0.3:8090/target/phase4-98b293ec-maintenance "HTTP/1.1 500 Internal Server Error"
+worker-1      | {"event": "check_completed", "monitor_id": "71149936-284d-4809-9891-1d751384a6ae", "success": false, "response_ms": 5.08}
+worker-1      | HTTP Request: GET http://172.19.0.3:8090/target/phase4-98b293ec-maintenance "HTTP/1.1 500 Internal Server Error"
+worker-1      | {"event": "check_completed", "monitor_id": "71149936-284d-4809-9891-1d751384a6ae", "success": false, "response_ms": 5.64}
+worker-1      | HTTP Request: GET http://172.19.0.3:8090/target/phase4-98b293ec-maintenance "HTTP/1.1 500 Internal Server Error"
+worker-1      | {"event": "check_completed", "monitor_id": "71149936-284d-4809-9891-1d751384a6ae", "success": false, "response_ms": 4.85}
+worker-1      | HTTP Request: GET http://172.19.0.3:8090/target/phase4-98b293ec-maintenance "HTTP/1.1 200 OK"
+worker-1      | {"event": "check_completed", "monitor_id": "71149936-284d-4809-9891-1d751384a6ae", "success": true, "response_ms": 5.8}
+worker-1      | HTTP Request: GET http://172.19.0.3:8090/target/phase4-98b293ec-quick "HTTP/1.1 200 OK"
+worker-1      | {"event": "check_completed", "monitor_id": "d4e4f04c-7ae7-4888-88cd-5b09c0b365f5", "success": true, "response_ms": 4.82}
+worker-1      | HTTP Request: GET http://172.19.0.3:8090/target/phase4-98b293ec-quick "HTTP/1.1 500 Internal Server Error"
+worker-1      | {"event": "check_completed", "monitor_id": "d4e4f04c-7ae7-4888-88cd-5b09c0b365f5", "success": false, "response_ms": 5.46}
+worker-1      | HTTP Request: GET http://172.19.0.3:8090/target/phase4-98b293ec-quick "HTTP/1.1 500 Internal Server Error"
+worker-1      | {"event": "check_completed", "monitor_id": "d4e4f04c-7ae7-4888-88cd-5b09c0b365f5", "success": false, "response_ms": 4.44}
+worker-1      | HTTP Request: GET http://172.19.0.3:8090/target/phase4-98b293ec-quick "HTTP/1.1 200 OK"
+worker-1      | {"event": "check_completed", "monitor_id": "d4e4f04c-7ae7-4888-88cd-5b09c0b365f5", "success": true, "response_ms": 6.04}
+worker-1      | HTTP Request: GET http://172.19.0.3:8090/target/phase4-98b293ec-retry "HTTP/1.1 200 OK"
+worker-1      | {"event": "check_completed", "monitor_id": "2e696288-2d2c-431d-94a9-bea005cedeac", "success": true, "response_ms": 9.12}
+worker-1      | HTTP Request: GET http://172.19.0.3:8090/target/phase4-98b293ec-retry "HTTP/1.1 500 Internal Server Error"
+worker-1      | {"event": "check_completed", "monitor_id": "2e696288-2d2c-431d-94a9-bea005cedeac", "success": false, "response_ms": 4.98}
+worker-1      | HTTP Request: GET http://172.19.0.3:8090/target/phase4-98b293ec-retry "HTTP/1.1 500 Internal Server Error"
+worker-1      | {"event": "check_completed", "monitor_id": "2e696288-2d2c-431d-94a9-bea005cedeac", "success": false, "response_ms": 4.69}
+worker-1      | HTTP Request: GET http://172.19.0.3:8090/target/phase4-98b293ec-retry "HTTP/1.1 200 OK"
+worker-1      | {"event": "check_completed", "monitor_id": "2e696288-2d2c-431d-94a9-bea005cedeac", "success": true, "response_ms": 22.78}
+worker-1      | HTTP Request: GET http://172.19.0.3:8090/target/phase4-98b293ec-accept-crash "HTTP/1.1 200 OK"
+worker-1      | {"event": "check_completed", "monitor_id": "b89d09a9-7115-4508-8237-1abc4852df61", "success": true, "response_ms": 6.65}
+worker-1      | HTTP Request: GET http://172.19.0.3:8090/target/phase4-98b293ec-accept-crash "HTTP/1.1 500 Internal Server Error"
+worker-1      | {"event": "check_completed", "monitor_id": "b89d09a9-7115-4508-8237-1abc4852df61", "success": false, "response_ms": 4.97}
+worker-1      | HTTP Request: GET http://172.19.0.3:8090/target/phase4-98b293ec-accept-crash "HTTP/1.1 500 Internal Server Error"
+worker-1      | {"event": "check_completed", "monitor_id": "b89d09a9-7115-4508-8237-1abc4852df61", "success": false, "response_ms": 6.19}
+worker-1      | HTTP Request: GET http://172.19.0.3:8090/target/phase4-98b293ec-accept-crash "HTTP/1.1 200 OK"
+worker-1      | {"event": "check_completed", "monitor_id": "b89d09a9-7115-4508-8237-1abc4852df61", "success": true, "response_ms": 7.01}
