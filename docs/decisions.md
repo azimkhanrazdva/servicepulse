@@ -122,3 +122,27 @@ Alternatives: backfill old DOWN emails; invent CheckResult to trigger window-end
 Trade-offs: existing incidents do not start mailing after upgrade; SMTP batch duration adds to the two-second
 poll cadence. All old results/settings/timestamps remain unchanged. No catch-up historical email is inferred.
 Consequences: honest migration and deterministic late notification without duplicate incidents or fake observations.
+# ADR-014 — explicit public boundary and publication consent (phase5)
+
+Context: management has no login and must remain trusted-local, while the status page must be public/read-only.
+Decision: separate public FastAPI entrypoint and nginx/frontend build, only public GET/SSE; no admin
+router/OpenAPI or management bundle in the public image. Explicit PublicPage/Publication records,
+disabled/empty defaults, unrelated public IDs, owner-written labels and extra opt-in for aggregates.
+All public DB snapshots use read-only transactions and safe projection, refreshed on every SSE tick.
+Alternatives: mount public routes beside admin; add full authentication. Trade-offs: two extra small
+Compose processes reuse existing code/runtime; same DB role with read-only transactions is not a
+separate least-privilege database identity. Consequences: expose only public ingress, never management
+ports. In-flight authorized bytes cannot be recalled; next-tick revocation and no-store prevent replay.
+
+# ADR-015 — observed uptime, bounded SQL buckets and explicit gaps (phase5)
+
+Context: month history cannot load all observations into Python or pretend server downtime is failure.
+Decision: indexed PostgreSQL aggregates with 288/336/360 buckets for rolling 24h/7d/30d; uptime is
+observed successful checks / observed checks, null at zero samples. Report interval-capped observed
+coverage separately; capture new observation cadence without backfilling unknown legacy cadence.
+Native SVG bucket bars and accessible data table show real mean elapsed latency with empty buckets.
+Alternatives: time-weighted SLA interpolation, ORM aggregation, an extra chart dependency.
+Trade-offs: bounded response but indexed scan still grows with observations; phase6 must measure
+larger datasets/fleet performance. Sample uptime is not a continuous-time SLA, coverage is an estimate.
+Consequences: history includes all config versions and maintenance outcomes; gaps never become DOWN,
+zero latency or invented 100% availability. No new runtime dependency needed for the charts.

@@ -5,13 +5,23 @@ import os
 import subprocess
 import sys
 import uuid
+from datetime import timedelta
 from pathlib import Path
 
 from sqlalchemy import text
 from sqlalchemy.engine import make_url
 
-from app.db import engine
-from app.models import Base
+from app.db import Session, engine
+from app.models import (
+    Base,
+    Incident,
+    MaintenanceWindow,
+    Monitor,
+    NotificationDelivery,
+    NotificationEvent,
+    NotificationRoute,
+    now,
+)
 
 
 async def reset_test_schema():
@@ -174,6 +184,79 @@ async def legacy_incidents(mid, identities, expected=None):
     return values
 
 
+async def phase4_fixture(expected=None):
+    """Preserve actual 0004 outbox/window rows, not only the earlier schema fixtures."""
+    async with Session() as db, db.begin():
+        if expected is None:
+            monitor = Monitor(name="0004 fixture", url="http://example.com", state="DOWN")
+            db.add(monitor)
+            await db.flush()
+            incident = Incident(
+                monitor_id=monitor.id,
+                opened_at=now() - timedelta(minutes=1),
+                notifications_enabled=True,
+            )
+            db.add(incident)
+            await db.flush()
+            event = NotificationEvent(
+                incident_id=incident.id, event_type="DOWN", monitor_name=monitor.name
+            )
+            db.add(event)
+            await db.flush()
+            db.add(
+                NotificationRoute(
+                    event_id=event.id, group_id=uuid.uuid4(), email="fixture@example.com"
+                )
+            )
+            db.add(
+                NotificationDelivery(
+                    event_id=event.id,
+                    email="fixture@example.com",
+                    status="SENT",
+                    attempts=2,
+                    sent_at=now(),
+                    send_started_at=now(),
+                )
+            )
+            db.add(
+                MaintenanceWindow(
+                    name="0004 window",
+                    monitor_id=monitor.id,
+                    start_at=now(),
+                    end_at=now() + timedelta(hours=1),
+                )
+            )
+            await db.flush()
+            mid = monitor.id
+        else:
+            mid = expected[0]
+        values = {}
+        for table in (
+            "maintenance_windows",
+            "notification_events",
+            "notification_routes",
+            "notification_deliveries",
+        ):
+            values[table] = (
+                await db.scalars(
+                    text(f"SELECT to_jsonb(t) FROM {table} t ORDER BY to_jsonb(t)::text")
+                )
+            ).all()
+        if expected is not None:
+            assert values == expected[1]
+            assert await db.scalar(text("SELECT count(*) FROM public_pages")) == 0
+            assert await db.scalar(text("SELECT count(*) FROM publications")) == 0
+            assert (
+                await db.scalar(
+                    text("SELECT count(*) FROM check_results WHERE interval_seconds IS NOT NULL")
+                )
+                == 0
+            )
+            await db.execute(text("DELETE FROM monitors WHERE id=:id"), {"id": mid})
+    await engine.dispose()
+    return mid, values
+
+
 if __name__ == "__main__":
     asyncio.run(reset_test_schema())
     root = Path(__file__).resolve().parents[1]
@@ -186,7 +269,11 @@ if __name__ == "__main__":
     subprocess.run(["alembic", "upgrade", "0003"], cwd=root, check=True)
     incident_ids = [uuid.uuid4(), uuid.uuid4()]
     incident_fixture = asyncio.run(legacy_incidents(down_id, incident_ids))
+    subprocess.run(["alembic", "upgrade", "0004"], cwd=root, check=True)
+    outbox_fixture = asyncio.run(phase4_fixture())
     subprocess.run(["alembic", "upgrade", "head"], cwd=root, check=True)
+    asyncio.run(phase4_fixture(outbox_fixture))
+    print("0004 -> head preserved outbox/windows; no publication or cadence backfill", flush=True)
     asyncio.run(legacy_incidents(down_id, incident_ids, incident_fixture))
     print(
         "0003 -> head preserved incidents, notifications disabled; no email backfill",

@@ -564,3 +564,58 @@ isolated fault project absent and disposable test-db stopped. git diff HEAD for 
 empty. gh repo view still private; PR #3 OPEN/MERGEABLE/base feat/incident-lifecycle/reviews=[].
 This final evidence follow-up changes documents/reports only. Stop for owner review;
 Phase5 is explicitly not started, and no merge or additional PR was performed.
+
+## Phase5 discovery and first implementation — 2026-10-20T07:41:40.4952061+05:00
+
+First recorded discovery clock: 2026-10-20T07:21:13.3643360+05:00. Owner accepted audited v0.4
+and explicitly requested v0.5; exact current message preserved in prompts/007-phase5-authorization.md.
+No standalone detailed Phase5 prompt was found in docs/prompts; did not invent one. Baseline uses
+original master prompt, architecture and current owner message. Read required AGENTS/requirements/
+architecture/progress/phase4 audit, inspected actual code/migrations/tests/frontend/Compose/CI.
+git status --short empty; git fetch succeeded; HEAD and origin/feat/maintenance-email-outbox both
+442496f980b7e9ef14179b1895bdcbf517f5152c. gh pr list verified #1/#2/#3 remain open with their
+stacked bases. git switch -c feat/public-status-analytics feat/maintenance-email-outbox succeeded.
+Baseline existing-image PostgreSQL runner: 109 PASS in 17.47s. No history rewrite or base merge.
+
+Recorded phase5 contract and ADR-014/015. Carried notification issue ACC-EMAIL-01 into explicit
+final-acceptance-issues.md: cancelling an unattempted DOWN outside maintenance is a HIGH final
+acceptance risk against strict employer DOWN/recovery expectation. Existing policy/tests unchanged.
+Added additive 0005 PublicPage/Publication default-private tables and nullable interval snapshot for
+new CheckResults only; worker change captures cadence, with no state/outbox policy change. Separate
+publication config versions never reset monitor state/leases/incidents. Public ASGI registers only
+GET/SSE projection routes, no admin/OpenAPI; each snapshot is read-only and revocation is rechecked.
+Separate public nginx/build omits management bundle; management ports stay trusted-local. Same DB
+role remains documented; read-only transactions are application defense, not database-role isolation.
+
+Implemented SQL aggregation: 288/336/360 bounded buckets, sample uptime/null NO_DATA, captured-
+interval coverage (legacy no backfill), mean/min/max latency and gaps. First expanded runner:
+6 FAIL / 111 PASS (25.17s); PostgreSQL inferred an interval bind instead of timestamptz. Added explicit
+DateTime/Integer bind types; all 117 then PASS (21.29s). Extended migration runner with real 0004
+window/outbox/sent-delivery fixtures before upgrading, compare exact JSON rows and assert no automatic
+publication/cadence backfill. Expanded migration run 117 PASS in 23.38s, metadata check PASS.
+
+Frontend first pass: existing App test had 14 PASS/1 FAIL because new publication GET increased
+fetch count 5->6; updated exact expected count with same POST payload assertions, no weakening.
+New unit pass initially 21 PASS/1 FAIL because NO DATA also appears in accessible bucket table;
+scoped the assertion to the three summary cards, retaining exact count/content. Latest JSON:
+22 PASS, no failures; typecheck/lint/format/build PASS; npm audit zero findings. Version updated
+to 0.5.0 via npm version --no-git-tag-version, existing lockfile retained. A stylesheet append used
+wrong relative frontend/frontend path and failed without touching a file; added scoped phase5.css
+instead. Ruff corrected imports/line formatting. No application dependency added.
+
+docker compose up -d --build succeeded, additive working-DB migration -> 0005. Real browser full
+run: 6 PASS in 16.7s, including previous five cases plus admin opt-in, private REST/SSE sentinels,
+public nginx route/method denial, real 30d history/gaps, two public clients, DOWN/UP, reconnect,
+history permission removal/page disable and mobile viewport. Real public screenshot visually
+reviewed; artifact phase5-public-browser.json contains actual safe REST/SSE payload and counts.
+Fixed pre-verification public client race: late REST cannot restore revoked SSE data; disconnect
+clears public snapshot, reconnect receives current authorization. Unit regressions cover both.
+
+Dense aggregate fixture added: 10000 real PostgreSQL rows, one SQL call, 360 returned buckets and
+90% sample uptime with partial coverage. Runner 118 PASS in 22.32s with one report_property/xunit2
+warning; changed measurement reporting to supported record_testsuite_property, not warning suppression.
+Added concurrent publication edit/version-conflict and monitor-delete cascade regression. Final
+expanded run and original phase1–4 live smoke/fault regression are still running; not yet a stage PASS.
+Added actual-browser CI job with Compose/Chromium and artifact upload; hosted execution still pending.
+Next: complete verification, inspect privacy/cadence edge cases, commit logical local increments,
+finalize documents and publish only when the whole requested phase gate is verified. No Phase6 started.

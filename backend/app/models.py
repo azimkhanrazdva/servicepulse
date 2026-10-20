@@ -63,7 +63,12 @@ class Monitor(Base):
 
 class CheckResult(Base):
     __tablename__ = "check_results"
-    __table_args__ = (Index("ix_results_monitor_time", "monitor_id", "checked_at"),)
+    __table_args__ = (
+        Index("ix_results_monitor_time", "monitor_id", "checked_at"),
+        CheckConstraint(
+            "interval_seconds BETWEEN 30 AND 3600", name="ck_results_interval_snapshot"
+        ),
+    )
     id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
     monitor_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("monitors.id", ondelete="CASCADE"))
     checked_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
@@ -72,6 +77,28 @@ class CheckResult(Base):
     response_ms: Mapped[float]
     error: Mapped[str | None] = mapped_column(Text)
     config_version: Mapped[int] = mapped_column(default=1, server_default="1")
+    # NULL means legacy cadence was not captured; do not invent historical coverage.
+    interval_seconds: Mapped[int | None]
+
+
+class PublicPage(Base):
+    __tablename__ = "public_pages"
+    __table_args__ = (CheckConstraint("config_version >= 1"),)
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    slug: Mapped[str] = mapped_column(String(64), unique=True)
+    title: Mapped[str] = mapped_column(String(120))
+    enabled: Mapped[bool] = mapped_column(default=False, server_default="false")
+    config_version: Mapped[int] = mapped_column(default=1, server_default="1")
+
+
+class Publication(Base):
+    __tablename__ = "publications"
+    __table_args__ = (UniqueConstraint("page_id", "monitor_id"),)
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    page_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("public_pages.id", ondelete="CASCADE"))
+    monitor_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("monitors.id", ondelete="CASCADE"))
+    public_name: Mapped[str] = mapped_column(String(120))
+    show_history: Mapped[bool] = mapped_column(default=False, server_default="false")
 
 
 class Incident(Base):

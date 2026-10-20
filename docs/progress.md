@@ -1,10 +1,15 @@
-# ServicePulse progress — phase 4
+# ServicePulse progress — phase 5 in progress
+
+Owner accepted audited v0.4 and authorized Phase5. Active branch feat/public-status-analytics
+starts at audited 442496f. Current work: publication isolation/permissions, analytics and UI.
+Local backend 119 PASS; component 22 PASS; initial full browser 6 PASS. Final regression/CI pending.
+No Phase6, merge, new PR or public repository permission inferred.
 
 Current checkpoint: [v0.4 maintenance/email](phase4-checkpoint.md), verified and uploaded privately; hosted CI PASS.
 Later [Phase 4 audit](phase4-audit.md): local gate PASS, 109 backend/15 component/5 browser;
 documented policy limits retained. Phase 5 awaits a separate owner command.
 Prior [v0.3 incidents](phase3-checkpoint.md), [v0.2 management](phase2-checkpoint.md) and v0.1 are historical.
-Current branch is feat/maintenance-email-outbox, based on phase3 HEAD 3529b66.
+Historical v0.4 branch is feat/maintenance-email-outbox, based on phase3 HEAD 3529b66.
 
 ## Completed
 
@@ -33,7 +38,7 @@ Phase4 implementation and subsequent local audit verified. Audit: 109 backend (2
 Waiting for owner review; audit fd36635 uploaded to existing PR #3 under verified-stage authorization.
 Hosted PR CI 39385378283 PASS on that exact audit commit (109 backend/15 component).
 Owner subsequently authorized PRs for completed phases 2–4; all three are now open (see below).
-No phase5 or merge authorization inferred. Stop at completed stage4 checkpoint.
+That was the v0.4 checkpoint. Owner subsequently authorized Phase5 explicitly; merge remains unauthorized.
 
 ## Blocked
 
@@ -43,7 +48,7 @@ submission inputs, not blockers for current implementation. No credentials belon
 
 ## Next Tasks
 
-1. Owner reviews completed stage4 before explicitly requesting phase5.
+1. Complete Phase5 final regression, privacy review, documentation and verified private upload, then stop.
    Read phase4-audit.md: queued/unattempted DOWN cancellation, finite retries and SMTP authorization limits
    are explicit policies, not guarantees of mail for every historical incident after any dispatcher outage.
 2. Review [phase2 #1](https://github.com/azimkhanrazdva/servicepulse/pull/1),
@@ -52,7 +57,7 @@ submission inputs, not blockers for current implementation. No credentials belon
 3. No automatic merge; bases: phase2 -> main, phase3 -> phase2, phase4 -> phase3 until bases merge.
    After separately authorized merges, retarget the next PR to main; retain dependency commits
    with merge commits rather than squash/rebase to avoid replaying earlier phase diffs.
-4. Maintenance/outbox gate is now implemented; do not silently begin next phase.
+4. Maintenance/outbox policy remains unchanged; ACC-EMAIL-01 is open in final-acceptance-issues.md.
 5. Phase 5: remaining UI, coverage-aware uptime/charts, public projection and privacy tests.
 6. Phase 6: sustained 50 monitors / 30s, actual restarts, month history benchmark and final review.
 7. Phase 7: audit all pending requirements, owner essay (exactly ten sentences), approve publication.
@@ -106,7 +111,7 @@ outbox restart/persistence is now verified. External mailbox delivery is not cla
 
 ## Current Branch
 
-`feat/maintenance-email-outbox`, descended from phase3 3529b66.
+`feat/public-status-analytics`, descended from audited phase4 442496f.
 origin: https://github.com/azimkhanrazdva/servicepulse (private).
 main and first-slice branch remain at bd43629. PRs #1–#3 open; no merge.
 
@@ -144,7 +149,7 @@ resolves current HEAD (a file cannot embed its own commit hash). No publication 
 Start date 2026-10-19; deadline 2026-10-26. P0 features before polish. Stop at the requested checkpoint.
 Read AGENTS.md, requirements.md, architecture.md and development-log.md before resuming.
 Groups/membership/recipients are implemented; the first-slice notes above are historical.
-Incidents, maintenance and outbox are implemented; public models remain target only. Every monitor edit resets live
+Incidents, maintenance and outbox are implemented; public models/analytics are under Phase5 verification. Every monitor edit resets live
 metrics/streak/state (PAUSED retained), history stays versioned; resume schedules UNKNOWN.
 Use captured config_version for edits; stale clients get 409 and keep their drafts.
 Never release an active lease on edit/pause/resume. Manual requests coalesce. Group updates

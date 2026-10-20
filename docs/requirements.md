@@ -249,6 +249,31 @@ The original PDF/master prompt remain the audit baseline; no new prompt receipt 
 | P4-24 | PR preparation | Correct Phase2→main, Phase3→2, Phase4→3; no unauthorized PR/merge | Actual owner-authorized PRs #1/#2/#3; gh verifies PR #3 base feat/incident-lifecycle | PASS created on later owner request; no merge |
 | P4-25 | Critical review | No unexplained BLOCKER/HIGH; SMTP race/uncertainty explicit | review.md and actual acceptance-crash experiment | PASS reviewed local scope |
 
+## Phase 5 acceptance additions
+
+Source: actual owner message prompts/007-phase5-authorization.md plus baseline original PDF/master prompt.
+Detailed implementation contract: phase5-design.md. Individual local evidence does not yet declare the phase gate complete.
+
+| ID | Requirement/component | Acceptance criterion | Verification | Status |
+|---|---|---|---|---|
+| P5-01 | Real starting point/Git | Clean audited v0.4 HEAD, exact requested branch, prior refs retained | git fetch/status/branch/PR discovery in development-log | PASS |
+| P5-02 | Additive persistence | 0004 data unchanged, no automatic publication/cadence reconstruction | 0004 fixture -> 0005 exact row comparison + metadata check | PASS local |
+| P5-03 | Explicit publication | Disabled page/empty publications by default, separate public labels, history extra opt-in | DB CRUD, browser UI selection | PASS local |
+| P5-04 | Management consistency | Version conflicts preserve drafts and monitor config/incidents unaffected | Parallel edit 200/409 and browser config_version=1 assertion | PASS backend/browser; component draft case pending |
+| P5-05 | Separate public entrypoint | No management routes/docs/OpenAPI or mutations through public ASGI/nginx | Complete route/method privacy tests + public Docker asset inventory | PASS local |
+| P5-06 | Safe projection | No private URL/name/ID/group/recipient/body/errors/leases/outbox fields | Exact DTO keys + sentinel REST/SSE assertions | PASS local |
+| P5-07 | Public realtime | Two independent clients reflect real worker DOWN/UP without reload | public.spec.ts real browser | PASS initial browser |
+| P5-08 | Reconnect/revocation | Fresh snapshot after reconnect, remove hidden service/page/history permission | DB generator + browser + late REST component regression | PASS local |
+| P5-09 | 24h/7d/30d analytics | Successful observed / observed, null at zero; no synthetic healthy metrics | PostgreSQL aggregate and component tests | PASS local |
+| P5-10 | Honest gaps | Interval-capped coverage, legacy NULL cadence, no failure backfill | Bounds/config/legacy/gap tests and 0005 fixture | PASS local |
+| P5-11 | Bounded PostgreSQL work | One indexed SQL aggregate and bounded bucket payload | Dense 10000-row fixture, one query / 360 buckets | PASS local fixture; fleet performance later |
+| P5-12 | Charts/accessibility | Real bucket means, explicit NO DATA, accessible aggregate table | Component zero-vs-null test + browser chart/mobile assertions | PASS local |
+| P5-13 | Local failures | Loading/errors/retry; no stale public restoration after unavailable/disconnect | PublicApp/AnalyticsPanel component tests | PASS local |
+| P5-14 | No Phase4 policy rewrite | Carry queued DOWN issue to final acceptance review | ACC-EMAIL-01; notifications/dispatcher diff remains empty | PASS recorded; acceptance risk OPEN |
+| P5-15 | Full regression | All prior backend/component/browser and live smoke/fault scenarios retained | Full local suites, phase1/2/3/proxy/4 live reports | IN PROGRESS |
+| P5-16 | Hosted CI | Python + UI + actual Compose browser job successful on published implementation | GitHub Actions exact commit run | NOT VERIFIED yet |
+| P5-17 | Review/docs/checkpoint | Privacy/races/query review, README/progress/evidence, real commits, stop before Phase6 | Review/checkpoint/log | IN PROGRESS |
+
 ## Phase gates and effort estimates (planning ranges)
 
 Estimates are planning ranges, not promises or hours already spent. Deadline is 2026-10-26.

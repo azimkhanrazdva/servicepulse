@@ -82,6 +82,7 @@ async def execute(monitor, client):
                 response_ms=observation.response_ms,
                 error=observation.error,
                 config_version=monitor.config_version,
+                interval_seconds=monitor.interval_seconds,
             )
         )
     log.info(

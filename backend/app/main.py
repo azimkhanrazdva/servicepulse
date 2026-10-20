@@ -8,6 +8,7 @@ from fastapi.responses import StreamingResponse
 from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.analytics import router as analytics_router
 from app.db import Session, session_dependency
 from app.groups import group_snapshots, require_version
 from app.groups import router as groups_router
@@ -17,9 +18,12 @@ from app.maintenance import router as maintenance_router
 from app.maintenance import window_snapshot
 from app.models import CheckResult, Monitor, now
 from app.notifications import router as notifications_router
+from app.publication import router as publication_router
 from app.schemas import MonitorCreate, MonitorRead, MonitorUpdate, ResultRead, VersionRequest
 
-app = FastAPI(title="ServicePulse", version="0.4.0")
+app = FastAPI(title="ServicePulse", version="0.5.0")
+app.include_router(analytics_router)
+app.include_router(publication_router)
 app.include_router(groups_router)
 app.include_router(incidents_router)
 app.include_router(maintenance_router)
