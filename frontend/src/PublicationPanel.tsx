@@ -26,6 +26,7 @@ export function PublicationPanel({ monitors }: { monitors: Monitor[] }) {
   const [busy, setBusy] = useState(false);
   const [refresh, setRefresh] = useState(0);
   const [conflict, setConflict] = useState(false);
+  const [copied, setCopied] = useState<string | null>(null);
   const current = editor && editor !== "new" ? editor : null;
   useEffect(() => {
     let active = true;
@@ -252,6 +253,24 @@ export function PublicationPanel({ monitors }: { monitors: Monitor[] }) {
               Open public page ↗
             </a>
             <div className="row-actions">
+              <button
+                onClick={async () => {
+                  try {
+                    await navigator.clipboard.writeText(
+                      `${location.protocol}//${location.hostname}:8081/status/${page.slug}`,
+                    );
+                    setError("");
+                    setCopied(page.id);
+                  } catch {
+                    setError(
+                      "Could not copy the link. Use Open public page and copy its address.",
+                    );
+                  }
+                }}
+              >
+                Copy public link
+              </button>
+              {copied === page.id && <span role="status">Link copied.</span>}
               <button disabled={busy} onClick={() => edit(page)}>
                 Edit publication
               </button>

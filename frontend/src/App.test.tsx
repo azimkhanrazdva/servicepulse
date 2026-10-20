@@ -5,6 +5,7 @@ import {
   render,
   screen,
   waitFor,
+  within,
 } from "@testing-library/react";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { App } from "./App";
@@ -40,6 +41,7 @@ const monitor = {
 };
 
 beforeEach(() => {
+  window.history.replaceState({}, "", "/");
   vi.stubGlobal("EventSource", FakeEvents);
 });
 afterEach(() => {
@@ -112,4 +114,75 @@ it("creates a monitor using real form values", async () => {
     interval_seconds: 30,
     timeout_seconds: 5,
   });
+});
+
+it("tracks anchor navigation and filters only the disclosed loaded selection", async () => {
+  vi.stubGlobal(
+    "fetch",
+    vi.fn().mockResolvedValue({ ok: true, json: async () => [] }),
+  );
+  render(<App />);
+  await screen.findByText("Start with your first service");
+  act(() =>
+    FakeEvents.latest.onmessage?.({
+      data: JSON.stringify([
+        monitor,
+        { ...monitor, id: "b", name: "Other", state: "DOWN" },
+      ]),
+    }),
+  );
+  expect(screen.getByText(/API limit 500/)).toBeTruthy();
+  fireEvent.change(screen.getByLabelText("Search monitors"), {
+    target: { value: "Other" },
+  });
+  expect(screen.queryByRole("button", { name: "Test API" })).toBeNull();
+  expect(screen.getByRole("button", { name: "Other" })).toBeTruthy();
+  act(() => {
+    location.hash = "groups";
+    window.dispatchEvent(new HashChangeEvent("hashchange"));
+  });
+  expect(
+    within(screen.getByRole("navigation"))
+      .getByRole("link", { name: "Groups" })
+      .getAttribute("aria-current"),
+  ).toBe("page");
+  expect(
+    screen.getByRole("link", { name: "Overview" }).getAttribute("aria-current"),
+  ).toBeNull();
+});
+
+it("keeps the editor open during an outstanding save and closes after success", async () => {
+  let finish!: (value: unknown) => void;
+  vi.stubGlobal(
+    "fetch",
+    vi.fn().mockImplementation((_url, options) =>
+      options?.method === "POST"
+        ? new Promise((resolve) => {
+            finish = resolve;
+          })
+        : Promise.resolve({ ok: true, json: async () => [] }),
+    ),
+  );
+  render(<App />);
+  await screen.findByText("Start with your first service");
+  fireEvent.click(screen.getByRole("button", { name: "+ Add monitor" }));
+  fireEvent.change(screen.getByLabelText("Name"), {
+    target: { value: "Slow save" },
+  });
+  fireEvent.change(screen.getByLabelText("URL"), {
+    target: { value: "https://example.com" },
+  });
+  fireEvent.click(screen.getByRole("button", { name: "Create monitor" }));
+  expect(
+    screen
+      .getByRole("button", { name: "Close monitor editor" })
+      .hasAttribute("disabled"),
+  ).toBe(true);
+  fireEvent(
+    screen.getByRole("dialog"),
+    new Event("cancel", { bubbles: true, cancelable: true }),
+  );
+  expect(screen.getByRole("dialog")).toBeTruthy();
+  await act(async () => finish({ ok: true, json: async () => monitor }));
+  await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
 });

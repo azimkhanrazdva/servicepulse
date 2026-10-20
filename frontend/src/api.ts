@@ -1,3 +1,5 @@
+import { withDeadline } from "./network";
+
 export type MonitorConfig = {
   name: string;
   url: string;
@@ -38,23 +40,25 @@ export async function request<T>(
   path: string,
   options?: RequestInit,
 ): Promise<T> {
-  const response = await fetch(`/api${path}`, options);
-  if (!response.ok) {
-    let message = `Request failed (${response.status})`;
-    try {
-      const data = await response.json();
-      if (typeof data.detail === "string") message = data.detail;
-      else if (Array.isArray(data.detail))
-        message = data.detail
-          .map(
-            (issue: { loc: string[]; msg: string }) =>
-              `${issue.loc.slice(1).join(".")}: ${issue.msg}`,
-          )
-          .join("; ");
-    } catch {
-      /* response may not contain JSON */
+  return withDeadline(async (signal) => {
+    const response = await fetch(`/api${path}`, { ...options, signal });
+    if (!response.ok) {
+      let message = `Request failed (${response.status})`;
+      try {
+        const data = await response.json();
+        if (typeof data.detail === "string") message = data.detail;
+        else if (Array.isArray(data.detail))
+          message = data.detail
+            .map(
+              (issue: { loc: string[]; msg: string }) =>
+                `${issue.loc.slice(1).join(".")}: ${issue.msg}`,
+            )
+            .join("; ");
+      } catch {
+        /* response may not contain JSON */
+      }
+      throw new ApiError(message, response.status);
     }
-    throw new ApiError(message, response.status);
-  }
-  return response.status === 204 ? (undefined as T) : response.json();
+    return response.status === 204 ? (undefined as T) : response.json();
+  }, options?.signal ?? undefined);
 }

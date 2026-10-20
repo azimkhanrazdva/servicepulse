@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { withDeadline } from "./network";
 
 export type Bucket = {
   at: string;
@@ -40,7 +41,7 @@ export function ResponseChart({ data }: { data: Analytics }) {
           Mean response time per bucket; empty buckets are gaps, not zero
           latency.
         </title>
-        <line x1="0" x2={width} y1={height} y2={height} stroke="#45524a" />
+        <line x1="0" x2={width} y1={height} y2={height} stroke="#a3a3a3" />
         {data.buckets.map((bucket, i) =>
           bucket.mean_ms === null ? (
             <rect
@@ -50,7 +51,7 @@ export function ResponseChart({ data }: { data: Analytics }) {
               y={height + 6}
               width={Math.max(1, step - 0.5)}
               height="8"
-              fill="#38423d"
+              fill="#bdbdbd"
             >
               <title>{new Date(bucket.at).toLocaleString()}: NO DATA</title>
             </rect>
@@ -61,7 +62,7 @@ export function ResponseChart({ data }: { data: Analytics }) {
               y={height - Math.max(2, (bucket.mean_ms / max) * (height - 12))}
               width={Math.max(1, step - 0.5)}
               height={Math.max(2, (bucket.mean_ms / max) * (height - 12))}
-              fill="#b0df95"
+              fill="#171717"
             >
               <title>
                 {new Date(bucket.at).toLocaleString()}:{" "}
@@ -83,7 +84,12 @@ export function ResponseChart({ data }: { data: Analytics }) {
       </p>
       <details className="bucket-data">
         <summary>Inspect aggregated observations</summary>
-        <div className="table-scroll">
+        <div
+          className="table-scroll"
+          tabIndex={0}
+          role="region"
+          aria-label="Scrollable table"
+        >
           <table>
             <thead>
               <tr>
@@ -141,17 +147,19 @@ export function AnalyticsPanel({
     setError("");
     setWindows(null);
     Promise.all(
-      ["24h", "7d", "30d"].map(async (value) => {
-        const response = await fetch(`${base}?period=${value}`, {
-          signal: controller.signal,
-          cache: "no-store",
-        });
-        if (!response.ok)
-          throw new Error(
-            "History is unavailable. Permission or connection may have changed.",
-          );
-        return [value, await response.json()] as const;
-      }),
+      ["24h", "7d", "30d"].map((value) =>
+        withDeadline(async (signal) => {
+          const response = await fetch(`${base}?period=${value}`, {
+            signal,
+            cache: "no-store",
+          });
+          if (!response.ok)
+            throw new Error(
+              "History is unavailable. Permission or connection may have changed.",
+            );
+          return [value, await response.json()] as const;
+        }, controller.signal),
+      ),
     )
       .then((rows) => {
         if (!controller.signal.aborted) setWindows(Object.fromEntries(rows));
@@ -187,13 +195,22 @@ export function AnalyticsPanel({
         <>
           <div className="uptime-grid">
             {["24h", "7d", "30d"].map((p) => (
-              <article key={p}>
+              <article
+                key={p}
+                className={
+                  windows[p].coverage_percent < 90 ? "low-coverage" : ""
+                }
+              >
                 <span>{p} availability</span>
                 <strong>
                   {windows[p].uptime_percent === null
                     ? "NO DATA"
                     : `${windows[p].uptime_percent.toFixed(2)}%`}
                 </strong>
+                <div className="coverage-value">
+                  <span>Observed coverage</span>
+                  <b>{windows[p].coverage_percent.toFixed(2)}%</b>
+                </div>
                 <small>
                   {windows[p].samples} checks ·{" "}
                   {windows[p].coverage_percent.toFixed(2)}% observed coverage
@@ -201,6 +218,12 @@ export function AnalyticsPanel({
               </article>
             ))}
           </div>
+          {windows[period].coverage_percent < 90 && (
+            <p className="coverage-warning">
+              Limited coverage: uptime describes observed checks only, not
+              continuous availability.
+            </p>
+          )}
           <ResponseChart data={windows[period]} />
           <p className="subtle">
             Uptime = successful / observed checks, including maintenance and

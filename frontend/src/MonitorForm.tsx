@@ -7,10 +7,12 @@ export function MonitorForm({
   initial,
   onSaved,
   onCancel,
+  onBusyChange,
 }: {
   initial?: Monitor;
   onSaved: (monitor: Monitor) => void;
   onCancel: () => void;
+  onBusyChange?: (busy: boolean) => void;
 }) {
   const [source, setSource] = useState(initial);
   const [busy, setBusy] = useState(false);
@@ -18,7 +20,9 @@ export function MonitorForm({
   const [conflict, setConflict] = useState(false);
   async function save(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (busy) return;
     setBusy(true);
+    onBusyChange?.(true);
     setError("");
     setConflict(false);
     const form = new FormData(event.currentTarget);
@@ -47,10 +51,12 @@ export function MonitorForm({
       setConflict(e instanceof ApiError && e.status === 409);
     } finally {
       setBusy(false);
+      onBusyChange?.(false);
     }
   }
   async function reload() {
     setBusy(true);
+    onBusyChange?.(true);
     try {
       setSource(await request<Monitor>(`/monitors/${source!.id}`));
       setConflict(false);
@@ -59,6 +65,7 @@ export function MonitorForm({
       setError((e as Error).message);
     } finally {
       setBusy(false);
+      onBusyChange?.(false);
     }
   }
   return (

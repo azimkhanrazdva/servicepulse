@@ -1,0 +1,14 @@
+{
+  "recorded_at": "2026-10-20T11:02:19.629Z",
+  "status": "PASS",
+  "messages": [
+    {
+      "id": "WD2mBbALqAS7ZgykubZRLr",
+      "subject": "ServicePulse RECOVERY: maintenance-1792494125336"
+    },
+    {
+      "id": "JCjzDixEy8Hqd4QgceWGzU",
+      "subject": "ServicePulse DOWN: maintenance-1792494125336"
+    }
+  ]
+}

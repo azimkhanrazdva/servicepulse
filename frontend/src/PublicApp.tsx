@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { AnalyticsPanel } from "./AnalyticsPanel";
+import { withDeadline } from "./network";
 
 type Service = {
   id: string;
@@ -56,8 +57,8 @@ export function PublicApp() {
         }
       };
     };
-    fetch(base, { cache: "no-store" })
-      .then(async (response) => {
+    withDeadline((signal) =>
+      fetch(base, { cache: "no-store", signal }).then(async (response) => {
         if (!response.ok)
           throw new Error(
             response.status === 404
@@ -65,7 +66,8 @@ export function PublicApp() {
               : "Could not load public status.",
           );
         return response.json();
-      })
+      }),
+    )
       .then((data) => {
         if (active && !received) setSnapshot(data);
       })

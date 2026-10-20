@@ -9,6 +9,8 @@ import type { MaintenanceSnapshot } from "./MaintenancePanel";
 import { AnalyticsPanel } from "./AnalyticsPanel";
 import { PublicationPanel } from "./PublicationPanel";
 import { OutageDuration } from "./OutageDuration";
+import { Modal } from "./Modal";
+import { NotificationsPanel } from "./NotificationsPanel";
 
 type Result = {
   id: string;
@@ -20,6 +22,22 @@ type Result = {
 };
 
 export function App() {
+  const [activeSection, setActiveSection] = useState(
+    location.hash.slice(1) || "overview",
+  );
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [lastUpdate, setLastUpdate] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [sort, setSort] = useState("name");
+  useEffect(() => {
+    const changed = () => {
+      setActiveSection(location.hash.slice(1) || "overview");
+      setMenuOpen(false);
+    };
+    window.addEventListener("hashchange", changed);
+    return () => window.removeEventListener("hashchange", changed);
+  }, []);
   const [overview, setOverview] = useState<{
     active_incidents: number;
     opened_at: Record<string, string>;
@@ -33,6 +51,7 @@ export function App() {
   const [connection, setConnection] = useState("Connecting");
   const [error, setError] = useState("");
   const [form, setForm] = useState(false);
+  const [formBusy, setFormBusy] = useState(false);
   const [busy, setBusy] = useState(false);
   const [editing, setEditing] = useState<Monitor | undefined>();
   const [groups, setGroups] = useState<Group[]>([]);
@@ -137,6 +156,7 @@ export function App() {
         try {
           receivedSnapshot = true;
           setMonitors(JSON.parse(event.data));
+          setLastUpdate(new Date().toISOString());
           setLoading(false);
           setConnection("Live");
         } catch {
@@ -260,51 +280,111 @@ export function App() {
   );
   const current = monitors.find((m) => m.id === selected?.id);
   const filteredGroup = groups.find((g) => g.id === groupFilter);
-  const visible = filteredGroup
+  const grouped = filteredGroup
     ? monitors.filter((m) => filteredGroup.monitor_ids.includes(m.id))
     : monitors;
+  const visible = grouped
+    .filter(
+      (m) =>
+        (!statusFilter || m.state === statusFilter) &&
+        `${m.name} ${m.url}`.toLowerCase().includes(search.toLowerCase()),
+    )
+    .sort((a, b) =>
+      sort === "latency"
+        ? (b.last_response_ms ?? -1) - (a.last_response_ms ?? -1)
+        : sort === "status"
+          ? a.state.localeCompare(b.state) || a.name.localeCompare(b.name)
+          : a.name.localeCompare(b.name),
+    );
+  const samples = Object.values(uptime);
+  const totalSamples = samples.reduce((sum, s) => sum + s.samples, 0);
+  const observed = totalSamples
+    ? samples.reduce((sum, s) => sum + s.samples * s.percent, 0) / totalSamples
+    : null;
+  const responses = monitors.filter(
+    (m) => m.last_response_ms !== null && m.state !== "PAUSED",
+  );
+  const average = responses.length
+    ? responses.reduce((sum, m) => sum + (m.last_response_ms ?? 0), 0) /
+      responses.length
+    : null;
   return (
     <div className="shell">
-      <aside>
+      <a className="skip-link" href="#overview">
+        Skip to main content
+      </a>
+      <aside
+        className={menuOpen ? "menu-open" : ""}
+        onKeyDown={(e) => {
+          if (e.key === "Escape") {
+            setMenuOpen(false);
+            e.currentTarget
+              .querySelector<HTMLButtonElement>(".menu-toggle")
+              ?.focus();
+          }
+        }}
+      >
         <a className="brand" href="#overview">
           <span className="brand-icon">ϟ</span> ServicePulse
         </a>
+        <button
+          className="menu-toggle"
+          aria-expanded={menuOpen}
+          aria-controls="workspace-nav"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          Workspace menu {menuOpen ? "−" : "+"}
+        </button>
         <div className="workspace">
-          LOCAL WORKSPACE <span>01</span>
+          WORKSPACE <span>LOCAL</span>
         </div>
-        <nav aria-label="Main">
-          <a className="active" href="#overview" aria-label="Overview">
-            ◉ <span>Overview</span>
-          </a>
-          <a href="#monitors" aria-label="All monitors">
-            ▤ <span>All monitors</span>
-            <small>{monitors.length}</small>
-          </a>
-          <a href="#incidents">Incident journal</a>
-          <a href="#maintenance">Maintenance</a>
-          <a href="#publication">Public status pages</a>
-          <a href="#groups">Notification settings</a>
+        <nav id="workspace-nav" aria-label="Main">
+          {[
+            ["overview", "◉", "Overview"],
+            ["monitors", "▤", "All monitors"],
+            ["groups", "◇", "Groups"],
+            ["incidents", "!", "Incident journal"],
+            ["maintenance", "◷", "Maintenance"],
+            ["notifications", "✉", "Notifications"],
+            ["publication", "↗", "Public status pages"],
+          ].map(([id, icon, label]) => (
+            <a
+              key={id}
+              href={`#${id}`}
+              aria-current={activeSection === id ? "page" : undefined}
+              className={activeSection === id ? "active" : ""}
+            >
+              <span aria-hidden="true" className="nav-icon">
+                {icon}
+              </span>
+              <span>{label}</span>
+            </a>
+          ))}
         </nav>
-        <a className="group-nav" href="#groups">
-          Groups
-        </a>
         <div className="sidebar-note">
-          <span className="tag">STATUS / V0.5</span>
+          <span className="tag">LOCAL ENVIRONMENT</span>
           <p>
-            Real checks.
+            Your services.
             <br />
-            Observable results.
+            One clear signal.
           </p>
-          <small>Local SMTP alerts with scheduled maintenance.</small>
+          <small>Private management · live observations</small>
         </div>
         <footer>
-          ServicePulse <span>v0.5</span>
+          <a href="/api/health" target="_blank" rel="noreferrer">
+            System health ↗
+          </a>
+          <a href="http://localhost:8000/docs" target="_blank" rel="noreferrer">
+            API documentation ↗
+          </a>
+          <span>ServicePulse v0.6</span>
         </footer>
       </aside>
-      <main id="overview">
+      <main id="overview" tabIndex={-1}>
         <header>
           <span>
-            Workspace <b>/</b> Overview
+            Workspace <b>/</b>{" "}
+            {activeSection === "overview" ? "Overview" : activeSection}
           </span>
           <span
             className={`connection ${connection === "Live" ? "live" : ""}`}
@@ -317,12 +397,15 @@ export function App() {
           <div>
             <div className="eyebrow">MONITORING / OVERVIEW</div>
             <h1>
-              A clear view of availability<span>.</span>
+              Overview<span className="title-dot">.</span>
             </h1>
-            <p>
-              Your services, observed continuously. Updates arrive
-              automatically.
-            </p>
+            <p>Availability, incidents, and the signals that matter.</p>
+            <small className="last-update">
+              Last update:{" "}
+              {lastUpdate
+                ? new Date(lastUpdate).toLocaleTimeString()
+                : "Awaiting snapshot"}
+            </small>
           </div>
           <button
             className="primary"
@@ -354,53 +437,66 @@ export function App() {
           </div>
         )}
         {form && (
-          <MonitorForm
-            key={editing?.id ?? "new"}
-            initial={editing}
-            onSaved={saved}
-            onCancel={() => {
+          <Modal
+            busy={formBusy}
+            onClose={() => {
               setForm(false);
               setEditing(undefined);
             }}
-          />
+          >
+            <MonitorForm
+              key={editing?.id ?? "new"}
+              initial={editing}
+              onSaved={saved}
+              onBusyChange={setFormBusy}
+              onCancel={() => {
+                setForm(false);
+                setEditing(undefined);
+              }}
+            />
+          </Modal>
         )}
         <section className="stats" aria-label="Monitor summary">
           {[
-            "Total monitors",
-            "Operational",
-            "Down",
-            "Awaiting data",
-            "Paused",
-          ].map((label, i) => (
+            [
+              "Total monitors",
+              monitors.length,
+              "Loaded selection · maximum 500",
+            ],
+            ["Operational", counts[0], "Confirmed UP in loaded selection"],
+            ["Down", counts[1], "Failure threshold confirmed"],
+            [
+              "Paused",
+              monitors.filter((m) => m.state === "PAUSED").length,
+              "Loaded selection",
+            ],
+            [
+              "Awaiting data",
+              monitors.filter((m) => m.state === "UNKNOWN").length,
+              "Loaded selection",
+            ],
+            [
+              "Active incidents",
+              overview?.active_incidents ?? "—",
+              "All persisted open incidents",
+            ],
+            [
+              "Observed uptime · 24h",
+              observed === null ? "NO DATA" : `${observed.toFixed(2)}%`,
+              "Sample-weighted · loaded selection",
+            ],
+            [
+              "Average response",
+              average === null ? "NO DATA" : `${Math.round(average)} ms`,
+              "Latest active observations · loaded selection",
+            ],
+          ].map(([label, value, hint]) => (
             <article key={label}>
               <span>{label}</span>
-              <strong
-                className={
-                  i === 1 ? "green" : i === 2 && counts[1] ? "red" : ""
-                }
-              >
-                {i === 0 ? monitors.length : counts[i - 1]}
-              </strong>
-              <small>
-                {i === 0
-                  ? "In this workspace"
-                  : i === 1
-                    ? "Successful observations"
-                    : i === 2
-                      ? "Threshold confirmed"
-                      : i === 3
-                        ? "No confirmed state yet"
-                        : "Checks suspended"}
-              </small>
+              <strong>{value}</strong>
+              <small>{hint}</small>
             </article>
           ))}
-          <article>
-            <span>Active incidents</span>
-            <strong className={overview?.active_incidents ? "red" : ""}>
-              {overview?.active_incidents ?? "—"}
-            </strong>
-            <small>Confirmed and still open</small>
-          </article>
         </section>
         {overviewError && (
           <p className="error" role="alert">
@@ -423,7 +519,61 @@ export function App() {
               <span className="subtle">Latest observations</span>
             )}
           </div>
-          <div className="table-scroll">
+          <div className="monitor-toolbar">
+            <label>
+              Search monitors
+              <input
+                type="search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Name or URL"
+              />
+            </label>
+            <label>
+              Status
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+              >
+                <option value="">All statuses</option>
+                {["UP", "DOWN", "UNKNOWN", "PAUSED"].map((s) => (
+                  <option key={s}>{s}</option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Group
+              <select
+                value={groupFilter ?? ""}
+                onChange={(e) => setGroupFilter(e.target.value || null)}
+              >
+                <option value="">All groups</option>
+                {groups.map((g) => (
+                  <option key={g.id} value={g.id}>
+                    {g.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Sort loaded selection
+              <select value={sort} onChange={(e) => setSort(e.target.value)}>
+                <option value="name">Name A–Z</option>
+                <option value="status">Status</option>
+                <option value="latency">Slowest response</option>
+              </select>
+            </label>
+          </div>
+          <p className="selection-note">
+            Showing {visible.length} of {monitors.length} loaded monitors (API
+            limit 500). Search, sorting and metrics apply to this selection.
+          </p>
+          <div
+            className="table-scroll"
+            tabIndex={0}
+            role="region"
+            aria-label="Scrollable table"
+          >
             <table>
               <thead>
                 <tr>
@@ -588,7 +738,12 @@ export function App() {
             ) : !results.length ? (
               <p>No observations yet.</p>
             ) : (
-              <div className="table-scroll">
+              <div
+                className="table-scroll"
+                tabIndex={0}
+                role="region"
+                aria-label="Scrollable table"
+              >
                 <table>
                   <thead>
                     <tr>
@@ -621,6 +776,7 @@ export function App() {
             </p>
           </section>
         )}
+        <NotificationsPanel active={activeSection === "notifications"} />
         <PublicationPanel monitors={monitors} />
         <IncidentsPanel revision={incidentRevision} monitors={monitors} />
         <MaintenancePanel
@@ -636,6 +792,7 @@ export function App() {
           onChange={groupChanged}
           onFilter={(id) => {
             setGroupFilter(id);
+            location.hash = "monitors";
             document
               .getElementById("monitors")
               ?.scrollIntoView({ behavior: "instant" });

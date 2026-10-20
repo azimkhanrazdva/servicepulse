@@ -33,6 +33,35 @@ it("advances rolling history even when no new observation arrives", async () => 
   expect(fetcher).toHaveBeenCalledTimes(6);
   expect(screen.queryByText("100.00%")).toBeNull();
 });
+
+it("pairs sample uptime with prominent low coverage and a continuity warning", async () => {
+  vi.stubGlobal(
+    "fetch",
+    vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        ...empty,
+        uptime_percent: 100,
+        coverage_percent: 1,
+        samples: 10,
+      }),
+    }),
+  );
+  const view = render(
+    <AnalyticsPanel base="/api/monitors/a/analytics" revision={null} />,
+  );
+  await waitFor(() =>
+    expect(view.container.querySelectorAll(".coverage-value b")).toHaveLength(
+      3,
+    ),
+  );
+  expect(
+    [...view.container.querySelectorAll(".coverage-value b")].every(
+      (el) => el.textContent === "1.00%",
+    ),
+  ).toBe(true);
+  expect(screen.getByText(/not continuous availability/)).toBeTruthy();
+});
 const empty: Analytics = {
   period: "24h",
   start_at: "2026-10-19T00:00:00Z",
