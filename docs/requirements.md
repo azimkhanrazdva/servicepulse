@@ -338,3 +338,6 @@ This dated amendment supersedes earlier partial current-status wording; historic
 | P6-REQ-11/12 | Responsive/a11y/local checkpoint PASS; hosted CI requires exact-SHA outcome |phase6-final-checkpoint.md/log; no remote PR/merge falsely claimed |
 
 GEN-07 exact model identifier, owner's essay and final employer access/submission remain owner inputs. This is a phase checkpoint, not final submission acceptance.
+
+
+Hosted continuation evidence: Actions39454055596 SUCCESS for exactly6575f9ae5455fd034ba083e7dddb51f72c382ac1, all3jobs; downloaded browser artifact11PASS/0skip/0flaky. P6-REQ-12 is satisfied for that code checkpoint. A subsequent documentation/workflow SHA requires its own run and is never covered by an older result.

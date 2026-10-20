@@ -224,7 +224,9 @@ On restricted Windows execution, local socket access and launching Chromium may 
 host permission. A sandbox denial is not proof of an application failure or passing test.
 
 GitHub Actions specifies Python lint/format/PostgreSQL tests and frontend format/tests/types/build.
-Hosted CI **passed** for v0.5 implementation 9c155c3:
+Current v0.6 code checkpoint6575f9a passed all3 hosted jobs in [Actions39454055596](https://github.com/azimkhanrazdva/servicepulse/actions/runs/39454055596), including11 actual browser cases. Subsequent exact-head outcomes are recorded in the development log/final report.
+
+Historical CI **passed** for v0.5 implementation 9c155c3:
 [actual Actions run](https://github.com/azimkhanrazdva/servicepulse/actions/runs/39390308186).
 Backend (121 tests), frontend (26 tests) and the new actual Compose/Chromium browser job
 (seven E2E tests, 0 skipped/flaky) completed successfully. Local browser duration was 18.5s;
@@ -300,11 +302,7 @@ SMTP runs outside monitoring/database transactions. Each attempt revalidates rou
 authorization immediately before sending. A window/settings change after that point cannot recall SMTP
 already in flight. This boundary is documented/tested, rather than claiming an impossible atomic SMTP/DB operation.
 
-Queued unattempted DOWN is cancelled on recovery; no pointless RECOVERY follows. If DOWN was accepted,
-RECOVERY waits through maintenance and sends afterward. Uncertain acceptance after crash/timeout retries
-the previously authorized DOWN before RECOVERY; physical duplication is possible. Known rejection clears
-that authorization. PAUSED/CONFIG_CHANGED never generates recovery; pending old DOWN is cancelled on preflight.
-Existing incidents at migration 0004 are excluded from alerts, avoiding historical backfill/mass mail.
+New incidents use migration0006's persisted notification obligation. Confirmed outages eligible outside maintenance retain ordered DOWN then RECOVERY even if recovery precedes dispatcher processing. Incidents entirely inside applicable maintenance are suppressed; an ended window while still DOWN earns the alert obligation. All revoked routes cancel terminally. PAUSED/CONFIG_CHANGED closes administratively without recovery; pending DOWN cancels on preflight. Legacy unknown eligibility retains the prior policy and is not reconstructed or mass-mailed. SMTP acceptance can remain ambiguous after a crash; physical duplicates are possible. See [current policy](docs/phase6-notification-policy.md).
 
 Claims use persisted leases/UUID fences. Temporary failures back off 5..300 seconds, at most eight attempts;
 permanent rejection or exhaustion is FAILED and requires investigation. Logical creation/dedup is database
@@ -322,16 +320,9 @@ filters require timezone. Time filters narrow deeper history. Newest-first order
 
 ## Concurrency and performance
 
-Claims use `FOR UPDATE SKIP LOCKED`; an expired UUID lease fences stale results. Unit/integration
-tests cover disjoint claims for 50 rows and stale completion. This does **not** constitute the
-required 50-monitor/30s multi-cycle load test. The separate live phase-2 smoke holds a monitor paused for over 30s, edits during HTTP,
-restarts backend/worker, and asserts settings/group persistence without stale or fake failures:
-`python scripts/phase2_smoke.py`. It touches only its own uniquely named resources.
-Evidence: [phase-2 smoke](artifacts/phase2-smoke.json). There is no published throughput or monthly
-history benchmark yet. Those remain mandatory before final submission.
+Claims use `FOR UPDATE SKIP LOCKED`, UUID fencing and expiry checks. Real steady50×30s experiments and a separate50-monitor fault matrix verify logged non-overlap and slow/fast independence. History benchmarks include synthetic datasets up to1m fleet rows and100k on one service; distribution and cold/warm limits are explicit in [performance evidence](docs/phase6-performance.md). New scoped JIT policy uses one local setting plus one bounded aggregate SELECT, with at most360 monthly buckets. Measured warm p95 is867ms but an outlier is1.180s; no universal subsecond claim.
 
-Cadence is completion + interval (fixed delay); slow checks extend their own cycle. Missing
-server time creates no observations. Charts with explicit gaps and coverage are not yet built.
+Cadence is completion plus interval (fixed delay). Missing server time creates no observations; charts distinguish gaps/coverage from sample uptime. Local regression commands/evidence: [v0.6 checkpoint](docs/phase6-final-checkpoint.md).
 
 ## Security and known limitations
 
@@ -348,17 +339,14 @@ server time creates no observations. Charts with explicit gaps and coverage are 
 - Worker logs JSON; API currently uses ordinary Uvicorn access logs.
 - Container tags and Python build backend are not fully digest/hash locked. Python application
   versions and npm lockfile are pinned; dependency updates require rerunning verification.
-- Full security audit and sustained load remain pending. Incident and SMTP retry/restart/lease faults are tested.
+- Scoped security review, sustained/fault load and incident/SMTP regressions are completed for the documented local boundary; this is not production certification.
 
 ## Next iteration / roadmap
 
-1. Review the v0.5 public-status/analytics checkpoint and private feature branch.
-2. Resolve [ACC-EMAIL-01](docs/final-acceptance-issues.md): quick recovery cancels unattempted DOWN outside maintenance;
-   this can miss both emails for a confirmed incident during dispatcher delay and risks strict employer acceptance.
-3. Measure larger history datasets; current bounded SQL fixture is not a universal performance guarantee.
-4. Improve delivery operator tooling if needed; no real SMTP provider is required for this assignment.
-5. Measure mixed 50-monitor load, month history, actual restarts and run independent review.
-6. Complete requirements audit, owner-authored ten-sentence essay and approved GitHub submission.
+1. Owner reviews v0.6 and decides whether to authorize prepared stacked Phase5/6 PRs.
+2. After owner instruction, complete Phase7 submission audit, exact model disclosure, personal ten-sentence essay, reviewer access and fresh-checkout demo before26October.
+3. Later production work: authenticated management, dedicated public DB role, ingress/egress limits, targeted dense-history tuning and management pagination beyond500.
+4. Accessibility follow-up: screen-reader/WCAG2.2 review; automated checks alone do not certify conformance.
 
 ## AI-assisted development and attribution
 
@@ -373,7 +361,7 @@ actual commit dates and branch dependencies. See the chronological log for creat
 
 The project was written from an empty workspace, without a third-party application template.
 Libraries: FastAPI, Pydantic, SQLAlchemy, Alembic, asyncpg, HTTPX/httpcore, Uvicorn, React,
-TypeScript, Vite, Vitest, Testing Library, pytest, Ruff, Playwright and Prettier.
+TypeScript, Vite, Vitest, Testing Library, pytest, Ruff, Playwright, axe-core (test-only) and Prettier.
 Infrastructure: PostgreSQL, nginx, Docker Compose and Mailpit official images.
 HTTPX transport/HTTPCore extension documentation informed numeric IP and SNI handling;
 see source links in the decision log. These dependencies retain their own licenses; no

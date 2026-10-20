@@ -25,3 +25,6 @@ submission, decide and verify a separate policy correction (preserve outside-mai
 DOWN/RECOVERY ordering while suppressing maintenance-only stale pairs), or explicitly obtain owner
 acceptance of the narrower behavior. Do not label the stronger guarantee satisfied without evidence.
 This issue does not block implementing isolated public pages/analytics; it remains open for final acceptance.
+
+
+Phase6 continuation closure:149backend/32component/11browser,50-monitor faults, scoped security review and12axe scans0violations now pass. ACC-EMAIL-01 is corrected for new incidents; actual delayed/refused SMTP proof is artifacts/phase6-email-continuation.json. No unresolved confirmed HIGH in the tested local phase. Final employer submission/owner inputs still belong to Phase7; legacy eligibility and physical SMTP ambiguity remain explicit.

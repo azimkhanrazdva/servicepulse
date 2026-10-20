@@ -70,5 +70,7 @@ jobs:
             artifacts/browser-tests.json
             artifacts/phase5-public-browser.json
             output/playwright/*.png
-      - run: docker compose down --volumes --remove-orphans
+            output/playwright/phase6-monochrome/
+            artifacts/phase6-accessibility-*.json
+      - run: docker compose down --remove-orphans
         if: always()

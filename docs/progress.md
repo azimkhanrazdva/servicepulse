@@ -8,7 +8,7 @@ Phases1–5 preserved. Phase6 high notification/claim fixes and0006 retained; fi
 
 ## In Progress
 
-Final real commits/private upload and exact-head hosted CI verification. Owner review follows; do not start Phase7 automatically.
+Implementation and verified private code upload are complete. Hosted CI39454055596 passed all jobs for6575f9a. Final documentation/workflow upload gets a separate exact-head CI check; report its actual outcome, then stop for owner review. Do not start Phase7 automatically.
 
 ## Blocked
 
@@ -23,7 +23,7 @@ No owner action needed for local development/private verified-stage upload. PR c
 
 ## Verification Status
 
-149backend/32component/11Chromium PASS; migration preservation through0006/Alembic check PASS. Ruff/type/lint/format/build PASS. Actual SMTP/fault-under50/Host/privacy/JIT experiments PASS for stated scope. npm/pip0 known vulnerabilities. Cold/warm max635/1180ms. Hosted CI requires a real run on the uploaded SHA; see subsequent development-log entry.
+149backend/32component/11Chromium PASS; migration preservation through0006/Alembic check PASS. Ruff/type/lint/format/build PASS. Actual SMTP/fault-under50/Host/privacy/JIT experiments PASS for stated scope. npm/pip0 known vulnerabilities. Cold/warm max635/1180ms. Hosted CI39454055596 SUCCESS for6575f9a (downloaded11-browser artifact verified). See latest log/final report for the subsequent documentation/workflow commit run.
 
 ## Current Branch
 

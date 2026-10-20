@@ -850,3 +850,12 @@ Real clipboard read/write and preview URL assertions added at all four widths. I
 Final UI follow-up full gate:11Chromium PASS41.7s, including actual clipboard/preview checks at four widths and sticky mobile navigation. TypeScript/ESLint/Prettier PASS. Original baseline artifact bytes restored from Git after copying fresh phase6-prefixed reports/captures.
 
 Actual continuation commits after verified increments:42a11aa35ebc8cf814ab1f31129034446669bf29 at2026-10-20T16:00:24+05:00 (JIT/history); e687f076fe333067a7903eda85ecd36e42cfff90 at2026-10-20T16:02:54+05:00 (monochrome UI/keyboard/clipboard/evidence). Both staged diff checks passed. Fault/security/documentation checkpoint follows as a separate logical commit.
+
+
+## Private publication and actual hosted CI — 2026-10-20T16:07:19+05:00
+
+6575f9ae5455fd034ba083e7dddb51f72c382ac1 at2026-10-20T16:03:20+05:00: test: verify phase6 fault recovery and document v0.6 checkpoint. Clean tree and reviewed staged diff; normal `git push -u origin feat/reliability-audit-redesign` succeeded under standing owner authorization. No PR/merge/public change.
+
+Actual Actions39454055596 for exactly6575f9a: backend/frontend/browser all SUCCESS. Downloaded browser-evidence artifact and verified11expected/0unexpected/0skipped/0flaky. Metadata and stats in artifacts/phase6-ci-code-checkpoint.json. GitHub's returned UTC timestamps and local host+05 timestamps are recorded as returned; do not infer duration across their clock sources.
+
+Final documentation review removed stale README claims about cancelled new-incident emails, absent charts and unperformed load; preserved historical phase reports. Workflow now uploads new monochrome/axe evidence and cleans containers without explicit volume deletion; YAML parsed successfully. These final documentation/workflow changes get their own real commit and CI run. The completed39454055596 run is not claimed to validate that later SHA; final report must inspect its actual run. Phase7 not started.

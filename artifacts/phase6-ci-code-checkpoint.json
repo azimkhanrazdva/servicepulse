@@ -1,0 +1,29 @@
+{
+  "verified_at": "2026-10-20T11:07:19.773304+00:00",
+  "headSha": "6575f9ae5455fd034ba083e7dddb51f72c382ac1",
+  "url": "https://github.com/azimkhanrazdva/servicepulse/actions/runs/39454055596",
+  "status": "completed",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "backend",
+      "conclusion": "success"
+    },
+    {
+      "name": "frontend",
+      "conclusion": "success"
+    },
+    {
+      "name": "browser",
+      "conclusion": "success"
+    }
+  ],
+  "downloaded_browser_stats": {
+    "startTime": "2026-10-20T16:04:56.670Z",
+    "duration": 71567.43299999999,
+    "expected": 11,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

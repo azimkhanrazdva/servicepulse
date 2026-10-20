@@ -24,7 +24,7 @@ This continuation follows the preserved partial phase6-checkpoint.md. Same featu
 | Monthly history |100000 rows/360 buckets,3cold/21warm; cold max635ms, warm p95867ms, max1.180s. Exact limits in performance report |
 | Static/build |Ruff/check+format, TypeScript, ESLint, Prettier and production builds PASS |
 | Security |Defined-boundary source/privacy/SSRF/Host review; fresh npm/pip scans0 known vulnerabilities |
-| Hosted CI |Record only exact-SHA actual outcome after private upload in development-log.md |
+| Hosted CI |Actions39454055596 SUCCESS for6575f9a, all3jobs; downloaded11-browser report verified. Later documentation/workflow SHA is checked separately in the final report |
 
 Original checkpoint/load/history artifacts are retained. New regression files use phase6 prefixes. Resource samples, expected errors, failed attempts and measurement limits are in phase6-performance.md.
 
