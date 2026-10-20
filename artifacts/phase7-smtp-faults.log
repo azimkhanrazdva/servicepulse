@@ -1,0 +1,52 @@
+worker-1      | HTTP Request: GET http://172.21.0.3:8090/target/phase4-e0340b5f-normal "HTTP/1.1 200 OK"
+dispatcher-1  | {"event": "smtp_attempt_failed", "delivery_id": "f879cd02-6f25-4948-a106-1439acacb547", "category": "smtp_network"}
+dispatcher-1  | {"event": "dispatcher_tick_failed", "type": "CannotConnectNowError"}
+worker-1      | {"event": "check_completed", "monitor_id": "1bb336f9-38a0-4206-a002-69a83f2d61db", "success": true, "response_ms": 104.26}
+worker-1      | HTTP Request: GET http://172.21.0.3:8090/target/phase4-e0340b5f-normal "HTTP/1.1 500 Internal Server Error"
+worker-1      | {"event": "check_completed", "monitor_id": "1bb336f9-38a0-4206-a002-69a83f2d61db", "success": false, "response_ms": 6.15}
+worker-1      | HTTP Request: GET http://172.21.0.3:8090/target/phase4-e0340b5f-normal "HTTP/1.1 500 Internal Server Error"
+worker-1      | {"event": "check_completed", "monitor_id": "1bb336f9-38a0-4206-a002-69a83f2d61db", "success": false, "response_ms": 6.17}
+worker-1      | HTTP Request: GET http://172.21.0.3:8090/target/phase4-e0340b5f-normal "HTTP/1.1 500 Internal Server Error"
+worker-1      | {"event": "check_completed", "monitor_id": "1bb336f9-38a0-4206-a002-69a83f2d61db", "success": false, "response_ms": 9.32}
+worker-1      | HTTP Request: GET http://172.21.0.3:8090/target/phase4-e0340b5f-normal "HTTP/1.1 500 Internal Server Error"
+worker-1      | {"event": "check_completed", "monitor_id": "1bb336f9-38a0-4206-a002-69a83f2d61db", "success": false, "response_ms": 9.02}
+worker-1      | HTTP Request: GET http://172.21.0.3:8090/target/phase4-e0340b5f-normal "HTTP/1.1 200 OK"
+worker-1      | {"event": "check_completed", "monitor_id": "1bb336f9-38a0-4206-a002-69a83f2d61db", "success": true, "response_ms": 14.2}
+worker-1      | HTTP Request: GET http://172.21.0.3:8090/target/phase4-e0340b5f-maintenance "HTTP/1.1 200 OK"
+worker-1      | {"event": "check_completed", "monitor_id": "db803a46-9689-493a-a493-f0ba01d9b158", "success": true, "response_ms": 7.71}
+worker-1      | HTTP Request: GET http://172.21.0.3:8090/target/phase4-e0340b5f-maintenance "HTTP/1.1 500 Internal Server Error"
+worker-1      | {"event": "check_completed", "monitor_id": "db803a46-9689-493a-a493-f0ba01d9b158", "success": false, "response_ms": 11.0}
+worker-1      | HTTP Request: GET http://172.21.0.3:8090/target/phase4-e0340b5f-maintenance "HTTP/1.1 500 Internal Server Error"
+worker-1      | {"event": "check_completed", "monitor_id": "db803a46-9689-493a-a493-f0ba01d9b158", "success": false, "response_ms": 12.34}
+worker-1      | HTTP Request: GET http://172.21.0.3:8090/target/phase4-e0340b5f-maintenance "HTTP/1.1 500 Internal Server Error"
+worker-1      | {"event": "check_completed", "monitor_id": "db803a46-9689-493a-a493-f0ba01d9b158", "success": false, "response_ms": 10.05}
+worker-1      | HTTP Request: GET http://172.21.0.3:8090/target/phase4-e0340b5f-maintenance "HTTP/1.1 200 OK"
+worker-1      | {"event": "check_completed", "monitor_id": "db803a46-9689-493a-a493-f0ba01d9b158", "success": true, "response_ms": 6.68}
+worker-1      | HTTP Request: GET http://172.21.0.3:8090/target/phase4-e0340b5f-quick "HTTP/1.1 200 OK"
+worker-1      | {"event": "check_completed", "monitor_id": "bcd66b8c-0571-42ea-ba86-f8b81df7c899", "success": true, "response_ms": 15.37}
+worker-1      | HTTP Request: GET http://172.21.0.3:8090/target/phase4-e0340b5f-quick "HTTP/1.1 500 Internal Server Error"
+worker-1      | {"event": "check_completed", "monitor_id": "bcd66b8c-0571-42ea-ba86-f8b81df7c899", "success": false, "response_ms": 6.45}
+worker-1      | HTTP Request: GET http://172.21.0.3:8090/target/phase4-e0340b5f-quick "HTTP/1.1 500 Internal Server Error"
+worker-1      | {"event": "check_completed", "monitor_id": "bcd66b8c-0571-42ea-ba86-f8b81df7c899", "success": false, "response_ms": 8.38}
+worker-1      | HTTP Request: GET http://172.21.0.3:8090/target/phase4-e0340b5f-quick "HTTP/1.1 200 OK"
+worker-1      | {"event": "check_completed", "monitor_id": "bcd66b8c-0571-42ea-ba86-f8b81df7c899", "success": true, "response_ms": 7.38}
+worker-1      | HTTP Request: GET http://172.21.0.3:8090/target/phase4-e0340b5f-retry "HTTP/1.1 200 OK"
+worker-1      | {"event": "check_completed", "monitor_id": "5dee03f9-2ea7-4b19-8561-6a62268061e1", "success": true, "response_ms": 9.75}
+worker-1      | HTTP Request: GET http://172.21.0.3:8090/target/phase4-e0340b5f-retry "HTTP/1.1 500 Internal Server Error"
+worker-1      | {"event": "check_completed", "monitor_id": "5dee03f9-2ea7-4b19-8561-6a62268061e1", "success": false, "response_ms": 6.57}
+worker-1      | HTTP Request: GET http://172.21.0.3:8090/target/phase4-e0340b5f-retry "HTTP/1.1 500 Internal Server Error"
+worker-1      | {"event": "check_completed", "monitor_id": "5dee03f9-2ea7-4b19-8561-6a62268061e1", "success": false, "response_ms": 8.06}
+worker-1      | HTTP Request: GET http://172.21.0.3:8090/target/phase4-e0340b5f-retry "HTTP/1.1 200 OK"
+worker-1      | {"event": "check_completed", "monitor_id": "5dee03f9-2ea7-4b19-8561-6a62268061e1", "success": true, "response_ms": 34.18}
+worker-1      | {"event": "scheduler_error", "type": "CannotConnectNowError"}
+worker-1      | {"event": "scheduler_error", "type": "CannotConnectNowError"}
+worker-1      | {"event": "scheduler_error", "type": "CannotConnectNowError"}
+worker-1      | {"event": "scheduler_error", "type": "CannotConnectNowError"}
+worker-1      | HTTP Request: GET http://172.21.0.3:8090/target/phase4-e0340b5f-accept-crash "HTTP/1.1 200 OK"
+worker-1      | {"event": "check_completed", "monitor_id": "87231506-e587-46ab-bbe1-dc9500ea3bfc", "success": true, "response_ms": 10.91}
+worker-1      | HTTP Request: GET http://172.21.0.3:8090/target/phase4-e0340b5f-accept-crash "HTTP/1.1 500 Internal Server Error"
+worker-1      | {"event": "check_completed", "monitor_id": "87231506-e587-46ab-bbe1-dc9500ea3bfc", "success": false, "response_ms": 9.16}
+worker-1      | HTTP Request: GET http://172.21.0.3:8090/target/phase4-e0340b5f-accept-crash "HTTP/1.1 500 Internal Server Error"
+worker-1      | {"event": "check_completed", "monitor_id": "87231506-e587-46ab-bbe1-dc9500ea3bfc", "success": false, "response_ms": 8.64}
+worker-1      | HTTP Request: GET http://172.21.0.3:8090/target/phase4-e0340b5f-accept-crash "HTTP/1.1 200 OK"
+worker-1      | {"event": "check_completed", "monitor_id": "87231506-e587-46ab-bbe1-dc9500ea3bfc", "success": true, "response_ms": 8.7}

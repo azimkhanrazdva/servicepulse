@@ -1,0 +1,45 @@
+{
+  "formula": "PASS/(PASS+PARTIAL+FAIL+NOT VERIFIED)*100; N/A excluded only with justification",
+  "origins": {
+    "M": {
+      "counts": {
+        "PASS": 70,
+        "PARTIAL": 2
+      },
+      "denominator": 72,
+      "percent": 97.22
+    },
+    "O": {
+      "counts": {
+        "PASS": 139,
+        "PARTIAL": 5,
+        "NOT VERIFIED": 5
+      },
+      "denominator": 149,
+      "percent": 93.29
+    },
+    "T": {
+      "counts": {
+        "PASS": 9
+      },
+      "denominator": 9,
+      "percent": 100.0
+    },
+    "OPT": {
+      "counts": {
+        "PASS": 2
+      },
+      "denominator": 2,
+      "percent": 100.0
+    }
+  },
+  "total": {
+    "counts": {
+      "PASS": 220,
+      "PARTIAL": 7,
+      "NOT VERIFIED": 5
+    },
+    "denominator": 232,
+    "percent": 94.83
+  }
+}

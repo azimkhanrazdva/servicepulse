@@ -1,0 +1,5024 @@
+{
+  "scope": "133 baseline +69 phase3–6 owner criteria +30 phase7 criteria; split rows, not232 employer requirements",
+  "provenance_revisions": {
+    "UI-02": "M->O: actual HTTP response code on dashboard is an owner addition; expected configured status remains MON-04/M",
+    "UI-06": "M->O: full state timeline is an owner addition, distinct from mandatory incident journal"
+  },
+  "rows": [
+    {
+      "id": "GEN-01",
+      "origin": "M",
+      "requirement": "Separate backend/frontend over network",
+      "priority": "P0",
+      "implementation": [
+        "compose.yaml",
+        "backend/app/main.py",
+        "frontend/src/App.tsx"
+      ],
+      "test": [
+        "frontend/e2e/release.spec.ts::complete release journey with real HTTP, maintenance, Mailpit and public revocation"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected; immutable-clone/new-DB/restart/browser PASS",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Browser uses HTTP API",
+      "component": "API/UI"
+    },
+    {
+      "id": "GEN-02",
+      "origin": "M",
+      "requirement": "Preferred backend language",
+      "priority": "P0",
+      "implementation": [
+        "backend/pyproject.toml",
+        "backend/Dockerfile"
+      ],
+      "test": [
+        "scripts/phase7_clean_checkout.py::main"
+      ],
+      "test_result": "immutable-clone/new-DB/restart/browser PASS",
+      "evidence": [
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "limitation": "Employer language preference is met by Python3.12 in containers.",
+      "acceptance": "Python service starts",
+      "component": "API"
+    },
+    {
+      "id": "GEN-03",
+      "origin": "M",
+      "requirement": "React/Vue",
+      "priority": "P0",
+      "implementation": [
+        "frontend/package.json",
+        "frontend/src/App.tsx"
+      ],
+      "test": [
+        "frontend/e2e/release.spec.ts::complete release journey with real HTTP, maintenance, Mailpit and public revocation"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "React/TypeScript; no generated application template.",
+      "acceptance": "Compiled React renders API data",
+      "component": "UI"
+    },
+    {
+      "id": "GEN-04",
+      "origin": "M",
+      "requirement": "Relational PostgreSQL persistence",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/models.py",
+        "compose.yaml"
+      ],
+      "test": [
+        "scripts/phase7_clean_checkout.py::main"
+      ],
+      "test_result": "immutable-clone/new-DB/restart/browser PASS",
+      "evidence": [
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Result is saved and read",
+      "component": "DB"
+    },
+    {
+      "id": "GEN-05",
+      "origin": "OPT",
+      "requirement": "Authentication optional; define boundary",
+      "priority": "P1",
+      "implementation": [
+        "compose.yaml",
+        "backend/app/main.py"
+      ],
+      "test": [
+        "backend/tests/test_management_hosts.py::test_management_rejects_untrusted_host"
+      ],
+      "test_result": "150/150 backend PASS; no skips",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Authentication is an explicit optional employer choice; trusted-local no-auth deployment chosen. Not a delivered authentication feature.",
+      "acceptance": "Trusted local management clearly documented",
+      "component": "Deployment"
+    },
+    {
+      "id": "GEN-06",
+      "origin": "M",
+      "requirement": "Explain choices",
+      "priority": "P0",
+      "implementation": [
+        "docs/decisions.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "test_result": "scoped manual source/document review + contract/link checks PASS",
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Decisions include alternatives/consequences",
+      "component": "Docs"
+    },
+    {
+      "id": "GEN-07",
+      "origin": "M",
+      "requirement": "Disclose AI tool/model",
+      "priority": "P0",
+      "implementation": [
+        "docs/ai-development.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "test_result": "PARTIAL: exact model confirmation missing; tool/log disclosure reviewed",
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PARTIAL",
+      "limitation": "Tool/family/reasons are disclosed; exact deployed model has not been confirmed by owner.",
+      "acceptance": "Truthful tool and exact model or explicit unknown",
+      "component": "Docs"
+    },
+    {
+      "id": "GEN-08",
+      "origin": "M",
+      "requirement": "Prerequisites",
+      "priority": "P0",
+      "implementation": [
+        "README.md",
+        "compose.yaml"
+      ],
+      "test": [
+        "scripts/phase7_clean_checkout.py::main"
+      ],
+      "test_result": "immutable-clone/new-DB/restart/browser PASS",
+      "evidence": [
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "limitation": "Fresh committed clone/new DB; host OS and Docker layer cache retained. Isolated port override; not a fresh VM.",
+      "acceptance": "Clean machine requirements listed",
+      "component": "Docs"
+    },
+    {
+      "id": "GEN-09",
+      "origin": "M",
+      "requirement": "Quick local startup",
+      "priority": "P0",
+      "implementation": [
+        "README.md",
+        "compose.yaml"
+      ],
+      "test": [
+        "scripts/phase7_clean_checkout.py::main"
+      ],
+      "test_result": "immutable-clone/new-DB/restart/browser PASS",
+      "evidence": [
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "limitation": "Fresh committed clone/new DB; host OS and Docker layer cache retained. Isolated port override; not a fresh VM.",
+      "acceptance": "Config copy then one startup command",
+      "component": "Compose"
+    },
+    {
+      "id": "GEN-10",
+      "origin": "O",
+      "requirement": "Local substitutes",
+      "priority": "P1",
+      "implementation": [
+        "compose.yaml",
+        "simulator/app.py"
+      ],
+      "test": [
+        "frontend/e2e/release.spec.ts::complete release journey with real HTTP, maintenance, Mailpit and public revocation"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected; immutable-clone/new-DB/restart/browser PASS",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "limitation": "All mail is captured by local Mailpit; no external employer/provider mail.",
+      "acceptance": "Local target and SMTP catcher start",
+      "component": "Simulator/SMTP"
+    },
+    {
+      "id": "GEN-11",
+      "origin": "M",
+      "requirement": "Two independent clients",
+      "priority": "P0",
+      "implementation": [
+        "compose.yaml",
+        "backend/app/main.py",
+        "frontend/src/App.tsx"
+      ],
+      "test": [
+        "frontend/e2e/release.spec.ts::complete release journey with real HTTP, maintenance, Mailpit and public revocation"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected; immutable-clone/new-DB/restart/browser PASS",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Both see same updates without reload",
+      "component": "Realtime/UI"
+    },
+    {
+      "id": "GEN-12",
+      "origin": "M",
+      "requirement": "Honest project status",
+      "priority": "P0",
+      "implementation": [
+        "README.md",
+        "docs/progress.md",
+        "docs/phase7-checkpoint.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "test_result": "scoped manual source/document review + contract/link checks PASS",
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Missing functionality explicitly marked",
+      "component": "Docs/UI"
+    },
+    {
+      "id": "GEN-13",
+      "origin": "M",
+      "requirement": "Demonstrable functionality",
+      "priority": "P0",
+      "implementation": [
+        "docs/demo-script.md",
+        "frontend/e2e/release.spec.ts"
+      ],
+      "test": [
+        "frontend/e2e/release.spec.ts::complete release journey with real HTTP, maintenance, Mailpit and public revocation"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected; immutable-clone/new-DB/restart/browser PASS",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Repeatable real vertical-slice command",
+      "component": "QA"
+    },
+    {
+      "id": "FND-01",
+      "origin": "O",
+      "requirement": "Migration-controlled schema",
+      "priority": "P1",
+      "implementation": [
+        "backend/migrations/versions",
+        "backend/app/models.py"
+      ],
+      "test": [
+        "backend/tests/run.py"
+      ],
+      "test_result": "150/150 backend PASS; no skips; immutable-clone/new-DB/restart/browser PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "limitation": "Actual legacy fixtures0001..0005->0006 and catalog constraints/indexes; no owner DB migration reset.",
+      "acceptance": "Alembic head applies on empty PostgreSQL",
+      "component": "DB"
+    },
+    {
+      "id": "FND-02",
+      "origin": "O",
+      "requirement": "Database integrity/indexes",
+      "priority": "P1",
+      "implementation": [
+        "backend/migrations/versions",
+        "backend/app/models.py"
+      ],
+      "test": [
+        "backend/tests/run.py"
+      ],
+      "test_result": "150/150 backend PASS; no skips; immutable-clone/new-DB/restart/browser PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "limitation": "Actual legacy fixtures0001..0005->0006 and catalog constraints/indexes; no owner DB migration reset.",
+      "acceptance": "Bounds/FKs/indexes in migration and ORM agree",
+      "component": "DB"
+    },
+    {
+      "id": "FND-03",
+      "origin": "O",
+      "requirement": "Separate worker",
+      "priority": "P1",
+      "implementation": [
+        "compose.yaml",
+        "backend/app/models.py",
+        "backend/app/worker.py"
+      ],
+      "test": [
+        "scripts/phase7_clean_checkout.py::main"
+      ],
+      "test_result": "immutable-clone/new-DB/restart/browser PASS",
+      "evidence": [
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Independent container writes HTTP results",
+      "component": "Worker"
+    },
+    {
+      "id": "FND-04",
+      "origin": "O",
+      "requirement": "Structured logging",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/worker.py",
+        "backend/app/dispatcher.py",
+        "backend/app/main.py"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "test_result": "PARTIAL",
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PARTIAL",
+      "limitation": "Worker/dispatcher logs are structured JSON; API access logs remain Uvicorn text.",
+      "acceptance": "Machine-readable operational events; no secrets",
+      "component": "Worker/API"
+    },
+    {
+      "id": "FND-05",
+      "origin": "O",
+      "requirement": "Health/readiness",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/main.py"
+      ],
+      "test": [
+        "backend/tests/test_release_acceptance.py::test_management_exception_never_exposes_internal_details"
+      ],
+      "test_result": "150/150 backend PASS; no skips; immutable-clone/new-DB/restart/browser PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Liveness + schema-aware DB readiness",
+      "component": "API"
+    },
+    {
+      "id": "FND-06",
+      "origin": "O",
+      "requirement": "No unnecessary infrastructure",
+      "priority": "P1",
+      "implementation": [
+        "compose.yaml",
+        "docs/decisions.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "test_result": "scoped manual source/document review + contract/link checks PASS",
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "No Redis/Celery/Kafka/Kubernetes; source/config review, not a performance claim.",
+      "acceptance": "No Redis/Celery/Kafka/Kubernetes",
+      "component": "Architecture"
+    },
+    {
+      "id": "FND-07",
+      "origin": "O",
+      "requirement": "Stable supported Python",
+      "priority": "P1",
+      "implementation": [
+        "compose.yaml",
+        "backend/app/models.py",
+        "backend/app/worker.py"
+      ],
+      "test": [
+        "scripts/phase7_clean_checkout.py::main"
+      ],
+      "test_result": "immutable-clone/new-DB/restart/browser PASS",
+      "evidence": [
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Container 3.12; local 3.11 compatible",
+      "component": "Runtime"
+    },
+    {
+      "id": "MON-01",
+      "origin": "M",
+      "requirement": "Add URL",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/main.py",
+        "frontend/src/MonitorForm.tsx"
+      ],
+      "test": [
+        "frontend/e2e/release.spec.ts::complete release journey with real HTTP, maintenance, Mailpit and public revocation"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected; immutable-clone/new-DB/restart/browser PASS",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Valid monitor persisted and returned",
+      "component": "API/UI"
+    },
+    {
+      "id": "MON-02",
+      "origin": "M",
+      "requirement": "Interval 30..3600s",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/schemas.py",
+        "backend/app/models.py"
+      ],
+      "test": [
+        "backend/tests/test_core.py::test_settings_bounds",
+        "backend/tests/test_database.py::test_database_rejects_out_of_range_interval"
+      ],
+      "test_result": "150/150 backend PASS; no skips",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Reject out-of-range at both boundaries",
+      "component": "API/DB"
+    },
+    {
+      "id": "MON-03",
+      "origin": "M",
+      "requirement": "Configurable timeout",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/checker.py"
+      ],
+      "test": [
+        "backend/tests/test_core.py::test_total_timeout_includes_dns"
+      ],
+      "test_result": "150/150 backend PASS; no skips; retained raw475/295 events and3cold21warm samples revalidated",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-performance-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Real timeout outcomes in retained fault logs; no unbounded wait.",
+      "acceptance": "Total deadline enforced",
+      "component": "Checker/API"
+    },
+    {
+      "id": "MON-04",
+      "origin": "M",
+      "requirement": "Expected HTTP status",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/checker.py"
+      ],
+      "test": [
+        "backend/tests/test_core.py::test_http_and_body",
+        "frontend/e2e/release.spec.ts::complete release journey with real HTTP, maintenance, Mailpit and public revocation"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Mismatch records failure",
+      "component": "Checker"
+    },
+    {
+      "id": "MON-05",
+      "origin": "M",
+      "requirement": "Optional expected body text",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/checker.py"
+      ],
+      "test": [
+        "backend/tests/test_core.py::test_http_and_body",
+        "frontend/e2e/release.spec.ts::complete release journey with real HTTP, maintenance, Mailpit and public revocation"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Mismatch records failure; absence optional",
+      "component": "Checker"
+    },
+    {
+      "id": "MON-06",
+      "origin": "M",
+      "requirement": "Pause",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/main.py",
+        "backend/app/worker.py"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_mutation_during_http_does_not_commit_stale_result"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected; immutable-clone/new-DB/restart/browser PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "No new runs while paused; persists",
+      "component": "API/UI/worker"
+    },
+    {
+      "id": "MON-07",
+      "origin": "M",
+      "requirement": "Resume",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/main.py",
+        "backend/app/worker.py"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_mutation_during_http_does_not_commit_stale_result"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected; immutable-clone/new-DB/restart/browser PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Next run immediate; settings retained",
+      "component": "API/UI/worker"
+    },
+    {
+      "id": "MON-08",
+      "origin": "M",
+      "requirement": "Delete",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/main.py",
+        "backend/app/models.py"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_create_claim_execute_read_delete"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "API removes monitor/results without resurrection",
+      "component": "API/UI/DB"
+    },
+    {
+      "id": "MON-09",
+      "origin": "M",
+      "requirement": "Run immediately",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/main.py",
+        "backend/app/worker.py"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_manual_queue_not_lost_by_late_completion",
+        "backend/tests/test_database.py::test_monitor_crud_pause_resume_and_manual_queue"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Queue now; leased monitor returns 409",
+      "component": "API/worker/UI"
+    },
+    {
+      "id": "MON-10",
+      "origin": "O",
+      "requirement": "Edit config safely",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/main.py",
+        "backend/app/worker.py",
+        "frontend/src/MonitorForm.tsx"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_mutation_before_http_prevents_old_network_request",
+        "backend/tests/test_database.py::test_mutation_during_http_does_not_commit_stale_result",
+        "backend/tests/test_database.py::test_two_clients_edit_same_version_one_conflicts"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Config version fences in-flight stale result",
+      "component": "API/worker"
+    },
+    {
+      "id": "MON-11",
+      "origin": "OPT",
+      "requirement": "Configurable failure threshold",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/checker.py",
+        "backend/app/schemas.py"
+      ],
+      "test": [
+        "backend/tests/test_core.py::test_custom_threshold"
+      ],
+      "test_result": "150/150 backend PASS; no skips",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Configurable1..10 threshold is optional; default2 implements transient protection.",
+      "acceptance": "Default 2; values 1..10",
+      "component": "API/state"
+    },
+    {
+      "id": "GRP-01",
+      "origin": "O",
+      "requirement": "Create/manage groups",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/groups.py",
+        "frontend/src/GroupsPanel.tsx"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_groups_crud_membership_recipients_and_cascades"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Group persisted and editable",
+      "component": "API/UI/DB"
+    },
+    {
+      "id": "GRP-02",
+      "origin": "M",
+      "requirement": "Assign monitors to groups",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/groups.py",
+        "frontend/src/GroupsPanel.tsx"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_groups_crud_membership_recipients_and_cascades"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Many-to-many membership persisted",
+      "component": "API/DB/UI"
+    },
+    {
+      "id": "GRP-03",
+      "origin": "M",
+      "requirement": "Aggregate group status",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/groups.py"
+      ],
+      "test": [
+        "backend/tests/test_core.py::test_group_state"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Defined empty/paused/unknown/down rules",
+      "component": "State/UI"
+    },
+    {
+      "id": "GRP-04",
+      "origin": "M",
+      "requirement": "Per-group notification settings",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/groups.py",
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_shared_address_independent_group_routes_and_frozen_recipients",
+        "frontend/e2e/release.spec.ts::complete release journey with real HTTP, maintenance, Mailpit and public revocation"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected; 7 SMTP/fault groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-smtp-faults.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Independent validated recipients/settings",
+      "component": "API/DB/UI"
+    },
+    {
+      "id": "UI-01",
+      "origin": "M",
+      "requirement": "Current monitor status",
+      "priority": "P0",
+      "implementation": [
+        "frontend/src/App.tsx",
+        "frontend/src/AnalyticsPanel.tsx"
+      ],
+      "test": [
+        "frontend/e2e/release.spec.ts::complete release journey with real HTTP, maintenance, Mailpit and public revocation"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Actual persisted state visible",
+      "component": "UI/API"
+    },
+    {
+      "id": "UI-02",
+      "origin": "O",
+      "requirement": "HTTP response code",
+      "priority": "P1",
+      "implementation": [
+        "frontend/src/App.tsx",
+        "frontend/src/AnalyticsPanel.tsx"
+      ],
+      "test": [
+        "frontend/e2e/release.spec.ts::complete release journey with real HTTP, maintenance, Mailpit and public revocation"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Real nullable status shown",
+      "component": "UI/API"
+    },
+    {
+      "id": "UI-03",
+      "origin": "M",
+      "requirement": "Response time",
+      "priority": "P0",
+      "implementation": [
+        "frontend/src/App.tsx",
+        "frontend/src/AnalyticsPanel.tsx"
+      ],
+      "test": [
+        "frontend/e2e/release.spec.ts::complete release journey with real HTTP, maintenance, Mailpit and public revocation"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Real latency shown, no invented fallback",
+      "component": "UI/API"
+    },
+    {
+      "id": "UI-04",
+      "origin": "M",
+      "requirement": "Last check timestamp",
+      "priority": "P0",
+      "implementation": [
+        "frontend/src/App.tsx",
+        "frontend/src/AnalyticsPanel.tsx"
+      ],
+      "test": [
+        "frontend/e2e/release.spec.ts::complete release journey with real HTTP, maintenance, Mailpit and public revocation"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Actual timestamp visible in local time",
+      "component": "UI/API"
+    },
+    {
+      "id": "UI-05",
+      "origin": "M",
+      "requirement": "Current outage duration",
+      "priority": "P0",
+      "implementation": [
+        "frontend/src/OutageDuration.tsx"
+      ],
+      "test": [
+        "frontend/src/OutageDuration.test.tsx::ticks from the persisted incident start and never invents a start when unavailable"
+      ],
+      "test_result": "32/32 component PASS; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-frontend-tests.json",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Open incident duration ticks",
+      "component": "UI/API"
+    },
+    {
+      "id": "UI-06",
+      "origin": "O",
+      "requirement": "State transition history",
+      "priority": "P1",
+      "implementation": [
+        "frontend/src/App.tsx",
+        "backend/app/incidents.py"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_incident_threshold_recovery_timestamps_and_pagination"
+      ],
+      "test_result": "PARTIAL",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PARTIAL",
+      "limitation": "Confirmed incidents/administrative closures and recent observations are visible; a complete UP/UNKNOWN/PAUSED configuration timeline is not implemented. This extra owner scope is not in the PDF.",
+      "acceptance": "Recorded transitions visible",
+      "component": "UI/API/DB"
+    },
+    {
+      "id": "UI-07",
+      "origin": "O",
+      "requirement": "Total/UP/DOWN/paused summary",
+      "priority": "P1",
+      "implementation": [
+        "frontend/src/App.tsx"
+      ],
+      "test": [
+        "frontend/src/App.test.tsx::tracks anchor navigation and filters only the disclosed loaded selection"
+      ],
+      "test_result": "PARTIAL",
+      "evidence": [
+        "artifacts/phase7-frontend-tests.json",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PARTIAL",
+      "limitation": "Counts/search/sort cover disclosed loaded selection<=500; no fleet-wide total above that cap.",
+      "acceptance": "Counts from API only",
+      "component": "UI"
+    },
+    {
+      "id": "UI-08",
+      "origin": "O",
+      "requirement": "Active incidents/defined aggregate uptime",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/dashboard.py",
+        "frontend/src/App.tsx"
+      ],
+      "test": [
+        "backend/tests/test_public_analytics.py::test_dashboard_observed_uptime_and_live_incident_summary"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Active incidents are server-wide. Sample-weighted observed uptime applies to the disclosed selection; no continuous-availability inference.",
+      "acceptance": "Real incident count; uptime explained",
+      "component": "UI/API"
+    },
+    {
+      "id": "UI-09",
+      "origin": "O",
+      "requirement": "Monitor details",
+      "priority": "P1",
+      "implementation": [
+        "frontend/src/App.tsx",
+        "frontend/src/AnalyticsPanel.tsx"
+      ],
+      "test": [
+        "frontend/e2e/release.spec.ts::complete release journey with real HTTP, maintenance, Mailpit and public revocation"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Config + recent actual checks",
+      "component": "UI"
+    },
+    {
+      "id": "UI-10",
+      "origin": "O",
+      "requirement": "Loading/error/empty states",
+      "priority": "P1",
+      "implementation": [
+        "frontend/src/network.ts",
+        "frontend/src/MonitorForm.tsx"
+      ],
+      "test": [
+        "frontend/src/network.test.ts::times out even when a transport or response body ignores cancellation",
+        "frontend/src/MonitorForm.test.tsx::keeps a conflicted draft until the user explicitly reloads it"
+      ],
+      "test_result": "32/32 component PASS; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-frontend-tests.json",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "A request timeout does not prove that a write was not committed; no automatic mutation retry.",
+      "acceptance": "Clear states and usable form on failure",
+      "component": "UI"
+    },
+    {
+      "id": "UI-11",
+      "origin": "O",
+      "requirement": "Every visible control works",
+      "priority": "P1",
+      "implementation": [
+        "frontend/src/App.tsx",
+        "frontend/src/style.css",
+        "frontend/src/Modal.tsx"
+      ],
+      "test": [
+        "frontend/e2e/design.spec.ts"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-accessibility-390.json",
+        "artifacts/phase7-accessibility-768.json",
+        "artifacts/phase7-accessibility-1440.json",
+        "artifacts/phase7-accessibility-1920.json"
+      ],
+      "status": "PASS",
+      "limitation": "Four widths, keyboard/focus/axe checks. Not full screen-reader/WCAG certification; all sections remain in one document.",
+      "acceptance": "No dead navigation or fake metrics",
+      "component": "UI"
+    },
+    {
+      "id": "UI-12",
+      "origin": "O",
+      "requirement": "Desktop/mobile accessibility",
+      "priority": "P1",
+      "implementation": [
+        "frontend/src/App.tsx",
+        "frontend/src/style.css",
+        "frontend/src/Modal.tsx"
+      ],
+      "test": [
+        "frontend/e2e/design.spec.ts"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-accessibility-390.json",
+        "artifacts/phase7-accessibility-768.json",
+        "artifacts/phase7-accessibility-1440.json",
+        "artifacts/phase7-accessibility-1920.json"
+      ],
+      "status": "PASS",
+      "limitation": "Four widths, keyboard/focus/axe checks. Not full screen-reader/WCAG certification; all sections remain in one document.",
+      "acceptance": "No viewport overflow; keyboard labels/focus",
+      "component": "UI"
+    },
+    {
+      "id": "UI-13",
+      "origin": "O",
+      "requirement": "All required screens",
+      "priority": "P1",
+      "implementation": [
+        "frontend/src/App.tsx",
+        "frontend/src/style.css",
+        "frontend/src/Modal.tsx"
+      ],
+      "test": [
+        "frontend/e2e/design.spec.ts"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-accessibility-390.json",
+        "artifacts/phase7-accessibility-768.json",
+        "artifacts/phase7-accessibility-1440.json",
+        "artifacts/phase7-accessibility-1920.json"
+      ],
+      "status": "PASS",
+      "limitation": "Four widths, keyboard/focus/axe checks. Not full screen-reader/WCAG certification; all sections remain in one document.",
+      "acceptance": "Dashboard, monitors, details, groups, incidents, maintenance, notifications, public",
+      "component": "UI"
+    },
+    {
+      "id": "HIS-01",
+      "origin": "M",
+      "requirement": "Response-time chart",
+      "priority": "P0",
+      "implementation": [
+        "frontend/src/AnalyticsPanel.tsx"
+      ],
+      "test": [
+        "frontend/src/AnalyticsPanel.test.tsx::renders a missing bucket as a gap and real zero latency as an observation"
+      ],
+      "test_result": "32/32 component PASS; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-frontend-tests.json",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Bounded real time series",
+      "component": "UI/API"
+    },
+    {
+      "id": "HIS-02",
+      "origin": "M",
+      "requirement": "Uptime 24h",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/analytics.py",
+        "frontend/src/AnalyticsPanel.tsx"
+      ],
+      "test": [
+        "backend/tests/test_public_analytics.py::test_postgres_buckets_bounds_gaps_legacy_and_config_versions"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Documented sample denominator + coverage",
+      "component": "API/UI"
+    },
+    {
+      "id": "HIS-03",
+      "origin": "M",
+      "requirement": "Uptime 7d",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/analytics.py",
+        "frontend/src/AnalyticsPanel.tsx"
+      ],
+      "test": [
+        "backend/tests/test_public_analytics.py::test_postgres_buckets_bounds_gaps_legacy_and_config_versions"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Correct week bounds/coverage",
+      "component": "API/UI"
+    },
+    {
+      "id": "HIS-04",
+      "origin": "M",
+      "requirement": "Uptime 30d",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/analytics.py",
+        "frontend/src/AnalyticsPanel.tsx"
+      ],
+      "test": [
+        "backend/tests/test_public_analytics.py::test_postgres_buckets_bounds_gaps_legacy_and_config_versions"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Correct month bounds/coverage",
+      "component": "API/UI"
+    },
+    {
+      "id": "HIS-05",
+      "origin": "M",
+      "requirement": "Incident journal",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/incidents.py",
+        "frontend/src/IncidentsPanel.tsx"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_incident_threshold_recovery_timestamps_and_pagination"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Persisted open/closed incidents listed",
+      "component": "DB/API/UI"
+    },
+    {
+      "id": "HIS-06",
+      "origin": "M",
+      "requirement": "Incident start",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/incidents.py",
+        "frontend/src/IncidentsPanel.tsx"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_incident_threshold_recovery_timestamps_and_pagination"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Threshold transition timestamp stored",
+      "component": "DB/API/UI"
+    },
+    {
+      "id": "HIS-07",
+      "origin": "M",
+      "requirement": "Incident recovery",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/incidents.py",
+        "frontend/src/IncidentsPanel.tsx"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_incident_threshold_recovery_timestamps_and_pagination"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "First successful observation closes",
+      "component": "DB/API/UI"
+    },
+    {
+      "id": "HIS-08",
+      "origin": "M",
+      "requirement": "Incident duration",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/incidents.py",
+        "frontend/src/IncidentsPanel.tsx"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_incident_threshold_recovery_timestamps_and_pagination"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Recovery-start or now-start",
+      "component": "API/UI"
+    },
+    {
+      "id": "HIS-09",
+      "origin": "M",
+      "requirement": "Fast monthly history",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/analytics.py"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::verify_prior_performance"
+      ],
+      "test_result": "retained raw475/295 events and3cold21warm samples revalidated",
+      "evidence": [
+        "artifacts/phase7-performance-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Measured dense100k service history/360buckets; warm p95867ms and maximum1180ms. No unbounded data/subsecond guarantee.",
+      "acceptance": "Bounded bucket response; measured p95 under 1s locally",
+      "component": "DB/API"
+    },
+    {
+      "id": "MNT-01",
+      "origin": "M",
+      "requirement": "Monitor maintenance window",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/maintenance.py",
+        "backend/app/notifications.py",
+        "frontend/src/MaintenancePanel.tsx"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_maintenance_crud_timezone_conflicts_and_target_cascade"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected; 7 SMTP/fault groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-smtp-faults.json",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Start/end persisted; valid times",
+      "component": "API/DB/UI"
+    },
+    {
+      "id": "MNT-02",
+      "origin": "M",
+      "requirement": "Group maintenance window",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/maintenance.py",
+        "backend/app/notifications.py",
+        "frontend/src/MaintenancePanel.tsx"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_maintenance_crud_timezone_conflicts_and_target_cascade"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected; 7 SMTP/fault groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-smtp-faults.json",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "All group members suppressed",
+      "component": "API/DB/UI"
+    },
+    {
+      "id": "MNT-03",
+      "origin": "M",
+      "requirement": "Checks continue in maintenance",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/worker.py",
+        "frontend/src/MaintenancePanel.tsx"
+      ],
+      "test": [
+        "frontend/e2e/release.spec.ts::complete release journey with real HTTP, maintenance, Mailpit and public revocation"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected; 7 SMTP/fault groups PASS",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-smtp-faults.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Observation count increases",
+      "component": "Worker"
+    },
+    {
+      "id": "MNT-04",
+      "origin": "M",
+      "requirement": "Real state retained",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/worker.py",
+        "frontend/src/MaintenancePanel.tsx"
+      ],
+      "test": [
+        "frontend/e2e/release.spec.ts::complete release journey with real HTTP, maintenance, Mailpit and public revocation"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected; 7 SMTP/fault groups PASS",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-smtp-faults.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "DOWN remains DOWN with maintenance badge",
+      "component": "State/UI"
+    },
+    {
+      "id": "MNT-05",
+      "origin": "M",
+      "requirement": "Suppress email in maintenance",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/notifications.py",
+        "backend/app/dispatcher.py"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_monitor_window_blocks_all_groups_and_claim_rechecks_policy"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 7 SMTP/fault groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-smtp-faults.json"
+      ],
+      "status": "PASS",
+      "limitation": "Suppression is checked at SMTP authorization; already in-flight SMTP cannot be recalled.",
+      "acceptance": "No SMTP send in active effective window",
+      "component": "Outbox"
+    },
+    {
+      "id": "MNT-06",
+      "origin": "M",
+      "requirement": "Alert after maintenance if still down",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/notifications.py",
+        "backend/app/dispatcher.py"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_monitor_window_blocks_all_groups_and_claim_rechecks_policy"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 7 SMTP/fault groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-smtp-faults.json"
+      ],
+      "status": "PASS",
+      "limitation": "Suppression is checked at SMTP authorization; already in-flight SMTP cannot be recalled.",
+      "acceptance": "One logical DOWN after final window ends",
+      "component": "Reconciler"
+    },
+    {
+      "id": "MNT-07",
+      "origin": "T",
+      "requirement": "Overlapping windows",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_overlapping_windows_exact_boundaries_and_reconcile_without_result"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 7 SMTP/fault groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-smtp-faults.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Union suppresses until all applicable windows end",
+      "component": "Policy"
+    },
+    {
+      "id": "MNT-08",
+      "origin": "T",
+      "requirement": "Recovered before maintenance ends",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "backend/tests/test_phase6_policy.py::test_recovery_observed_inside_window_before_persistence_delay"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected; 7 SMTP/fault groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-smtp-faults.json",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "No stale down/recovery pair for unnotified incident",
+      "component": "Policy/outbox"
+    },
+    {
+      "id": "NTF-01",
+      "origin": "M",
+      "requirement": "Valid group email recipients",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/groups.py",
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_shared_address_independent_group_routes_and_frozen_recipients"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 7 SMTP/fault groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-smtp-faults.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Validated per-group list persists",
+      "component": "API/DB/UI"
+    },
+    {
+      "id": "NTF-02",
+      "origin": "M",
+      "requirement": "Confirmed DOWN email",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/notifications.py",
+        "backend/app/dispatcher.py"
+      ],
+      "test": [
+        "frontend/e2e/release.spec.ts::complete release journey with real HTTP, maintenance, Mailpit and public revocation"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected; 7 SMTP/fault groups PASS; 2 delayed/refused SMTP groups PASS",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-email-continuation.json",
+        "artifacts/phase7-smtp-faults.json"
+      ],
+      "status": "PASS",
+      "limitation": "New eligible incidents preserve DOWN then RECOVERY. Legacy unknown eligibility is not guessed/replayed.",
+      "acceptance": "One message after threshold",
+      "component": "Outbox/SMTP"
+    },
+    {
+      "id": "NTF-03",
+      "origin": "M",
+      "requirement": "Recovery email",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/notifications.py",
+        "backend/app/dispatcher.py"
+      ],
+      "test": [
+        "frontend/e2e/release.spec.ts::complete release journey with real HTTP, maintenance, Mailpit and public revocation"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected; 7 SMTP/fault groups PASS; 2 delayed/refused SMTP groups PASS",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-email-continuation.json",
+        "artifacts/phase7-smtp-faults.json"
+      ],
+      "status": "PASS",
+      "limitation": "New eligible incidents preserve DOWN then RECOVERY. Legacy unknown eligibility is not guessed/replayed.",
+      "acceptance": "Second message after recovery",
+      "component": "Outbox/SMTP"
+    },
+    {
+      "id": "NTF-04",
+      "origin": "M",
+      "requirement": "No repeated logical event",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/models.py",
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_event_constraints_and_atomic_rollback"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 7 SMTP/fault groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-smtp-faults.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Unique event keys under retries/concurrency",
+      "component": "DB/outbox"
+    },
+    {
+      "id": "NTF-05",
+      "origin": "O",
+      "requirement": "SMTP failure recovery",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/notifications.py",
+        "backend/app/dispatcher.py"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_retry_backoff_limit_and_definite_rejection"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 7 SMTP/fault groups PASS; 2 delayed/refused SMTP groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-smtp-faults.json",
+        "artifacts/phase7-email-continuation.json"
+      ],
+      "status": "PASS",
+      "limitation": "Finite8 attempts; permanent rejection/exhaustion is terminal and needs investigation.",
+      "acceptance": "Retried with backoff; no lost logical event",
+      "component": "Dispatcher"
+    },
+    {
+      "id": "NTF-06",
+      "origin": "T",
+      "requirement": "Atomic event persistence",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/models.py",
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_event_constraints_and_atomic_rollback"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 7 SMTP/fault groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-smtp-faults.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Incident and outbox commit together",
+      "component": "DB"
+    },
+    {
+      "id": "NTF-07",
+      "origin": "T",
+      "requirement": "Separate enqueue/send/ack/retry",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/notifications.py",
+        "backend/app/dispatcher.py"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_retry_backoff_limit_and_definite_rejection"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 7 SMTP/fault groups PASS; 2 delayed/refused SMTP groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-smtp-faults.json",
+        "artifacts/phase7-email-continuation.json"
+      ],
+      "status": "PASS",
+      "limitation": "Finite8 attempts; permanent rejection/exhaustion is terminal and needs investigation.",
+      "acceptance": "Explicit persisted states/attempts",
+      "component": "Dispatcher"
+    },
+    {
+      "id": "NTF-08",
+      "origin": "T",
+      "requirement": "Honest delivery guarantee",
+      "priority": "P1",
+      "implementation": [
+        "docs/phase6-notification-policy.md",
+        "backend/app/dispatcher.py"
+      ],
+      "test": [
+        "scripts/phase4_fault_smoke.py::main"
+      ],
+      "test_result": "7 SMTP/fault groups PASS",
+      "evidence": [
+        "artifacts/phase7-smtp-faults.json"
+      ],
+      "status": "PASS",
+      "limitation": "Real acceptance crash:3physical messages/2logical deliveries. No physical exactly-once claim.",
+      "acceptance": "Logical idempotency; SMTP duplicate crash window disclosed",
+      "component": "Docs"
+    },
+    {
+      "id": "PUB-01",
+      "origin": "M",
+      "requirement": "Link without login",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/public.py",
+        "backend/app/publication.py",
+        "frontend/src/PublicApp.tsx"
+      ],
+      "test": [
+        "backend/tests/test_public_analytics.py::test_public_default_private_allowlist_permissions_and_route_isolation"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected; immutable-clone/new-DB/restart/browser PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Dedicated status page route",
+      "component": "API/UI"
+    },
+    {
+      "id": "PUB-02",
+      "origin": "M",
+      "requirement": "Automatic updates",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/public.py",
+        "frontend/src/PublicApp.tsx"
+      ],
+      "test": [
+        "backend/tests/test_public_analytics.py::test_public_sse_revocation_and_readonly_transactions"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Page changes with worker result",
+      "component": "API/UI/SSE"
+    },
+    {
+      "id": "PUB-03",
+      "origin": "M",
+      "requirement": "Owner controls publication",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/public.py",
+        "backend/app/publication.py"
+      ],
+      "test": [
+        "frontend/e2e/release.spec.ts::complete release journey with real HTTP, maintenance, Mailpit and public revocation"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Per-service explicit consent; history additionally opt-in. Shared public DB role is a production hardening limit.",
+      "acceptance": "Explicit visibility opt-in",
+      "component": "API/DB/UI"
+    },
+    {
+      "id": "PUB-04",
+      "origin": "M",
+      "requirement": "No hidden data leaks",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/public.py",
+        "backend/app/publication.py"
+      ],
+      "test": [
+        "frontend/e2e/release.spec.ts::complete release journey with real HTTP, maintenance, Mailpit and public revocation"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Per-service explicit consent; history additionally opt-in. Shared public DB role is a production hardening limit.",
+      "acceptance": "No URLs/recipients/errors/config/private names",
+      "component": "Public API"
+    },
+    {
+      "id": "SCN-01",
+      "origin": "M",
+      "requirement": "Dashboard updates without reload",
+      "priority": "P0",
+      "implementation": [
+        "frontend/src/App.tsx"
+      ],
+      "test": [
+        "frontend/e2e/slice.spec.ts"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Worker result appears automatically",
+      "component": "SSE/UI"
+    },
+    {
+      "id": "SCN-02",
+      "origin": "M",
+      "requirement": "Public page updates without reload",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/public.py",
+        "frontend/src/PublicApp.tsx"
+      ],
+      "test": [
+        "frontend/e2e/public.spec.ts"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Worker result appears automatically",
+      "component": "Public/UI"
+    },
+    {
+      "id": "SCN-03",
+      "origin": "M",
+      "requirement": "DOWN causes email",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/notifications.py",
+        "backend/app/dispatcher.py"
+      ],
+      "test": [
+        "frontend/e2e/release.spec.ts::complete release journey with real HTTP, maintenance, Mailpit and public revocation"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected; 7 SMTP/fault groups PASS; 2 delayed/refused SMTP groups PASS",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-smtp-faults.json",
+        "artifacts/phase7-email-continuation.json"
+      ],
+      "status": "PASS",
+      "limitation": "No normal/logical repeats; physical SMTP acceptance ambiguity explicitly measured.",
+      "acceptance": "Mailpit captures DOWN",
+      "component": "Incident/outbox"
+    },
+    {
+      "id": "SCN-04",
+      "origin": "M",
+      "requirement": "Recovery causes email",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/notifications.py",
+        "backend/app/dispatcher.py"
+      ],
+      "test": [
+        "frontend/e2e/release.spec.ts::complete release journey with real HTTP, maintenance, Mailpit and public revocation"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected; 7 SMTP/fault groups PASS; 2 delayed/refused SMTP groups PASS",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-smtp-faults.json",
+        "artifacts/phase7-email-continuation.json"
+      ],
+      "status": "PASS",
+      "limitation": "No normal/logical repeats; physical SMTP acceptance ambiguity explicitly measured.",
+      "acceptance": "Mailpit captures recovery",
+      "component": "Incident/outbox"
+    },
+    {
+      "id": "SCN-05",
+      "origin": "M",
+      "requirement": "Continuous outage no repeat",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/notifications.py",
+        "backend/app/dispatcher.py"
+      ],
+      "test": [
+        "frontend/e2e/release.spec.ts::complete release journey with real HTTP, maintenance, Mailpit and public revocation"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected; 7 SMTP/fault groups PASS; 2 delayed/refused SMTP groups PASS",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-smtp-faults.json",
+        "artifacts/phase7-email-continuation.json"
+      ],
+      "status": "PASS",
+      "limitation": "No normal/logical repeats; physical SMTP acceptance ambiguity explicitly measured.",
+      "acceptance": "Many failures yield one DOWN event",
+      "component": "Outbox"
+    },
+    {
+      "id": "SCN-06",
+      "origin": "M",
+      "requirement": "Single failure is transient",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/checker.py"
+      ],
+      "test": [
+        "backend/tests/test_core.py::test_transition"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "First failure preserves UP/UNKNOWN",
+      "component": "State"
+    },
+    {
+      "id": "SCN-07",
+      "origin": "M",
+      "requirement": "Threshold opens incident",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/incidents.py"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_incident_threshold_recovery_timestamps_and_pagination"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "One open incident at configured threshold",
+      "component": "Incident"
+    },
+    {
+      "id": "SCN-08",
+      "origin": "M",
+      "requirement": "Recovery closes incident",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/incidents.py"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_incident_threshold_recovery_timestamps_and_pagination"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "First success closes with duration",
+      "component": "Incident"
+    },
+    {
+      "id": "SCN-09",
+      "origin": "M",
+      "requirement": "Maintenance keeps checking",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/maintenance.py",
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_overlapping_windows_exact_boundaries_and_reconcile_without_result"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected; 7 SMTP/fault groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-smtp-faults.json",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Actual results continue",
+      "component": "Worker"
+    },
+    {
+      "id": "SCN-10",
+      "origin": "M",
+      "requirement": "Maintenance suppresses email",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/maintenance.py",
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_overlapping_windows_exact_boundaries_and_reconcile_without_result"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected; 7 SMTP/fault groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-smtp-faults.json",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Zero captured mail in window",
+      "component": "Dispatcher"
+    },
+    {
+      "id": "SCN-11",
+      "origin": "M",
+      "requirement": "End of maintenance alerts if down",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/maintenance.py",
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_overlapping_windows_exact_boundaries_and_reconcile_without_result"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected; 7 SMTP/fault groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-smtp-faults.json",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "One deferred DOWN",
+      "component": "Dispatcher"
+    },
+    {
+      "id": "SCN-12",
+      "origin": "M",
+      "requirement": "Slow check never overlaps itself",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/worker.py"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::verify_prior_performance"
+      ],
+      "test_result": "retained raw475/295 events and3cold21warm samples revalidated",
+      "evidence": [
+        "artifacts/phase7-performance-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Fixed delay; raw50-monitor experiments, no logged self-overlap. Arbitrary process suspension beyond lease expiry is outside the failure model; no fixed-rate launch-count promise.",
+      "acceptance": "One lease and bounded HTTP across interval",
+      "component": "Scheduler"
+    },
+    {
+      "id": "SCN-13",
+      "origin": "M",
+      "requirement": "50 checks every 30s",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/worker.py"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::verify_prior_performance"
+      ],
+      "test_result": "retained raw475/295 events and3cold21warm samples revalidated",
+      "evidence": [
+        "artifacts/phase7-performance-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Fixed delay; raw50-monitor experiments, no logged self-overlap. Arbitrary process suspension beyond lease expiry is outside the failure model; no fixed-rate launch-count promise.",
+      "acceptance": "Three cycles; record counts/cadence/late/missed/concurrency/UI latency",
+      "component": "Worker/API"
+    },
+    {
+      "id": "SCN-14",
+      "origin": "M",
+      "requirement": "One slow target does not delay others",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/worker.py"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::verify_prior_performance"
+      ],
+      "test_result": "retained raw475/295 events and3cold21warm samples revalidated",
+      "evidence": [
+        "artifacts/phase7-performance-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Fixed delay; raw50-monitor experiments, no logged self-overlap. Arbitrary process suspension beyond lease expiry is outside the failure model; no fixed-rate launch-count promise.",
+      "acceptance": "Fast checks complete before slow target",
+      "component": "Worker"
+    },
+    {
+      "id": "SCN-15",
+      "origin": "M",
+      "requirement": "Fast month history",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/analytics.py"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::verify_prior_performance"
+      ],
+      "test_result": "retained raw475/295 events and3cold21warm samples revalidated",
+      "evidence": [
+        "artifacts/phase7-performance-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Real SQL on synthetic datasets;100k one service and1m fleet are distinct tests. See measured cold/warm limits, not unlimited scaling.",
+      "acceptance": "Defined budget measured on real large dataset",
+      "component": "API/DB"
+    },
+    {
+      "id": "SCN-16",
+      "origin": "M",
+      "requirement": "Public page hides private data",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/public.py",
+        "frontend/src/PublicApp.tsx"
+      ],
+      "test": [
+        "frontend/e2e/public.spec.ts"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Inspect payload, SSE and rendered DOM",
+      "component": "Public API/UI"
+    },
+    {
+      "id": "SCN-17",
+      "origin": "M",
+      "requirement": "Restart preserves config/scheduling",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/worker.py",
+        "backend/app/models.py"
+      ],
+      "test": [
+        "scripts/phase7_clean_checkout.py::main"
+      ],
+      "test_result": "immutable-clone/new-DB/restart/browser PASS; retained raw475/295 events and3cold21warm samples revalidated",
+      "evidence": [
+        "artifacts/phase7-clean-checkout.json",
+        "artifacts/phase7-performance-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Same monitor/settings and resumed checks after actual restart",
+      "component": "Worker/DB"
+    },
+    {
+      "id": "SCN-18",
+      "origin": "M",
+      "requirement": "Server downtime is observation gap",
+      "priority": "P0",
+      "implementation": [
+        "backend/app/analytics.py",
+        "backend/app/worker.py"
+      ],
+      "test": [
+        "backend/tests/test_public_analytics.py::test_postgres_buckets_bounds_gaps_legacy_and_config_versions"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 7 SMTP/fault groups PASS; retained raw475/295 events and3cold21warm samples revalidated",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-performance-review.json",
+        "artifacts/phase7-smtp-faults.json"
+      ],
+      "status": "PASS",
+      "limitation": "Missing observations are not failure rows. Short gaps within a bucket affect coverage; fully empty buckets display NO DATA.",
+      "acceptance": "No synthetic failure rows/incidents",
+      "component": "History/state"
+    },
+    {
+      "id": "REL-01",
+      "origin": "T",
+      "requirement": "Bounded asynchronous checks",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/worker.py"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_competing_claims_are_disjoint",
+        "backend/tests/test_database.py::test_expired_lease_fences_stale_result",
+        "backend/tests/test_database.py::test_slow_beyond_interval_nonblocking_and_cancellation"
+      ],
+      "test_result": "150/150 backend PASS; no skips; retained raw475/295 events and3cold21warm samples revalidated",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-performance-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Tasks/HTTP pool bounded; no blocking HTTP",
+      "component": "Worker"
+    },
+    {
+      "id": "REL-02",
+      "origin": "T",
+      "requirement": "Cancellation and network errors",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/worker.py"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_competing_claims_are_disjoint",
+        "backend/tests/test_database.py::test_expired_lease_fences_stale_result",
+        "backend/tests/test_database.py::test_slow_beyond_interval_nonblocking_and_cancellation"
+      ],
+      "test_result": "150/150 backend PASS; no skips; retained raw475/295 events and3cold21warm samples revalidated",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-performance-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "No fabricated results on cancellation; errors bounded",
+      "component": "Worker"
+    },
+    {
+      "id": "REL-03",
+      "origin": "T",
+      "requirement": "Durable scheduling and fenced leases",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/worker.py"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_competing_claims_are_disjoint",
+        "backend/tests/test_database.py::test_expired_lease_fences_stale_result",
+        "backend/tests/test_database.py::test_slow_beyond_interval_nonblocking_and_cancellation"
+      ],
+      "test_result": "150/150 backend PASS; no skips; retained raw475/295 events and3cold21warm samples revalidated",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-performance-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Competing claims disjoint; stale completion ignored",
+      "component": "DB/worker"
+    },
+    {
+      "id": "REL-04",
+      "origin": "T",
+      "requirement": "Reconnect full synchronization",
+      "priority": "P1",
+      "implementation": [
+        "frontend/src/App.tsx",
+        "frontend/src/PublicApp.tsx"
+      ],
+      "test": [
+        "frontend/e2e/slice.spec.ts"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Disconnect/reconnect receives full current state",
+      "component": "SSE/UI"
+    },
+    {
+      "id": "REL-05",
+      "origin": "O",
+      "requirement": "Persistent groups/results/incidents/outbox",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/models.py",
+        "backend/app/worker.py",
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "scripts/phase7_clean_checkout.py::main"
+      ],
+      "test_result": "immutable-clone/new-DB/restart/browser PASS; 7 SMTP/fault groups PASS; 2 delayed/refused SMTP groups PASS",
+      "evidence": [
+        "artifacts/phase7-clean-checkout.json",
+        "artifacts/phase7-smtp-faults.json",
+        "artifacts/phase7-email-continuation.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Actual restart preserves all data",
+      "component": "DB"
+    },
+    {
+      "id": "REL-06",
+      "origin": "O",
+      "requirement": "Real load evidence",
+      "priority": "P1",
+      "implementation": [
+        "scripts/phase6_load.py",
+        "scripts/phase6_fault_load.py"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::verify_prior_performance"
+      ],
+      "test_result": "retained raw475/295 events and3cold21warm samples revalidated",
+      "evidence": [
+        "artifacts/phase7-performance-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Steady/fault experiments are separate samples; no duration/count merging.",
+      "acceptance": "Record environment, successful launches, cadence, peak concurrency, late/missed, slow influence",
+      "component": "QA"
+    },
+    {
+      "id": "SEC-01",
+      "origin": "O",
+      "requirement": "HTTP/HTTPS URL boundary",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/security.py"
+      ],
+      "test": [
+        "backend/tests/test_core.py::test_url_rejects"
+      ],
+      "test_result": "150/150 backend PASS; no skips",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Reject credentials/schemes/fragments/control chars",
+      "component": "API/checker"
+    },
+    {
+      "id": "SEC-02",
+      "origin": "O",
+      "requirement": "Block forbidden destinations",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/security.py"
+      ],
+      "test": [
+        "backend/tests/test_core.py::test_mixed_public_private_dns_is_blocked"
+      ],
+      "test_result": "150/150 backend PASS; no skips",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Unit-controlled DNS covers mixed/private answers; no production egress firewall guarantee.",
+      "acceptance": "Reject all non-global DNS answers incl mixed answers",
+      "component": "Checker"
+    },
+    {
+      "id": "SEC-03",
+      "origin": "O",
+      "requirement": "Redirect control",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/checker.py"
+      ],
+      "test": [
+        "frontend/e2e/release.spec.ts::complete release journey with real HTTP, maintenance, Mailpit and public revocation"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected; immutable-clone/new-DB/restart/browser PASS",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "limitation": "Actual302 stored; following the safe simulator redirect would return200 and fail the test.",
+      "acceptance": "Never follow attacker redirect",
+      "component": "Checker"
+    },
+    {
+      "id": "SEC-04",
+      "origin": "O",
+      "requirement": "DNS rebinding defense",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/security.py",
+        "backend/app/checker.py"
+      ],
+      "test": [
+        "backend/tests/test_core.py::test_dns_policy_and_pinning",
+        "backend/tests/test_core.py::test_http_and_body"
+      ],
+      "test_result": "PARTIAL",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PARTIAL",
+      "limitation": "Pinned numeric destination/original Host+SNI request construction tested; live external HTTPS/certificate behavior not exercised.",
+      "acceptance": "Connect to validated numeric address, original Host/SNI",
+      "component": "Checker"
+    },
+    {
+      "id": "SEC-05",
+      "origin": "O",
+      "requirement": "Time/body bounds",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/checker.py"
+      ],
+      "test": [
+        "backend/tests/test_core.py::test_bounded_body_and_no_redirect",
+        "backend/tests/test_core.py::test_total_timeout_includes_dns"
+      ],
+      "test_result": "150/150 backend PASS; no skips; retained raw475/295 events and3cold21warm samples revalidated",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-performance-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Total timeout, cap bytes, reject compression",
+      "component": "Checker"
+    },
+    {
+      "id": "SEC-06",
+      "origin": "O",
+      "requirement": "Narrow test exception",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/security.py"
+      ],
+      "test": [
+        "backend/tests/test_core.py::test_dns_policy_and_pinning"
+      ],
+      "test_result": "150/150 backend PASS; no skips",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Empty default; exact simulator origin only",
+      "component": "Checker/config"
+    },
+    {
+      "id": "SEC-07",
+      "origin": "O",
+      "requirement": "No internal API tracebacks",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/main.py",
+        "backend/app/public.py"
+      ],
+      "test": [
+        "backend/tests/test_release_acceptance.py::test_management_exception_never_exposes_internal_details",
+        "backend/tests/test_public_analytics.py::test_public_failures_do_not_disclose_internal_exception"
+      ],
+      "test_result": "150/150 backend PASS; no skips",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Generic 500 and bounded error categories",
+      "component": "API"
+    },
+    {
+      "id": "SEC-08",
+      "origin": "O",
+      "requirement": "No secrets in Git",
+      "priority": "P1",
+      "implementation": [
+        "docs/phase7-security-review.md",
+        ".gitignore"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::verify_git_contract"
+      ],
+      "test_result": "ancestry/runtime-diff/finite pattern checks PASS",
+      "evidence": [
+        "artifacts/phase7-git-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Limited current/history key-pattern scan and diff review; not an absolute secret-absence guarantee.",
+      "acceptance": "Only disposable example credentials tracked",
+      "component": "Git/config"
+    },
+    {
+      "id": "SEC-09",
+      "origin": "O",
+      "requirement": "No auth exposure assumptions",
+      "priority": "P1",
+      "implementation": [
+        "compose.yaml",
+        "backend/app/main.py"
+      ],
+      "test": [
+        "backend/tests/test_management_hosts.py::test_management_rejects_untrusted_host"
+      ],
+      "test_result": "150/150 backend PASS; no skips",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-host-guard.json"
+      ],
+      "status": "PASS",
+      "limitation": "Trusted loopback management only; no authentication/production public-management claim.",
+      "acceptance": "Local-only management warning and bindings",
+      "component": "Deployment/docs"
+    },
+    {
+      "id": "SEC-10",
+      "origin": "O",
+      "requirement": "Independent critical review",
+      "priority": "P1",
+      "implementation": [
+        "docs/review.md",
+        "docs/phase6-audit.md",
+        "docs/phase7-security-review.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "test_result": "scoped manual source/document review + contract/link checks PASS",
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Current own source review plus actual historical independent Phase6 follow-up reviews (frontend/harness). No new independent Phase7 agent/human approval is claimed.",
+      "acceptance": "BLOCKER/HIGH fixed before readiness claim",
+      "component": "QA"
+    },
+    {
+      "id": "DEL-01",
+      "origin": "O",
+      "requirement": "Docker services/one startup command",
+      "priority": "P1",
+      "implementation": [
+        "compose.yaml"
+      ],
+      "test": [
+        "scripts/phase7_clean_checkout.py::main"
+      ],
+      "test_result": "immutable-clone/new-DB/restart/browser PASS",
+      "evidence": [
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "API/UI/DB/worker/simulator/Mailpit running",
+      "component": "Compose"
+    },
+    {
+      "id": "DEL-02",
+      "origin": "O",
+      "requirement": "Seed/demo",
+      "priority": "P1",
+      "implementation": [
+        "scripts/seed.py"
+      ],
+      "test": [
+        "manual: recorded idempotent seed runs in artifacts/seed.json"
+      ],
+      "test_result": "PASS in the cited executed gate; see evidence",
+      "evidence": [
+        "docs/development-log.md"
+      ],
+      "status": "PASS",
+      "limitation": "Seed creates config, never synthetic check results; original recorded double-run retained.",
+      "acceptance": "Idempotent config only; actual checks run",
+      "component": "Scripts"
+    },
+    {
+      "id": "DEL-03",
+      "origin": "O",
+      "requirement": "Simulator scenarios",
+      "priority": "P1",
+      "implementation": [
+        "simulator/app.py"
+      ],
+      "test": [
+        "frontend/e2e/release.spec.ts::complete release journey with real HTTP, maintenance, Mailpit and public revocation"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected; 7 SMTP/fault groups PASS; retained raw475/295 events and3cold21warm samples revalidated",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-performance-review.json",
+        "artifacts/phase7-smtp-faults.json"
+      ],
+      "status": "PASS",
+      "limitation": "HTTP200/404/500/status/body/delay/timeout/redirect plus actual stopped-target network errors; no synthetic production metrics.",
+      "acceptance": "200/404/500/delay/timeout/body/up-down-up + disconnect where possible",
+      "component": "Simulator"
+    },
+    {
+      "id": "DEL-04",
+      "origin": "O",
+      "requirement": "Backend unit/integration tests",
+      "priority": "P1",
+      "implementation": [
+        "backend/tests"
+      ],
+      "test": [
+        "backend/tests/run.py"
+      ],
+      "test_result": "150/150 backend PASS; no skips",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "CRUD/state/checker/DB; later group/incident/outbox",
+      "component": "QA"
+    },
+    {
+      "id": "DEL-05",
+      "origin": "O",
+      "requirement": "Frontend tests/E2E",
+      "priority": "P1",
+      "implementation": [
+        "frontend/e2e",
+        "frontend/src"
+      ],
+      "test": [
+        "frontend/e2e/release.spec.ts"
+      ],
+      "test_result": "32/32 component PASS; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-frontend-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Create/API/error/SSE plus real browser/two clients",
+      "component": "QA"
+    },
+    {
+      "id": "DEL-06",
+      "origin": "O",
+      "requirement": "CI Python lint/format/tests",
+      "priority": "P1",
+      "implementation": [
+        ".github/workflows/ci.yml"
+      ],
+      "test": [
+        "command: gh run list --branch feat/final-acceptance-release"
+      ],
+      "test_result": "NOT VERIFIED",
+      "evidence": [
+        "artifacts/phase7-ci.json"
+      ],
+      "status": "NOT VERIFIED",
+      "limitation": "Exact SHA only; final report must separately verify later documentation commits.",
+      "acceptance": "Runs clean checkout with PostgreSQL",
+      "component": "CI"
+    },
+    {
+      "id": "DEL-07",
+      "origin": "O",
+      "requirement": "CI frontend typecheck/build/tests/format",
+      "priority": "P1",
+      "implementation": [
+        ".github/workflows/ci.yml"
+      ],
+      "test": [
+        "command: gh run list --branch feat/final-acceptance-release"
+      ],
+      "test_result": "NOT VERIFIED",
+      "evidence": [
+        "artifacts/phase7-ci.json"
+      ],
+      "status": "NOT VERIFIED",
+      "limitation": "Exact SHA only; final report must separately verify later documentation commits.",
+      "acceptance": "Lockfile + clean npm ci",
+      "component": "CI"
+    },
+    {
+      "id": "DEL-08",
+      "origin": "O",
+      "requirement": "Practical dependency security checks",
+      "priority": "P1",
+      "implementation": [
+        "backend/requirements.lock",
+        "frontend/package-lock.json"
+      ],
+      "test": [
+        "command: npm audit --json; pip-audit -r backend/requirements.lock"
+      ],
+      "test_result": "PASS in the cited executed gate; see evidence",
+      "evidence": [
+        "artifacts/phase7-npm-audit.json",
+        "artifacts/phase7-pip-audit.json"
+      ],
+      "status": "PASS",
+      "limitation": "Zero known advisories at actual scan time is not absolute security.",
+      "acceptance": "Audit fixed actionable findings",
+      "component": "QA/CI"
+    },
+    {
+      "id": "DEL-09",
+      "origin": "M",
+      "requirement": "English README",
+      "priority": "P0",
+      "implementation": [
+        "README.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "test_result": "immutable-clone/new-DB/restart/browser PASS; scoped manual source/document review + contract/link checks PASS",
+      "evidence": [
+        "artifacts/phase7-document-review.json",
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "limitation": "English is owner presentation choice; underlying deployment/state description is employer scope.",
+      "acceptance": "Features/architecture/stack/prereqs/run/env/simulator/demo/API/tests/load/limits/roadmap/AI/logs/attribution",
+      "component": "Docs"
+    },
+    {
+      "id": "DEL-10",
+      "origin": "O",
+      "requirement": "Requirement acceptance audit",
+      "priority": "P1",
+      "implementation": [
+        "docs/phase7-final-acceptance.md",
+        "docs/phase7-criteria.json"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "test_result": "scoped manual source/document review + contract/link checks PASS",
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Every row cites evidence or remaining gap",
+      "component": "Docs/QA"
+    },
+    {
+      "id": "DEL-11",
+      "origin": "M",
+      "requirement": "Genuine development log",
+      "priority": "P0",
+      "implementation": [
+        "docs/development-log.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::verify_git_contract"
+      ],
+      "test_result": "ancestry/runtime-diff/finite pattern checks PASS",
+      "evidence": [
+        "artifacts/phase7-git-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Actual timestamps/commits retained; no backdating or reconstructed session export.",
+      "acceptance": "Real timestamps, prompts/files/decisions/tests/errors/fixes/commit/next",
+      "component": "Docs"
+    },
+    {
+      "id": "DEL-12",
+      "origin": "O",
+      "requirement": "Decision log",
+      "priority": "P1",
+      "implementation": [
+        "docs/decisions.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "test_result": "scoped manual source/document review + contract/link checks PASS",
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Context/decision/alternatives/trade-offs/consequences",
+      "component": "Docs"
+    },
+    {
+      "id": "DEL-13",
+      "origin": "O",
+      "requirement": "Actual prompts/session evidence",
+      "priority": "P1",
+      "implementation": [
+        "docs/prompts/001-master-prompt.md",
+        "docs/prompts/007-phase7-final.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "test_result": "scoped manual source/document review + contract/link checks PASS",
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Actual user prompts; not a complete session export.",
+      "acceptance": "Actual prompt/excerpt labeled accurately",
+      "component": "Docs"
+    },
+    {
+      "id": "DEL-14",
+      "origin": "O",
+      "requirement": "AI human responsibilities",
+      "priority": "P1",
+      "implementation": [
+        "docs/ai-development.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "test_result": "scoped manual source/document review + contract/link checks PASS",
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Exact model is explicitly unknown; see GEN-07 PARTIAL. No invented personal history.",
+      "acceptance": "Tool/model uncertainty/review explained",
+      "component": "Docs"
+    },
+    {
+      "id": "DEL-15",
+      "origin": "O",
+      "requirement": "Resume context",
+      "priority": "P1",
+      "implementation": [
+        "AGENTS.md",
+        "docs/progress.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "test_result": "scoped manual source/document review + contract/link checks PASS",
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "AGENTS + requirements + progress enough to continue",
+      "component": "Docs"
+    },
+    {
+      "id": "DEL-16",
+      "origin": "O",
+      "requirement": "Genuine Git history/feature branches",
+      "priority": "P1",
+      "implementation": [
+        "docs/github-workflow.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::verify_git_contract"
+      ],
+      "test_result": "ancestry/runtime-diff/finite pattern checks PASS",
+      "evidence": [
+        "artifacts/phase7-git-review.json",
+        "artifacts/phase7-pr-inspection.json"
+      ],
+      "status": "PASS",
+      "limitation": "Private verified-stage pushes authorized. No new PR/merge/visibility/collaborator/release action.",
+      "acceptance": "Logical local commits, actual timestamps, clean diff",
+      "component": "Git"
+    },
+    {
+      "id": "DEL-17",
+      "origin": "O",
+      "requirement": "Publication controlled by owner",
+      "priority": "P1",
+      "implementation": [
+        "docs/github-workflow.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::verify_git_contract"
+      ],
+      "test_result": "ancestry/runtime-diff/finite pattern checks PASS",
+      "evidence": [
+        "artifacts/phase7-git-review.json",
+        "artifacts/phase7-pr-inspection.json"
+      ],
+      "status": "PASS",
+      "limitation": "Private verified-stage pushes authorized. No new PR/merge/visibility/collaborator/release action.",
+      "acceptance": "No remote push/PR/merge without consent",
+      "component": "Git"
+    },
+    {
+      "id": "DEL-18",
+      "origin": "M",
+      "requirement": "GitHub repository and real PR links",
+      "priority": "P0",
+      "implementation": [
+        "docs/submission-guide.md",
+        "docs/github-workflow.md"
+      ],
+      "test": [
+        "manual: private repository and collaborator inspection"
+      ],
+      "test_result": "PARTIAL",
+      "evidence": [
+        "artifacts/phase7-pr-inspection.json"
+      ],
+      "status": "PARTIAL",
+      "limitation": "Repository URL exists; employer access/submission not granted or performed. PRs are optional evidence, not a separate employer feature.",
+      "acceptance": "Actual published repo approved by owner",
+      "component": "Submission"
+    },
+    {
+      "id": "DEL-19",
+      "origin": "O",
+      "requirement": "Exactly ten-sentence personal essay",
+      "priority": "P1",
+      "implementation": [
+        "docs/essay.md"
+      ],
+      "test": [
+        "owner: supply and approve exactly ten personal sentences"
+      ],
+      "test_result": "NOT VERIFIED",
+      "evidence": [
+        "docs/essay.md"
+      ],
+      "status": "NOT VERIFIED",
+      "limitation": "Owner explicitly states no essay yet. No personal text invented.",
+      "acceptance": "Owner-authored and approved final ten sentences",
+      "component": "Owner/docs"
+    },
+    {
+      "id": "DEL-20",
+      "origin": "M",
+      "requirement": "Attribution",
+      "priority": "P0",
+      "implementation": [
+        "README.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "test_result": "scoped manual source/document review + contract/link checks PASS",
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "No third-party application template; actual libraries/tools credited.",
+      "acceptance": "Actual libraries/templates/generators identified",
+      "component": "Docs"
+    },
+    {
+      "id": "DEL-21",
+      "origin": "O",
+      "requirement": "Deadline 2026-10-26, P0 before P2",
+      "priority": "P1",
+      "implementation": [
+        "docs/release-checklist.md",
+        "docs/progress.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "test_result": "PARTIAL",
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PARTIAL",
+      "limitation": "Technical work is before26October; owner approval/access/essay remain; deadline submission not performed.",
+      "acceptance": "Phase gates; no future work claims",
+      "component": "Planning"
+    },
+    {
+      "id": "DEL-22",
+      "origin": "O",
+      "requirement": "First checkpoint then stop",
+      "priority": "P1",
+      "implementation": [
+        "docs/development-log.md",
+        "docs/prompts/001-master-prompt.md"
+      ],
+      "test": [
+        "manual: original checkpoint/log/Git history"
+      ],
+      "test_result": "PASS in the cited executed gate; see evidence",
+      "evidence": [
+        "artifacts/checkpoint.json"
+      ],
+      "status": "PASS",
+      "limitation": "Historical first checkpoint was completed then presented; no new fictitious chronology.",
+      "acceptance": "Real slice verified, documented, committed and owner report",
+      "component": "Workflow"
+    },
+    {
+      "id": "INC-01",
+      "origin": "O",
+      "requirement": "Threshold/worker",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/incidents.py",
+        "backend/app/worker.py"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_incident_threshold_recovery_timestamps_and_pagination"
+      ],
+      "test_result": "150/150 backend PASS; no skips",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Threshold/worker; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "INC-02",
+      "origin": "O",
+      "requirement": "Recovery/worker",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/incidents.py",
+        "backend/app/worker.py"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_incident_threshold_recovery_timestamps_and_pagination"
+      ],
+      "test_result": "150/150 backend PASS; no skips",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Recovery/worker; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "INC-03",
+      "origin": "O",
+      "requirement": "Migration/DB",
+      "priority": "P1",
+      "implementation": [
+        "backend/migrations/versions"
+      ],
+      "test": [
+        "backend/tests/run.py"
+      ],
+      "test_result": "150/150 backend PASS; no skips; immutable-clone/new-DB/restart/browser PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Migration/DB; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "INC-04",
+      "origin": "O",
+      "requirement": "Integrity/DB",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/incidents.py",
+        "backend/app/worker.py"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_incident_database_constraints"
+      ],
+      "test_result": "150/150 backend PASS; no skips",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Integrity/DB; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "INC-05",
+      "origin": "O",
+      "requirement": "Atomicity/worker",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/incidents.py",
+        "backend/app/worker.py"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_postgres_failure_rolls_back_result_state_and_incident"
+      ],
+      "test_result": "150/150 backend PASS; no skips",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Atomicity/worker; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "INC-06",
+      "origin": "O",
+      "requirement": "Pause/resume/API",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/incidents.py",
+        "backend/app/worker.py"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_administrative_closure_and_new_incident"
+      ],
+      "test_result": "150/150 backend PASS; no skips",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Pause/resume/API; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "INC-07",
+      "origin": "O",
+      "requirement": "Edit/delete/API",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/incidents.py",
+        "backend/app/worker.py"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_mutation_during_http_does_not_commit_stale_result"
+      ],
+      "test_result": "150/150 backend PASS; no skips",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Edit/delete/API; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "INC-08",
+      "origin": "O",
+      "requirement": "Journal/API",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/incidents.py",
+        "backend/app/worker.py"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_incident_pagination_has_one_join_no_n_plus_one"
+      ],
+      "test_result": "150/150 backend PASS; no skips",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Journal/API; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "INC-09",
+      "origin": "O",
+      "requirement": "Duration/API/UI",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/incidents.py",
+        "backend/app/worker.py"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_incident_threshold_recovery_timestamps_and_pagination"
+      ],
+      "test_result": "150/150 backend PASS; no skips",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Duration/API/UI; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "INC-10",
+      "origin": "O",
+      "requirement": "Realtime/SSE/UI",
+      "priority": "P1",
+      "implementation": [
+        "frontend/src/App.tsx",
+        "frontend/src/IncidentsPanel.tsx"
+      ],
+      "test": [
+        "frontend/e2e/incidents.spec.ts"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Realtime/SSE/UI; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / frontend"
+    },
+    {
+      "id": "INC-11",
+      "origin": "O",
+      "requirement": "Fault fencing/worker",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/incidents.py",
+        "backend/app/worker.py"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_expiry_during_http_old_success_cannot_close_new_incident"
+      ],
+      "test_result": "150/150 backend PASS; no skips",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Fault fencing/worker; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "INC-12",
+      "origin": "O",
+      "requirement": "Slow checks/worker",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/incidents.py",
+        "backend/app/worker.py"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_slow_beyond_interval_nonblocking_and_cancellation"
+      ],
+      "test_result": "150/150 backend PASS; no skips",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Slow checks/worker; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "INC-13",
+      "origin": "O",
+      "requirement": "Restart/DB/worker",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/worker.py",
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "scripts/phase7_clean_checkout.py::main"
+      ],
+      "test_result": "immutable-clone/new-DB/restart/browser PASS; 7 SMTP/fault groups PASS; 2 delayed/refused SMTP groups PASS",
+      "evidence": [
+        "artifacts/phase7-clean-checkout.json",
+        "artifacts/phase7-smtp-faults.json",
+        "artifacts/phase7-email-continuation.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Restart/DB/worker; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "INC-14",
+      "origin": "O",
+      "requirement": "Future notifications/model",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/incidents.py",
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_event_constraints_and_atomic_rollback"
+      ],
+      "test_result": "150/150 backend PASS; no skips",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Future notifications/model; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "INC-15",
+      "origin": "O",
+      "requirement": "Git/workflow",
+      "priority": "P1",
+      "implementation": [
+        "docs/github-workflow.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::verify_git_contract"
+      ],
+      "test_result": "ancestry/runtime-diff/finite pattern checks PASS",
+      "evidence": [
+        "artifacts/phase7-pr-inspection.json",
+        "artifacts/phase7-git-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Historical phase branching/push/actualPR#1..3 checked; no new PR or merge approval implied.",
+      "acceptance": "Git/workflow; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / docs"
+    },
+    {
+      "id": "P4-01",
+      "origin": "O",
+      "requirement": "Maintenance CRUD/API/UI",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/maintenance.py",
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_maintenance_crud_timezone_conflicts_and_target_cascade"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 7 SMTP/fault groups PASS; 2 delayed/refused SMTP groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-smtp-faults.json",
+        "artifacts/phase7-email-continuation.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Maintenance CRUD/API/UI; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P4-02",
+      "origin": "O",
+      "requirement": "Monitor window/policy",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/maintenance.py",
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_monitor_window_blocks_all_groups_and_claim_rechecks_policy"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 7 SMTP/fault groups PASS; 2 delayed/refused SMTP groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-smtp-faults.json",
+        "artifacts/phase7-email-continuation.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Monitor window/policy; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P4-03",
+      "origin": "O",
+      "requirement": "Group window/policy",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/maintenance.py",
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_shared_address_independent_group_routes_and_frozen_recipients"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 7 SMTP/fault groups PASS; 2 delayed/refused SMTP groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-smtp-faults.json",
+        "artifacts/phase7-email-continuation.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Group window/policy; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P4-04",
+      "origin": "O",
+      "requirement": "Overlaps/time",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/maintenance.py",
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_overlapping_windows_exact_boundaries_and_reconcile_without_result"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 7 SMTP/fault groups PASS; 2 delayed/refused SMTP groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-smtp-faults.json",
+        "artifacts/phase7-email-continuation.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Overlaps/time; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P4-05",
+      "origin": "O",
+      "requirement": "HTTP continuity/worker",
+      "priority": "P1",
+      "implementation": [
+        "frontend/src/MaintenancePanel.tsx",
+        "backend/app/maintenance.py"
+      ],
+      "test": [
+        "frontend/e2e/maintenance.spec.ts"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected; 7 SMTP/fault groups PASS",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-smtp-faults.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "HTTP continuity/worker; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / frontend"
+    },
+    {
+      "id": "P4-06",
+      "origin": "O",
+      "requirement": "Real DOWN/UI",
+      "priority": "P1",
+      "implementation": [
+        "frontend/src/MaintenancePanel.tsx",
+        "backend/app/maintenance.py"
+      ],
+      "test": [
+        "frontend/e2e/maintenance.spec.ts"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected; 7 SMTP/fault groups PASS",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-smtp-faults.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Real DOWN/UI; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / frontend"
+    },
+    {
+      "id": "P4-07",
+      "origin": "O",
+      "requirement": "Send suppression/dispatcher",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/maintenance.py",
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_monitor_window_blocks_all_groups_and_claim_rechecks_policy"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 7 SMTP/fault groups PASS; 2 delayed/refused SMTP groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-smtp-faults.json",
+        "artifacts/phase7-email-continuation.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Send suppression/dispatcher; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P4-08",
+      "origin": "O",
+      "requirement": "End reconciliation",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/maintenance.py",
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_overlapping_windows_exact_boundaries_and_reconcile_without_result"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 7 SMTP/fault groups PASS; 2 delayed/refused SMTP groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-smtp-faults.json",
+        "artifacts/phase7-email-continuation.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "End reconciliation; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P4-09",
+      "origin": "O",
+      "requirement": "Quick recovery/policy",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/maintenance.py",
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_recovered_before_down_send_preserves_required_pair"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 7 SMTP/fault groups PASS; 2 delayed/refused SMTP groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-smtp-faults.json",
+        "artifacts/phase7-email-continuation.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Quick recovery/policy; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P4-10",
+      "origin": "O",
+      "requirement": "Durable outbox/DB",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/maintenance.py",
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_event_constraints_and_atomic_rollback",
+        "scripts/phase4_fault_smoke.py::main"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 7 SMTP/fault groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-smtp-faults.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Durable outbox/DB; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P4-11",
+      "origin": "O",
+      "requirement": "Atomic transitions/DB",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/maintenance.py",
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_event_constraints_and_atomic_rollback",
+        "scripts/phase4_fault_smoke.py::main"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 7 SMTP/fault groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-smtp-faults.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Atomic transitions/DB; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P4-12",
+      "origin": "O",
+      "requirement": "Logical dedup/DB",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/maintenance.py",
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_event_constraints_and_atomic_rollback"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 7 SMTP/fault groups PASS; 2 delayed/refused SMTP groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-smtp-faults.json",
+        "artifacts/phase7-email-continuation.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Logical dedup/DB; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P4-13",
+      "origin": "O",
+      "requirement": "Retry/SMTP",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/maintenance.py",
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_retry_backoff_limit_and_definite_rejection"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 7 SMTP/fault groups PASS; 2 delayed/refused SMTP groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-smtp-faults.json",
+        "artifacts/phase7-email-continuation.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Retry/SMTP; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P4-14",
+      "origin": "O",
+      "requirement": "Dispatcher concurrency",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/maintenance.py",
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "backend/tests/test_notifications.py::test_two_dispatchers_expiry_and_stale_ack"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 7 SMTP/fault groups PASS; 2 delayed/refused SMTP groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-smtp-faults.json",
+        "artifacts/phase7-email-continuation.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Dispatcher concurrency; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P4-15",
+      "origin": "O",
+      "requirement": "Restart/queue",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/worker.py",
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "scripts/phase7_clean_checkout.py::main"
+      ],
+      "test_result": "immutable-clone/new-DB/restart/browser PASS; 7 SMTP/fault groups PASS; 2 delayed/refused SMTP groups PASS",
+      "evidence": [
+        "artifacts/phase7-clean-checkout.json",
+        "artifacts/phase7-smtp-faults.json",
+        "artifacts/phase7-email-continuation.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Restart/queue; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P4-16",
+      "origin": "O",
+      "requirement": "Actual Mailpit",
+      "priority": "P1",
+      "implementation": [
+        "frontend/src/MaintenancePanel.tsx",
+        "backend/app/maintenance.py"
+      ],
+      "test": [
+        "frontend/e2e/maintenance.spec.ts"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected; 7 SMTP/fault groups PASS",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-smtp-faults.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Actual Mailpit; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / frontend"
+    },
+    {
+      "id": "P4-17",
+      "origin": "O",
+      "requirement": "Maintenance editor/UI",
+      "priority": "P1",
+      "implementation": [
+        "frontend/src/MaintenancePanel.tsx",
+        "backend/app/maintenance.py"
+      ],
+      "test": [
+        "frontend/e2e/maintenance.spec.ts"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected; 7 SMTP/fault groups PASS",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-smtp-faults.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Maintenance editor/UI; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / frontend"
+    },
+    {
+      "id": "P4-18",
+      "origin": "O",
+      "requirement": "Two clients/reconnect",
+      "priority": "P1",
+      "implementation": [
+        "frontend/src/App.tsx",
+        "frontend/src/IncidentsPanel.tsx"
+      ],
+      "test": [
+        "frontend/e2e/incidents.spec.ts"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Two clients/reconnect; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / frontend"
+    },
+    {
+      "id": "P4-19",
+      "origin": "O",
+      "requirement": "Regression",
+      "priority": "P1",
+      "implementation": [
+        "backend/tests",
+        "frontend/e2e"
+      ],
+      "test": [
+        "backend/tests/run.py"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 32/32 component PASS; 12/12 Chromium PASS;0 skipped/flaky/unexpected; 7 SMTP/fault groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-frontend-tests.json",
+        "artifacts/phase7-smtp-faults.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Regression; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P4-20",
+      "origin": "O",
+      "requirement": "New tests",
+      "priority": "P1",
+      "implementation": [
+        "backend/tests",
+        "frontend/e2e"
+      ],
+      "test": [
+        "backend/tests/run.py"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 32/32 component PASS; 12/12 Chromium PASS;0 skipped/flaky/unexpected; 7 SMTP/fault groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-frontend-tests.json",
+        "artifacts/phase7-smtp-faults.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "New tests; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P4-21",
+      "origin": "O",
+      "requirement": "Additive migration",
+      "priority": "P1",
+      "implementation": [
+        "backend/migrations/versions"
+      ],
+      "test": [
+        "backend/tests/run.py"
+      ],
+      "test_result": "150/150 backend PASS; no skips; immutable-clone/new-DB/restart/browser PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Additive migration; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P4-22",
+      "origin": "O",
+      "requirement": "Honest docs",
+      "priority": "P1",
+      "implementation": [
+        "README.md",
+        "docs/review.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "test_result": "scoped manual source/document review + contract/link checks PASS",
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Honest docs; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / README.md"
+    },
+    {
+      "id": "P4-23",
+      "origin": "O",
+      "requirement": "Authentic history",
+      "priority": "P1",
+      "implementation": [
+        "docs/github-workflow.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::verify_git_contract"
+      ],
+      "test_result": "ancestry/runtime-diff/finite pattern checks PASS",
+      "evidence": [
+        "artifacts/phase7-pr-inspection.json",
+        "artifacts/phase7-git-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Historical phase branching/push/actualPR#1..3 checked; no new PR or merge approval implied.",
+      "acceptance": "Authentic history; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / docs"
+    },
+    {
+      "id": "P4-24",
+      "origin": "O",
+      "requirement": "PR preparation",
+      "priority": "P1",
+      "implementation": [
+        "docs/github-workflow.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::verify_git_contract"
+      ],
+      "test_result": "ancestry/runtime-diff/finite pattern checks PASS",
+      "evidence": [
+        "artifacts/phase7-pr-inspection.json",
+        "artifacts/phase7-git-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Historical phase branching/push/actualPR#1..3 checked; no new PR or merge approval implied.",
+      "acceptance": "PR preparation; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / docs"
+    },
+    {
+      "id": "P4-25",
+      "origin": "O",
+      "requirement": "Critical review",
+      "priority": "P1",
+      "implementation": [
+        "README.md",
+        "docs/review.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "test_result": "scoped manual source/document review + contract/link checks PASS",
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Critical review; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / README.md"
+    },
+    {
+      "id": "P5-01",
+      "origin": "O",
+      "requirement": "Real starting point/Git",
+      "priority": "P1",
+      "implementation": [
+        "docs/github-workflow.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::verify_git_contract"
+      ],
+      "test_result": "ancestry/runtime-diff/finite pattern checks PASS",
+      "evidence": [
+        "artifacts/phase7-pr-inspection.json",
+        "artifacts/phase7-git-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Historical phase branching/push/actualPR#1..3 checked; no new PR or merge approval implied.",
+      "acceptance": "Real starting point/Git; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / docs"
+    },
+    {
+      "id": "P5-02",
+      "origin": "O",
+      "requirement": "Additive persistence",
+      "priority": "P1",
+      "implementation": [
+        "backend/migrations/versions"
+      ],
+      "test": [
+        "backend/tests/run.py"
+      ],
+      "test_result": "150/150 backend PASS; no skips; immutable-clone/new-DB/restart/browser PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Additive persistence; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P5-03",
+      "origin": "O",
+      "requirement": "Explicit publication",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/public.py",
+        "backend/app/publication.py",
+        "backend/app/analytics.py"
+      ],
+      "test": [
+        "backend/tests/test_public_analytics.py::test_page_crud_conflicts_defaults_and_validation"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Explicit publication; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P5-04",
+      "origin": "O",
+      "requirement": "Management consistency",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/public.py",
+        "backend/app/publication.py",
+        "backend/app/analytics.py"
+      ],
+      "test": [
+        "backend/tests/test_public_analytics.py::test_parallel_publication_edits_and_monitor_delete_cascade"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Management consistency; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P5-05",
+      "origin": "O",
+      "requirement": "Separate public entrypoint",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/public.py",
+        "backend/app/publication.py",
+        "backend/app/analytics.py"
+      ],
+      "test": [
+        "backend/tests/test_public_analytics.py::test_public_default_private_allowlist_permissions_and_route_isolation"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Separate public entrypoint; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P5-06",
+      "origin": "O",
+      "requirement": "Safe projection",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/public.py",
+        "backend/app/publication.py",
+        "backend/app/analytics.py"
+      ],
+      "test": [
+        "backend/tests/test_public_analytics.py::test_public_default_private_allowlist_permissions_and_route_isolation"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Safe projection; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P5-07",
+      "origin": "O",
+      "requirement": "Public realtime",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/public.py",
+        "frontend/src/PublicApp.tsx"
+      ],
+      "test": [
+        "frontend/e2e/public.spec.ts"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Public realtime; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P5-08",
+      "origin": "O",
+      "requirement": "Reconnect/revocation",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/public.py",
+        "backend/app/publication.py",
+        "backend/app/analytics.py"
+      ],
+      "test": [
+        "backend/tests/test_public_analytics.py::test_public_sse_revocation_and_readonly_transactions"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Reconnect/revocation; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P5-09",
+      "origin": "O",
+      "requirement": "24h/7d/30d analytics",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/public.py",
+        "backend/app/publication.py",
+        "backend/app/analytics.py"
+      ],
+      "test": [
+        "backend/tests/test_public_analytics.py::test_all_failed_is_zero_uptime_not_no_data",
+        "backend/tests/test_public_analytics.py::test_postgres_buckets_bounds_gaps_legacy_and_config_versions"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "24h/7d/30d analytics; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P5-10",
+      "origin": "O",
+      "requirement": "Honest gaps",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/public.py",
+        "backend/app/publication.py",
+        "backend/app/analytics.py"
+      ],
+      "test": [
+        "backend/tests/test_public_analytics.py::test_postgres_buckets_bounds_gaps_legacy_and_config_versions"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Honest gaps; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P5-11",
+      "origin": "O",
+      "requirement": "Bounded PostgreSQL work",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/public.py",
+        "backend/app/publication.py",
+        "backend/app/analytics.py"
+      ],
+      "test": [
+        "backend/tests/test_public_analytics.py::test_month_aggregate_is_one_bounded_query_on_dense_fixture",
+        "scripts/phase7_acceptance_audit.py::verify_prior_performance"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected; retained raw475/295 events and3cold21warm samples revalidated",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-performance-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Bounded PostgreSQL work; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P5-12",
+      "origin": "O",
+      "requirement": "Charts/accessibility",
+      "priority": "P1",
+      "implementation": [
+        "frontend/src/AnalyticsPanel.tsx",
+        "frontend/src/PublicApp.tsx"
+      ],
+      "test": [
+        "frontend/src/AnalyticsPanel.test.tsx::renders a missing bucket as a gap and real zero latency as an observation",
+        "frontend/e2e/design.spec.ts"
+      ],
+      "test_result": "32/32 component PASS; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-frontend-tests.json",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Charts/accessibility; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / frontend"
+    },
+    {
+      "id": "P5-13",
+      "origin": "O",
+      "requirement": "Local failures",
+      "priority": "P1",
+      "implementation": [
+        "frontend/src/AnalyticsPanel.tsx",
+        "frontend/src/PublicApp.tsx"
+      ],
+      "test": [
+        "frontend/src/AnalyticsPanel.test.tsx::removes old aggregates on permission failure"
+      ],
+      "test_result": "32/32 component PASS; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-frontend-tests.json",
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Local failures; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / frontend"
+    },
+    {
+      "id": "P5-14",
+      "origin": "O",
+      "requirement": "No Phase4 policy rewrite",
+      "priority": "P1",
+      "implementation": [
+        "docs/phase5-checkpoint.md",
+        "docs/phase6-notification-policy.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::verify_git_contract"
+      ],
+      "test_result": "ancestry/runtime-diff/finite pattern checks PASS",
+      "evidence": [
+        "artifacts/phase7-git-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Historical Phase5 did not rewrite Phase4 policy; explicit correction occurred in Phase6, not retroactively.",
+      "acceptance": "No Phase4 policy rewrite; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / docs"
+    },
+    {
+      "id": "P5-15",
+      "origin": "O",
+      "requirement": "Full regression",
+      "priority": "P1",
+      "implementation": [
+        "backend/tests",
+        "frontend/e2e"
+      ],
+      "test": [
+        "backend/tests/run.py"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 32/32 component PASS; 12/12 Chromium PASS;0 skipped/flaky/unexpected; 7 SMTP/fault groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-frontend-tests.json",
+        "artifacts/phase7-smtp-faults.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Full regression; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P5-16",
+      "origin": "O",
+      "requirement": "Hosted CI",
+      "priority": "P1",
+      "implementation": [
+        ".github/workflows/ci.yml"
+      ],
+      "test": [
+        "manual: exact Phase5 implementation hostedCI record"
+      ],
+      "test_result": "PASS in the cited executed gate; see evidence",
+      "evidence": [
+        "artifacts/github-ci-phase5.json"
+      ],
+      "status": "PASS",
+      "limitation": "Historical exact9c155c3 hosted proof; not claimed to validate new changes.",
+      "acceptance": "Hosted CI; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / .github"
+    },
+    {
+      "id": "P5-17",
+      "origin": "O",
+      "requirement": "Review/docs/checkpoint",
+      "priority": "P1",
+      "implementation": [
+        "README.md",
+        "docs/review.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "test_result": "scoped manual source/document review + contract/link checks PASS",
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Review/docs/checkpoint; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / README.md"
+    },
+    {
+      "id": "P6-REQ-01",
+      "origin": "O",
+      "requirement": "Audit with source provenance",
+      "priority": "P1",
+      "implementation": [
+        "docs/phase6-audit.md",
+        "docs/phase7-security-review.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "test_result": "150/150 backend PASS; no skips; scoped manual source/document review + contract/link checks PASS",
+      "evidence": [
+        "artifacts/phase7-document-review.json",
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Audit with source provenance; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / docs"
+    },
+    {
+      "id": "P6-REQ-02",
+      "origin": "O",
+      "requirement": "Correct ACC-EMAIL-01",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "backend/tests/test_phase6_policy.py::test_dispatcher_offline_maintenance_deadlines_and_edits"
+      ],
+      "test_result": "150/150 backend PASS; no skips; 7 SMTP/fault groups PASS; 2 delayed/refused SMTP groups PASS",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-email-continuation.json",
+        "artifacts/phase7-smtp-faults.json"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Correct ACC-EMAIL-01; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P6-REQ-03",
+      "origin": "O",
+      "requirement": "Aggregate public health",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/public.py"
+      ],
+      "test": [
+        "backend/tests/test_public_analytics.py::test_public_health_ignores_paused_freshness"
+      ],
+      "test_result": "150/150 backend PASS; no skips",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Aggregate public health; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P6-REQ-04",
+      "origin": "O",
+      "requirement": "Analytics edges",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/analytics.py"
+      ],
+      "test": [
+        "backend/tests/test_phase6_policy.py::test_manual_bursts_equal_timestamps_and_window_edge_never_double_coverage"
+      ],
+      "test_result": "150/150 backend PASS; no skips",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Analytics edges; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P6-REQ-05",
+      "origin": "O",
+      "requirement": "Expired preflight safety",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/worker.py"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_expired_claim_never_starts_http"
+      ],
+      "test_result": "150/150 backend PASS; no skips",
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Expired preflight safety; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P6-REQ-06",
+      "origin": "O",
+      "requirement": "Sustained real50x30 + resources",
+      "priority": "P1",
+      "implementation": [
+        "scripts/phase6_load.py",
+        "scripts/phase6_fault_load.py",
+        "backend/app/analytics.py"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::verify_prior_performance"
+      ],
+      "test_result": "retained raw475/295 events and3cold21warm samples revalidated",
+      "evidence": [
+        "artifacts/phase7-performance-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Steady/fault/cold/warm datasets are separate; no universal latency or fixed-rate count claim.",
+      "acceptance": "Sustained real50x30 + resources; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / scripts"
+    },
+    {
+      "id": "P6-REQ-07",
+      "origin": "O",
+      "requirement": "Dense monthly benchmark",
+      "priority": "P1",
+      "implementation": [
+        "scripts/phase6_load.py",
+        "scripts/phase6_fault_load.py",
+        "backend/app/analytics.py"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::verify_prior_performance"
+      ],
+      "test_result": "retained raw475/295 events and3cold21warm samples revalidated",
+      "evidence": [
+        "artifacts/phase7-performance-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Steady/fault/cold/warm datasets are separate; no universal latency or fixed-rate count claim.",
+      "acceptance": "Dense monthly benchmark; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / scripts"
+    },
+    {
+      "id": "P6-REQ-08",
+      "origin": "O",
+      "requirement": "Faults under50-monitor load",
+      "priority": "P1",
+      "implementation": [
+        "scripts/phase6_load.py",
+        "scripts/phase6_fault_load.py",
+        "backend/app/analytics.py"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::verify_prior_performance"
+      ],
+      "test_result": "retained raw475/295 events and3cold21warm samples revalidated",
+      "evidence": [
+        "artifacts/phase7-performance-review.json"
+      ],
+      "status": "PASS",
+      "limitation": "Steady/fault/cold/warm datasets are separate; no universal latency or fixed-rate count claim.",
+      "acceptance": "Faults under50-monitor load; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / scripts"
+    },
+    {
+      "id": "P6-REQ-09",
+      "origin": "O",
+      "requirement": "Security acceptance",
+      "priority": "P1",
+      "implementation": [
+        "docs/phase6-audit.md",
+        "docs/phase7-security-review.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "test_result": "150/150 backend PASS; no skips; scoped manual source/document review + contract/link checks PASS",
+      "evidence": [
+        "artifacts/phase7-document-review.json",
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Security acceptance; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / docs"
+    },
+    {
+      "id": "P6-REQ-10",
+      "origin": "O",
+      "requirement": "Monochrome all-screen redesign",
+      "priority": "P1",
+      "implementation": [
+        "frontend/src/style.css",
+        "frontend/src/App.tsx"
+      ],
+      "test": [
+        "frontend/e2e/design.spec.ts"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-accessibility-390.json"
+      ],
+      "status": "PASS",
+      "limitation": "Four widths/12axe scans/keyboard/snapshots; not full WCAG certification.",
+      "acceptance": "Monochrome all-screen redesign; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / frontend"
+    },
+    {
+      "id": "P6-REQ-11",
+      "origin": "O",
+      "requirement": "Responsive/keyboard/a11y/visual",
+      "priority": "P1",
+      "implementation": [
+        "frontend/src/style.css",
+        "frontend/src/App.tsx"
+      ],
+      "test": [
+        "frontend/e2e/design.spec.ts"
+      ],
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-accessibility-390.json"
+      ],
+      "status": "PASS",
+      "limitation": "Four widths/12axe scans/keyboard/snapshots; not full WCAG certification.",
+      "acceptance": "Responsive/keyboard/a11y/visual; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / frontend"
+    },
+    {
+      "id": "P6-REQ-12",
+      "origin": "O",
+      "requirement": "Full exact-commit CI/docs/review",
+      "priority": "P1",
+      "implementation": [
+        "docs/phase6-final-checkpoint.md",
+        ".github/workflows/ci.yml"
+      ],
+      "test": [
+        "manual: exact Phase6 final hostedCI"
+      ],
+      "test_result": "PASS in the cited executed gate; see evidence",
+      "evidence": [
+        "artifacts/phase7-pr-inspection.json"
+      ],
+      "status": "PASS",
+      "limitation": "Historical494e310 exactCI39454646522 independently rechecked at discovery.",
+      "acceptance": "Full exact-commit CI/docs/review; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / docs"
+    },
+    {
+      "id": "P7-01",
+      "origin": "O",
+      "requirement": "Primary PDF/source audit",
+      "priority": "P1",
+      "implementation": [
+        "docs/requirements-provenance.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PASS",
+      "test_result": "scoped manual source/document review + contract/link checks PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Primary PDF/source audit; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / docs"
+    },
+    {
+      "id": "P7-02",
+      "origin": "O",
+      "requirement": "Every employer criterion mapped",
+      "priority": "P1",
+      "implementation": [
+        "docs/phase7-criteria.json"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PASS",
+      "test_result": "scoped manual source/document review + contract/link checks PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Every employer criterion mapped; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / docs"
+    },
+    {
+      "id": "P7-03",
+      "origin": "O",
+      "requirement": "Current matrix statuses",
+      "priority": "P1",
+      "implementation": [
+        "docs/phase7-final-acceptance.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PASS",
+      "test_result": "scoped manual source/document review + contract/link checks PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Current matrix statuses; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / docs"
+    },
+    {
+      "id": "P7-04",
+      "origin": "O",
+      "requirement": "Deterministic strict readiness counts",
+      "priority": "P1",
+      "implementation": [
+        "scripts/phase7_acceptance_audit.py"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PASS",
+      "test_result": "scoped manual source/document review + contract/link checks PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Deterministic strict readiness counts; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / scripts"
+    },
+    {
+      "id": "P7-05",
+      "origin": "O",
+      "requirement": "No unresolved confirmed BLOCKER",
+      "priority": "P1",
+      "implementation": [
+        "docs/review.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PASS",
+      "test_result": "scoped manual source/document review + contract/link checks PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "No unresolved confirmed BLOCKER; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / docs"
+    },
+    {
+      "id": "P7-06",
+      "origin": "O",
+      "requirement": "No unresolved mandatory HIGH",
+      "priority": "P1",
+      "implementation": [
+        "docs/review.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PASS",
+      "test_result": "scoped manual source/document review + contract/link checks PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "No unresolved mandatory HIGH; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / docs"
+    },
+    {
+      "id": "P7-07",
+      "origin": "O",
+      "requirement": "Backend regression executed",
+      "priority": "P1",
+      "implementation": [
+        "backend/tests"
+      ],
+      "test": [
+        "backend/tests/run.py"
+      ],
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "test_result": "150/150 backend PASS; no skips",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Backend regression executed; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P7-08",
+      "origin": "O",
+      "requirement": "Frontend regression executed",
+      "priority": "P1",
+      "implementation": [
+        "frontend/src"
+      ],
+      "test": [
+        "command: npm test"
+      ],
+      "evidence": [
+        "artifacts/phase7-frontend-tests.json"
+      ],
+      "status": "PASS",
+      "test_result": "32/32 component PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Frontend regression executed; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / frontend"
+    },
+    {
+      "id": "P7-09",
+      "origin": "O",
+      "requirement": "Browser regression executed",
+      "priority": "P1",
+      "implementation": [
+        "frontend/e2e"
+      ],
+      "test": [
+        "command: npm run test:e2e"
+      ],
+      "evidence": [
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Browser regression executed; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / frontend"
+    },
+    {
+      "id": "P7-10",
+      "origin": "O",
+      "requirement": "Migrations fresh and legacy",
+      "priority": "P1",
+      "implementation": [
+        "backend/migrations/versions"
+      ],
+      "test": [
+        "backend/tests/run.py"
+      ],
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "test_result": "150/150 backend PASS; no skips; immutable-clone/new-DB/restart/browser PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Migrations fresh and legacy; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P7-11",
+      "origin": "O",
+      "requirement": "SMTP obligations/retries/acceptance crash",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/notifications.py"
+      ],
+      "test": [
+        "scripts/phase4_fault_smoke.py::main"
+      ],
+      "evidence": [
+        "artifacts/phase7-smtp-faults.json",
+        "artifacts/phase7-email-continuation.json"
+      ],
+      "status": "PASS",
+      "test_result": "7 SMTP/fault groups PASS; 2 delayed/refused SMTP groups PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "SMTP obligations/retries/acceptance crash; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P7-12",
+      "origin": "O",
+      "requirement": "Worker concurrency/restart/fencing",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/worker.py"
+      ],
+      "test": [
+        "backend/tests/test_database.py::test_expired_lease_fences_stale_result"
+      ],
+      "evidence": [
+        "artifacts/phase7-backend-tests.xml",
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "test_result": "150/150 backend PASS; no skips; immutable-clone/new-DB/restart/browser PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Worker concurrency/restart/fencing; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P7-13",
+      "origin": "O",
+      "requirement": "Raw50-monitor evidence inspected",
+      "priority": "P1",
+      "implementation": [
+        "scripts/phase7_acceptance_audit.py"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::verify_prior_performance"
+      ],
+      "evidence": [
+        "artifacts/phase7-performance-review.json"
+      ],
+      "status": "PASS",
+      "test_result": "retained raw475/295 events and3cold21warm samples revalidated",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Raw50-monitor evidence inspected; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / scripts"
+    },
+    {
+      "id": "P7-14",
+      "origin": "O",
+      "requirement": "History measurement and limits",
+      "priority": "P1",
+      "implementation": [
+        "docs/phase7-performance.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::verify_prior_performance"
+      ],
+      "evidence": [
+        "artifacts/phase7-performance-review.json"
+      ],
+      "status": "PASS",
+      "test_result": "retained raw475/295 events and3cold21warm samples revalidated",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "History measurement and limits; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / docs"
+    },
+    {
+      "id": "P7-15",
+      "origin": "O",
+      "requirement": "Public privacy and revocation",
+      "priority": "P1",
+      "implementation": [
+        "backend/app/public.py"
+      ],
+      "test": [
+        "frontend/e2e/public.spec.ts"
+      ],
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-backend-tests.xml"
+      ],
+      "status": "PASS",
+      "test_result": "150/150 backend PASS; no skips; 12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Public privacy and revocation; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / backend"
+    },
+    {
+      "id": "P7-16",
+      "origin": "O",
+      "requirement": "Bounded local security review",
+      "priority": "P1",
+      "implementation": [
+        "docs/phase7-security-review.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PASS",
+      "test_result": "scoped manual source/document review + contract/link checks PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Bounded local security review; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / docs"
+    },
+    {
+      "id": "P7-17",
+      "origin": "O",
+      "requirement": "Monochrome visual review",
+      "priority": "P1",
+      "implementation": [
+        "frontend/src/style.css"
+      ],
+      "test": [
+        "frontend/e2e/design.spec.ts"
+      ],
+      "evidence": [
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Monochrome visual review; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / frontend"
+    },
+    {
+      "id": "P7-18",
+      "origin": "O",
+      "requirement": "Four strict viewports",
+      "priority": "P1",
+      "implementation": [
+        "frontend/src/style.css"
+      ],
+      "test": [
+        "frontend/e2e/design.spec.ts"
+      ],
+      "evidence": [
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Four strict viewports; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / frontend"
+    },
+    {
+      "id": "P7-19",
+      "origin": "O",
+      "requirement": "Keyboard/focus/axe accessibility scope",
+      "priority": "P1",
+      "implementation": [
+        "frontend/src/Modal.tsx"
+      ],
+      "test": [
+        "frontend/e2e/design.spec.ts"
+      ],
+      "evidence": [
+        "artifacts/phase7-browser-tests.json"
+      ],
+      "status": "PASS",
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Keyboard/focus/axe accessibility scope; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / frontend"
+    },
+    {
+      "id": "P7-20",
+      "origin": "O",
+      "requirement": "README reviewed and current",
+      "priority": "P1",
+      "implementation": [
+        "README.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PASS",
+      "test_result": "scoped manual source/document review + contract/link checks PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "README reviewed and current; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / README.md"
+    },
+    {
+      "id": "P7-21",
+      "origin": "O",
+      "requirement": "Clean checkout startup",
+      "priority": "P1",
+      "implementation": [
+        "scripts/phase7_clean_checkout.py"
+      ],
+      "test": [
+        "scripts/phase7_clean_checkout.py::main"
+      ],
+      "evidence": [
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "test_result": "immutable-clone/new-DB/restart/browser PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Clean checkout startup; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / scripts"
+    },
+    {
+      "id": "P7-22",
+      "origin": "O",
+      "requirement": "Genuine Git history preserved",
+      "priority": "P1",
+      "implementation": [
+        "docs/development-log.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::verify_git_contract"
+      ],
+      "evidence": [
+        "artifacts/phase7-git-review.json"
+      ],
+      "status": "PASS",
+      "test_result": "ancestry/runtime-diff/finite pattern checks PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Genuine Git history preserved; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / docs"
+    },
+    {
+      "id": "P7-23",
+      "origin": "O",
+      "requirement": "Stacked PR merge plan prepared",
+      "priority": "P1",
+      "implementation": [
+        "docs/github-workflow.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "evidence": [
+        "artifacts/phase7-document-review.json",
+        "artifacts/phase7-pr-inspection.json"
+      ],
+      "status": "PASS",
+      "test_result": "scoped manual source/document review + contract/link checks PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Stacked PR merge plan prepared; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / docs"
+    },
+    {
+      "id": "P7-24",
+      "origin": "O",
+      "requirement": "Latest uploaded SHA CI verified",
+      "priority": "P1",
+      "implementation": [
+        ".github/workflows/ci.yml"
+      ],
+      "test": [
+        "command: gh run list --branch feat/final-acceptance-release"
+      ],
+      "evidence": [
+        "artifacts/phase7-ci.json"
+      ],
+      "status": "NOT VERIFIED",
+      "test_result": "NOT VERIFIED",
+      "limitation": "Exact uploaded SHA required; never substitute an old green run.",
+      "acceptance": "Latest uploaded SHA CI verified; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / .github"
+    },
+    {
+      "id": "P7-25",
+      "origin": "O",
+      "requirement": "Reproducible5–10minute demo prepared",
+      "priority": "P1",
+      "implementation": [
+        "docs/demo-script.md"
+      ],
+      "test": [
+        "frontend/e2e/release.spec.ts::complete release journey with real HTTP, maintenance, Mailpit and public revocation"
+      ],
+      "evidence": [
+        "artifacts/phase7-browser-tests.json",
+        "artifacts/phase7-clean-checkout.json"
+      ],
+      "status": "PASS",
+      "test_result": "12/12 Chromium PASS;0 skipped/flaky/unexpected; immutable-clone/new-DB/restart/browser PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Reproducible5–10minute demo prepared; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / docs"
+    },
+    {
+      "id": "P7-26",
+      "origin": "O",
+      "requirement": "Submission guide prepared",
+      "priority": "P1",
+      "implementation": [
+        "docs/submission-guide.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PASS",
+      "test_result": "scoped manual source/document review + contract/link checks PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "Submission guide prepared; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / docs"
+    },
+    {
+      "id": "P7-27",
+      "origin": "O",
+      "requirement": "Model confirmed OR explicitly waiting",
+      "priority": "P1",
+      "implementation": [
+        "docs/ai-development.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PASS",
+      "test_result": "scoped manual source/document review + contract/link checks PASS",
+      "limitation": "MODEL CONFIRMATION REQUIRED FROM OWNER; the explicit waiting alternative satisfies this preparation criterion, not GEN-07 disclosure completeness.",
+      "acceptance": "Model confirmed OR explicitly waiting; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / docs"
+    },
+    {
+      "id": "P7-28",
+      "origin": "O",
+      "requirement": "Owner-approved ten-sentence essay",
+      "priority": "P1",
+      "implementation": [
+        "docs/essay.md"
+      ],
+      "test": [
+        "owner: supply and approve exactly ten personal sentences"
+      ],
+      "evidence": [
+        "docs/essay.md"
+      ],
+      "status": "NOT VERIFIED",
+      "test_result": "NOT VERIFIED",
+      "limitation": "Owner says no essay yet; cannot invent or approve personal material.",
+      "acceptance": "Owner-approved ten-sentence essay; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / docs"
+    },
+    {
+      "id": "P7-29",
+      "origin": "O",
+      "requirement": "Reviewer access granted OR explicitly pending",
+      "priority": "P1",
+      "implementation": [
+        "docs/submission-guide.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PASS",
+      "test_result": "scoped manual source/document review + contract/link checks PASS",
+      "limitation": "Employer access explicitly pending. Preparation criterion permits an honest pending task; delivery criterion DEL-18 remains PARTIAL.",
+      "acceptance": "Reviewer access granted OR explicitly pending; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / docs"
+    },
+    {
+      "id": "P7-30",
+      "origin": "O",
+      "requirement": "No false production/exactly-once/submission claim",
+      "priority": "P1",
+      "implementation": [
+        "README.md",
+        "docs/submission-guide.md"
+      ],
+      "test": [
+        "scripts/phase7_acceptance_audit.py::validate_documents"
+      ],
+      "evidence": [
+        "artifacts/phase7-document-review.json"
+      ],
+      "status": "PASS",
+      "test_result": "scoped manual source/document review + contract/link checks PASS",
+      "limitation": "Tested local acceptance scope; no universal production guarantee.",
+      "acceptance": "No false production/exactly-once/submission claim; verify the linked concrete behavior and stated limitations.",
+      "component": "Acceptance / README.md"
+    }
+  ]
+}

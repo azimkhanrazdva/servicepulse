@@ -1,6 +1,7 @@
 """Real Mailpit/fault scenarios in a dedicated project; never resets the owner's database."""
 
 import json
+import os
 import subprocess
 import time
 import urllib.error
@@ -9,7 +10,8 @@ import uuid
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
-PROJECT = "servicepulse-phase4-fault"
+PROJECT = "servicepulse-phase4-fault-" + uuid.uuid4().hex[:8]
+EVIDENCE = os.environ.get("FAULT_EVIDENCE_PREFIX", "phase4-fault")
 PREFIX = ["docker", "compose", "-p", PROJECT, "-f", "compose.notifications-test.yaml"]
 BASE = "http://127.0.0.1:18000/api"
 MAIL = "http://127.0.0.1:18025"
@@ -306,14 +308,14 @@ def main():
         logs = compose(
             "logs", "--no-color", "--tail", "150", "dispatcher", "worker", check=False
         )
-        Path("artifacts/phase4-fault.log").write_text(
+        Path(f"artifacts/{EVIDENCE}.log").write_text(
             logs.stdout + logs.stderr, encoding="utf-8"
         )
-        cleanup = compose("down", "-v", "--remove-orphans", check=False)
+        cleanup = compose("down", "--remove-orphans", check=False)
         if cleanup.returncode:
             report.update(status="FAIL", cleanup_error=cleanup.stderr[-1000:])
         report["elapsed_seconds"] = round(time.monotonic() - started, 3)
-        Path("artifacts/phase4-fault.json").write_text(
+        Path(f"artifacts/{EVIDENCE}.json").write_text(
             json.dumps(report, indent=2), encoding="utf-8"
         )
         print(json.dumps(report, indent=2))

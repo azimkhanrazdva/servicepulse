@@ -1,0 +1,17 @@
+# Phase7 — итоговый security review в заданной границе
+
+Проверены исходники Python/TypeScript, migrations0001–0006, nginx/Compose, реальный Chromium, PostgreSQL, SMTP faults и dependency reports. Это собственный повторный review implementation-agent; прежние независимые Phase6 review-pass остаются отдельными фактами. Новое независимое человеческое одобрение не заявляется. Подтверждённых открытых BLOCKER/HIGH для trusted-local assignment scope нет.
+
+| Область | Защита и фактическая проверка | Ограничения |
+|---|---|---|
+| SSRF / DNS |security.py: толькоHTTP(S), безuserinfo/control/fragment, проверяются все DNS IP, non-global запрещены; подключение к проверенному числовому IP; исходный Host/SNI сохраняется. Core tests выполнялись в150-test gate |SEC-04 PARTIAL: нет отдельного live external TLS/certificate эксперимента; нет egress firewall. Это не доказательство защиты от всех сетевых маршрутов |
+| Redirect/body/timeout |checker.py: follow_redirects=False, identity encoding,1MiB cap, общий asyncio deadline включаяDNS; client trust_env=False. Реальный302 на разрешённый simulator не follow: unexpected_status; timeout/network errors в rawfault logs |Только явно заданный simulator origin исключён из private-IP запрета; safe default пустой |
+| API/errors/Host |TrustedHost + nginx local-host allowlist; новый ASGI BrokenDB regression возвращает generic500 безsentinel/traceback;8 реальных Host/route случаев PASS |Host allowlist не authentication; management толькоloopback, опасно выставлять наружу |
+| Public privacy |ОтдельныйASGI/router/build/nginx; allowlisted projection, unrelatedpublicIDs, explicit per-monitor/history consent, read-only transactions. Tests скрытыхname/URL/email/window/error/outbox, отказadminroutes, SSE revoke/lateREST/reset/reconnect |DB role shared, не минимальные привилегии; уже полученные данные отозвать невозможно; история opt-in включает допубликационный период |
+| SQL/concurrency |Bind parameters, version checks409, monitor-first locks/fencing, уникальныйopenincident/event/delivery. Alembic check и каталог чистогоDB; SMTP внеDB transaction |Настенные часы/конечный lease; arbitrary process suspension не устраняется архитектурой |
+| Frontend |React escaping, нет опаснойHTML-инъекции; public bundle не импортирует admin panels/API; no-store, safe bounded diagnostics |Axe/Chromium не pentest; расширения браузера/локальныйmalware внеграницы |
+| Dependencies |Phase7 npm audit и pip-audit:0 known vulnerabilities (`phase7-npm-audit.json`, `phase7-pip-audit.json`) |Advisories меняются; images/actions не все digest-pinned; scanner не гарантия отсутствия уязвимостей |
+| Secrets / Git |.env ignored, реальные credentials не запрашивались; ограниченный текущий tracked-text pattern scan и PR diff scan, без вывода секретов |Конечный набор шаблонов не полная secret-detection сертификация; Git история сохранена |
+| Email |Local Mailpit only, сохранённые obligations0006, logical dedup/retry/ordering и crash test повторены |Реальный acceptance-before-ack crash:3 физических письма/2 logical deliveries. SMTP exactly-once не обещается; FAILED требует расследования |
+
+Перед публичным production deployment: authentication/authorization management, TLS/ingress rate/SSE budgets, отдельнаяpublicDBроль, egress policy, backup/retention и SMTP provider testing. Эти ограничения не скрыты за зелёными локальными тестами. Письмо работодателю не отправлялось и владельцем не запрошено.

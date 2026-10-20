@@ -1,0 +1,49 @@
+{
+  "recorded_at": "2026-10-20T11:46:31.457Z",
+  "status": "PASS",
+  "public_rest": {
+    "title": "Customer service health",
+    "state": "UP",
+    "services": [
+      {
+        "id": "9ab8a5d0-1306-41b3-9391-9a3bfe8ed468",
+        "name": "Customer API",
+        "state": "UP",
+        "last_checked_at": "2026-10-20T11:46:14.848591+00:00",
+        "freshness": "FRESH",
+        "maintenance": false,
+        "show_history": true
+      }
+    ]
+  },
+  "public_sse": {
+    "title": "Customer service health",
+    "state": "UP",
+    "services": [
+      {
+        "id": "9ab8a5d0-1306-41b3-9391-9a3bfe8ed468",
+        "name": "Customer API",
+        "state": "UP",
+        "last_checked_at": "2026-10-20T11:46:14.848591+00:00",
+        "freshness": "FRESH",
+        "maintenance": false,
+        "show_history": true
+      }
+    ]
+  },
+  "month_bucket_count": 360,
+  "month_samples": 1,
+  "month_coverage_percent": 0.00009939664351851852,
+  "checks": [
+    "admin_opt_in",
+    "route_isolation",
+    "explicit_projection",
+    "history_permission",
+    "two_public_clients",
+    "reconnect",
+    "live_DOWN_UP",
+    "revocation",
+    "NO_DATA_gaps",
+    "mobile"
+  ]
+}

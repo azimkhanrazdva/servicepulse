@@ -1,5 +1,17 @@
 # Decision log
 
+## ADR-Phase7 — acceptance without replacing working runtime
+
+Context: owner authorized final acceptance from clean494e310. Prior real load/history evidence exists; release-level browser/fresh-checkout evidence is needed. Model/essay/access are owner inputs.
+
+Decision: preserve runtime/0006; add real unified browser/generic-error tests; deploy immutable committed clone in a unique project/newDB, retain volumes; recompute raw evidence and author per-ID M/O/T/OPT strict counts. Correct UI-02/UI-06 provenance after PDF reread. No new PR/merge/release/submission without approval.
+
+Alternatives: replace architecture, repeat every expensive benchmark, give full credit to partial docs, call a working-directory run a clean install. None improves the required evidence.
+
+Trade-offs: clean clone shares host/Docker cache and isolated port overrides, not a fresh OS. Dependency/pattern/axe scans remain bounded. Historical evidence keeps real timestamps.
+
+Consequences: technical review can complete independently of owner inputs; delivery remains pending. Version1.0.0 is candidate metadata. Matrix retains partials and SMTP/performance/security limits.
+
 ## ADR-001 — owner stack and runtime
 Context: independent backend/frontend, relational persistence and asynchronous I/O required.
 Decision: FastAPI, Pydantic, SQLAlchemy 2, Alembic, PostgreSQL, React/TypeScript/Vite.

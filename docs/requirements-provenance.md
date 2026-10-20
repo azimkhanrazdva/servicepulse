@@ -1,4 +1,6 @@
-# Requirement provenance audit (133 existing IDs retained)
+# Requirement provenance audit (133 baseline IDs retained)
+
+Phase7 reread of the original13-page PDF (SHA256 3b7934746efef38066c6164c68df93ee6a0175c7ac7af8472372537a609539d7; general pp1–2, task3 pp4–5) corrects two earlier over-attributions: UI-02 actual response code in dashboard and UI-06 complete state-transition timeline are owner additions, not explicit PDF demands. Configured expected HTTP status remains MON-04/M; mandatory incident journal remains HIS-05..08/M. Current232-row evidence/status/origin ledger is phase7-criteria.json and phase7-final-acceptance.md. Phase additions INC/P4/P5/P6/P7 are owner criteria; they must not inflate employer counts. The ten-sentence personal essay comes from owner/recruiter instructions, not task3 PDF feature text. No PDF instructions override owner authorization.
 
 M = explicit employer requirement or directly split employer scenario (PDF pp.1-2,4-5).
 O = additional owner requirement from the master prompt / Phase 2; not claimed as PDF text.
@@ -51,11 +53,11 @@ All P0/P1 labels are project priorities, not a claim that 133 separate requireme
 | GRP-03 | M |
 | GRP-04 | M |
 | UI-01 | M |
-| UI-02 | M |
+| UI-02 | O |
 | UI-03 | M |
 | UI-04 | M |
 | UI-05 | M |
-| UI-06 | M |
+| UI-06 | O |
 | UI-07 | O |
 | UI-08 | O |
 | UI-09 | O |

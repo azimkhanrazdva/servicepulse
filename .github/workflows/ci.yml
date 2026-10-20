@@ -69,6 +69,8 @@ jobs:
           path: |
             artifacts/browser-tests.json
             artifacts/phase5-public-browser.json
+            artifacts/phase4-browser-mail.json
+            artifacts/phase7-release-journey.json
             output/playwright/*.png
             output/playwright/phase6-monochrome/
             artifacts/phase6-accessibility-*.json

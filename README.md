@@ -1,10 +1,14 @@
 # ServicePulse
 
-**v0.6 local checkpoint:** reliability fixes, fault recovery, monochrome UI and accessible browser journeys. See [checkpoint](docs/phase6-final-checkpoint.md), [performance](docs/phase6-performance.md), [security scope](docs/phase6-security-review.md) and [progress](docs/progress.md). Phase7 remains.
+**v1.0 candidate — technically verified local runtime, ready for owner approval.**
+Built for Mad Devs Junior Agentic Developer assignment #3. This is a client/server website
+availability monitor with real HTTP observations, incidents, local SMTP, isolated public status
+pages and observed uptime analytics. It is not submitted or a certified production deployment.
+Exact model confirmation, the owner's personal essay and employer repository access remain pending.
 
-A website availability monitoring platform built for Mad Devs' Junior Agentic Developer
-take-home assignment #3. **Version 0.6 includes isolated public status pages, explicit publication controls,
-24h/7d/30d observed uptime and PostgreSQL-aggregated response charts with honest gaps.**
+See the [final checkpoint](docs/phase7-checkpoint.md), [current per-ID acceptance](docs/phase7-final-acceptance.md),
+[demo script](docs/demo-script.md), [submission guide](docs/submission-guide.md),
+[security scope](docs/phase7-security-review.md) and [performance evidence](docs/phase7-performance.md).
 
 Create a monitor, let an independent worker request a real HTTP target, persist observations
 in PostgreSQL and see the dashboard update through SSE. No fabricated metrics or HTTP results.
@@ -28,7 +32,7 @@ in PostgreSQL and see the dashboard update through SSE. No fabricated metrics or
 Public pages are disabled/empty by default. Publish each service explicitly with a separate public label;
 aggregated history requires a second permission. The public image has no management bundle or admin routes.
 Actual SMTP/Mailpit tests and failure evidence are in [phase 4 checkpoint](docs/phase4-checkpoint.md).
-The whole assignment is not yet complete. See [acceptance matrix](docs/requirements.md).
+The technical runtime checkpoint is verified within its documented limits. Submission remains an owner action. See [acceptance matrix](docs/requirements.md).
 
 ## Architecture and stack
 
@@ -53,7 +57,7 @@ compose.yaml   Local application and isolated test profile
 
 ## Prerequisites and local startup
 
-Docker Engine/Desktop with Linux containers and Docker Compose v2+; free localhost ports
+Docker Engine/Desktop with Linux containers and Docker Compose2.24.4+; free localhost ports
 8080 (management UI), 8000 (management API), 8081 (public-only ingress), 8025 (Mailpit).
 Initial image/dependency download needs internet. All host ports bind loopback by default.
 Windows PowerShell, macOS and Linux are supported by Compose; development was verified on
@@ -62,13 +66,13 @@ Windows with Docker Desktop. Python 3.11+ is only required for host smoke/seed s
 PowerShell preparation (once):
 
 ```powershell
-Copy-Item .env.example .env
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 ```
 
-macOS/Linux preparation: `cp .env.example .env`. Then the same startup command everywhere:
+macOS/Linux preparation: `[ -f .env ] || cp .env.example .env`. Preserve an existing configuration. Then the same startup command everywhere:
 
 ```sh
-docker compose up -d --build
+docker compose up -d --build --wait
 ```
 
 Migration runs once before API and worker startup. The database uses a persistent named volume.
@@ -211,38 +215,59 @@ command for full backend evidence. Browser tests require the running Compose app
 they retain the original real-form/worker/two-context/reconnect checks and add edit conflicts,
 pause/resume, Run Now, confirmed deletion, membership filtering and group recipient management.
 Screenshots are written to `output/playwright/`; machine report is `artifacts/browser-tests.json`.
-Actual browser captures (updated by the latest test run): [desktop](output/playwright/desktop.png) and
-[mobile](output/playwright/mobile.png). Current phase: [management checkpoint](docs/phase2-checkpoint.md).
-Current incident checkpoint: [phase 3](docs/phase3-checkpoint.md). `python scripts/phase3_smoke.py`
-verifies actual incident/restart/gap behavior and a 32s target across its 30s interval.
-`python scripts/proxy_recreate_smoke.py` verifies nginx recovers after backend replacement at a new IP.
+Phase7 captured [desktop](output/playwright/phase7-monochrome/1440-overview.png) and
+[mobile](output/playwright/phase7-monochrome/390-overview.png) are real screenshots with test fixtures.
+Current evidence:150 backend,32 components,12 Chromium cases,0 unexpected/flaky/skipped;
+12 axe scans with0 violations (incomplete checks retained, not WCAG certification).
+Reports: artifacts/phase7-backend-tests.xml, phase7-frontend-tests.json, phase7-browser-tests.json.
+Historical checkpoint files retain their original results rather than being rewritten to current counts.
+
 Phase4 live fault suite: `python scripts/phase4_fault_smoke.py`. It creates a separate Compose project,
 ports 18000/18025 and its own DB volume; tests SMTP outage, restart, DB outage and acceptance-before-ack
-crash, then removes only that isolated project/volume. Leave these ports free. Evidence is in
+crash, then stops only that isolated project and retains its volume. No database volumes are removed. Leave these ports free. Evidence is in
 artifacts/phase4-fault.json and phase4-fault.log. Browser integration also checks actual Mailpit receipts.
 On restricted Windows execution, local socket access and launching Chromium may require
 host permission. A sandbox denial is not proof of an application failure or passing test.
 
-GitHub Actions specifies Python lint/format/PostgreSQL tests and frontend format/tests/types/build.
-Current v0.6 code checkpoint6575f9a passed all3 hosted jobs in [Actions39454055596](https://github.com/azimkhanrazdva/servicepulse/actions/runs/39454055596), including11 actual browser cases. Subsequent exact-head outcomes are recorded in the development log/final report.
+GitHub Actions runs Python lint/format/PostgreSQL tests, frontend format/tests/types/build/audit,
+and real Docker Compose/Chromium E2E. Current exact-SHA evidence is in artifacts/phase7-ci.json
+(after verified private upload); never substitute a previous green run for a changed commit.
+The genuine [development log](docs/development-log.md) records exact run URLs and failures.
 
-Historical CI **passed** for v0.5 implementation 9c155c3:
-[actual Actions run](https://github.com/azimkhanrazdva/servicepulse/actions/runs/39390308186).
-Backend (121 tests), frontend (26 tests) and the new actual Compose/Chromium browser job
-(seven E2E tests, 0 skipped/flaky) completed successfully. Local browser duration was 18.5s;
-hosted duration 56.5s. The full phase1–4 process-fault smoke regression was run locally.
-See [v0.5 checkpoint](docs/phase5-checkpoint.md) and the downloaded hosted browser report.
-Private repository: https://github.com/azimkhanrazdva/servicepulse. main records v0.1;
-feat/monitor-management-groups carries v0.2; feat/incident-lifecycle v0.3;
-feat/maintenance-email-outbox carries verified v0.4. Open review chain:
-[phase 2 PR #1](https://github.com/azimkhanrazdva/servicepulse/pull/1) →
-[phase 3 PR #2](https://github.com/azimkhanrazdva/servicepulse/pull/2) →
-[phase 4 PR #3](https://github.com/azimkhanrazdva/servicepulse/pull/3). No merge has been performed.
-See [GitHub workflow](docs/github-workflow.md) for the authentic baseline and publication policy.
-The later [Phase 4 audit](docs/phase4-audit.md) maps original requirements to code/evidence,
-records 109 backend/15 component/5 browser checks and explicitly lists SMTP/policy limits.
-feat/public-status-analytics carries v0.5, based on audited phase4 442496f. Its next PR description
-is [prepared](docs/pr-phase5.md); no additional remote PR or merge is claimed.
+Private repository: [azimkhanrazdva/servicepulse](https://github.com/azimkhanrazdva/servicepulse).
+Current candidate branch is feat/final-acceptance-release, stacked on feat/reliability-audit-redesign.
+main still records the original v0.1 baseline. Existing real open PRs:
+[Phase2 #1](https://github.com/azimkhanrazdva/servicepulse/pull/1),
+[Phase3 #2](https://github.com/azimkhanrazdva/servicepulse/pull/2),
+[Phase4 #3](https://github.com/azimkhanrazdva/servicepulse/pull/3).
+No merge or Phase5/6/7 PR creation was authorized. Prepared summaries/dependency/merge commands are
+in [GitHub workflow](docs/github-workflow.md). A1.0.0 package label is not a GitHub Release/tag.
+
+### Additional reproducible acceptance commands
+
+Run experiments sequentially, with their named ports free. Python3.11+, Node24, npm ci and
+installed Chromium are required for the host harnesses. Test recipients are local Mailpit only.
+
+```powershell
+python scripts/phase7_clean_checkout.py --ref feat/final-acceptance-release
+# New isolated project/DB; ports28000/28080/28081/28025; volumes retained.
+$env:FAULT_EVIDENCE_PREFIX = 'phase7-smtp-faults'
+python scripts/phase4_fault_smoke.py
+Remove-Item Env:FAULT_EVIDENCE_PREFIX
+python scripts/phase6_email_smoke.py
+python scripts/phase7_acceptance_audit.py
+# Expensive, optional repeat of existing measured experiments:
+python scripts/phase6_load.py
+python scripts/phase6_fault_load.py
+python scripts/phase6_cold_history.py
+```
+
+The immutable clean-runtime test uses a committed clone and new schema0006 database, verifies HTTP
+persistence/settings/groups after restarts and runs the complete browser journey. It shares the
+host/Docker layer cache and uses isolated port overrides, not a fresh operating system.
+The acceptance audit rechecks retained raw data and the authored matrix; it does not rerun load
+or promote documentation existence to a passing product test. Commands may overwrite fixed report
+paths; copy new reports with their actual stage prefix before restoring historical tracked evidence.
 
 ## Public status and observed analytics (v0.5)
 
@@ -324,7 +349,7 @@ Claims use `FOR UPDATE SKIP LOCKED`, UUID fencing and expiry checks. Real steady
 
 Cadence is completion plus interval (fixed delay). Missing server time creates no observations; charts distinguish gaps/coverage from sample uptime. Local regression commands/evidence: [v0.6 checkpoint](docs/phase6-final-checkpoint.md).
 
-## Security and known limitations
+## Known limitations and security
 
 - HTTP(S) only; validate all resolved addresses, reject non-global IPs, connect to validated IP.
 - Original Host/SNI retained. Redirect following and environment proxies disabled; TLS verified.
@@ -343,10 +368,12 @@ Cadence is completion plus interval (fixed delay). Missing server time creates n
 
 ## Next iteration / roadmap
 
-1. Owner reviews v0.6 and decides whether to authorize prepared stacked Phase5/6 PRs.
-2. After owner instruction, complete Phase7 submission audit, exact model disclosure, personal ten-sentence essay, reviewer access and fresh-checkout demo before26October.
-3. Later production work: authenticated management, dedicated public DB role, ingress/egress limits, targeted dense-history tuning and management pagination beyond500.
-4. Accessibility follow-up: screen-reader/WCAG2.2 review; automated checks alone do not certify conformance.
+Before26October2026: owner reviews this candidate, confirms the exact model, writes/approves the
+ten-sentence essay, authorizes any desired PR/merge actions and grants employer private access.
+No employer email is sent by the agent. See [submission guide](docs/submission-guide.md).
+Later work: authenticated management, dedicated public DB role, ingress/egress budgets, controlled
+production SMTP/TLS, management pagination beyond500, full state-change timeline, structured API
+logs and manual screen-reader/WCAG review. [Roadmap](docs/roadmap.md) separates these from delivered work.
 
 ## AI-assisted development and attribution
 

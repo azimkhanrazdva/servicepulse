@@ -1,6 +1,8 @@
-# Architecture — monitor management checkpoint and target design
+# Architecture — verified local v1.0 candidate
 
-Phase6 reliability amendment (in progress): additive0006 stores notification eligibility/obligation;
+Phase7 acceptance retains the Phase6 runtime architecture and additive0006; no business-policy replacement. Current contracts below supersede explicitly labeled historical phase notes. See phase7-checkpoint.md, phase7-final-acceptance.md and phase7-security-review.md for executed evidence and limits. Metadata1.0.0 is a candidate label, not a published release. Shared public DB role, trusted-local management and finite SMTP guarantees remain explicit.
+
+Phase6 reliability amendment (implemented and verified): additive0006 stores notification eligibility/obligation;
 new confirmed incidents retain DOWN then RECOVERY outside maintenance even if dispatcher is delayed.
 Maintenance/group mutations preserve earned obligations and terminally revoke removed routes under
 parent/delivery locks. Historical unknown eligibility is not inferred or replayed.
@@ -46,7 +48,7 @@ flowchart LR
 - Dispatcher: separate process, leased per-recipient work and two-second reconciliation independent of HTTP results.
 - Mailpit: real local SMTP acceptance catcher with HTTP API evidence; no external relay/provider.
 
-## Persisted model (Alembic 0001 + additive 0002/0003/0004/0005)
+## Persisted model (Alembic0001 + additive0002–0006)
 
 Monitor: UUID, name, URL, interval (30..3600 seconds), timeout (0.1..120 seconds), expected
 status (100..599), optional expected string, failure threshold (1..10, default 2), state,

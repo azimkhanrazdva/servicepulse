@@ -1,5 +1,11 @@
 # Open issues for the final acceptance audit
 
+## Phase7 — актуальное решение
+
+ACC-EMAIL-01 закрыт для новых incidents с известнойeligibility0006; повторные реальныеSMTPdelay/refusal/restart tests PASS (phase7-email-continuation.json), основной7-groupfaultsuite PASS (phase7-smtp-faults.json). Исходное описание ниже историческое; Phase5 не приписывается последующее исправление. Legacyunknowneligibility не угадывается/не replay, physicalSMTPduplicates и конечный terminalFAILED остаются документированной границей.
+
+Новых подтверждённых BLOCKER/HIGH mandatoryruntime дефектов в локальной границе нет. Открытые owner/engineering scope: fullstate timeline, глобальнаяpagination/counters>500, APIJSONlogs, отдельный liveexternalTLSfixture. Model confirmation, личноеэссе и employeraccess — OWNER ACTION REQUIRED, не маскируютсяподPASS. Final per-IDстатусы: phase7-final-acceptance.md; deployment/security limits: phase7-security-review.md. ПоследняяCIпроверка принадлежит exactuploadedSHA, а не предыдущему этапу.
+
 Phase6 update: ACC-EMAIL-01 has an explicit correction for newly confirmed incidents in0006,
 documented in phase6-notification-policy.md and phase6-audit.md. The old account below is historical
 evidence of the reproduced defect, not the current new-incident policy. New tests preserve the

@@ -1,14 +1,14 @@
 {
-  "started_at": "2026-10-20T11:32:53.538Z",
-  "name": "release-1792495973317",
+  "started_at": "2026-10-20T11:46:21.485Z",
+  "name": "release-1792496781282",
   "messages": [
     {
-      "id": "oVWvzq9K3zYtdS6ECehfx3",
-      "subject": "ServicePulse RECOVERY: release-1792495973317"
+      "id": "FUteR8ccRdHATJavk2pf42",
+      "subject": "ServicePulse RECOVERY: release-1792496781282"
     },
     {
-      "id": "jREsSCWdaWBcpUvGM3Bamx",
-      "subject": "ServicePulse DOWN: release-1792495973317"
+      "id": "k7BUCdJTbJf8cF3FMvue56",
+      "subject": "ServicePulse DOWN: release-1792496781282"
     }
   ],
   "redirect": {
@@ -16,5 +16,5 @@
     "error": "unexpected_status"
   },
   "status": "PASS",
-  "ended_at": "2026-10-20T11:33:19.771Z"
+  "ended_at": "2026-10-20T11:46:52.846Z"
 }
