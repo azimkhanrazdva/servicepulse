@@ -620,9 +620,10 @@ input {
     border-right: 0;
     border-bottom: 1px solid var(--line);
     padding: 16px 20px;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    align-items: stretch;
     justify-content: space-between;
+    gap: 12px;
   }
   .workspace,
   .sidebar-note,
@@ -631,11 +632,12 @@ input {
   }
   nav {
     display: flex;
+    flex-wrap: wrap;
   }
   nav a {
     padding: 8px;
+    min-height: 40px;
   }
-  nav a > span,
   nav small {
     display: none;
   }

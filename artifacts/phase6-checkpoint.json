@@ -1,0 +1,38 @@
+{
+  "recorded_at": "2026-10-20T04:37:15.297761+00:00",
+  "phase6_status": "PARTIAL",
+  "checkpoint": "first reliability increment",
+  "baseline_head": "4696798247feec3dab6642555cfc8794e417bfc9",
+  "backend": {
+    "tests": 148,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "component_passed": 26,
+  "browser": {
+    "startTime": "2026-10-20T04:30:15.930Z",
+    "duration": 19121.744000000002,
+    "expected": 7,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "local_reports": {
+    "phase6-load": "PASS",
+    "phase6-email-smoke": "PASS",
+    "phase4-fault": "PASS",
+    "phase6-host-guard": "PASS",
+    "phase6-history-benchmark": "PASS",
+    "phase6-secret-pattern-scan": "PASS"
+  },
+  "hosted_phase6": "NOT VERIFIED (unfinished stage remains local)",
+  "remaining": [
+    "monochrome redesign",
+    "full accessibility",
+    "fault-under-50 matrix",
+    "end-boundary schedule accounting",
+    "dense first-query budget",
+    "complete final acceptance/security review"
+  ]
+}

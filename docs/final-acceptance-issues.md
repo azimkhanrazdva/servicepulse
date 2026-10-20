@@ -1,5 +1,14 @@
 # Open issues for the final acceptance audit
 
+Phase6 update: ACC-EMAIL-01 has an explicit correction for newly confirmed incidents in0006,
+documented in phase6-notification-policy.md and phase6-audit.md. The old account below is historical
+evidence of the reproduced defect, not the current new-incident policy. New tests preserve the
+outside-maintenance pair, suppress maintenance-only outages, retain retry IDs/order, and test
+recipient revocation and delayed recovery persistence. Actual Mailpit/restart results are in
+artifacts/phase6-email-smoke.json; acceptance-crash limits remain explicit.
+Legacy deliveries with unknown historical eligibility are not silently replayed or inferred.
+Final whole-product acceptance remains pending Phase6 redesign/security/accessibility/load-fault gates.
+
 ## ACC-EMAIL-01 — confirmed outage may produce no mail before quick recovery
 
 Origin: Phase4 audit, explicitly carried forward by the owner at Phase5 authorization.

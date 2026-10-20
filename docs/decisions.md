@@ -146,3 +146,26 @@ Trade-offs: bounded response but indexed scan still grows with observations; pha
 larger datasets/fleet performance. Sample uptime is not a continuous-time SLA, coverage is an estimate.
 Consequences: history includes all config versions and maintenance outcomes; gaps never become DOWN,
 zero latency or invented 100% availability. No new runtime dependency needed for the charts.
+
+## ADR-016 — persist incident notification eligibility independently of SMTP (Phase6)
+
+Context: ACC-EMAIL-01 reproduced missing both emails after confirmed DOWN outside maintenance
+when dispatcher was delayed. A send-start marker expresses SMTP uncertainty, not the obligation to alert.
+Decision: additive0006 nullable down_eligible_at plus down_required. Record earliest uncovered route
+instant at confirmation; preserve/recompute under maintenance/group parent locks; use HTTP recovery
+timestamp to freeze obligation. Route revocation terminally cancels pending deliveries, including
+already-recovered pairs. DOWN acceptance precedes RECOVERY. SMTP still runs outside transactions.
+Alternatives: cancel all historical pending mail; overload send_started_at; introduce a broker.
+Trade-offs: two small persisted fields and mutation hooks; bounded retries still can exhaust, unknown
+legacy intent is retained under its old policy, ambiguous SMTP acceptance may physically duplicate.
+Consequences: real delayed-dispatcher/SMTP-refusal/restart tests prove ordered pair with stable IDs;
+wholly maintained outages remain silent. See phase6-notification-policy.md for exact boundary table.
+
+## ADR-017 — restrict management Host while retaining trusted-local scope
+
+Context: local API/nginx accepted an arbitrary Host; loopback binding alone is insufficient
+protection from browser DNS rebinding. Decision: Starlette TrustedHostMiddleware for local/internal
+management names and a default nginx400 host. Public entrypoint remains separate.
+Alternatives: full authentication now; rely only on CORS/loopback. Trade-offs: custom local hostname
+deployments need an explicitly reviewed allowlist/configuration; no production-auth claim.
+Consequences: normal localhost/127.0.0.1 remains valid; hostile Host tests reject both surfaces.

@@ -1,5 +1,10 @@
 # First checkpoint review
 
+Current Phase6 findings and independent agent-review provenance are in phase6-audit.md.
+The historical self-review entries below are preserved; they are not current completion claims.
+Phase6 adds reproduced email/lease/public fixes, strict viewport regression and Host checks;
+full monochrome/accessibility/security/fault-under-load acceptance is still in progress.
+
 This is the implementation agent's separate code-review pass, **not an independent reviewer
 or a completed final product audit**. Full incident/outbox/maintenance/restart/load/public
 security review remains mandatory when those features exist.

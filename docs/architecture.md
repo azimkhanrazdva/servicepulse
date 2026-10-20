@@ -1,5 +1,16 @@
 # Architecture — monitor management checkpoint and target design
 
+Phase6 reliability amendment (in progress): additive0006 stores notification eligibility/obligation;
+new confirmed incidents retain DOWN then RECOVERY outside maintenance even if dispatcher is delayed.
+Maintenance/group mutations preserve earned obligations and terminally revoke removed routes under
+parent/delivery locks. Historical unknown eligibility is not inferred or replayed.
+See phase6-notification-policy.md for the transition table, recovery observation-time boundary and
+SMTP limits. Worker now rejects expired preflight claims and refreshes a valid lease after its lock
+wait. Public aggregate freshness excludes PAUSED services; a stale last DOWN is still displayed.
+Management accepts only localhost/127.0.0.1/backend Host at ASGI and local hosts at nginx; keep
+loopback binding. This does not add authentication or authorize public management deployment.
+Earlier phase sections below describe their original contracts where superseded explicitly here.
+
 The owner prescribed this stack; this design keeps it. Shipped scope includes foundation,
 versioned monitor CRUD/pause/resume, group membership/recipients and real HTTP observations.
 Persisted incidents, maintenance and transactional SMTP outbox now ship through phase 4.

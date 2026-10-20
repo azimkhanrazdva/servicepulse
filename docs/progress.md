@@ -1,87 +1,82 @@
-# ServicePulse progress — v0.5 checkpoint
+# ServicePulse progress — Phase6 first reliability checkpoint (PARTIAL)
 
-Read AGENTS.md, requirements.md, architecture.md, phase5-design.md and phase5-checkpoint.md before resuming.
-Owner explicitly accepted audited v0.4 and requested Phase5; Phase6 is not started.
+Read AGENTS.md, requirements.md, architecture.md, phase6-audit.md,
+phase6-notification-policy.md, phase6-performance.md and phase6-checkpoint.md before resuming.
+Application version remains0.5; the complete requested v0.6 redesign/audit is NOT finished.
 
 ## Completed
 
-- Phases 1–4: real API/frontend/PostgreSQL/worker, versioned monitors/groups, incidents, maintenance,
-  transactional outbox/dispatcher, real SMTP/fault/restart/two-client evidence; see historical checkpoints.
-- Phase5 additive 0005: default-private pages, explicit per-monitor public label/history consent,
-  public UUIDs, cadence snapshots only for new observations; exact old outbox/window rows preserved.
-- Public-only ASGI/nginx/build and GET/SSE projection; no management routes/docs/mutations/bundle.
-- Separate safe public two-client/reconnect/revocation flow and stale REST/disconnect protection.
-- PostgreSQL 24h/7d/30d observed uptime/coverage/latency with bounded buckets and honest NO_DATA/gaps.
-- Native charts/accessibility table; rolling history advances without new observations.
-- Functional publication editor with 409 drafts; dashboard uptime/current outage/active incident count.
-- Final local checks: 121 backend, 26 component, seven browser tests; all original cases retained.
-- Actual prior-stage smoke/restart/32s/proxy/Mailpit/DB/process-fault suites rerun and passed.
-- Original notification policy unchanged; ACC-EMAIL-01 explicitly tracked for final employer acceptance.
-- Real local backend c489815 and UI/integration 9c155c3 commits, privately pushed after local gates.
+- Prior verified phases1–5 preserved; no original commit/date or migration0001..0005 rewritten.
+- New branch feat/reliability-audit-redesign from clean4696798 after actual Git/PR/CI discovery.
+- Three independent read-only agent reviews; original PDF task3 re-extracted; ten actual findings.
+- Reproduced email/lease/public defects before fixes (4FAIL/8PASS artifact), then corrected them.
+- Additive0006 persisted notification eligibility/obligation; actual ordered delayed-DOWN/recovery,
+  maintenance-only suppression, permanent route revocation including recovered pending events,
+  observation-vs-persistence time and existing retry/crash boundaries verified.
+- Expired worker claim guarded; valid lease budget refreshed; PAUSED public freshness corrected.
+- Management Host guards, actual200/400 API/nginx tests; zero known npm/pinned-Python audit findings.
+- Two actual five-minute50x30 experiments; corrected missing worker resource collection and reran.
+  Latest475 actual HTTP/results,375success/100failure, max41, no measured overlaps; CPU/RAM recorded.
+- Synthetic monthly10k/100k/500k/1m fleet plus100k single-monitor, repeated percentiles/plans/sizes.
+  Warm dense p95~609ms; first1.143s remains a performance budget risk, not hidden.
+- Strict390px overflow reproduced/fixed; four requested widths render50 real rows without document overflow.
+- Current local gates148 backend,26 component,7 real browser; migration preservation through0006;
+  current actual SMTP/restart/crash/small-fleet/proxy regressions passed. See checkpoint and log.
 
 ## In Progress
 
-Phase5 completed and verified; waiting for owner review. Hosted run 39390308186 passed on exact
-implementation 9c155c3335a4bf035c8a398b7b5f31a0940e16aa: backend, frontend and actual Compose/
-Chromium browser jobs successful. Phase6 has not started. Final evidence handoff changes docs only.
+Phase6 remains PARTIAL. First safe backend/performance/mobile correction increment is verified
+locally and recorded in real local logical commits. Full monochrome redesign, accessibility,
+fault-under50 and final acceptance are unfinished. No Phase7 work or full-release claim.
 
 ## Blocked
 
-No local Phase5 blocker. ACC-EMAIL-01 remains HIGH final-acceptance risk: queued unattempted DOWN
-is cancelled on quick recovery even outside maintenance, potentially missing both employer-expected
-emails during dispatcher delay/outage. Owner explicitly requested recording, not silently changing it.
-Production public hosting/TLS/rate limits/shared DB role need later review; management stays local.
-Exact AI model identifier and owner-authored ten-sentence essay still need owner confirmation/input.
+No owner action needed for ordinary remaining development. Remaining acceptance gaps are work,
+not external blockers: dense first-query budget, full50-monitor fault matrix/end-boundary counters,
+P6-005..008 UX issues, complete monochrome/accessibility/final-security/CI gates.
+Legacy queued deliveries have unknown historical eligibility; no guessed upgrade mass-mailing.
+Exact model identifier, personal ten-sentence essay and final employer access remain owner inputs later.
 
 ## Next Tasks
 
-1. Owner reviews verified v0.5: phase5-checkpoint.md, requirements.md, review.md and exact hosted CI.
-2. Owner reviews the checkpoint before authorizing further work; no Phase6 performed here.
-3. Later Phase6: sustained 50x30s mixed targets, larger-history/p95, final security/reliability audit.
-4. Resolve ACC-EMAIL-01 in a separately explicit policy fix before claiming strict email compliance.
-5. Later submission: full acceptance audit, owner essay, employer access and approved final delivery.
-6. PR5 summary is prepared in pr-phase5.md. No new PR/merge/public visibility permission inferred.
+1. Confirm clean branch/log; read phase6-checkpoint precise continuation. Do not branch from main.
+2. Finish P0 isolated fault-under50 and complete planned/missed boundary accounting; repeat/analyze
+   dense first-call latency (external sorts/temp blocks) before an unconditional<1s claim.
+3. Finish security/acceptance review; Host/SSRF/privacy/dependency tests already have actual evidence.
+4. Apply requested unified white/black redesign in existing React/CSS, resolve coverage prominence,
+   honest500 scope, active navigation, request deadlines, filters/dialogs/diagnostics/copy/preview.
+5. Four viewport/keyboard/focus/Escape/automatic accessibility/visual/public+admin user journeys.
+6. Full final regression, docs/matrix/log/review/commits; only completed verified Phase6 can be
+   privately pushed under standing authorization, followed by exact-head hosted CI verification.
+7. Prepare new remote PR creation for owner approval; no automatic PR/merge/visibility change.
 
 ## Verification Status
 
-PASS local: 121 PostgreSQL tests, zero skips/failures; 0001/2/3/4 fixtures -> 0005 plus ORM check.
-26 component tests; typecheck/lint/format/build; npm audit zero findings. Seven actual browser tests
-passed in 18.5s, including public REST/SSE sentinels, route/method isolation, real worker DOWN/UP,
-two public clients/reconnect, revoked history/page, mobile width and genuinely unobserved NO_DATA.
-Raw reports: artifacts/backend-tests.xml, frontend-tests.json, browser-tests.json,
-phase5-public-browser.json and consolidated phase5-checkpoint.json.
-PASS hosted: run 39390308186 on 9c155c3, backend job63s (121 tests/20.49s), frontend34s (26 tests),
-browser157s (seven tests/56.5s). Downloaded hosted browser report has 0 skipped/unexpected/flaky.
-Actual structured evidence: artifacts/github-ci-phase5.json and github-browser-phase5.json.
-
-Actual prior-phase regressions: smoke 0.609s, phase2 56.797s, phase3 57.578s, different-IP proxy
-6.297s, phase4 fault 74.672s, all PASS. Crash still physical3/logical2: exactly-once SMTP not claimed.
-Dense SQL fixture: 10000 rows / one query / 360 buckets / 0.055304s; not p95/unlimited-scale proof.
-NOT VERIFIED: sustained 50x30s, larger-history/p95, final full security audit, external TLS/mailbox delivery.
+PASS local:148 backend,0failure/skip; legacy0001/2/3/4/5 fixtures ->0006, Alembic check;
+26component,7Chromium, Ruff/format/TypeScript/ESLint/Prettier/build; actualSMTP/fault/restart/proxy.
+PASS measured steady50x30:475HTTP/results,300s, max41, scheduler steady p95~0.552s.
+PASS synthetic benchmark execution/counts/plans; warm p95<1s. First dense1.143s >target:PARTIAL.
+PASS dependency audit0known vulnerabilities and limited secret-pattern scan; not a complete guarantee.
+NOT VERIFIED: full redesign/a11y,50-fault matrix, final whole-product security/acceptance, Phase6 CI.
+Baseline4696798 hosted Actions39390995802 is SUCCESS; never call it CI evidence for new local commits.
 
 ## Current Branch
 
-feat/public-status-analytics, based on audited phase4 442496f980b7e9ef14179b1895bdcbf517f5152c.
-Private origin: https://github.com/azimkhanrazdva/servicepulse.
-Existing PRs: #1 phase2->main, #2 phase3->phase2, #3 phase4->phase3; none merged or retargeted.
-No Phase5 remote PR created. Never force-push or squash/rebase the shared dependency chain.
+feat/reliability-audit-redesign, parent4696798247feec3dab6642555cfc8794e417bfc9.
+Private origin unchanged. Existing PR#1 phase2->main,#2 phase3->phase2,#3 phase4->phase3.
+No Phase5/6 remote PR created; summaries prepared. No Phase6 upload while stage unfinished.
 
 ## Latest Commit
 
-Implementation 9c155c3335a4bf035c8a398b7b5f31a0940e16aa, 2026-10-20T08:00:13+05:00,
-feat(ui): ship public status analytics and privacy regression.
-Backend c489815, 2026-10-20T07:43:50+05:00. A docs-only hosted-evidence handoff follows;
-git log -1 resolves HEAD without a self-referential hash in this file.
+Run git log -3 --format=fuller for actual local checkpoint commits. This file is committed with
+its handoff and does not fabricate a self-referential HEAD hash. Development log records real hashes.
 
 ## Important Context
 
-No automatic publication or demo publication. Owner chooses each public label and history permission;
-public root deliberately returns404, use /status/{slug} on localhost:8081. E2E removes its own pages.
-Public history permission includes aggregate observations before publication, all configs/maintenance;
-legacy cadence stays unknown. Missing observations never become DOWN or fabricated 100% uptime.
-API/UI management 8000/8080 and Mailpit8025 are trusted-local, not public; expose only public ingress.
-Read-only DB transactions share the existing role; production privilege/ingress hardening not claimed.
-Public authorization is per request/tick; previously received bytes cannot be recalled.
-Notifications, leases/config fencing and administrative incident semantics remain phase4 contracts.
-Historical evidence: phase2-checkpoint.md, phase3-checkpoint.md, phase4-checkpoint.md, phase4-audit.md.
-No fake timestamps/tests/metrics/commits, no phase6 work, no automatic PR/merge/publication.
+Main DB/user configuration preserved; main stack8080/API8000/public8081/Mailpit8025 remains running.
+No automatic publication or public root; owner chooses page/slug/labels/history, then /status/{slug}.
+Isolated performance/benchmark/email/fault projects were removed only by their explicit project names.
+Do not use main compose down -v. Tests create/delete only their own IDs; disposable test-db can stop.
+SMTP physical duplicates remain possible after acceptance-before-ack crash; retry exhaustion is finite.
+Missing observations never become DOWN; sample uptime is distinct from observed coverage.
+Keep compatibility/public isolation/no arbitrary private targets; explicit narrow simulator exception.

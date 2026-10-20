@@ -87,3 +87,14 @@ Actual reports: artifacts/github-ci-phase5.json and github-browser-phase5.json.
 No Phase5 PR was created: pr-phase5.md prepares its summary with base feat/maintenance-email-outbox
 (dependency PR #3), not stale main. Owner authorization for prior PRs #1–#3 does not silently grant
 another PR or merge. Private visibility and original commit dates remain unchanged.
+
+## Phase6 local reliability increment —2026-10-20
+
+Discovery confirmed clean4696798, three open stacked PRs and no Phase5 PR. Actual Phase5 HEAD
+Actions39390995802 is SUCCESS, independently rechecked. Created owner-requested
+feat/reliability-audit-redesign from4696798 after git fetch origin. No old branch was rewritten.
+Phase6 is unfinished: verified logical local commits may be kept, but unfinished-stage changes
+must remain local under AGENTS.md. No Phase6 push/remote PR/merge/visibility change is performed.
+pr-phase5.md remains prepared with base feat/maintenance-email-outbox; pr-phase6.md prepares the
+later dependency on feat/public-status-analytics. Creating those new remote PRs needs specific
+owner authorization; preparing descriptions is not permission to create them.

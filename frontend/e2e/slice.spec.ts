@@ -71,7 +71,6 @@ test("mobile viewport keeps page and create form within screen", async ({
 }) => {
   const context = await browser.newContext({
     viewport: { width: 390, height: 844 },
-    isMobile: true,
   });
   const page = await context.newPage();
   try {

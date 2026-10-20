@@ -292,3 +292,33 @@ Estimates are planning ranges, not promises or hours already spent. Deadline is 
 Do not count phase 0 documentation as completed product behavior. Update evidence and row
 status after each executed test. Monthly uptime and graph gaps must use explicit coverage;
 an absence of failed samples is insufficient proof of service availability.
+
+## Phase6 current evidence amendments (not full phase completion)
+
+Historical phase-specific additions above describe their delivered checkpoints. Current baseline
+corrections: GEN-10/GRP-04 and FND-02 now include actual SMTP/outbox/maintenance/public schema;
+UI-09 includes real charts. These earlier "later" labels must not be read as current absence.
+SCN-03/04 and NTF-02/03 now include the stronger new-incident delayed-dispatcher policy in0006;
+unknown legacy eligibility is not inferred. SCN-13 has a real mixed50x30 five-minute proof with
+475 persisted observations, actual per-monitor non-overlap and slow/fast cadence. This is not the
+still-pending50-monitor fault matrix. HIS-09/SCN-15 now have repeated synthetic fleet/month
+measurements: warm p95<1s up to100k single-monitor rows, but first1.143s exceeds target;
+status remains PARTIAL for unconditional first-query latency. See phase6-performance.md.
+
+| ID | Owner/engineering criterion | Acceptance / executable verification | Current status |
+| --- | --- | --- | --- |
+| P6-REQ-01 | Audit with source provenance | Original PDF re-extracted; per-finding repro/cause/severity/fix/evidence in phase6-audit.md | PARTIAL full final audit; ten confirmed findings recorded |
+| P6-REQ-02 | Correct ACC-EMAIL-01 | Required DOWN then RECOVERY across dispatcher delay/retry/restart; no maintenance-only stale pair | PASS new-incident PostgreSQL + real phase6-email-smoke; legacy unknown boundary explicit |
+| P6-REQ-03 | Aggregate public health | Ten-case active/paused/fresh/stale/no-data table, exact privacy fields retained | PASS actual PostgreSQL tests |
+| P6-REQ-04 | Analytics edges | Manual bursts/same timestamps/legacy/exact end/coverage union | PASS new PostgreSQL regression; existing SQL preserved |
+| P6-REQ-05 | Expired preflight safety | Claim expired before HTTP never invokes checker; valid lease refreshed | PASS new regression + actual prior32s smoke |
+| P6-REQ-06 | Sustained real50x30 + resources | Five-minute isolated worker/HTTP/DB, events, CPU/RAM, latency/browser | PASS measured steady experiment; complete boundary planned/missed counters PARTIAL |
+| P6-REQ-07 | Dense monthly benchmark | Synthetic10k/100k/500k/1m fleet,100k one-service, first/warm percentiles/plans/sizes | PASS experiment; first-query budget PARTIAL |
+| P6-REQ-08 | Faults under50-monitor load | Stop/restart worker/backend/DB/simulator, manual/edit/pause/SSE cases | NOT VERIFIED as a50-monitor matrix; small-fleet current fault suites PASS |
+| P6-REQ-09 | Security acceptance | SSRF/privacy/Host/dependencies/history and production boundaries | PARTIAL independent review + regression; full final security gate pending |
+| P6-REQ-10 | Monochrome all-screen redesign | Unified tokens, all functional sections, dialogs/filters/diagnostics/public UI | TODO; baseline mobile overflow fix is not redesign |
+| P6-REQ-11 | Responsive/keyboard/a11y/visual | Four strict viewports, keyboard journey, automatic checks, actual screenshots | PARTIAL four-width50-row baseline proof; complete accessibility/design NOT VERIFIED |
+| P6-REQ-12 | Full exact-commit CI/docs/review | Local gates, final acceptance review, private completed-stage push then actual CI | PARTIAL local first-increment gates; Phase6 not uploaded/hosted/complete |
+
+Do not combine these additional owner/engineering criteria with the133 baseline as literal employer
+PDF wording. No full-product readiness percentage, exactly-once SMTP or unlimited-scale claim.

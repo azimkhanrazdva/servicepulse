@@ -1,28 +1,28 @@
 {
-  "started_at": "2026-10-20T02:39:52.925514+00:00",
+  "started_at": "2026-10-20T04:16:01.360466+00:00",
   "checks": {
     "frontend_and_database_ready": "PASS",
     "create_worker_http_persist_read": "PASS",
     "manual_queue": "PASS"
   },
   "observation": {
-    "name": "Smoke d58179fa",
+    "name": "Smoke 6b8e4d69",
     "url": "http://simulator:8090/target/smoke",
     "interval_seconds": 30,
     "timeout_seconds": 5.0,
     "expected_status": 200,
     "expected_body": "ServicePulse ready",
     "failure_threshold": 2,
-    "id": "2ad51544-fb8c-4f7d-b4d7-e33897b5a49c",
+    "id": "265e7ce1-f680-4e9c-90e1-371331981941",
     "state": "UP",
-    "last_checked_at": "2026-10-20T02:39:53.047648Z",
+    "last_checked_at": "2026-10-20T04:16:01.595960Z",
     "last_status_code": 200,
-    "last_response_ms": 5.04,
+    "last_response_ms": 6.67,
     "consecutive_failures": 0,
     "config_version": 1,
     "run_requested": false,
     "is_running": false
   },
   "result": "PASS",
-  "elapsed_seconds": 0.609
+  "elapsed_seconds": 0.641
 }

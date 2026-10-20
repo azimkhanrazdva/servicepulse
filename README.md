@@ -1,5 +1,11 @@
 # ServicePulse
 
+**Phase6 is in progress; this is not the final v0.6 release.** The first reliability increment
+fixes confirmed notification loss, expired-lease preflight and paused-public freshness; migration0006
+is additive. See [audit](docs/phase6-audit.md), [notification policy](docs/phase6-notification-policy.md),
+[performance evidence](docs/phase6-performance.md) and [remaining work](docs/progress.md).
+The complete monochrome redesign and final acceptance/security/accessibility gates remain pending.
+
 A website availability monitoring platform built for Mad Devs' Junior Agentic Developer
 take-home assignment #3. **Version 0.5 adds isolated public status pages, explicit publication controls,
 24h/7d/30d observed uptime and PostgreSQL-aggregated response charts with honest gaps.**
