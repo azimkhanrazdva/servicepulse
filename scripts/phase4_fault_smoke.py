@@ -97,6 +97,8 @@ def run(m):
 def fail(m, marker):
     control(marker, 500)
     run(m)
+    assert call(f"/monitors/{m['id']}")["state"] == "UP"
+    assert call(f"/monitors/{m['id']}/incidents")["items"] == []
     run(m)
     assert call(f"/monitors/{m['id']}")["state"] == "DOWN"
     return call(f"/monitors/{m['id']}/incidents")["items"][0]

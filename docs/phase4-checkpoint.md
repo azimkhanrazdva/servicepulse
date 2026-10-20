@@ -1,5 +1,9 @@
 # Phase 4 — maintenance and email checkpoint
 
+Historical implementation checkpoint. See the later [Phase4 audit](phase4-audit.md) for the
+owner-requested original-requirement review, 109-test regression gate and actual PR #3 status.
+The no-PR statement at the end describes the original checkpoint only.
+
 Implementation verified locally, uploaded privately and passed hosted CI on exact SHA ade9c13.
 Branch: feat/maintenance-email-outbox, based on phase3 documentation HEAD 3529b66.
 First backend checkpoint: 2a159d1, feat(notifications): add maintenance and transactional delivery outbox.

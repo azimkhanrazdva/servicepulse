@@ -68,6 +68,72 @@ async def drain(sender):
         await dispatch_one(row, sender)
 
 
+async def test_default_threshold_transient_failure_and_logical_email_pair(monkeypatch):
+    sent = []
+
+    async def sender(payload):
+        sent.append(payload)
+
+    async with api_client() as api:
+        m = await create(api)
+        assert m["failure_threshold"] == 2
+        response = await api.post(
+            "/api/groups",
+            json={"name": "Ops", "monitor_ids": [m["id"]], "recipients": ["ops@example.com"]},
+        )
+        assert response.status_code == 201
+        await sample(api, m["id"], monkeypatch, True)
+        await sample(api, m["id"], monkeypatch)
+        await drain(sender)
+        assert (await api.get(f"/api/monitors/{m['id']}")).json()["state"] == "UP"
+        assert (await api.get("/api/incidents")).json()["items"] == []
+        async with Session() as db:
+            for model in (Event, Route, Delivery):
+                assert await db.scalar(select(func.count()).select_from(model)) == 0
+        assert sent == []
+        # A success resets the streak; the next isolated failure is still transient.
+        await sample(api, m["id"], monkeypatch, True)
+        await sample(api, m["id"], monkeypatch)
+        await drain(sender)
+        assert not sent and not await records()
+        await sample(api, m["id"], monkeypatch)
+        await drain(sender)
+        assert [p["event_type"] for p in sent] == ["DOWN"]
+        for _ in range(3):
+            await sample(api, m["id"], monkeypatch)
+            await drain(sender)
+        assert len(sent) == 1
+        await sample(api, m["id"], monkeypatch, True)
+        await drain(sender)
+        await sample(api, m["id"], monkeypatch, True)
+        await drain(sender)
+        assert [p["event_type"] for p in sent] == ["DOWN", "RECOVERY"]
+        assert sent[0]["incident_id"] == sent[1]["incident_id"]
+        assert len(await records()) == 2
+
+
+async def test_permanent_smtp_rejection_is_terminal_without_false_recovery(monkeypatch):
+    calls = []
+
+    async def rejected(payload):
+        calls.append(payload)
+        raise smtplib.SMTPDataError(550, b"recipient unavailable")
+
+    async with api_client() as api:
+        m, _ = await setup(api)
+        await sample(api, m["id"], monkeypatch)
+        await drain(rejected)
+        down = (await records())[0]
+        assert down.status == "FAILED" and down.attempts == 1
+        assert down.last_error == "smtp_permanent" and down.send_started_at is None
+        await reconcile()
+        await drain(rejected)
+        await sample(api, m["id"], monkeypatch, True)
+        await drain(rejected)
+        assert len(calls) == 1
+        assert {r.status for r in await records()} == {"FAILED", "CANCELLED"}
+
+
 async def test_maintenance_crud_timezone_conflicts_and_target_cascade():
     async with api_client() as api:
         m, g = await setup(api)

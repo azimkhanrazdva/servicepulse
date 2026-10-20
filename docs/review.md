@@ -163,3 +163,14 @@ Remaining MEDIUM/LOW boundaries: no production SMTP/TLS/auth integration or rate
 exhaustion needs investigation and there is no manual retry UI; recipient local parts are case-normalized
 by declared policy; SMTP batch time can extend the 2s loop cadence; arbitrary suspension can overlap
 physical attempts; month/50-monitor/full security audit remain later phase gates. These are not hidden PASS claims.
+
+## Later owner-requested Phase4 audit
+
+See [phase4-audit.md](phase4-audit.md) for the original PDF mapping, exact attachment provenance,
+PR #3/CI checks, current 109/15/5 test gate and rerun real SMTP/process faults (78.781s).
+No confirmed BLOCKER/HIGH found within the trusted-local phase4 contract; product logic unchanged.
+Audit added default-two-failure/outbox lifecycle and permanent-550 dispatch regressions, and explicit
+first-failure assertions to the live harness. Queued-but-unattempted DOWN cancellation outside
+maintenance is a material policy limit: no guarantee of mail for every historical outage after
+dispatcher downtime. Other SMTP/exhaustion/public-deployment limits remain explicit in that report.
+This remains an implementation-agent review, not an independent human/model approval.

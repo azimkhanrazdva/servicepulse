@@ -227,6 +227,8 @@ feat/maintenance-email-outbox carries verified v0.4. Open review chain:
 [phase 3 PR #2](https://github.com/azimkhanrazdva/servicepulse/pull/2) →
 [phase 4 PR #3](https://github.com/azimkhanrazdva/servicepulse/pull/3). No merge has been performed.
 See [GitHub workflow](docs/github-workflow.md) for the authentic baseline and publication policy.
+The later [Phase 4 audit](docs/phase4-audit.md) maps original requirements to code/evidence,
+records 109 backend/15 component/5 browser checks and explicitly lists SMTP/policy limits.
 
 ## Management semantics
 

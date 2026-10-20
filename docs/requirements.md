@@ -185,8 +185,8 @@ Command results and precise limitations are in development-log.md and progress.m
 | DEL-14 | AI human responsibilities | Docs | Tool/model uncertainty/review explained | ai-development.md | PASS disclosure; exact model unknown |
 | DEL-15 | Resume context | Docs | AGENTS + requirements + progress enough to continue | docs/progress.md with continuation instructions | PASS first checkpoint |
 | DEL-16 | Genuine Git history/feature branches | Git | Logical local commits, actual timestamps, clean diff | local 4f212d9 and documentation follow-up; git log/status | PASS first checkpoint |
-| DEL-17 | Publication controlled by owner | Git | No remote push/PR/merge without consent | Private origin; owner-authorized stage pushes, no PR/merge | PASS |
-| DEL-18 | GitHub repository and real PR links | Submission | Actual published repo approved by owner | Remote link | PARTIAL: private GitHub repo published; employer access/submission pending |
+| DEL-17 | Publication controlled by owner | Git | No remote push/PR/merge without consent | Private origin; authorized stage pushes and later expressly requested PRs #1/#2/#3; no merge | PASS |
+| DEL-18 | GitHub repository and real PR links | Submission | Actual published repo approved by owner | github-workflow.md links private repo and actual PRs #1/#2/#3 | PARTIAL: repo/PRs published privately; employer access/submission pending |
 | DEL-19 | Exactly ten-sentence personal essay | Owner/docs | Owner-authored and approved final ten sentences | docs/essay.md; final count | TODO: template only |
 | DEL-20 | Attribution | Docs | Actual libraries/templates/generators identified | README attribution | PASS README attribution reviewed |
 | DEL-21 | Deadline 2026-10-26, P0 before P2 | Planning | Phase gates; no future work claims | progress + development log | IN PROGRESS |
@@ -211,12 +211,15 @@ These are owner/engineering criteria from prompts/003-phase3.md, not extra emplo
 | INC-11 | Fault fencing/worker | Old expiry return/retried completion cannot duplicate/close newer incident | DB gated races and competing claims | PASS |
 | INC-12 | Slow checks/worker | >interval HTTP has no ordinary overlap; fast target completes | Actual 32s/30s live smoke + deterministic cancellation test | PASS within documented fault model |
 | INC-13 | Restart/DB/worker | Incident ID/config survive actual restart; no gap backfill | phase3-smoke.json | PASS |
-| INC-14 | Future notifications/model | Confirmed UUID; recovered/admin closures distinct; proposed idempotent keys | ADR-009, architecture.md | PASS design only; outbox/SMTP not implemented |
+| INC-14 | Future notifications/model | Confirmed UUID; recovered/admin closures distinct; proposed idempotent keys | ADR-009, architecture.md; phase4-audit.md | PASS phase3 design; outbox/SMTP now implemented and verified phase4 |
 | INC-15 | Git/workflow | Branch from actual phase2; prepared stacked PR commands, no unauthorized PR/merge | pr-phase3.md; private push 5b43b20; hosted run 39323301037 | PASS private upload/CI; no PR/merge |
 
 ## Phase 4 owner acceptance additions
 
-Source: prompts/004-phase4.md. These extend the baseline and are owner/engineering criteria.
+These are additional engineering acceptance criteria recorded in prompts/004-phase4.md,
+not extra employer PDF obligations. Its identity with the available earlier attachment was
+verified during the later audit; see phase4-audit.md for the owner's clarification and exact hash.
+The original PDF/master prompt remain the audit baseline; no new prompt receipt is inferred.
 
 | ID | Requirement/component | Acceptance criterion | Executed evidence | Status |
 |---|---|---|---|---|
@@ -238,12 +241,12 @@ Source: prompts/004-phase4.md. These extend the baseline and are owner/engineeri
 | P4-16 | Actual Mailpit | Normal DOWN/RECOVERY received, same incident, no normal repeat | Real SMTP/API and browser receipts | PASS |
 | P4-17 | Maintenance editor/UI | Monitor/group selection, local-to-UTC time, editing and conflict draft | Component tests/browser | PASS |
 | P4-18 | Two clients/reconnect | Active/end badges and state synchronized automatically | Real maintenance browser E2E | PASS |
-| P4-19 | Regression | All original unit/component/browser scenarios retained and run | 107 backend, 15 component, original 4 browser cases + new case | PASS local |
+| P4-19 | Regression | All original unit/component/browser scenarios retained and run | phase4-audit.md: 109 backend, 15 component, 5 browser; default-2 outbox and terminal-550 regressions added | PASS local audit |
 | P4-20 | New tests | Faults actually executed, no mocked SMTP-only claim | Isolated fault report and actual Mailpit IDs | PASS |
 | P4-21 | Additive migration | Preserve existing settings/history/open/closed incidents, no mass alerts | 0003 fixture comparison, notifications_enabled=false/events=0 | PASS |
 | P4-22 | Honest docs | Contract, status, setup, limits and evidence match actual code | README/design/architecture/checkpoint review | PASS local; hosted result recorded after run |
 | P4-23 | Authentic history | Real local commits and command timestamps; no backdating | development-log.md, actual local commit 2a159d1 | PASS |
-| P4-24 | PR preparation | Correct Phase2→main, Phase3→2, Phase4→3; no unauthorized PR/merge | pr-phase4.md, gh pr list discovery | PASS prepared; no PR created |
+| P4-24 | PR preparation | Correct Phase2→main, Phase3→2, Phase4→3; no unauthorized PR/merge | Actual owner-authorized PRs #1/#2/#3; gh verifies PR #3 base feat/incident-lifecycle | PASS created on later owner request; no merge |
 | P4-25 | Critical review | No unexplained BLOCKER/HIGH; SMTP race/uncertainty explicit | review.md and actual acceptance-crash experiment | PASS reviewed local scope |
 
 ## Phase gates and effort estimates (planning ranges)

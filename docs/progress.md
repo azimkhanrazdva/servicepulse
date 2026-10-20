@@ -1,6 +1,8 @@
 # ServicePulse progress — phase 4
 
 Current checkpoint: [v0.4 maintenance/email](phase4-checkpoint.md), verified and uploaded privately; hosted CI PASS.
+Later [Phase 4 audit](phase4-audit.md): local gate PASS, 109 backend/15 component/5 browser;
+documented policy limits retained. Phase 5 awaits a separate owner command.
 Prior [v0.3 incidents](phase3-checkpoint.md), [v0.2 management](phase2-checkpoint.md) and v0.1 are historical.
 Current branch is feat/maintenance-email-outbox, based on phase3 HEAD 3529b66.
 
@@ -21,12 +23,14 @@ Current branch is feat/maintenance-email-outbox, based on phase3 HEAD 3529b66.
   live filtered journal and SSE reconnect. Actual restart/lease/gap and 32s slow HTTP verified.
 - Phase4: UTC maintenance CRUD/UI/SSE, event/route/address outbox, leased SMTP dispatcher/reconciliation,
   real Mailpit delivery/dedup/backoff, isolated SMTP/DB/process fault evidence and legacy migration preservation.
+- Later owner-requested Phase4 audit: original PDF rechecked, code/0004/PR/CI reviewed, prompt attachment
+  identity verified, default-2 notification and permanent-550 regressions added; live fault/browser suites rerun.
 
 ## In Progress
 
-Phase4 local implementation/review verified: 107 backend, 15 component, 5 browser tests;
-actual isolated SMTP/DB/acceptance-crash suite and all prior smoke scenarios passed.
-Implementation ade9c13 uploaded; hosted run 39379923079 passed both jobs. Waiting for owner review.
+Phase4 implementation and subsequent local audit verified. Audit: 109 backend (20.33s),
+15 component and 5 browser (17.0s), actual isolated fault suite (78.781s). Product logic unchanged.
+Waiting for owner review; audit follow-up uploads to existing PR #3 under verified-stage authorization.
 Owner subsequently authorized PRs for completed phases 2–4; all three are now open (see below).
 No phase5 or merge authorization inferred. Stop at completed stage4 checkpoint.
 
@@ -39,6 +43,8 @@ submission inputs, not blockers for current implementation. No credentials belon
 ## Next Tasks
 
 1. Owner reviews completed stage4 before explicitly requesting phase5.
+   Read phase4-audit.md: queued/unattempted DOWN cancellation, finite retries and SMTP authorization limits
+   are explicit policies, not guarantees of mail for every historical incident after any dispatcher outage.
 2. Review [phase2 #1](https://github.com/azimkhanrazdva/servicepulse/pull/1),
    [phase3 #2](https://github.com/azimkhanrazdva/servicepulse/pull/2),
    [phase4 #3](https://github.com/azimkhanrazdva/servicepulse/pull/3), created on the subsequent explicit owner request.
@@ -51,6 +57,12 @@ submission inputs, not blockers for current implementation. No credentials belon
 7. Phase 7: audit all pending requirements, owner essay (exactly ten sentences), approve publication.
 
 ## Verification Status
+
+Current local audit: 109 PostgreSQL tests, migration preservation/metadata PASS; 15 component tests,
+typecheck/lint/format/build/audit PASS (0 npm findings); 5 browser PASS, no skips/flakes;
+isolated real fault suite PASS 78.781s. See artifacts/phase4-audit.json and phase4-audit.md.
+Initial PR #3 exact e03f5ed CI 39381498023 PASS (107 backend, 15 component). Workflow does not
+run browser or isolated process-fault suite; those were executed locally. New audit commit CI is separate.
 
 Later PR-creation verification: all three initial pull_request CI runs PASS:
 [phase2](https://github.com/azimkhanrazdva/servicepulse/actions/runs/39381266717),
@@ -96,6 +108,9 @@ origin: https://github.com/azimkhanrazdva/servicepulse (private).
 main and first-slice branch remain at bd43629. PRs #1–#3 open; no merge.
 
 ## Latest Commit
+
+Audit follows e03f5ed (docs: record stacked review PRs for completed stages).
+`git log -1` resolves its eventual audit commit without a self-referential hash in this file.
 
 Phase4 implementation: ade9c13b470dc02a9437d488b724b7a05eb54417 —
 feat(ui): manage maintenance and verify notification failure recovery, 2026-10-20T06:21:35+05:00.

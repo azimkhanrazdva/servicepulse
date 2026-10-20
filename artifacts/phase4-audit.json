@@ -1,0 +1,62 @@
+{
+  "recorded_at": "2026-10-20T07:14:27.3479611+05:00",
+  "audited_head": "e03f5edf6c4a2160e10f44c740f01b899f9e08b0",
+  "status": "PASS_LOCAL_PHASE4_GATE_WITH_DOCUMENTED_LIMITS",
+  "backend": {
+    "tests": 109,
+    "seconds": 20.318,
+    "report": "artifacts/backend-tests.xml",
+    "failures": 0,
+    "skipped": 0
+  },
+  "frontend": {
+    "passed": 15,
+    "evidence": "Actual npm test console in audit session; historical frontend-tests.json was not regenerated"
+  },
+  "browser": {
+    "startTime": "2026-10-20T02:10:09.634Z",
+    "duration": 17027.307999999997,
+    "expected": 5,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "fault": {
+    "started_at": "2026-10-20T07:10:22.487973+05:00",
+    "project": "servicepulse-phase4-fault",
+    "checks": {
+      "real_smtp_down_recovery_shared_address_dedup": "PASS",
+      "maintenance_keeps_checks_and_down_releases_without_new_result": "PASS",
+      "previous_down_recovery_deferred_until_maintenance_ends": "PASS",
+      "recovered_inside_window_no_stale_pair": "PASS",
+      "real_smtp_outage_retry_and_dispatcher_worker_restart": "PASS",
+      "isolated_postgres_outage_recovery_no_fake_observations": "PASS",
+      "crash_after_acceptance_before_ack_lease_recovery_and_order": "PASS"
+    },
+    "normal_messages": [
+      {
+        "id": "AAC4ervRNELFiKfeVGHHkD",
+        "subject": "ServicePulse RECOVERY: phase4-d8f56751-normal"
+      },
+      {
+        "id": "6D2qV6yVoQWrCY853GDfgA",
+        "subject": "ServicePulse DOWN: phase4-d8f56751-normal"
+      }
+    ],
+    "retry_attempts": 2,
+    "acceptance_crash_physical_messages": 3,
+    "acceptance_crash_logical_deliveries": 2,
+    "status": "PASS",
+    "elapsed_seconds": 78.781
+  },
+  "source_attachment_sha256": "25b32eb6eb718ee0dd56f6723b5aef524d1b47a90968eef19e7d0718075c5148",
+  "initial_pr3_ci": {
+    "frontend": 15,
+    "conclusion": "success",
+    "run": 39381498023,
+    "backend": 107,
+    "head": "e03f5ed"
+  },
+  "phase5_started": false,
+  "product_logic_changed": false
+}

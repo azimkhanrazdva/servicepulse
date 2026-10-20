@@ -481,3 +481,65 @@ author identity was configured (exit 128); nothing was committed or pushed by th
 Existing history/log explicitly uses Codex Agent <codex-agent@localhost> per command, so the
 retry uses `git -c user.name='Codex Agent' -c user.email=codex-agent@localhost commit ...`.
 No global Git identity or human authorship is invented.
+
+## Owner-requested Phase4 audit — 2026-10-20T07:14:28.1622250+05:00
+
+First recorded audit clock: 2026-10-20T07:06:39.2780462+05:00. Prompt preserved as
+prompts/006-phase4-audit.md. Clean starting HEAD e03f5edf6c4a2160e10f44c740f01b899f9e08b0,
+feat/maintenance-email-outbox. No phase5 work requested or begun. Read AGENTS/requirements/
+architecture/progress, original PDF common rules and task3, 0004 migration, models, maintenance,
+notifications, dispatcher, worker/lifecycle, routing, React maintenance/SSE and tests/fault harness/CI.
+Read skill guidance; used minimal existing patterns rather than rewriting working product components.
+
+Owner clarified no separate detailed phase4 prompt. Did not overwrite history or invent receipt:
+Get-FileHash found existing 004-phase4.md and available previous attachment
+b42112d7-bbcc-40b8-a253-e31e87472024/Pasted text.txt byte-identical, SHA-256
+25b32eb6eb718ee0dd56f6723b5aef524d1b47a90968eef19e7d0718075c5148.
+git log shows first tracked in real 2a159d1. Later audit records only these facts and uses the
+original PDF/master prompt as baseline. First pypdf console extraction failed cp1251 encoding;
+`python -X utf8 -c ...` successfully extracted/normalized task3 text. No PDF modified.
+
+`gh pr view 3 --json ...`: OPEN, MERGEABLE, base feat/incident-lifecycle, head e03f5ed,
+reviews=[]; attached existing PR to task. `gh run view 39381498023 --json ...` and `--log`
+verified success on exact e03f5ed, 107 backend tests in 11.89s, 15 frontend, migration preservation,
+lint/types/format/build/audit. This workflow does not run real browser or isolated process-fault suites.
+No reviewer approval, merge or public visibility inferred from green CI.
+
+Actual local commands/results:
+- docker compose ps: existing services running; working DB SELECT alembic_version -> 0004.
+- docker compose --profile test run --rm --build tests: 107 passed in 17.16s, fixtures 0001/2/3
+  through head and Alembic metadata check passed. Disposable test-db only, application DB not reset.
+- From frontend, npm test: 15 passed (5 files, 26.29s); npm run typecheck, lint, format:check,
+  build all exited 0. npm audit initially executed from root failed ENOLOCK; correct frontend
+  directory run exited 0, found 0 vulnerabilities. No new lockfile or dependency added.
+- python scripts/phase4_fault_smoke.py initial repeat PASS 78.468s: seven real SMTP/DB/process
+  scenarios; normal one DOWN/one RECOVERY, retry attempts=2, acceptance crash 3 physical/2 logical.
+
+Review found LOW evidence gap: notification fixtures usually used threshold=1. Added integrated
+test_default_threshold_transient_failure_and_logical_email_pair (default2, streak reset, zero
+incident/event/route/delivery on first error, repeated outage no duplicate, same-incident recovery).
+Added test_permanent_smtp_rejection_is_terminal_without_false_recovery (550 -> FAILED, no retry,
+no recovery message for rejected DOWN). Added real first-error UP/no-incident assertions in live
+fault harness. No application code or old migration changed; no tests deleted/weakened.
+
+`ruff check backend scripts/phase4_fault_smoke.py` and `ruff format --check ...`: PASS.
+Rebuilt Docker tests after additions: 109 passed in 20.33s, no skips; migrations/metadata PASS.
+`npm run test:e2e`: all 5 passed in 17.0s, including maintenance CRUD/two clients/offline reconnect/
+real SMTP release and all four existing browser cases. New reports record actual IDs/times.
+Final live fault rerun with added transient assertion: PASS 78.781s; all seven scenario groups,
+retry attempts=2, acceptance crash 3 physical/2 logical. Isolated stack and its own volume removed
+by the existing harness. Restored only test-generated screenshot churn to baseline because no UI
+code changed; new browser JSON and Mailpit receipts retained. Stopped disposable test-db afterward.
+
+Audit report phase4-audit.md maps original requirements/18 scenarios and limitations. Machine report
+artifacts/phase4-audit.json asserts current backend XML counts, browser stats and live-fault PASS;
+frontend count cites actual console, not stale historical frontend-tests.json. Earlier versions of
+overwritten report files remain in real Git history. Updated requirements/progress/checkpoint links/
+prompt provenance/README/review, retaining prior historical log entries. No confirmed BLOCKER/HIGH
+in local phase4 scope. Explicit MEDIUM limits: unattempted DOWN cancels on quick recovery even
+outside maintenance; bounded retry exhaustion; in-flight authorization/SMTP ambiguity; no production
+TLS/auth/mailbox claim. Public page/privacy, month charts/uptime and sustained 50x30 remain TODO.
+
+Next: review staged diff, commit/push audit follow-up to existing private PR #3 under standing
+verified-stage upload authorization, inspect new hosted CI, then stop for owner review. No new PR,
+merge, history rewrite, architectural replacement or phase5 implementation authorized/performed.
