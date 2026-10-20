@@ -77,7 +77,11 @@ Transactional outbox, UUID leases, конкретный порог 2 и API CRUD
 [PR CI 39381498023](https://github.com/azimkhanrazdva/servicepulse/actions/runs/39381498023)
 прошёл для точного e03f5ed: 107 backend (11,89 с), 15 frontend, migrations/lint/format/types/build/audit.
 Браузерный E2E и изолированные процессные fault-сценарии выполняются локально, не в этом workflow.
-Новый audit-коммит будет отправлен в ту же ветку; последующие checks проверяются отдельно.
+Audit-коммит `fd3663505e0c8173eb521cf1c4a9bda9879def14` отправлен в ту же ветку;
+[новый PR CI 39385378283](https://github.com/azimkhanrazdva/servicepulse/actions/runs/39385378283)
+PASS: backend job 47 с (109 тестов, 10,53 с), frontend job 29 с (15 тестов), остальные steps PASS.
+Raw response: `artifacts/github-ci-phase4-audit.json`. Последующая запись этих результатов
+меняет только документы/отчёты; отдельные локальные тесты не выдаются за CI E2E.
 Репозиторий приватный; merge, изменение bases и публичная публикация не выполнялись.
 
 ## Найденные недоработки и ограничения

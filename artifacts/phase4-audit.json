@@ -58,5 +58,11 @@
     "head": "e03f5ed"
   },
   "phase5_started": false,
-  "product_logic_changed": false
+  "product_logic_changed": false,
+  "audit_commit_ci": {
+    "run": 39385378283,
+    "conclusion": "success",
+    "report": "artifacts/github-ci-phase4-audit.json",
+    "head": "fd3663505e0c8173eb521cf1c4a9bda9879def14"
+  }
 }
