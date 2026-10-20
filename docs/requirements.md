@@ -72,24 +72,24 @@ Command results and precise limitations are in development-log.md and progress.m
 | UI-02 | HTTP response code | UI/API | Real nullable status shown | frontend test; smoke | PASS component/API |
 | UI-03 | Response time | UI/API | Real latency shown, no invented fallback | frontend test; smoke | PASS component/API |
 | UI-04 | Last check timestamp | UI/API | Actual timestamp visible in local time | component test; smoke | PASS component/API |
-| UI-05 | Current outage duration | UI/API | Open incident duration ticks | IncidentsPanel clock test + incidents.spec.ts | PASS live journal |
+| UI-05 | Current outage duration | UI/API | Open incident duration ticks | IncidentsPanel/OutageDuration clock tests and live dashboard E2E | PASS journal/dashboard phase5 |
 | UI-06 | State transition history | UI/API/DB | Recorded transitions visible | Incident journal + observation history | PARTIAL: confirmed DOWN/closure; full state timeline later |
 | UI-07 | Total/UP/DOWN/paused summary | UI | Counts from API only | Frontend test and browser | PARTIAL: derived counts, cap 500 |
-| UI-08 | Active incidents/defined aggregate uptime | UI/API | Real incident count; uptime explained | E2E | TODO |
+| UI-08 | Active incidents/defined aggregate uptime | UI/API | Real incident count; uptime explained | Live SQL count + dashboard E2E; optional fleet uptime omitted | PASS active count; per-monitor observed uptime disclosed |
 | UI-09 | Monitor details | UI | Config + recent actual checks | History UI/browser | PASS config editor + real observation history; incidents via journal filter, charts pending |
 | UI-10 | Loading/error/empty states | UI | Clear states and usable form on failure | frontend tests | PASS component tests |
 | UI-11 | Every visible control works | UI | No dead navigation or fake metrics | artifacts/browser-tests.json + screenshot review | PASS current controls |
 | UI-12 | Desktop/mobile accessibility | UI | No viewport overflow; keyboard labels/focus | Playwright desktop/mobile + labeled forms/focus review | PARTIAL: keyboard-only audit pending |
-| UI-13 | All required screens | UI | Dashboard, monitors, details, groups, incidents, maintenance, notifications, public | Browser E2E | PARTIAL: first three |
-| HIS-01 | Response-time chart | UI/API | Bounded real time series | Chart E2E | TODO |
-| HIS-02 | Uptime 24h | API/UI | Documented sample denominator + coverage | Seeded aggregate test | TODO |
-| HIS-03 | Uptime 7d | API/UI | Correct week bounds/coverage | Seeded aggregate test | TODO |
-| HIS-04 | Uptime 30d | API/UI | Correct month bounds/coverage | Seeded aggregate test | TODO |
+| UI-13 | All required screens | UI | Dashboard, monitors, details, groups, incidents, maintenance, notifications, public | Functional sections/details plus separate public route; notifications reuse group recipient editor | PASS functional views |
+| HIS-01 | Response-time chart | UI/API | Bounded real time series | AnalyticsPanel tests + real public.spec.ts bars/gaps/table | PASS phase5 |
+| HIS-02 | Uptime 24h | API/UI | Documented sample denominator + coverage | PostgreSQL aggregate + browser + dashboard overview | PASS phase5 |
+| HIS-03 | Uptime 7d | API/UI | Correct week bounds/coverage | Period-parametrized PostgreSQL test + browser | PASS phase5 |
+| HIS-04 | Uptime 30d | API/UI | Correct month bounds/coverage | Dense SQL fixture, bounds/gaps and real 30d chart | PASS phase5 |
 | HIS-05 | Incident journal | DB/API/UI | Persisted open/closed incidents listed | test_incident_threshold_recovery_timestamps_and_pagination; incidents.spec.ts | PASS phase3 |
 | HIS-06 | Incident start | DB/API/UI | Threshold transition timestamp stored | Clock-controlled threshold test | PASS phase3 |
 | HIS-07 | Incident recovery | DB/API/UI | First successful observation closes | Lifecycle DB + live phase3-smoke.json | PASS phase3 |
 | HIS-08 | Incident duration | API/UI | Recovery-start or now-start | Clock-controlled DB/component tests + two-client E2E | PASS phase3 |
-| HIS-09 | Fast monthly history | DB/API | Bounded bucket response; measured p95 under 1s locally | Real seeded month benchmark | TODO |
+| HIS-09 | Fast monthly history | DB/API | Bounded bucket response; measured p95 under 1s locally | 10000 rows / one SQL / 360 buckets / 0.055304s single measurement | PARTIAL: p95/larger-dataset gate remains phase6 |
 
 ## Maintenance and email (P0)
 
@@ -116,17 +116,17 @@ Command results and precise limitations are in development-log.md and progress.m
 
 | ID | Requirement | Component | Acceptance criteria | Verification | Status |
 |---|---|---|---|---|---|
-| PUB-01 | Link without login | API/UI | Dedicated status page route | Browser E2E | TODO |
-| PUB-02 | Automatic updates | API/UI/SSE | Page changes with worker result | Two-client browser test | TODO |
-| PUB-03 | Owner controls publication | API/DB/UI | Explicit visibility opt-in | Projection integration | TODO |
-| PUB-04 | No hidden data leaks | Public API | No URLs/recipients/errors/config/private names | Payload/route privacy tests | TODO |
+| PUB-01 | Link without login | API/UI | Dedicated status page route | Real /status/{slug} on public-only 8081, no credentials | PASS phase5 |
+| PUB-02 | Automatic updates | API/UI/SSE | Page changes with worker result | Two real public clients, worker DOWN/UP/reconnect | PASS phase5 |
+| PUB-03 | Owner controls publication | API/DB/UI | Explicit visibility opt-in | Disabled/empty default, explicit labels/history, live revocation | PASS phase5 |
+| PUB-04 | No hidden data leaks | Public API | No URLs/recipients/errors/config/private names | Exact keys/sentinels/route-method isolation, safe SSE, generic errors | PASS tested public surface; final security review later |
 
 ## Mandatory behavioral scenarios (P0, individually traceable)
 
 | ID | Scenario | Component | Acceptance criteria | Verification | Status |
 |---|---|---|---|---|---|
 | SCN-01 | Dashboard updates without reload | SSE/UI | Worker result appears automatically | artifacts/browser-tests.json | PASS first slice |
-| SCN-02 | Public page updates without reload | Public/UI | Worker result appears automatically | Browser E2E | TODO |
+| SCN-02 | Public page updates without reload | Public/UI | Worker result appears automatically | public.spec.ts two real clients and worker DOWN/UP/reconnect | PASS phase5 |
 | SCN-03 | DOWN causes email | Incident/outbox | Mailpit captures DOWN | phase4-fault.json + phase4-browser-mail.json | PASS phase4 Mailpit |
 | SCN-04 | Recovery causes email | Incident/outbox | Mailpit captures recovery | phase4-fault.json + phase4-browser-mail.json | PASS phase4 Mailpit |
 | SCN-05 | Continuous outage no repeat | Outbox | Many failures yield one DOWN event | Repeated actual failures retain one DOWN message and one event/address | PASS logical/normal SMTP path; crash duplicate documented |
@@ -139,10 +139,10 @@ Command results and precise limitations are in development-log.md and progress.m
 | SCN-12 | Slow check never overlaps itself | Scheduler | One lease and bounded HTTP across interval | phase3-smoke.json: real 32s HTTP / 30s interval; lease race tests | PASS within documented lease fault model; arbitrary suspension beyond expiry excluded |
 | SCN-13 | 50 checks every 30s | Worker/API | Three cycles; record counts/cadence/late/missed/concurrency/UI latency | Load report | TODO |
 | SCN-14 | One slow target does not delay others | Worker | Fast checks complete before slow target | phase3-smoke.json: fast result during real 32s request | PASS phase3 mixed pair; 50-load separate |
-| SCN-15 | Fast month history | API/DB | Defined budget measured on real large dataset | Seeded benchmark | TODO |
-| SCN-16 | Public page hides private data | Public API/UI | Inspect payload, SSE and rendered DOM | Privacy integration/E2E | TODO |
+| SCN-15 | Fast month history | API/DB | Defined budget measured on real large dataset | Bounded SQL, 10000-row fixture single measurement | PARTIAL: full performance gate phase6 |
+| SCN-16 | Public page hides private data | Public API/UI | Inspect payload, SSE and rendered DOM | DB allowlist + native public SSE and real DOM/route E2E | PASS phase5 |
 | SCN-17 | Restart preserves config/scheduling | Worker/DB | Same monitor/settings and resumed checks after actual restart | phase2/phase3-smoke.json | PASS actual restart for monitors/groups/incidents |
-| SCN-18 | Server downtime is observation gap | History/state | No synthetic failure rows/incidents | phase3-smoke.json stopped-worker assertions | PARTIAL: DB gap verified; chart not implemented |
+| SCN-18 | Server downtime is observation gap | History/state | No synthetic failure rows/incidents | Rerun phase3 gap; SQL gap/legacy tests; real NO_DATA chart and periodic refresh regression | PASS phase5 combined evidence |
 
 ## Reliability/security (P1)
 
@@ -259,7 +259,7 @@ Detailed implementation contract: phase5-design.md. Individual local evidence do
 | P5-01 | Real starting point/Git | Clean audited v0.4 HEAD, exact requested branch, prior refs retained | git fetch/status/branch/PR discovery in development-log | PASS |
 | P5-02 | Additive persistence | 0004 data unchanged, no automatic publication/cadence reconstruction | 0004 fixture -> 0005 exact row comparison + metadata check | PASS local |
 | P5-03 | Explicit publication | Disabled page/empty publications by default, separate public labels, history extra opt-in | DB CRUD, browser UI selection | PASS local |
-| P5-04 | Management consistency | Version conflicts preserve drafts and monitor config/incidents unaffected | Parallel edit 200/409 and browser config_version=1 assertion | PASS backend/browser; component draft case pending |
+| P5-04 | Management consistency | Version conflicts preserve drafts and monitor config/incidents unaffected | Parallel 200/409, publication draft component test, browser monitor version=1 | PASS local |
 | P5-05 | Separate public entrypoint | No management routes/docs/OpenAPI or mutations through public ASGI/nginx | Complete route/method privacy tests + public Docker asset inventory | PASS local |
 | P5-06 | Safe projection | No private URL/name/ID/group/recipient/body/errors/leases/outbox fields | Exact DTO keys + sentinel REST/SSE assertions | PASS local |
 | P5-07 | Public realtime | Two independent clients reflect real worker DOWN/UP without reload | public.spec.ts real browser | PASS initial browser |
@@ -270,7 +270,7 @@ Detailed implementation contract: phase5-design.md. Individual local evidence do
 | P5-12 | Charts/accessibility | Real bucket means, explicit NO DATA, accessible aggregate table | Component zero-vs-null test + browser chart/mobile assertions | PASS local |
 | P5-13 | Local failures | Loading/errors/retry; no stale public restoration after unavailable/disconnect | PublicApp/AnalyticsPanel component tests | PASS local |
 | P5-14 | No Phase4 policy rewrite | Carry queued DOWN issue to final acceptance review | ACC-EMAIL-01; notifications/dispatcher diff remains empty | PASS recorded; acceptance risk OPEN |
-| P5-15 | Full regression | All prior backend/component/browser and live smoke/fault scenarios retained | Full local suites, phase1/2/3/proxy/4 live reports | IN PROGRESS |
+| P5-15 | Full regression | All prior backend/component/browser and live smoke/fault scenarios retained | 121 backend, 26 component, 7 browser, phase1/2/3/proxy/4 real reruns | PASS local |
 | P5-16 | Hosted CI | Python + UI + actual Compose browser job successful on published implementation | GitHub Actions exact commit run | NOT VERIFIED yet |
 | P5-17 | Review/docs/checkpoint | Privacy/races/query review, README/progress/evidence, real commits, stop before Phase6 | Review/checkpoint/log | IN PROGRESS |
 

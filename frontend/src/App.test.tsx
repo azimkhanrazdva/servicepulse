@@ -105,7 +105,8 @@ it("creates a monitor using real form values", async () => {
   });
   fireEvent.click(screen.getByRole("button", { name: "Create monitor" }));
   await screen.findByRole("button", { name: "Test API" });
-  await waitFor(() => expect(fetcher).toHaveBeenCalledTimes(5));
+  // Publication settings and dashboard aggregates add two GETs; POST is still checked below.
+  await waitFor(() => expect(fetcher).toHaveBeenCalledTimes(7));
   const posted = fetcher.mock.calls.find((call) => call[1]?.method === "POST")!;
   expect(JSON.parse(posted[1].body)).toMatchObject({
     interval_seconds: 30,

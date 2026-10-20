@@ -2,12 +2,12 @@
 
 Owner accepted audited v0.4 and authorized Phase5. Active branch feat/public-status-analytics
 starts at audited 442496f. Current work: publication isolation/permissions, analytics and UI.
-Local backend 119 PASS; component 22 PASS; initial full browser 6 PASS. Final regression/CI pending.
+Local backend 121 PASS; component 26 PASS; final full browser 7 PASS (18.5s). Local regression PASS; hosted CI pending.
 No Phase6, merge, new PR or public repository permission inferred.
 
 Current checkpoint: [v0.4 maintenance/email](phase4-checkpoint.md), verified and uploaded privately; hosted CI PASS.
 Later [Phase 4 audit](phase4-audit.md): local gate PASS, 109 backend/15 component/5 browser;
-documented policy limits retained. Phase 5 awaits a separate owner command.
+documented policy limits retained. That historical checkpoint preceded the explicit Phase5 command.
 Prior [v0.3 incidents](phase3-checkpoint.md), [v0.2 management](phase2-checkpoint.md) and v0.1 are historical.
 Historical v0.4 branch is feat/maintenance-email-outbox, based on phase3 HEAD 3529b66.
 
@@ -58,7 +58,8 @@ submission inputs, not blockers for current implementation. No credentials belon
    After separately authorized merges, retarget the next PR to main; retain dependency commits
    with merge commits rather than squash/rebase to avoid replaying earlier phase diffs.
 4. Maintenance/outbox policy remains unchanged; ACC-EMAIL-01 is open in final-acceptance-issues.md.
-5. Phase 5: remaining UI, coverage-aware uptime/charts, public projection and privacy tests.
+5. Phase 5 implemented: observed analytics/charts, isolated public projection/permissions/SSE/privacy,
+   dashboard uptime/current outage/active count; finalize hosted CI and owner handoff.
 6. Phase 6: sustained 50 monitors / 30s, actual restarts, month history benchmark and final review.
 7. Phase 7: audit all pending requirements, owner essay (exactly ten sentences), approve publication.
 

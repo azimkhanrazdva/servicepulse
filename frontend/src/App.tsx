@@ -6,6 +6,9 @@ import { GroupsPanel } from "./GroupsPanel";
 import { IncidentsPanel } from "./IncidentsPanel";
 import { MaintenancePanel } from "./MaintenancePanel";
 import type { MaintenanceSnapshot } from "./MaintenancePanel";
+import { AnalyticsPanel } from "./AnalyticsPanel";
+import { PublicationPanel } from "./PublicationPanel";
+import { OutageDuration } from "./OutageDuration";
 
 type Result = {
   id: string;
@@ -17,6 +20,14 @@ type Result = {
 };
 
 export function App() {
+  const [overview, setOverview] = useState<{
+    active_incidents: number;
+    opened_at: Record<string, string>;
+  } | null>(null);
+  const [uptime, setUptime] = useState<
+    Record<string, { samples: number; percent: number }>
+  >({});
+  const [overviewError, setOverviewError] = useState("");
   const [monitors, setMonitors] = useState<Monitor[]>([]);
   const [loading, setLoading] = useState(true);
   const [connection, setConnection] = useState("Connecting");
@@ -38,6 +49,37 @@ export function App() {
     active_monitor_ids: [],
     active_group_ids: [],
   });
+
+  useEffect(() => {
+    let active = true;
+    const load = () =>
+      request<{
+        active_incidents: number;
+        opened_at: Record<string, string>;
+        uptime_24h: Record<string, { samples: number; percent: number }>;
+      }>("/overview")
+        .then((data) => {
+          if (active) {
+            setOverview((previous) => previous ?? data);
+            setUptime(data.uptime_24h ?? {});
+            setOverviewError("");
+          }
+        })
+        .catch((e) => {
+          if (active) {
+            setUptime({});
+            setOverviewError(e.message);
+          }
+        });
+    void load();
+    window.addEventListener("online", load);
+    const timer = setInterval(load, 30000);
+    return () => {
+      active = false;
+      clearInterval(timer);
+      window.removeEventListener("online", load);
+    };
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -70,6 +112,13 @@ export function App() {
           setMaintenanceRevision((v) => v + 1);
         } catch {
           setError("Could not read maintenance update.");
+        }
+      });
+      events.addEventListener("overview", (event) => {
+        try {
+          setOverview(JSON.parse((event as MessageEvent).data));
+        } catch {
+          setOverviewError("Could not read incident summary.");
         }
       });
       events.addEventListener("incidents", () =>
@@ -233,12 +282,14 @@ export function App() {
           </a>
           <a href="#incidents">Incident journal</a>
           <a href="#maintenance">Maintenance</a>
+          <a href="#publication">Public status pages</a>
+          <a href="#groups">Notification settings</a>
         </nav>
         <a className="group-nav" href="#groups">
           Groups
         </a>
         <div className="sidebar-note">
-          <span className="tag">ALERTS / V0.4</span>
+          <span className="tag">STATUS / V0.5</span>
           <p>
             Real checks.
             <br />
@@ -247,7 +298,7 @@ export function App() {
           <small>Local SMTP alerts with scheduled maintenance.</small>
         </div>
         <footer>
-          ServicePulse <span>v0.4</span>
+          ServicePulse <span>v0.5</span>
         </footer>
       </aside>
       <main id="overview">
@@ -343,7 +394,19 @@ export function App() {
               </small>
             </article>
           ))}
+          <article>
+            <span>Active incidents</span>
+            <strong className={overview?.active_incidents ? "red" : ""}>
+              {overview?.active_incidents ?? "—"}
+            </strong>
+            <small>Confirmed and still open</small>
+          </article>
         </section>
+        {overviewError && (
+          <p className="error" role="alert">
+            Dashboard analytics: {overviewError}
+          </p>
+        )}
         <section className="panel" id="monitors">
           <div className="section-heading">
             <div>
@@ -369,6 +432,8 @@ export function App() {
                   <th>HTTP</th>
                   <th>Response</th>
                   <th>Last checked</th>
+                  <th>24h observed uptime</th>
+                  <th>Current outage</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -410,6 +475,24 @@ export function App() {
                       {m.last_checked_at
                         ? new Date(m.last_checked_at).toLocaleTimeString()
                         : "Awaiting first check"}
+                    </td>
+                    <td
+                      title={
+                        uptime[m.id]
+                          ? `${uptime[m.id].samples} observed checks; sample-based, refreshes every 30s`
+                          : "No observed samples available"
+                      }
+                    >
+                      {uptime[m.id]
+                        ? `${uptime[m.id].percent.toFixed(2)}%`
+                        : "NO DATA"}
+                    </td>
+                    <td>
+                      {m.state === "DOWN" ? (
+                        <OutageDuration started={overview?.opened_at?.[m.id]} />
+                      ) : (
+                        "—"
+                      )}
                     </td>
                     <td>
                       <button
@@ -495,6 +578,10 @@ export function App() {
               </div>
               <button onClick={() => setSelected(null)}>Close details</button>
             </div>
+            <AnalyticsPanel
+              base={`/api/monitors/${current.id}/analytics`}
+              revision={current.last_checked_at}
+            />
             <h3>Recent observations</h3>
             {historyLoading ? (
               <p>Loading history…</p>
@@ -529,11 +616,12 @@ export function App() {
               </div>
             )}
             <p className="subtle">
-              Most recent 100 checks. Monthly charts are not available in this
-              checkpoint.
+              Most recent 100 raw checks. Charts above aggregate the full
+              selected period in PostgreSQL.
             </p>
           </section>
         )}
+        <PublicationPanel monitors={monitors} />
         <IncidentsPanel revision={incidentRevision} monitors={monitors} />
         <MaintenancePanel
           monitors={monitors}

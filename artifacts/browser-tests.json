@@ -17,7 +17,7 @@
     "grepInvert": null,
     "maxFailures": 0,
     "metadata": {
-      "actualWorkers": 4
+      "actualWorkers": 5
     },
     "preserveOutput": "always",
     "projects": [
@@ -26,7 +26,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 4
+          "actualWorkers": 5
         },
         "id": "",
         "name": "",
@@ -46,7 +46,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 4
+          "actualWorkers": 5
         },
         "name": "",
         "testDir": "C:\\Users\\sayo\\Documents\\Codex\\2026-10-19\\master-prompt-mad-devs-junior-agentic\\frontend\\e2e",
@@ -111,7 +111,7 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 8283,
+                  "duration": 6485,
                   "errors": [],
                   "stdout": [],
                   "stderr": [
@@ -126,7 +126,7 @@
                     }
                   ],
                   "retry": 0,
-                  "startTime": "2026-10-20T02:10:10.646Z",
+                  "startTime": "2026-10-20T02:56:00.764Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -163,7 +163,7 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 14851,
+                  "duration": 17096,
                   "errors": [],
                   "stdout": [],
                   "stderr": [
@@ -178,7 +178,7 @@
                     }
                   ],
                   "retry": 0,
-                  "startTime": "2026-10-20T02:10:10.646Z",
+                  "startTime": "2026-10-20T02:56:00.765Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -215,12 +215,12 @@
                   "workerIndex": 2,
                   "parallelIndex": 2,
                   "status": "passed",
-                  "duration": 15420,
+                  "duration": 15633,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-20T02:10:10.664Z",
+                  "startTime": "2026-10-20T02:56:00.763Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -231,6 +231,96 @@
           "id": "a9916703f81b98e496f1-ba063f7892e7722b223e",
           "file": "management.spec.ts",
           "line": 3,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "public.spec.ts",
+      "file": "public.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "explicit publication, private REST/SSE isolation, real analytics and two public clients",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 15640,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "buffer": ""
+                    },
+                    {
+                      "buffer": ""
+                    },
+                    {
+                      "buffer": ""
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-20T02:56:00.812Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "349fc90c6061c792a808-04942dcc560d376c13bf",
+          "file": "public.spec.ts",
+          "line": 24,
+          "column": 1
+        },
+        {
+          "title": "a published paused service with no observations renders NO DATA, not healthy history",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 999,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "buffer": ""
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-20T02:56:16.809Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "349fc90c6061c792a808-608fcf27ace0dbe42f59",
+          "file": "public.spec.ts",
+          "line": 313,
           "column": 1
         }
       ]
@@ -254,15 +344,15 @@
               "projectName": "",
               "results": [
                 {
-                  "workerIndex": 3,
-                  "parallelIndex": 3,
+                  "workerIndex": 4,
+                  "parallelIndex": 4,
                   "status": "passed",
-                  "duration": 5496,
+                  "duration": 5662,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-20T02:10:10.646Z",
+                  "startTime": "2026-10-20T02:56:00.812Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -288,15 +378,15 @@
               "projectName": "",
               "results": [
                 {
-                  "workerIndex": 3,
-                  "parallelIndex": 3,
+                  "workerIndex": 4,
+                  "parallelIndex": 4,
                   "status": "passed",
-                  "duration": 489,
+                  "duration": 600,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-20T02:10:16.572Z",
+                  "startTime": "2026-10-20T02:56:06.821Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -314,9 +404,9 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-10-20T02:10:09.634Z",
-    "duration": 17027.307999999997,
-    "expected": 5,
+    "startTime": "2026-10-20T02:55:59.733Z",
+    "duration": 18526.032,
+    "expected": 7,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0

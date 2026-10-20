@@ -202,6 +202,7 @@ async def test_public_default_private_allowlist_permissions_and_route_isolation(
         assert (await public.get(root)).status_code == 404
         for route in [
             "/api/monitors",
+            "/api/overview",
             "/api/events",
             "/api/groups",
             "/api/notifications",
@@ -328,3 +329,36 @@ async def test_parallel_publication_edits_and_monitor_delete_cascade():
         assert saved["publications"][0]["id"] == p["publications"][0]["id"]
         assert (await api.delete(f"/api/monitors/{m['id']}")).status_code == 204
         assert (await public.get(f"/api/public/pages/{p['slug']}")).json()["services"] == []
+
+
+async def test_public_failures_do_not_disclose_internal_exception(monkeypatch):
+    async def failed(db, slug):
+        raise RuntimeError("PRIVATE-DATABASE-ERROR-SENTINEL")
+
+    monkeypatch.setattr("app.public.snapshot", failed)
+    async with public_client() as public:
+        for path in ("/api/public/pages/customer", "/api/public/pages/customer/events"):
+            response = await public.get(path)
+            assert response.status_code == 503
+            assert "PRIVATE-DATABASE-ERROR-SENTINEL" not in response.text
+            assert response.json() == {"detail": "Public status temporarily unavailable"}
+
+
+async def test_dashboard_observed_uptime_and_live_incident_summary(monkeypatch):
+    from test_database import sample
+
+    from app.dashboard import live_overview
+
+    async with api_client() as api:
+        m = await create(api, failure_threshold=1)
+        empty = (await api.get("/api/overview")).json()
+        assert empty == {"active_incidents": 0, "opened_at": {}, "uptime_24h": {}}
+        await sample(api, m["id"], monkeypatch, True)
+        await sample(api, m["id"], monkeypatch)
+        overview = (await api.get("/api/overview")).json()
+        assert overview["active_incidents"] == 1
+        assert overview["uptime_24h"][m["id"]] == {"samples": 2, "percent": 50}
+        assert m["id"] in overview["opened_at"]
+        await sample(api, m["id"], monkeypatch, True)
+        async with Session() as db:
+            assert await live_overview(db) == {"active_incidents": 0, "opened_at": {}}

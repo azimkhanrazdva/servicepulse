@@ -1,0 +1,142 @@
+{
+  "recorded_at": "2026-10-20T07:59:05.8262291+05:00",
+  "base": "442496f980b7e9ef14179b1895bdcbf517f5152c",
+  "branch": "feat/public-status-analytics",
+  "status": "PASS_LOCAL_PHASE5_GATE",
+  "backend": {
+    "skipped": 0,
+    "tests": 121,
+    "seconds": 29.235,
+    "failures": 0
+  },
+  "component": {
+    "passed": 26,
+    "failed": 0
+  },
+  "browser": {
+    "startTime": "2026-10-20T02:55:59.733Z",
+    "duration": 18526.032,
+    "expected": 7,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "sql_fixture": {
+    "month_fixture_rows": "10000",
+    "month_returned_buckets": "360",
+    "month_aggregate_seconds": "0.055304"
+  },
+  "environment": {
+    "docker_os": "linux/x86_64",
+    "docker_cpus": 16,
+    "python": "3.12.15",
+    "docker_memory_bytes": 8170147840,
+    "postgres": "17.11 Alpine",
+    "host_node": "v24.15.0"
+  },
+  "public_browser_report": "artifacts/phase5-public-browser.json",
+  "phase6_started": false,
+  "open_acceptance_issue": "ACC-EMAIL-01",
+  "regressions": {
+    "phase2": {
+      "started_at": "2026-10-20T07:39:53.874645+05:00",
+      "checks": {
+        "pause_over_original_interval": "PASS",
+        "manual_run_persists_new_observation": "PASS",
+        "edit_during_real_http_keeps_lease": "PASS",
+        "backend_worker_restart_preserves_config_and_group": "PASS",
+        "restart_has_no_synthetic_failures_or_stale_result": "PASS"
+      },
+      "observations": {
+        "before_restart": 3,
+        "after_restart": 4,
+        "latest_config_version": 5
+      },
+      "result": "PASS",
+      "elapsed_seconds": 56.797
+    },
+    "smoke": {
+      "started_at": "2026-10-20T07:39:52.925514+05:00",
+      "checks": {
+        "frontend_and_database_ready": "PASS",
+        "create_worker_http_persist_read": "PASS",
+        "manual_queue": "PASS"
+      },
+      "observation": {
+        "name": "Smoke d58179fa",
+        "url": "http://simulator:8090/target/smoke",
+        "interval_seconds": 30,
+        "timeout_seconds": 5.0,
+        "expected_status": 200,
+        "expected_body": "ServicePulse ready",
+        "failure_threshold": 2,
+        "id": "2ad51544-fb8c-4f7d-b4d7-e33897b5a49c",
+        "state": "UP",
+        "last_checked_at": "2026-10-20T02:39:53.047648Z",
+        "last_status_code": 200,
+        "last_response_ms": 5.04,
+        "consecutive_failures": 0,
+        "config_version": 1,
+        "run_requested": false,
+        "is_running": false
+      },
+      "result": "PASS",
+      "elapsed_seconds": 0.609
+    },
+    "phase3": {
+      "started_at": "2026-10-20T07:40:50.989859+05:00",
+      "checks": {
+        "threshold_and_continuous_outage_one_incident": "PASS",
+        "cancelled_http_and_stopped_worker_no_synthetic_results": "PASS",
+        "restart_expired_lease_same_incident_and_config": "PASS",
+        "real_recovery_exactly_one_closed_incident": "PASS",
+        "32s_http_exceeds_30s_interval_fast_target_unblocked_no_overlap": "PASS"
+      },
+      "observation_gap": {
+        "started_at": "2026-10-20T07:40:55.460385+05:00",
+        "ended_at": "2026-10-20T07:40:57.489436+05:00"
+      },
+      "slow_elapsed_seconds": 32.469,
+      "incident_id": "b93788d2-d5d3-47d5-85b7-8f689a540ca8",
+      "status": "PASS",
+      "elapsed_seconds": 57.578
+    },
+    "proxy": {
+      "started_at": "2026-10-20T07:41:48.868039+05:00",
+      "status": "PASS",
+      "old_ip": "172.18.0.7",
+      "new_ip": "172.18.0.10",
+      "frontend_container_unchanged": true,
+      "proxied_ready_and_api": "PASS",
+      "elapsed_seconds": 6.297
+    },
+    "phase4": {
+      "started_at": "2026-10-20T07:41:55.448204+05:00",
+      "project": "servicepulse-phase4-fault",
+      "checks": {
+        "real_smtp_down_recovery_shared_address_dedup": "PASS",
+        "maintenance_keeps_checks_and_down_releases_without_new_result": "PASS",
+        "previous_down_recovery_deferred_until_maintenance_ends": "PASS",
+        "recovered_inside_window_no_stale_pair": "PASS",
+        "real_smtp_outage_retry_and_dispatcher_worker_restart": "PASS",
+        "isolated_postgres_outage_recovery_no_fake_observations": "PASS",
+        "crash_after_acceptance_before_ack_lease_recovery_and_order": "PASS"
+      },
+      "normal_messages": [
+        {
+          "id": "Mtg6jozMr4aE5D3zPmtgWc",
+          "subject": "ServicePulse RECOVERY: phase4-c1bebda8-normal"
+        },
+        {
+          "id": "AUUv54izSgtb9pZWjHQ32H",
+          "subject": "ServicePulse DOWN: phase4-c1bebda8-normal"
+        }
+      ],
+      "retry_attempts": 2,
+      "acceptance_crash_physical_messages": 3,
+      "acceptance_crash_logical_deliveries": 2,
+      "status": "PASS",
+      "elapsed_seconds": 74.672
+    }
+  }
+}

@@ -3,7 +3,8 @@
 The owner prescribed this stack; this design keeps it. Shipped scope includes foundation,
 versioned monitor CRUD/pause/resume, group membership/recipients and real HTTP observations.
 Persisted incidents, maintenance and transactional SMTP outbox now ship through phase 4.
-Public projection remains a target design. See requirements.md and phase4-design.md for exact contracts.
+Phase5 adds separate public ingress/ASGI/build, explicit publication models and bounded SQL analytics.
+See requirements.md, phase4-design.md and phase5-design.md for exact contracts.
 
 ```mermaid
 flowchart LR
@@ -14,6 +15,8 @@ flowchart LR
   API -->|SSE snapshot invalidation| UI
   Dispatcher[SMTP dispatcher / reconciler] --> DB
   Dispatcher --> SMTP[Mailpit]
+  PublicUI[Public nginx / React] --> PublicAPI[Public-only FastAPI]
+  PublicAPI -->|Read-only snapshots| DB
 ```
 
 ## Services and boundaries
@@ -32,7 +35,7 @@ flowchart LR
 - Dispatcher: separate process, leased per-recipient work and two-second reconciliation independent of HTTP results.
 - Mailpit: real local SMTP acceptance catcher with HTTP API evidence; no external relay/provider.
 
-## Persisted model (Alembic 0001 + additive 0002/0003/0004)
+## Persisted model (Alembic 0001 + additive 0002/0003/0004/0005)
 
 Monitor: UUID, name, URL, interval (30..3600 seconds), timeout (0.1..120 seconds), expected
 status (100..599), optional expected string, failure threshold (1..10, default 2), state,
@@ -55,9 +58,16 @@ The group route UUID is historical, deliberately not a FK (avoids reverse lock o
 requires live membership/recipients. Monitor deletion cascades incident/outbox; group deletion revokes routes.
 See phase4-design.md for case normalization, frozen recipients, retries, ordering and SMTP uncertainty.
 
-## Target public model (not migrated yet)
+## Public model and boundary (0005)
 
-PublicPage + publication join selects public name and state only; no private URL, errors, recipients or config.
+PublicPage (disabled default, slug/title/version) + Publication (explicit monitor consent, unrelated
+public ID, owner-supplied label, show_history false default) isolates publication from monitoring config.
+Public ASGI has no management routes/OpenAPI. Its nginx/image exposes only public GET/SSE and public
+bundle; private UI/API remain separate and trusted-local. Allowlisted projection never includes private
+monitor IDs/names/URLs, group/recipient/config/error/window names or outbox data. Snapshot reads are
+read-only transactions using a shared DB role, not role-level privilege isolation. Every SSE tick rechecks
+enabled membership; history requires per-publication permission. No-store, no replay, reconnect fresh state.
+See phase5-design.md and actual privacy tests for authorization/revocation boundaries.
 
 ## State and incident policy
 
@@ -176,10 +186,13 @@ SSE retains the default monitor-array message and named `groups`, `incidents`, a
 every two seconds. All snapshots read one REPEATABLE READ transaction. Native EventSource
 reconnects and receives a complete snapshot: clients need no in-memory shared broadcaster.
 This is low-volume polling over SSE, not PostgreSQL NOTIFY; scales to the assignment, not a
-large fleet. First slice history returns the most recent 100 bounded results; monthly time
-buckets, gaps, 24h/7d/30d availability and public projection are later work.
+large fleet. Recent raw history retains the most recent 100 results. Phase5 adds SQL bucket/count/
+latency/coverage aggregation for rolling 24h/7d/30d with 288/336/360 buckets, and a separate public SSE.
 Uptime target definition: observed successful samples / all observed samples, with sample
-count and coverage shown separately. Missing periods are gaps and excluded, never failures.
+count and coverage shown separately. Zero samples means null/NO_DATA; missing periods are never failures.
+New results capture interval_seconds; legacy rows remain NULL. Coverage spans from each observation
+to min(next observation, observation + captured interval), clipped to requested bounds. Legacy cadence
+is unknown, never reconstructed. Graph bars do not bridge gaps; their values are observed bucket means.
 Maintenance event/API envelope includes paginated items plus active_monitor_ids and active_group_ids
 computed from all active windows, so an older active window outside the newest page still has a badge.
 Monitor IDs include current group membership; group IDs denote direct group windows. UI displays

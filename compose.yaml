@@ -64,6 +64,20 @@ services:
     logging:
       driver: json-file
       options: {max-size: '10m', max-file: '3'}
+  public-backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-servicepulse}:${POSTGRES_PASSWORD:-local-development-only}@db/${POSTGRES_DB:-servicepulse}
+    command: [uvicorn, app.public:app, --host, 0.0.0.0, --port, '8000']
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    restart: unless-stopped
+  public-frontend:
+    build: {context: ./frontend, target: public}
+    ports: ['127.0.0.1:8081:80']
+    depends_on:
+      public-backend: {condition: service_started}
+    restart: unless-stopped
   simulator:
     build: ./simulator
   mailpit:

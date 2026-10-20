@@ -1,7 +1,8 @@
 # ServicePulse
 
 A website availability monitoring platform built for Mad Devs' Junior Agentic Developer
-take-home assignment #3. **Version 0.4 adds maintenance windows and transactional email delivery through Mailpit. Public status and uptime analytics remain pending.**
+take-home assignment #3. **Version 0.5 adds isolated public status pages, explicit publication controls,
+24h/7d/30d observed uptime and PostgreSQL-aggregated response charts with honest gaps.**
 
 Create a monitor, let an independent worker request a real HTTP target, persist observations
 in PostgreSQL and see the dashboard update through SSE. No fabricated metrics or HTTP results.
@@ -22,7 +23,8 @@ in PostgreSQL and see the dashboard update through SSE. No fabricated metrics or
 - Alembic migration, isolated PostgreSQL integration tests, HTTP simulator and Mailpit container.
 - URL/DNS destination policy, pinned numeric connections, no redirects/proxies, bounded response/time.
 
-**Not implemented:** public status page, uptime aggregates, response charts, monthly history endpoint.
+Public pages are disabled/empty by default. Publish each service explicitly with a separate public label;
+aggregated history requires a second permission. The public image has no management bundle or admin routes.
 Actual SMTP/Mailpit tests and failure evidence are in [phase 4 checkpoint](docs/phase4-checkpoint.md).
 The whole assignment is not yet complete. See [acceptance matrix](docs/requirements.md).
 
@@ -50,7 +52,8 @@ compose.yaml   Local application and isolated test profile
 ## Prerequisites and local startup
 
 Docker Engine/Desktop with Linux containers and Docker Compose v2+; free localhost ports
-8080 (UI), 8000 (API), 8025 (Mailpit). Initial image/dependency download needs internet.
+8080 (management UI), 8000 (management API), 8081 (public-only ingress), 8025 (Mailpit).
+Initial image/dependency download needs internet. All host ports bind loopback by default.
 Windows PowerShell, macOS and Linux are supported by Compose; development was verified on
 Windows with Docker Desktop. Python 3.11+ is only required for host smoke/seed scripts.
 
@@ -177,6 +180,8 @@ asserts their settings, IDs, state and history survive upgrades. A second fixtur
 monitor/result/group/recipient survive 0003 without fictional incident backfill. This never resets the application's `db` volume.
 The 0003 fixture additionally preserves actual open/closed incidents byte-for-value through 0004;
 their notifications_enabled remains false and no historical email events are created.
+The 0004 fixture additionally preserves actual maintenance/outbox/delivery rows through 0005,
+with no automatic publications and no inferred cadence for legacy observations.
 
 Host development (optional):
 
@@ -229,6 +234,38 @@ feat/maintenance-email-outbox carries verified v0.4. Open review chain:
 See [GitHub workflow](docs/github-workflow.md) for the authentic baseline and publication policy.
 The later [Phase 4 audit](docs/phase4-audit.md) maps original requirements to code/evidence,
 records 109 backend/15 component/5 browser checks and explicitly lists SMTP/policy limits.
+
+## Public status and observed analytics (v0.5)
+
+In the dashboard's **Public status pages** section, create a page, enter a title and slug,
+select each permitted monitor and supply its public label. Enable the page explicitly.
+Select **Publish aggregated history** separately if the public may see that service's history.
+Open its link, for example `http://localhost:8081/status/customer-status`. The root `/` on
+8081 deliberately returns 404; there is no directory of private or disabled pages.
+New installations/migrations publish nothing automatically. Test pages are removed after E2E.
+
+Only public ingress 8081 is suitable for a future public reverse proxy; never expose management
+8080/8000 or Mailpit. Management has no login. Host TLS/rate limits/operations remain later work.
+Public REST and dedicated SSE are separate from management:
+
+- `GET /api/public/pages/{slug}` — safe current projection.
+- `GET /api/public/pages/{slug}/events` — public-only snapshots every two seconds.
+- `GET /api/public/pages/{slug}/services/{public_id}/analytics?period=24h|7d|30d` — explicitly permitted aggregates.
+
+Unknown/disabled pages and denied history return generic 404. A public ID is unrelated to the
+internal monitor UUID. No URL, private name, group/recipient/config/raw errors or outbox data is
+exposed. Revocation is rechecked on every request/tick; previously received bytes cannot be recalled.
+Public disconnect clears displayed data; reconnect obtains current permissions and a full snapshot.
+
+Private details include `GET /api/monitors/{id}/analytics?period=24h|7d|30d` and real charts.
+Availability is successful observed checks / observed checks, including maintenance/config versions.
+Zero observations means **NO DATA**, not 100%. Coverage is a separate estimate using interval-capped
+observation spans. Legacy cadence remains unknown; it is not backfilled. Missing buckets stay gaps,
+never failed checks or zero latency. SQL returns at most 288/336/360 buckets respectively; raw recent
+history still returns the latest 100 checks for compatibility. See [design](docs/phase5-design.md).
+
+Management publication API: GET/POST `/api/status-pages`; PUT/DELETE `/api/status-pages/{id}`
+with the captured `config_version`. Publication edits never reset monitoring state or incidents.
 
 ## Management semantics
 
@@ -298,7 +335,9 @@ server time creates no observations. Charts with explicit gaps and coverage are 
 - 1 MiB raw body cap, compressed responses rejected, matching is UTF-8 with replacement.
 - Exact simulator origin is a local testing exception, never a global private-network bypass.
 - No authentication/rate limiting/production egress firewall yet. Local trusted usage only.
-- Monitor/group list cap is 500; observation history cap 100; incidents are paginated. No month aggregates yet.
+- Monitor/group list cap is 500; recent raw history cap 100; incidents are paginated. Analytics uses bounded SQL buckets.
+- Public requests use a separate read-only ASGI application and read-only transactions; the database role
+  is shared, not a dedicated least-privilege account. Public hosting still needs ingress limits/TLS/operations review.
 - Worker logs JSON; API currently uses ordinary Uvicorn access logs.
 - Container tags and Python build backend are not fully digest/hash locked. Python application
   versions and npm lockfile are pinned; dependency updates require rerunning verification.
@@ -306,9 +345,10 @@ server time creates no observations. Charts with explicit gaps and coverage are 
 
 ## Next iteration / roadmap
 
-1. Review the v0.4 maintenance/email checkpoint and private feature branch.
-2. Add public projection/privacy controls and real public-page reconnect tests.
-3. Add coverage-aware charts and 24h/7d/30d uptime aggregates.
+1. Review the v0.5 public-status/analytics checkpoint and private feature branch.
+2. Resolve [ACC-EMAIL-01](docs/final-acceptance-issues.md): quick recovery cancels unattempted DOWN outside maintenance;
+   this can miss both emails for a confirmed incident during dispatcher delay and risks strict employer acceptance.
+3. Measure larger history datasets; current bounded SQL fixture is not a universal performance guarantee.
 4. Improve delivery operator tooling if needed; no real SMTP provider is required for this assignment.
 5. Measure mixed 50-monitor load, month history, actual restarts and run independent review.
 6. Complete requirements audit, owner-authored ten-sentence essay and approved GitHub submission.

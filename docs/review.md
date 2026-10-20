@@ -174,3 +174,32 @@ first-failure assertions to the live harness. Queued-but-unattempted DOWN cancel
 maintenance is a material policy limit: no guarantee of mail for every historical outage after
 dispatcher downtime. Other SMTP/exhaustion/public-deployment limits remain explicit in that report.
 This remains an implementation-agent review, not an independent human/model approval.
+
+## Phase5 critical source review
+
+Review is an implementation-agent pass, not independent reviewer approval. Public ASGI has no
+management router or schema/docs route; public nginx proxies only /api/public, and its build omits
+management code. SQL reads explicit public projection columns, current page enablement and exact
+publication identity; history additionally requires show_history. REST/SSE sentinels and route/method
+tests inspect real payloads. DB read-only transactions prevent writes within public handlers, but the
+shared database role is not a separate least-privilege credential. Expose only public ingress.
+
+Publication updates lock the page then selected monitors; parallel versions return 200/409, and IDs
+are retained only for unchanged monitor membership. Monitoring config/leases/outbox do not change.
+Monitor/page cascades revoke publication. Public SSE reevaluates membership in a new snapshot each
+tick; no event replay queue. Already delivered bytes cannot be recalled. Public client clears data
+on unavailable/network loss, rejects a late REST restoration, and unmounts/aborts revoked analytics.
+
+Analytics uses typed datetime binds and one indexed SQL aggregate, never raw ORM month loading.
+Span boundaries are capped by the next observation/captured interval, never current config; legacy
+NULL cadence supplies no invented time coverage. Samples across versions/maintenance remain in
+the disclosed denominator. Empty/null differs from true zero and failed observations. Native bucket
+bars do not bridge missing data; accessible table and current period are real controls. 10000-row
+fixture verifies 360 buckets/one query/90% observed success without a universal latency claim.
+
+No new confirmed BLOCKER/HIGH in public/analytics scope. ACC-EMAIL-01 remains a HIGH *final employer
+acceptance risk* by explicit owner instruction, not silently corrected here. MEDIUM deployment limits:
+shared DB role, no production TLS/rate limiting/egress or sustained fleet/large-dataset guarantee.
+LOW: application clocks, rolling offset snapshots and finite 500-monitor/publication cap; public
+history opt-in deliberately exposes aggregate history from before publication as well. This is
+documented consent, not an implicit raw-data publication. Formal Phase6 audit remains unstarted.

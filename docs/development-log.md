@@ -619,3 +619,57 @@ expanded run and original phase1–4 live smoke/fault regression are still runni
 Added actual-browser CI job with Compose/Chromium and artifact upload; hosted execution still pending.
 Next: complete verification, inspect privacy/cadence edge cases, commit logical local increments,
 finalize documents and publish only when the whole requested phase gate is verified. No Phase6 started.
+
+### Phase5 local gate and review — 2026-10-20T07:59:05.9429659+05:00
+
+After 119 PostgreSQL tests and migration checks passed, created real local c489815 at
+2026-10-20T07:43:50+05:00, feat(api): isolate public status and aggregate observed availability.
+Kept unfinished stage local. Added public generic-error leakage regression, publication default/draft
+tests and an actual paused/no-observations browser case. PostgreSQL expanded 120 PASS in 25.51s;
+component expanded 24 PASS; browser 7 PASS in 18.0s. No old test removed. Corrected later Prettier
+warnings on newly added test formatting; root requirements patch initially used out-of-order hunks,
+failed without modification, then reapplied in file order. One ruff call from frontend used backend
+relative path and failed E902; correct root ruff check/format passed, no files changed by that error.
+
+Original stage regressions actually rerun in sequence: python scripts/smoke.py PASS 0.609s;
+phase2_smoke.py PASS 56.797s (>30s pause, edit during HTTP, actual backend/worker restart);
+phase3_smoke.py PASS 57.578s (incident, restart, cancelled work/gap, actual slow32s/interval30s);
+proxy_recreate_smoke.py PASS 6.297s (forced different backend IP, frontend unchanged);
+phase4_fault_smoke.py PASS 74.672s (real Mailpit/DB/process/window cases, retry=2,
+acceptance crash physical=3/logical=2). Isolated project/volume removed by harness. No owner DB reset.
+
+Requirement review found remaining dashboard fields: added /api/overview sample aggregate on a 30s
+UI poll (not heavy SSE), separate cheap named overview SSE with exact active incident count/start map,
+24h row uptime and current outage timer from persisted incident start. Added real SQL overview test,
+clock component test and live dashboard browser assertions; public route guesses now include overview.
+Notification settings reuse actual group recipient editor rather than duplicate another configuration.
+
+Critical review found a new history-window bug before final verification: unchanged last_checked_at
+would freeze chart query bounds during monitoring gaps. Added minute/online requery with cancellation
+of superseded fetches and regression holding revision unchanged. New source underwent final rebuild.
+Final backend runner: 121 passed in 29.24s (JUnit 29.235s), no failures/skips/warnings; all four legacy
+fixture stages/metadata PASS. Component JSON: 26 passed, zero failures. Final types/lint/format PASS;
+production build passed in Docker and on host; npm audit 0. Final real browser suite: 7 passed in
+18.5s, all original five retained. Paused unobserved service has three NO DATA summaries/360 gaps,
+not 100%; private API/SSE sentinels, explicit history consent, revocation, mobile and two-client
+DOWN/UP/reconnect all PASS. Actual current evidence files and screenshots retained.
+
+Latest dense-fixture measurement: 10000 rows / one SQL / 360 buckets / 0.055304s, exactly 9000
+successful samples. This is one measured query, not p95 or unlimited-scale promise. Environment read
+from actual commands: Docker linux/x86_64, 16 CPUs, 8170147840 memory bytes; Python3.12.15,
+PostgreSQL17.11 Alpine, host Node v24.15.0. No sustained 50x30 experiment started.
+
+Reviewed public entrypoint allowlist, read-only snapshot boundaries, version locks/cascades, stable
+public IDs, late REST race, stream revocation, bounded SQL/coverage semantics and build inventory:
+public image assets contain public CSS/JS only, no management bundle. No new confirmed BLOCKER/HIGH
+in Phase5 scope. ACC-EMAIL-01 remains HIGH final-acceptance risk by explicit owner instruction;
+notifications/dispatcher/incidents diff against v0.4 remains empty. Shared DB role, in-flight bytes,
+production TLS/limits and larger performance gate remain disclosed boundaries. Review is by this
+implementation agent, not a fabricated independent approval.
+
+Updated README/design/architecture/requirements/progress/review/checkpoint and prepared pr-phase5.md.
+Machine checkpoint asserts actual 121/26/7 reports and live fault PASS. New browser CI job definition
+has locally validated Compose --wait + seven browser tests, but hosted execution still NOT VERIFIED
+until the authorized completed-stage push triggers it. Next: staged diff/secret-pattern review,
+commit verified UI/integration evidence, push private feature branch, inspect hosted jobs, then owner
+checkpoint. No new remote PR, merge, public visibility change or Phase6 work authorized/performed.

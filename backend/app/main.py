@@ -9,6 +9,8 @@ from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.analytics import router as analytics_router
+from app.dashboard import live_overview
+from app.dashboard import router as dashboard_router
 from app.db import Session, session_dependency
 from app.groups import group_snapshots, require_version
 from app.groups import router as groups_router
@@ -24,6 +26,7 @@ from app.schemas import MonitorCreate, MonitorRead, MonitorUpdate, ResultRead, V
 app = FastAPI(title="ServicePulse", version="0.5.0")
 app.include_router(analytics_router)
 app.include_router(publication_router)
+app.include_router(dashboard_router)
 app.include_router(groups_router)
 app.include_router(incidents_router)
 app.include_router(maintenance_router)
@@ -162,10 +165,12 @@ async def events(request: Request):
                 groups = [row.model_dump(mode="json") for row in await group_snapshots(db)]
                 incidents = (await incident_page(db)).model_dump(mode="json")
                 maintenance = await window_snapshot(db)
+                overview = await live_overview(db)
             yield f"data: {json.dumps(data)}\n\n"
             yield f"event: groups\ndata: {json.dumps(groups)}\n\n"
             yield f"event: incidents\ndata: {json.dumps(incidents)}\n\n"
             yield f"event: maintenance\ndata: {json.dumps(maintenance)}\n\n"
+            yield f"event: overview\ndata: {json.dumps(overview, default=str)}\n\n"
             await asyncio.sleep(2)
 
     return StreamingResponse(

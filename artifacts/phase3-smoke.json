@@ -1,5 +1,5 @@
 {
-  "started_at": "2026-10-20T01:14:02.109915+00:00",
+  "started_at": "2026-10-20T02:40:50.989859+00:00",
   "checks": {
     "threshold_and_continuous_outage_one_incident": "PASS",
     "cancelled_http_and_stopped_worker_no_synthetic_results": "PASS",
@@ -8,11 +8,11 @@
     "32s_http_exceeds_30s_interval_fast_target_unblocked_no_overlap": "PASS"
   },
   "observation_gap": {
-    "started_at": "2026-10-20T01:14:06.553656+00:00",
-    "ended_at": "2026-10-20T01:14:08.579733+00:00"
+    "started_at": "2026-10-20T02:40:55.460385+00:00",
+    "ended_at": "2026-10-20T02:40:57.489436+00:00"
   },
-  "slow_elapsed_seconds": 32.531,
-  "incident_id": "463f086d-0c6c-4235-9311-3c61d430de63",
+  "slow_elapsed_seconds": 32.469,
+  "incident_id": "b93788d2-d5d3-47d5-85b7-8f689a540ca8",
   "status": "PASS",
-  "elapsed_seconds": 57.813
+  "elapsed_seconds": 57.578
 }
