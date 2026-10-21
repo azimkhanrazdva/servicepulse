@@ -1,0 +1,21 @@
+{
+  "checked_at": "2026-10-21T11:02:46.042960+00:00",
+  "status": "PASS",
+  "reviewed_hashes": {
+    "README.md": "89b8447c9607d23204f1dfbab7e7ee94a587efb0d0c431ab294ed73266a88418",
+    "docs/architecture.md": "4f9af8c595c402182636d6f369caaa63b9dcd5677833bd8b324f987e9fa3ff12",
+    "docs/decisions.md": "519cc600ff107448a63eb3178902603b5276084cba8dd9c3606baf2a885bb38c",
+    "docs/ai-development.md": "4854377ad6d185eeff72f1d08a52fbe583cca4b319a1507a9b54c041fd592b42",
+    "docs/demo-script.md": "a0e7f5e80cf8d0d299bfcf3aba4f940f377343328dc7689436759b41b97b3f7b",
+    "docs/submission-guide.md": "ca4be9a799a740379e9b568fed1bf6de113d1570a0dd0e2df0e68ae68ef84d57",
+    "docs/roadmap.md": "b4d5d0abc7e9cacae3666a5b95fc5d197930f3c0e903e2860c8d7e800a9b8f0c",
+    "docs/release-checklist.md": "6b1666a9fc3be4fc3589bd0ac5fd6c65874a213b05ad94f1c44a25981f44ab65",
+    "docs/development-log.md": "2fa65c74a4fcef4155fedb567f35f1c60f1971c55d72463a9432ee49c5256813",
+    "docs/progress.md": "9d0dd291b5c0afb097ef3e46a449bc0fbf021c87e47dbf267d6367e1d0e42a72"
+  },
+  "essay_sentences": 10,
+  "essay_approved_by_owner": false,
+  "model_source": "native primary-session turn_context metadata; docs/model-session-metadata.json; 24 medium, 2 high",
+  "historical_sources": "f3866cd immutable Git; prompts retain actual wording; old raw artifacts not relabeled",
+  "scope": "Current document verification after native model attribution and TIMELAPSE addition; historical raw reports unchanged."
+}

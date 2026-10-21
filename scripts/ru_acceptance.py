@@ -194,9 +194,9 @@ def validate_documents():
     assert len(sentences) == 10 and all(s.strip() for s in sentences)
     model = (ROOT / "docs/ai-development.md").read_text(encoding="utf-8")
     assert (
-        "solana 6.1 - medium" in model
-        and "владельц" in model
-        and "не подтверждал" in model
+        "gpt-6.1-sol" in model
+        and "model-session-metadata.json" in model
+        and "24 записи" in model
     )
     write(
         "artifacts/ru-document-review.json",
@@ -206,7 +206,7 @@ def validate_documents():
             "reviewed_hashes": hashes,
             "essay_sentences": len(sentences),
             "essay_approved_by_owner": False,
-            "model_source": "owner message,2026-10-21; no independent technical verification",
+            "model_source": "native primary-session turn_context metadata; docs/model-session-metadata.json; 24 medium, 2 high",
             "historical_sources": "f3866cd immutable Git; prompts retain actual wording; old raw artifacts not relabeled",
         },
     )
