@@ -1,0 +1,368 @@
+{
+  "conclusion": "success",
+  "createdAt": "2026-10-21T08:08:54Z",
+  "databaseId": 39567089094,
+  "headSha": "76e675516054680fb6145b947b3ae22b207d7d09",
+  "jobs": [
+    {
+      "completedAt": "2026-10-21T08:09:19Z",
+      "conclusion": "success",
+      "databaseId": 119111849241,
+      "name": "frontend",
+      "startedAt": "2026-10-21T08:08:56Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-21T08:08:57Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-21T08:08:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:08:59Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v4",
+          "number": 2,
+          "startedAt": "2026-10-21T08:08:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:00Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-node@v4",
+          "number": 3,
+          "startedAt": "2026-10-21T08:08:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:02Z",
+          "conclusion": "success",
+          "name": "Run npm ci",
+          "number": 4,
+          "startedAt": "2026-10-21T08:09:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:05Z",
+          "conclusion": "success",
+          "name": "Run npm run typecheck",
+          "number": 5,
+          "startedAt": "2026-10-21T08:09:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:07Z",
+          "conclusion": "success",
+          "name": "Run npm run lint",
+          "number": 6,
+          "startedAt": "2026-10-21T08:09:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:12Z",
+          "conclusion": "success",
+          "name": "Run npm test",
+          "number": 7,
+          "startedAt": "2026-10-21T08:09:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:13Z",
+          "conclusion": "success",
+          "name": "Run npm run format:check",
+          "number": 8,
+          "startedAt": "2026-10-21T08:09:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:17Z",
+          "conclusion": "success",
+          "name": "Run npm run build",
+          "number": 9,
+          "startedAt": "2026-10-21T08:09:13Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:17Z",
+          "conclusion": "success",
+          "name": "Run node scripts/ru_ui_audit.cjs",
+          "number": 10,
+          "startedAt": "2026-10-21T08:09:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:17Z",
+          "conclusion": "success",
+          "name": "Run npm audit --audit-level=high",
+          "number": 11,
+          "startedAt": "2026-10-21T08:09:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:17Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-node@v4",
+          "number": 21,
+          "startedAt": "2026-10-21T08:09:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:18Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v4",
+          "number": 22,
+          "startedAt": "2026-10-21T08:09:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:18Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 23,
+          "startedAt": "2026-10-21T08:09:18Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/azimkhanrazdva/servicepulse/actions/runs/39567089094/job/119111849241"
+    },
+    {
+      "completedAt": "2026-10-21T08:10:47Z",
+      "conclusion": "success",
+      "databaseId": 119111849483,
+      "name": "browser",
+      "startedAt": "2026-10-21T08:08:56Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-21T08:08:57Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-21T08:08:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:08:59Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v4",
+          "number": 2,
+          "startedAt": "2026-10-21T08:08:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:00Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-node@v4",
+          "number": 3,
+          "startedAt": "2026-10-21T08:08:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:02Z",
+          "conclusion": "success",
+          "name": "Run npm ci",
+          "number": 4,
+          "startedAt": "2026-10-21T08:09:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:20Z",
+          "conclusion": "success",
+          "name": "Run npx playwright install --with-deps chromium",
+          "number": 5,
+          "startedAt": "2026-10-21T08:09:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:21Z",
+          "conclusion": "success",
+          "name": "Run cp .env.example .env",
+          "number": 6,
+          "startedAt": "2026-10-21T08:09:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:55Z",
+          "conclusion": "success",
+          "name": "Run docker compose up -d --build --wait",
+          "number": 7,
+          "startedAt": "2026-10-21T08:09:21Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:10:42Z",
+          "conclusion": "success",
+          "name": "Run npm run test:e2e",
+          "number": 8,
+          "startedAt": "2026-10-21T08:09:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:10:44Z",
+          "conclusion": "success",
+          "name": "Run actions/upload-artifact@v4",
+          "number": 9,
+          "startedAt": "2026-10-21T08:10:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:10:45Z",
+          "conclusion": "success",
+          "name": "Run docker compose down --remove-orphans",
+          "number": 10,
+          "startedAt": "2026-10-21T08:10:44Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:10:45Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-node@v4",
+          "number": 19,
+          "startedAt": "2026-10-21T08:10:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:10:45Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v4",
+          "number": 20,
+          "startedAt": "2026-10-21T08:10:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:10:45Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 21,
+          "startedAt": "2026-10-21T08:10:45Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/azimkhanrazdva/servicepulse/actions/runs/39567089094/job/119111849483"
+    },
+    {
+      "completedAt": "2026-10-21T08:09:45Z",
+      "conclusion": "success",
+      "databaseId": 119111849541,
+      "name": "backend",
+      "startedAt": "2026-10-21T08:08:56Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-21T08:08:57Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-21T08:08:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:07Z",
+          "conclusion": "success",
+          "name": "Initialize containers",
+          "number": 2,
+          "startedAt": "2026-10-21T08:08:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:08Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v4",
+          "number": 3,
+          "startedAt": "2026-10-21T08:09:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:08Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@v5",
+          "number": 4,
+          "startedAt": "2026-10-21T08:09:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:17Z",
+          "conclusion": "success",
+          "name": "Run pip install -r backend/requirements.lock && pip install --no-deps -e ./backend",
+          "number": 5,
+          "startedAt": "2026-10-21T08:09:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:17Z",
+          "conclusion": "success",
+          "name": "Run ruff check backend",
+          "number": 6,
+          "startedAt": "2026-10-21T08:09:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:17Z",
+          "conclusion": "success",
+          "name": "Run ruff format --check backend",
+          "number": 7,
+          "startedAt": "2026-10-21T08:09:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:43Z",
+          "conclusion": "success",
+          "name": "Run cd backend && python tests/run.py",
+          "number": 8,
+          "startedAt": "2026-10-21T08:09:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:43Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@v5",
+          "number": 14,
+          "startedAt": "2026-10-21T08:09:43Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:43Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v4",
+          "number": 15,
+          "startedAt": "2026-10-21T08:09:43Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:44Z",
+          "conclusion": "success",
+          "name": "Stop containers",
+          "number": 16,
+          "startedAt": "2026-10-21T08:09:43Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-21T08:09:44Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 17,
+          "startedAt": "2026-10-21T08:09:44Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/azimkhanrazdva/servicepulse/actions/runs/39567089094/job/119111849541"
+    }
+  ],
+  "status": "completed",
+  "updatedAt": "2026-10-21T08:10:48Z",
+  "url": "https://github.com/azimkhanrazdva/servicepulse/actions/runs/39567089094",
+  "downloaded_browser_evidence": {
+    "startTime": "2026-10-21T08:09:56.326Z",
+    "duration": 46324.799,
+    "expected": 13,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "downloaded_axe_scans": 12,
+  "downloaded_axe_violations": 0,
+  "downloaded_at": "2026-10-21T03:11:00.752318+00:00",
+  "limits": "Actual hosted artifact inspected; source SHA explicit, no reuse of a prior green run for later commits."
+}

@@ -1,6 +1,6 @@
 # GitHub: фактическая история и безопасный порядок действий
 
-Репозиторий https://github.com/azimkhanrazdva/servicepulse остаётся приватным. Main хранит ранний baseline; проверять нужно актуальную feature ветку. Русская подготовка начата 21 октября от чистого f3866cd на codex/russian-submission. История не переписывается; commits имеют реальные даты, обычный push разрешён владельцем после проверенного этапа. Новые PR, merge, collaborators, release/tag и изменение visibility требуют отдельного решения.
+Репозиторий https://github.com/azimkhanrazdva/servicepulse открыт по явной команде владельца 21 октября 2026; до этого был приватным. Без авторизации проверены HTTP 200 репозитория, ветки и снимка. Main хранит раннюю 0.1; актуальный код — `codex/russian-submission`. История не переписывается; обычный push разрешён после проверки. Новые PR, merge, release/tag и последующая смена видимости требуют отдельного решения.
 
 ## Существующая цепочка
 
@@ -12,7 +12,7 @@
 | Phase5 | feat/public-status-analytics | feat/maintenance-email-outbox | Только подготовлен текст |
 | Phase6 | feat/reliability-audit-redesign | feat/public-status-analytics | Только подготовлен текст |
 | Phase7 | feat/final-acceptance-release | feat/reliability-audit-redesign | Только подготовлен текст |
-| Русская версия | codex/russian-submission | feat/final-acceptance-release | Создание не разрешено автоматически |
+| Русская версия, сводный PR | codex/russian-submission | main | [#4](https://github.com/azimkhanrazdva/servicepulse/pull/4), уже существовал при исправлении CI; содержит накопленные этапы |
 
 PR#1/#2/#3 были созданы по последующему явному запросу владельца; это не подтверждение review в прошлом. Проверка 20 октября: OPEN/MERGEABLE/CLEAN, корректные ancestorbases, CI успешен, formalreviews0, heads3569b1c/3529b66/442496f. Новые действительные состояния фиксируются в текущем отчёте; старые проверки не заменяют свежие. Поздние Phase6 исправления не приписываются старым Phase4heads.
 
