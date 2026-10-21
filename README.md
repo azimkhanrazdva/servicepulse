@@ -1,228 +1,138 @@
 # ServicePulse
 
-A website availability monitoring platform built for Mad Devs' Junior Agentic Developer
-take-home assignment #3. **Version 0.1 is a verified first vertical slice, not the complete assignment.**
+ServicePulse проверяет доступность сайтов, хранит наблюдения и инциденты, отправляет уведомления и публикует разрешённые владельцем статусы. Проект выполнен для задания №3 MadDevs на Junior Agentic Developer. Backend и frontend работают отдельно; метрики рассчитываются из реальных HTTP-проверок.
 
-Create a monitor, let an independent worker request a real HTTP target, persist observations
-in PostgreSQL and see the dashboard update through SSE. No fabricated metrics or HTTP results.
+Текущая версия: кандидат v1.0 с русским административным и публичным интерфейсом. Официальная отправка работодателю требует решения владельца. Итоговые таблицы, свежие проверки, ограничения и план до 26 октября: [отчёт владельцу](docs/OWNER_FINAL_REPORT_RU.md). Старые проверки не выдаются за результаты текущего перевода.
 
-## Current features
+## Возможности
 
-- Create/list/detail/delete API and create form; configurable interval, timeout, status and body match.
-- Separate asynchronous worker with bounded concurrency, durable scheduling, fenced database leases.
-- UNKNOWN → UP/DOWN state with two consecutive failures by default; manual run queue.
-- Dark responsive React dashboard, real HTTP code/latency/timestamps and recent observation history.
-- SSE snapshots and automatic browser reconnect; full resynchronization on the next snapshot.
-- Alembic migration, isolated PostgreSQL integration tests, HTTP simulator and Mailpit container.
-- URL/DNS destination policy, pinned numeric connections, no redirects/proxies, bounded response/time.
+- Создание, редактирование, удаление, пауза, возобновление и ручной запуск мониторов.
+- Интервал 30–3600 с, таймаут 0,1–120 с, ожидаемый HTTP-код и необязательный текст ответа.
+- Подтверждение падения после двух последовательных ошибок по умолчанию; порог настраивается.
+- Группы, общий статус, адресаты уведомлений, monitor/group maintenance и продолжение проверок во время обслуживания.
+- Журнал инцидентов, автоматическое восстановление, длительность падения и отдельные административные закрытия.
+- Transactional Outbox, логическая дедупликация, сохранённые попытки и SMTP через локальный Mailpit.
+- SSE-обновления двух независимых клиентов, восстановление соединения и полная синхронизация.
+- Отдельная публичная страница/API/SSE: явное разрешение каждого сервиса и отдельное разрешение истории.
+- Доступность за 24 ч/7 д/30 д, график времени ответа, покрытие наблюдениями и честное «НЕТ ДАННЫХ».
 
-**Not implemented:** edit/pause/resume UI/API, groups, persisted incidents, email/outbox,
-maintenance, public status page, uptime aggregates, response charts, monthly history endpoint.
-Mailpit running does not mean email notifications work. See [acceptance matrix](docs/requirements.md).
+## Стек и архитектура
 
-## Architecture and stack
+Python3.12, FastAPI, Pydantic, SQLAlchemy2, Alembic, PostgreSQL17, HTTPX/asyncio; React19, TypeScript, Vite, nginx. Отдельные процессы API, public API, worker и SMTP dispatcher. Redis/Celery/Kafka/Kubernetes не требуются. PostgreSQL хранит настройки, leases, результаты, инциденты, окна, публикации и outbox. [Архитектура](docs/architecture.md), [решения](docs/decisions.md).
 
-React 19 + TypeScript + Vite → nginx same-origin proxy → FastAPI → PostgreSQL 17.
-A separate Python 3.12 worker claims work in PostgreSQL and uses asynchronous HTTPX.
-SQLAlchemy 2 and Alembic manage persistence. No Redis, Celery or distributed broker.
-SSE sends full snapshots every two seconds; small-scale database polling is intentional.
+## Требования и запуск
 
-See [architecture](docs/architecture.md) and [decisions](docs/decisions.md) for models,
-state policy, intended incident/outbox design, alternatives and limitations.
+Docker Engine/Desktop с Linux containers и Docker Compose. Проверенная среда предыдущего этапа: Compose5.5.1; изолированный acceptance harness использует !override и требует 2.24.4+. Свободные локальные порты:8080,8000,8081,8025. Первое получение образов/зависимостей требует интернета. Для обычного запуска host Python/Node не нужны; для тестовых скриптов нужны Python3.11+, Node24 и Chromium.
 
-```text
-backend/       FastAPI, checker, worker, SQLAlchemy, Alembic, pytest
-frontend/      React console, Vitest tests, Playwright E2E, nginx
-simulator/     Controllable local HTTP targets
-scripts/       Real smoke test and idempotent opt-in demo setup
-docs/          Requirements, decisions, progress, actual prompts and development history
-artifacts/     Machine-readable verification evidence
-compose.yaml   Local application and isolated test profile
-```
-
-## Prerequisites and local startup
-
-Docker Engine/Desktop with Linux containers and Docker Compose v2+; free localhost ports
-8080 (UI), 8000 (API), 8025 (Mailpit). Initial image/dependency download needs internet.
-Windows PowerShell, macOS and Linux are supported by Compose; development was verified on
-Windows with Docker Desktop. Python 3.11+ is only required for host smoke/seed scripts.
-
-PowerShell preparation (once):
+Репозиторий публичный по явному решению владельца от 21 октября 2026. Выберите актуальную ветку проверки `codex/russian-submission`: в `main` остаётся ранняя версия 0.1. Снимок до исправления CI: [`7dae3d2`](https://github.com/azimkhanrazdva/servicepulse/commit/7dae3d230b3e38527e78ad6dc117a451605ff4f6); исправление `datetime-local` находится в следующих commits этой ветки.
 
 ```powershell
-Copy-Item .env.example .env
+git clone https://github.com/azimkhanrazdva/servicepulse.git
+cd servicepulse
+git switch codex/russian-submission
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+docker compose up -d --build --wait
 ```
 
-macOS/Linux preparation: `cp .env.example .env`. Then the same startup command everywhere:
+В Linux/macOS подготовка конфигурации: `[ -f .env ] || cp .env.example .env`; команда Compose та же. Существующую .env не перезаписывайте. Миграции выполняются перед запуском API/worker. Приложение пустое до создания мониторов; seed создаёт настройки, а не наблюдения.
 
-```sh
-docker compose up -d --build
+| Адрес | Назначение |
+|---|---|
+| http://localhost:8080 | Управление |
+| http://localhost:8000/docs | OpenAPI, технические поля API на английском |
+| http://localhost:8025 | Локальные письма Mailpit |
+| http://localhost:8081/status/your-slug | Публичная страница после явного opt-in |
+
+Корень 8081 намеренно возвращает 404: списка закрытых страниц нет. `docker compose ps --all` показывает контейнеры и migration job. Остановка: `docker compose stop`; продолжение: `docker compose up -d`. **Не удаляйте volumes**: в них история и настройки. Управление не имеет авторизации и привязано к 127.0.0.1; не открывайте 8000/8080/Mailpit в интернет.
+
+## Конфигурация
+
+| Переменная | Значение примера / смысл |
+|---|---|
+| POSTGRES_DB / POSTGRES_USER | servicepulse; локальные тестовые значения |
+| POSTGRES_PASSWORD | local-development-only; не использовать в production |
+| DATABASE_URL | Compose формирует DSN; можно задать для host-разработки |
+| SIMULATOR_ORIGIN | .env.example явно разрешает только http://simulator:8090; безопасный default кода пустой |
+| SMTP_HOST / SMTP_PORT | mailpit /1025, без внешней пересылки |
+| SMTP_SENDER | servicepulse@example.com, локальный отправитель |
+| SMTP_TIMEOUT_SECONDS |5 с; допустимо 0,1–10 с |
+| CONCURRENCY |50 по умолчанию,1–100; переопределять в shared backend environment Compose |
+| MAX_BODY_BYTES |1048576 по умолчанию; максимум 10MiB, переопределять в environment |
+
+.env исключена из Git. Настоящие SMTP-ключи не нужны. Исключение simulator не разрешает произвольные private/local адреса.
+
+## Проверяемая демонстрация
+
+Создайте монитор http://simulator:8090/target/acceptance-demo, ожидаемый 200, текст ServicePulse ready, интервал 30 с. Worker выполнит настоящий HTTP-запрос и запишет результат. Создайте группу с локальным адресатом demo@example.com. Изменяйте только свой именованный target:
+
+```powershell
+python scripts/simulator_control.py acceptance-demo --status 500
+python scripts/simulator_control.py acceptance-demo --status 200
+python scripts/simulator_control.py acceptance-demo --delay 10
+python scripts/simulator_control.py acceptance-demo --delay 0
 ```
 
-Migration runs once before API and worker startup. The database uses a persistent named volume.
-Open [dashboard](http://localhost:8080), [OpenAPI docs](http://localhost:8000/docs),
-[Mailpit](http://localhost:8025). `docker compose ps --all` shows readiness/migration state.
-Stop with `docker compose stop`; start again with `docker compose up -d`.
-Do not remove the database volume if you need to retain observations.
+Для подтверждения DOWN нужны две завершённые ошибки, затем успешная проверка закрывает инцидент и создаёт RECOVERY. Повторные ошибки одного инцидента не создают новые логические DOWN. Simulator поддерживает 404/500, задержку, текст и redirect; разрыв соединения проверяется остановкой изолированного simulator, а не вымышленным ответом. `python scripts/seed.py` создаёт только настройки; `python scripts/smoke.py` использует и удаляет только свой монитор. Полный [сценарий 5–10 мин](docs/demo-script.md).
 
-Management has no login and is intended for a trusted local machine. All published ports bind
-to 127.0.0.1. Do not expose the management API to an untrusted network.
+## Семантика и ограничения
 
-## Configuration
+UNKNOWN до первого наблюдения; UP после успеха; DOWN после порога; PAUSED блокирует новые запуски. Возобновление возвращает UNKNOWN. Любое редактирование сбрасывает текущий статус/серию ошибок, сохраняет историю и закрывает открытый инцидент CONFIG_CHANGED. Пауза закрывает PAUSED. Эти закрытия не означают успешное восстановление. Группа игнорирует PAUSED, затем выбирает DOWN > UNKNOWN > UP; пустая UNKNOWN, все pausedPAUSED.
 
-| Variable | Default | Meaning |
-|---|---|---|
-| POSTGRES_DB | servicepulse | Compose database name |
-| POSTGRES_USER | servicepulse | Disposable local DB user |
-| POSTGRES_PASSWORD | local-development-only | Disposable local value; never reuse elsewhere |
-| DATABASE_URL | Compose-generated | SQLAlchemy asyncpg DSN; host development can override |
-| SIMULATOR_ORIGIN | empty in code/Compose | Exact test-only private target origin; .env.example opts into http://simulator:8090 |
-| CONCURRENCY | 50 | Worker task/connection cap, range 1..100 |
-| MAX_BODY_BYTES | 1048576 | Stream body limit, max 10 MiB |
+Расписание fixed-delay: окончание сохранения + интервал; нельзя требовать ровно 500 результатов за 300 с. PostgreSQL leases/UUID fencing и config_version препятствуют пересекающимся запускам и записи устаревшего результата. Простой сервера создаёт пропуск наблюдений, а не ложный DOWN.
 
-`CONCURRENCY` and `MAX_BODY_BYTES` are application environment variables; add them explicitly
-under the shared backend environment in Compose to override defaults. `.env` is ignored.
-There are no real keys or SMTP credentials in the repository. Current mail service is only a catcher.
+Доступность = успешные / наблюдаемые проверки, включая обслуживание и разные версии настроек. Покрытие времени показано отдельно; отсутствие наблюдений не равно 100%. Legacy cadence неизвестна. SQL возвращает не более 288/336/360 buckets для 24 ч/7 д/30 д; последние отдельные результаты ограничены 100. Мониторы/группы и dashboard selection ограничены 500; глобальный список сверх этого лимита не реализован.
 
-## Simulator and demonstration
+Maintenance использует start <= now < end; окна пересекаются, проверки продолжаются, статус остаётся реальным. Окно монитора подавляет все маршруты, окно группы только её маршруты. Dispatcher пересматривает eligibility независимо от новых результатов. Если сайт остаётся DOWN после конца окна, уведомление становится обязательным. Полностью подавленный maintenance-only инцидент не порождает устаревшую пару.
 
-The simulator is internal to the Compose network. In the UI create a monitor named `Demo API`
-with URL `http://simulator:8090/target/api`; expected status 200, body `ServicePulse ready`.
-The opt-in exact origin in `.env` permits only this service/port; arbitrary internal URLs remain blocked.
-For reproducible configuration-only demo seed:
+Новые 0006 incidents сохраняют обязательную пару DOWN→RECOVERY вне maintenance даже при задержке dispatcher/быстром восстановлении. Legacy unknown eligibility не угадывается и не рассылается задним числом. Логические события/доставки уникальны по incident/type и event/email; адреса нормализуются, получатели фиксируются при подтверждении, удаление маршрутов отзывает ожидание. SMTP вне DB transaction; уже отправляемое письмо отозвать нельзя. Retry5–300 с, максимум 8 попыток; постоянный отказ/исчерпание дают FAILED. SMTP acceptance не доказывает получение ящиком: crash-after-accept-before-ack может дать физический дубль. Требование exactly-once SMTP не заявляется.
 
-```sh
-python scripts/seed.py
-python scripts/smoke.py
-```
+## API и публичность
 
-Seed creates two monitors without fake observations. Smoke creates its own uniquely named
-monitor, waits up to 20s for worker success, verifies saved history and manual queue, deletes
-only its own monitor, and writes `artifacts/smoke.json` (including failures).
+| Маршруты | Назначение |
+|---|---|
+| GET /api/health, /api/ready | Процесс и готовность DB/schema |
+| /api/monitors | CRUD; /{id}/pause, /resume, /run, /results, /incidents, /analytics |
+| /api/groups | CRUD, состав и адресаты |
+| /api/incidents | Журнал, фильтры, pagination; /active и /{id} |
+| /api/maintenance | Versioned CRUD окон |
+| /api/notifications | Ограниченная диагностика доставок |
+| /api/events | Administrative SSE snapshots каждые 2 с |
+| /api/status-pages | Управление страницами/согласием владельца |
+| /api/public/pages/{slug} | Отдельная безопасная публичная проекция |
+| /api/public/pages/{slug}/events | Публичный SSE с повторной проверкой прав |
+| /api/public/pages/{slug}/services/{public_id}/analytics | История только при show_history |
 
-Set a target to return an error (Python standard library inside the API container):
+PUT/pause/resume требуют config_version; конфликт 409 сохраняет черновик. Monitor DELETE без версии оставлен для ранних скриптов и безусловен; UI передаёт версию. Group DELETE требует версию. Public IDs не равны monitor UUID. Закрытые/неизвестные страницы и запрещённая история дают generic404. URL, private name, email, raw errors, windows и outbox не публикуются. Отзыв проверяется при каждом запросе/tick; уже полученные байты вернуть невозможно. Публичная DB роль пока общая с management; read-only transactions не заменяют least privilege.
 
-```sh
-docker compose exec backend python -c "import urllib.request; req=urllib.request.Request('http://simulator:8090/control/api', data=b'{\"status\":500}', headers={'Content-Type':'application/json'}, method='PUT'); print(urllib.request.urlopen(req).status)"
-```
+## Тестирование и реальные результаты
 
-The same PUT JSON accepts `status` (200..599), `delay` (0..180s), `body` and `redirect`.
-Use `status:200` to recover, `delay:10` with a 5s monitor timeout for timeout behavior,
-404/500 for status failures, and changed text for body mismatch. Control state is in-memory,
-reset on simulator restart. Disconnect simulation is not implemented; delay exceeds client
-deadline instead. Run now twice after failures to cross the default threshold, then recover.
-This changes displayed state only; incident records and email are subsequent work.
-
-## API
-
-| Method | Path | Behavior |
-|---|---|---|
-| GET | /api/health | Process liveness |
-| GET | /api/ready | Database/schema readiness |
-| GET / POST | /api/monitors | List (max 500) / create |
-| GET / DELETE | /api/monitors/{uuid} | Read / delete and cascade results |
-| POST | /api/monitors/{uuid}/run | Queue check; 409 if already leased/paused |
-| GET | /api/monitors/{uuid}/results | Most recent 100 observations |
-| GET | /api/events | SSE snapshots every 2 seconds |
-
-FastAPI publishes schemas and example requests at `/docs`. Invalid input returns 422;
-missing monitor 404. URL syntax is checked on input; DNS destination policy is enforced at
-execution to account for changing DNS. A blocked destination records a bounded failure reason.
-
-## Testing
-
-Run all backend tests against a **separate temporary PostgreSQL**, including migrations:
-
-```sh
+```powershell
 docker compose --profile test run --rm --build tests
-```
-
-The profile's `test-db` uses tmpfs and a dedicated `servicepulse_test` database. Tests refuse
-to reset a database whose name differs or whose two configured URLs do not match. The runner
-clears only test tables/migration metadata, applies Alembic from scratch, checks ORM/schema
-agreement and runs pytest. This never resets the application's `db` volume.
-
-Host development (optional):
-
-```sh
-python -m venv .venv
-# Activate .venv using your shell, then:
-pip install -r backend/requirements.lock
-pip install --no-deps -e backend
-ruff check backend
-ruff format --check backend
-pytest backend/tests -q
+python -m ruff check backend
+python -m ruff format --check backend
 cd frontend
 npm ci
-npm test
-npm run typecheck
-npm run format:check
-npm run build
 npx playwright install chromium
-npm run test:e2e
+npm run typecheck
+npm run lint
+npm run format:check
+npm test
+npm run build
+npm run test:e2e -- --workers=2
 ```
 
-Without `TEST_DATABASE_URL`, host pytest deliberately skips DB tests. Use the Compose test
-command for full backend evidence. Browser tests require the running Compose application;
-they exercise the real form, worker result, two independent contexts and SSE reconnect.
-Screenshots are written to `output/playwright/`; machine report is `artifacts/browser-tests.json`.
-Actual first-slice captures: [desktop](output/playwright/desktop.png) and
-[mobile](output/playwright/mobile.png). Consolidated results: [checkpoint evidence](artifacts/checkpoint.json).
-On restricted Windows execution, local socket access and launching Chromium may require
-host permission. A sandbox denial is not proof of an application failure or passing test.
+DB-тесты используют только servicepulse_test; runner проверяет имя и совпадение URL перед fixture reset. Основной volume не сбрасывается. Миграции 0001–0006 проверяют сохранность старых monitor/results/groups/incidents/outbox/windows/publication/cadence; отсутствующая eligibility не восстанавливается. Host pytest без TEST_DATABASE_URL пропускает DB-тесты и не является полной проверкой. Свежие результаты русского этапа находятся в отчёте владельцу и artifacts/ru-*; Phase7 150/32/12 и предыдущие load reports остаются историческими.
 
-GitHub Actions specifies Python lint/format/PostgreSQL tests and frontend format/tests/types/build.
-Hosted CI is **NOT VERIFIED** until a repository is published and Actions actually runs.
-No CI badge, PR URL or GitHub repository is claimed before publication is authorized.
+Длительные эксперименты: scripts/phase6_load.py, phase6_fault_load.py, phase6_cold_history.py. Сохранённые данные:475steady/295fault; dense100000rows/360buckets, coldmax635 мс/warmp95867 мс/max1180 мс. Это отдельные измерения 20 октября на sharedDockerhost; не универсальная гарантия<1 с. Подробности: [производительность](docs/phase7-performance.md). Изменение языка само по себе не требует нового дорогого load test.
 
-## Concurrency and performance
+## Безопасность
 
-Claims use `FOR UPDATE SKIP LOCKED`; an expired UUID lease fences stale results. Unit/integration
-tests cover disjoint claims for 50 rows and stale completion. This does **not** constitute the
-required 50-monitor/30s multi-cycle load test. There is no published throughput or monthly
-history benchmark yet. Those remain mandatory before final submission.
+HTTP(S), проверка всех DNS ответов, блокировка nonglobalIP, numeric pinning + исходные Host/SNI, запрет redirect/environmentproxy/compression, общий deadline и bodylimit. Management только loopback. Реальный внешний TLS/certificate стенд, auth/RBAC, rate/SSElimits, egressfirewall, выделенная publicDBrole, productionSMTP/TLS и backupdrills остаются дальнейшей работой. Полной WCAG/security/production сертификации нет. Worker/dispatcher пишут JSON, API пока Uvicorntext. Полная state-transitiontimeline сверх check/incidentjournal не реализована.
 
-Cadence is completion + interval (fixed delay); slow checks extend their own cycle. Missing
-server time creates no observations. Charts with explicit gaps and coverage are not yet built.
+## GitHub, AI и следующий шаг
 
-## Security and known limitations
+Репозиторий публичный по явной команде владельца от 21 октября. PR#1–4 существуют и не объединены; новые PR/merge/release требуют разрешения. Актуальная ветка — [codex/russian-submission](https://github.com/azimkhanrazdva/servicepulse/tree/codex/russian-submission), в main остаётся 0.1. [Исправление CI и проверка доступа](docs/ci-datetime-fix.md), [порядок GitHub](docs/github-workflow.md), [журнал](docs/development-log.md), [план](docs/roadmap.md), [передача](docs/submission-guide.md).
 
-- HTTP(S) only; validate all resolved addresses, reject non-global IPs, connect to validated IP.
-- Original Host/SNI retained. Redirect following and environment proxies disabled; TLS verified.
-- Requests use Connection: close to prevent numeric-IP pool TLS reuse across virtual hosts.
-  The shared client still bounds active connections; keep-alive optimization is deferred.
-- 1 MiB raw body cap, compressed responses rejected, matching is UTF-8 with replacement.
-- Exact simulator origin is a local testing exception, never a global private-network bypass.
-- No authentication/rate limiting/production egress firewall yet. Local trusted usage only.
-- List/SSE cap is 500; history cap 100; no pagination or full month query yet.
-- Worker logs JSON; API currently uses ordinary Uvicorn access logs.
-- Container tags and Python build backend are not fully digest/hash locked. Python application
-  versions and npm lockfile are pinned; dependency updates require rerunning verification.
-- Full security audit, process-restart fault tests and SMTP retry tests remain pending.
+Инструмент **OpenAI Codex Desktop**; модель **`gpt-6.1-sol`**. Метаданные основного чата разработки подтверждают 24 записи с уровнем рассуждений `medium` и 2 с `high`: [подтверждение модели](docs/model-session-metadata.json). Это уточняет раннее обозначение со слов владельца; исходные промпты сохранены. Codex использовался для работы с файлами, тестами и Git; владелец задаёт требования и утверждает результат. [AI disclosure](docs/ai-development.md), реальные [промпты](docs/prompts/README.md), отдельный [TIMELAPSE.md](TIMELAPSE.md) с хронологией работы, коммитами и CI. Эссе остаётся черновиком до утверждения. Письма работодателю не отправляются агентом.
 
-## Next iteration / roadmap
-
-1. Complete monitor CRUD/edit/pause/resume and groups with concurrent configuration fencing.
-2. Persist incident lifecycle and transactional outbox; maintenance suppression/reconciliation.
-3. Deliver group email through Mailpit with logical deduplication and retries.
-4. Finish charts, uptime with coverage, incident UI and public projection/privacy tests.
-5. Measure mixed 50-monitor load, month history, actual restarts and run independent review.
-6. Complete requirements audit, owner-authored ten-sentence essay and approved GitHub submission.
-
-## AI-assisted development and attribution
-
-OpenAI Codex performed implementation and command-driven verification with owner direction.
-System identifies the GPT-6 family; exact model identifier needs owner confirmation.
-Codex suits this work because changes, tests and local commands can be reviewed together.
-See [AI disclosure](docs/ai-development.md), [actual prompt](docs/prompts/001-master-prompt.md),
-[decisions](docs/decisions.md), [chronological log](docs/development-log.md),
-[progress](docs/progress.md), [first PR summary](docs/pr-summary.md).
-No remote PR exists at this checkpoint.
-
-The project was written from an empty workspace, without a third-party application template.
-Libraries: FastAPI, Pydantic, SQLAlchemy, Alembic, asyncpg, HTTPX/httpcore, Uvicorn, React,
-TypeScript, Vite, Vitest, Testing Library, pytest, Ruff, Playwright and Prettier.
-Infrastructure: PostgreSQL, nginx, Docker Compose and Mailpit official images.
-HTTPX transport/HTTPCore extension documentation informed numeric IP and SNI handling;
-see source links in the decision log. These dependencies retain their own licenses; no
-third-party product UI or assets were copied. No project license has been chosen by the owner.
+Проект написан с пустого workspace без чужого application template. Использованы FastAPI/Pydantic/SQLAlchemy/Alembic/asyncpg/HTTPX/httpcore/Uvicorn, React/TypeScript/Vite, pytest/Vitest/TestingLibrary/Playwright/axe/Ruff/Prettier, PostgreSQL/nginx/DockerCompose/Mailpit. Графики собственные SVG; SMTP основан на stdlib smtplib/EmailMessage. Чужие UI/assets не копировались; лицензии зависимостей остаются их лицензиями, лицензию проекта владелец ещё не выбрал. Проверяющему нужны ссылка на актуальную ветку, запуск и честное описание ограничений, а не вымышленная история.

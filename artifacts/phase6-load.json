@@ -1,0 +1,1731 @@
+{
+  "started_at": "2026-10-20T04:21:59.404950+00:00",
+  "project": "servicepulse-phase6-performance",
+  "requested_seconds": 300,
+  "monitors": 50,
+  "interval_seconds": 30,
+  "policy": "next_due = persistence completion + 30s; no wall-clock catch-up",
+  "observation_started_at": "2026-10-20T04:22:18.336179+00:00",
+  "observed_seconds": 300.0,
+  "http_started": 475,
+  "http_finished": 475,
+  "http_cancelled": 0,
+  "check_results": 475,
+  "successful": 375,
+  "max_concurrency": 41,
+  "mean_concurrency": 3.4244611933333347,
+  "overlaps": [],
+  "http_seconds": {
+    "count": 475,
+    "mean": 2.1631951760231307,
+    "min": 0.11841234700114,
+    "p50": 0.15404925200164143,
+    "p95": 32.01171916000021,
+    "p99": 32.066054740000254,
+    "max": 32.06985523000003
+  },
+  "scheduler_delay_seconds": {
+    "count": 475,
+    "mean": 0.7747088294736842,
+    "min": 0.039532,
+    "p50": 0.303889,
+    "p95": 4.84961,
+    "p99": 4.977074,
+    "max": 4.997708
+  },
+  "fast_counts": [
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10
+  ],
+  "slow_counts": [
+    5,
+    5,
+    5,
+    5,
+    5
+  ],
+  "resource_samples": [
+    {
+      "elapsed_seconds": 2.0939999999991414,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "12.50%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.78%",
+          "MemUsage": "60.95MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "103kB / 133kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 54.5MB",
+          "CPUPerc": "29.69%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.72%",
+          "MemUsage": "55.97MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "251kB / 210kB",
+          "PIDs": "17"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "39.61%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.83%",
+          "MemUsage": "65.02MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "185kB / 196kB",
+          "PIDs": "10"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 9.375,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "12.41%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.79%",
+          "MemUsage": "61.83MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "110kB / 142kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 54.6MB",
+          "CPUPerc": "4.78%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.75%",
+          "MemUsage": "58.08MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "282kB / 234kB",
+          "PIDs": "17"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.88%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.82%",
+          "MemUsage": "64.09MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "202kB / 220kB",
+          "PIDs": "10"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 16.60899999999856,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "12.20%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.80%",
+          "MemUsage": "62.16MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "117kB / 152kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 54.6MB",
+          "CPUPerc": "4.92%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.74%",
+          "MemUsage": "57.68MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "298kB / 248kB",
+          "PIDs": "17"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.93%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.82%",
+          "MemUsage": "64.14MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "209kB / 231kB",
+          "PIDs": "10"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 23.125,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "7.08%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.79%",
+          "MemUsage": "61.84MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "124kB / 160kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 54.7MB",
+          "CPUPerc": "4.44%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.74%",
+          "MemUsage": "58.02MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "312kB / 260kB",
+          "PIDs": "17"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.73%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.82%",
+          "MemUsage": "64.09MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "217kB / 242kB",
+          "PIDs": "10"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 30.04699999999866,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.70%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.79%",
+          "MemUsage": "61.93MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "130kB / 169kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 54.7MB",
+          "CPUPerc": "4.50%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.74%",
+          "MemUsage": "58MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "328kB / 274kB",
+          "PIDs": "17"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.37%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.83%",
+          "MemUsage": "64.36MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "224kB / 252kB",
+          "PIDs": "10"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 37.25,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "12.18%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.79%",
+          "MemUsage": "61.91MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "137kB / 179kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 55.3MB",
+          "CPUPerc": "4.50%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.76%",
+          "MemUsage": "59.11MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "546kB / 456kB",
+          "PIDs": "17"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.84%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.84%",
+          "MemUsage": "65.52MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "425kB / 489kB",
+          "PIDs": "16"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 44.4369999999999,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "13.93%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.80%",
+          "MemUsage": "61.97MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "145kB / 190kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 56.2MB",
+          "CPUPerc": "5.61%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.79%",
+          "MemUsage": "61.42MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "563kB / 471kB",
+          "PIDs": "17"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.74%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.84%",
+          "MemUsage": "65.62MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "432kB / 500kB",
+          "PIDs": "16"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 51.125,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "11.85%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.79%",
+          "MemUsage": "61.43MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "154kB / 201kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 56.2MB",
+          "CPUPerc": "4.49%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.82%",
+          "MemUsage": "63.68MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "579kB / 486kB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.56%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.83%",
+          "MemUsage": "64.91MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "440kB / 511kB",
+          "PIDs": "16"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 58.34399999999914,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "9.28%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.79%",
+          "MemUsage": "61.33MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "161kB / 211kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 56.2MB",
+          "CPUPerc": "4.07%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.82%",
+          "MemUsage": "63.89MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "595kB / 500kB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.63%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.82%",
+          "MemUsage": "63.86MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "446kB / 519kB",
+          "PIDs": "16"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 65.53099999999904,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "11.92%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.93%",
+          "MemUsage": "72.12MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "169kB / 222kB",
+          "PIDs": "3"
+        },
+        {
+          "BlockIO": "0B / 56.7MB",
+          "CPUPerc": "4.76%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.85%",
+          "MemUsage": "65.93MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "743kB / 642kB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "6.43%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.84%",
+          "MemUsage": "65.72MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "605kB / 685kB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 72.20299999999952,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "13.19%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.79%",
+          "MemUsage": "61.93MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "176kB / 232kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 56.8MB",
+          "CPUPerc": "4.48%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.85%",
+          "MemUsage": "65.94MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "771kB / 667kB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.66%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.84%",
+          "MemUsage": "65.31MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "626kB / 712kB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 79.4369999999999,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "11.75%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.80%",
+          "MemUsage": "62.14MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "184kB / 243kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 56.8MB",
+          "CPUPerc": "4.96%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.88%",
+          "MemUsage": "68.74MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "787kB / 681kB",
+          "PIDs": "24"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.85%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.83%",
+          "MemUsage": "64.64MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "632kB / 721kB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 86.67199999999866,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "13.20%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.80%",
+          "MemUsage": "62.14MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "191kB / 253kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 57MB",
+          "CPUPerc": "4.18%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.84%",
+          "MemUsage": "65.81MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "803kB / 696kB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.70%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.83%",
+          "MemUsage": "64.57MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "640kB / 732kB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 93.1869999999999,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "14.03%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.79%",
+          "MemUsage": "61.42MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "199kB / 263kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 57.3MB",
+          "CPUPerc": "35.97%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.87%",
+          "MemUsage": "67.79MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "925kB / 812kB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "39.13%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.86%",
+          "MemUsage": "67.01MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "767kB / 866kB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 100.125,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "12.60%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.80%",
+          "MemUsage": "62.04MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "206kB / 273kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 57.7MB",
+          "CPUPerc": "6.09%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.85%",
+          "MemUsage": "66.48MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "976kB / 858kB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.59%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.85%",
+          "MemUsage": "66MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "815kB / 921kB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 107.34399999999914,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "12.49%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.79%",
+          "MemUsage": "61.35MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "213kB / 283kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 57.7MB",
+          "CPUPerc": "5.13%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.86%",
+          "MemUsage": "66.79MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "1MB / 878kB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "2.15%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.84%",
+          "MemUsage": "65.41MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "828kB / 938kB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 114.5619999999999,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "5.16%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.90%",
+          "MemUsage": "70.01MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "220kB / 293kB",
+          "PIDs": "3"
+        },
+        {
+          "BlockIO": "0B / 57.7MB",
+          "CPUPerc": "4.69%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.86%",
+          "MemUsage": "66.98MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "1.02MB / 892kB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.58%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.84%",
+          "MemUsage": "65.21MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "836kB / 950kB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 121.20299999999952,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "13.03%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.79%",
+          "MemUsage": "61.72MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "228kB / 304kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 57.7MB",
+          "CPUPerc": "4.63%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.86%",
+          "MemUsage": "66.66MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "1.03MB / 906kB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.96%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.83%",
+          "MemUsage": "64.98MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "843kB / 959kB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 128.4369999999999,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "3.95%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.87%",
+          "MemUsage": "68.07MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "235kB / 314kB",
+          "PIDs": "3"
+        },
+        {
+          "BlockIO": "0B / 58.1MB",
+          "CPUPerc": "5.88%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.86%",
+          "MemUsage": "67.38MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "1.19MB / 1.06MB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "7.22%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.86%",
+          "MemUsage": "66.86MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "1.01MB / 1.14MB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 135.67199999999866,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "12.63%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.80%",
+          "MemUsage": "62.12MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "243kB / 324kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 58.2MB",
+          "CPUPerc": "4.48%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.85%",
+          "MemUsage": "66.42MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "1.22MB / 1.08MB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.26%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.85%",
+          "MemUsage": "66.13MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "1.03MB / 1.16MB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 142.21899999999914,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "12.29%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.81%",
+          "MemUsage": "62.75MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "251kB / 334kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 58.3MB",
+          "CPUPerc": "5.25%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.86%",
+          "MemUsage": "66.71MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "1.23MB / 1.1MB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.92%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.85%",
+          "MemUsage": "66.43MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "1.04MB / 1.17MB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 149.51499999999942,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "12.00%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.80%",
+          "MemUsage": "62.57MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "258kB / 345kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 58.3MB",
+          "CPUPerc": "4.51%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.87%",
+          "MemUsage": "67.5MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "1.25MB / 1.11MB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.60%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.84%",
+          "MemUsage": "65.78MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "1.04MB / 1.18MB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 156.73399999999856,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "12.70%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.80%",
+          "MemUsage": "62.27MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "265kB / 355kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 58.6MB",
+          "CPUPerc": "5.18%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.86%",
+          "MemUsage": "66.86MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "1.37MB / 1.23MB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.63%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.86%",
+          "MemUsage": "66.64MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "1.17MB / 1.31MB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 163.29699999999866,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "12.82%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.79%",
+          "MemUsage": "61.39MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "273kB / 365kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 59.1MB",
+          "CPUPerc": "5.08%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.87%",
+          "MemUsage": "67.42MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "1.42MB / 1.27MB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "3.20%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.85%",
+          "MemUsage": "66.34MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "1.22MB / 1.37MB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 170.23399999999856,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "12.38%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.79%",
+          "MemUsage": "61.76MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "280kB / 375kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 59.1MB",
+          "CPUPerc": "4.33%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.86%",
+          "MemUsage": "66.95MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "1.44MB / 1.29MB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.63%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.84%",
+          "MemUsage": "65.25MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "1.23MB / 1.39MB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 177.45299999999952,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "15.97%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.80%",
+          "MemUsage": "62.13MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "287kB / 385kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 59.1MB",
+          "CPUPerc": "5.99%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.86%",
+          "MemUsage": "66.7MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "1.46MB / 1.31MB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.62%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.84%",
+          "MemUsage": "65.51MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "1.24MB / 1.4MB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 184.65599999999904,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "12.12%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.90%",
+          "MemUsage": "69.99MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "294kB / 394kB",
+          "PIDs": "3"
+        },
+        {
+          "BlockIO": "0B / 59.3MB",
+          "CPUPerc": "12.56%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.86%",
+          "MemUsage": "67.3MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "1.53MB / 1.37MB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "26.74%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.86%",
+          "MemUsage": "66.91MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "1.31MB / 1.47MB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 191.25,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "16.82%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.78%",
+          "MemUsage": "61.02MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "302kB / 405kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 59.6MB",
+          "CPUPerc": "4.83%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.85%",
+          "MemUsage": "66.41MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "1.6MB / 1.44MB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.11%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.84%",
+          "MemUsage": "65.35MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "1.38MB / 1.55MB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 198.5,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "14.99%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.78%",
+          "MemUsage": "61.16MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "309kB / 415kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 59.7MB",
+          "CPUPerc": "6.01%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.86%",
+          "MemUsage": "67.31MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "1.62MB / 1.46MB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "3.49%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.84%",
+          "MemUsage": "65.33MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "1.4MB / 1.57MB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 205.76499999999942,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "13.98%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.81%",
+          "MemUsage": "62.82MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "317kB / 426kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 59.7MB",
+          "CPUPerc": "4.87%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.85%",
+          "MemUsage": "66.28MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "1.64MB / 1.48MB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.62%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.83%",
+          "MemUsage": "64.96MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "1.41MB / 1.58MB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 212.29699999999866,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "13.75%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.80%",
+          "MemUsage": "61.97MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "324kB / 436kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 59.7MB",
+          "CPUPerc": "5.41%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.86%",
+          "MemUsage": "66.7MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "1.66MB / 1.49MB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.69%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.84%",
+          "MemUsage": "65.11MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "1.41MB / 1.59MB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 219.5619999999999,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "2.97%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.79%",
+          "MemUsage": "61.39MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "331kB / 446kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 60.1MB",
+          "CPUPerc": "5.39%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.86%",
+          "MemUsage": "66.99MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "1.74MB / 1.57MB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.71%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.86%",
+          "MemUsage": "66.98MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "1.5MB / 1.69MB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 226.78099999999904,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "12.43%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.80%",
+          "MemUsage": "62.33MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "339kB / 457kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 60.2MB",
+          "CPUPerc": "5.11%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.87%",
+          "MemUsage": "67.68MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "1.79MB / 1.61MB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.03%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.85%",
+          "MemUsage": "66.14MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "1.54MB / 1.74MB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 233.26499999999942,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "3.38%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.79%",
+          "MemUsage": "61.27MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "346kB / 466kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 60.2MB",
+          "CPUPerc": "5.06%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.87%",
+          "MemUsage": "67.51MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "1.82MB / 1.63MB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.11%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.85%",
+          "MemUsage": "65.93MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "1.56MB / 1.76MB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 240.20299999999952,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "4.12%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.85%",
+          "MemUsage": "66.46MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "353kB / 476kB",
+          "PIDs": "8"
+        },
+        {
+          "BlockIO": "0B / 60.2MB",
+          "CPUPerc": "5.47%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.86%",
+          "MemUsage": "67.37MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "1.83MB / 1.65MB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.74%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.84%",
+          "MemUsage": "65.66MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "1.57MB / 1.77MB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 247.45299999999952,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "14.31%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.79%",
+          "MemUsage": "61.55MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "361kB / 487kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 60.5MB",
+          "CPUPerc": "6.28%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.87%",
+          "MemUsage": "68.11MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "1.92MB / 1.73MB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.67%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.86%",
+          "MemUsage": "66.89MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "1.66MB / 1.87MB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 254.67199999999866,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "12.57%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.80%",
+          "MemUsage": "62.04MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "369kB / 497kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 60.7MB",
+          "CPUPerc": "2.30%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.86%",
+          "MemUsage": "67.21MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "1.97MB / 1.78MB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.64%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.85%",
+          "MemUsage": "66.5MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "1.71MB / 1.92MB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 261.3119999999999,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "11.67%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.79%",
+          "MemUsage": "61.92MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "376kB / 507kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 60.7MB",
+          "CPUPerc": "6.59%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.87%",
+          "MemUsage": "67.89MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "1.99MB / 1.8MB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "5.87%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.86%",
+          "MemUsage": "66.98MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "1.72MB / 1.94MB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 268.53099999999904,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "12.67%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.80%",
+          "MemUsage": "62MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "383kB / 517kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 60.8MB",
+          "CPUPerc": "4.47%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.92%",
+          "MemUsage": "71.96MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "2.01MB / 1.82MB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.63%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.85%",
+          "MemUsage": "66.42MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "1.74MB / 1.96MB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 275.75,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "7.18%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.79%",
+          "MemUsage": "61.64MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "391kB / 527kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 60.8MB",
+          "CPUPerc": "4.60%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.86%",
+          "MemUsage": "67.39MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "2.03MB / 1.83MB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "19.25%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.86%",
+          "MemUsage": "67.09MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "1.8MB / 2.03MB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 282.375,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "12.07%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.80%",
+          "MemUsage": "62.31MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "398kB / 537kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 61.1MB",
+          "CPUPerc": "5.44%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.86%",
+          "MemUsage": "67.14MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "2.12MB / 1.92MB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "6.20%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.86%",
+          "MemUsage": "67.37MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "1.84MB / 2.08MB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 289.625,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "10.85%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.93%",
+          "MemUsage": "72.41MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "405kB / 548kB",
+          "PIDs": "3"
+        },
+        {
+          "BlockIO": "0B / 61.1MB",
+          "CPUPerc": "2.54%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.93%",
+          "MemUsage": "72.14MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "2.16MB / 1.95MB",
+          "PIDs": "24"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.61%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.85%",
+          "MemUsage": "65.94MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "1.88MB / 2.11MB",
+          "PIDs": "21"
+        }
+      ]
+    },
+    {
+      "elapsed_seconds": 296.85899999999856,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "11.72%",
+          "Container": "88846551e4b8729199b4de200263b32567501053b0852eefcb003f342349f139",
+          "ID": "88846551e4b8",
+          "MemPerc": "0.78%",
+          "MemUsage": "60.75MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-backend-1",
+          "NetIO": "413kB / 559kB",
+          "PIDs": "2"
+        },
+        {
+          "BlockIO": "0B / 62MB",
+          "CPUPerc": "4.65%",
+          "Container": "c2e68af47a3be4dd945be60bdbe9b9b93470329636843b272828cfff626556b3",
+          "ID": "c2e68af47a3b",
+          "MemPerc": "0.85%",
+          "MemUsage": "66.2MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-db-1",
+          "NetIO": "2.19MB / 1.98MB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.55%",
+          "Container": "8ddafa2d23cc428ff4f516ca089330a28a674907f57a4f8fb07ac3e18cbaecf7",
+          "ID": "8ddafa2d23cc",
+          "MemPerc": "0.85%",
+          "MemUsage": "66.04MiB / 7.609GiB",
+          "Name": "servicepulse-phase6-performance-worker-1",
+          "NetIO": "1.89MB / 2.14MB",
+          "PIDs": "21"
+        }
+      ]
+    }
+  ],
+  "latency": {
+    "api_ms": {
+      "count": 43,
+      "mean": 20.098983720704698,
+      "min": 9.918100000504637,
+      "p50": 16.548699999475502,
+      "p95": 35.15789999983099,
+      "p99": 66.48689999929047,
+      "max": 66.48689999929047
+    },
+    "dashboard_http_ms": {
+      "count": 43,
+      "mean": 10.706002325520764,
+      "min": 2.366700000493438,
+      "p50": 4.074199998285621,
+      "p95": 27.60160000070755,
+      "p99": 41.23229999822797,
+      "max": 41.23229999822797
+    }
+  },
+  "failed": 100,
+  "planned_and_missed": "Initial 50 due; subsequent schedules are created only after persistence. No theoretical fixed-rate count or missing observations inferred; per-launch due delays reported.",
+  "http_finished_without_persistence_at_shutdown": 0,
+  "status": "PASS",
+  "ended_at": "2026-10-20T04:27:22.707007+00:00"
+}

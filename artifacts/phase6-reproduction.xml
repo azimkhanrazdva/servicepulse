@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="12" time="4.322" timestamp="2026-10-20T04:03:30.429115+00:00" hostname="bd532a6625b6"><testcase classname="tests.test_notifications" name="test_recovered_before_down_send_preserves_required_pair" time="0.319"><failure message="AssertionError: assert [] == ['DOWN', 'RECOVERY']&#10;  &#10;  Right contains 2 more items, first extra item: 'DOWN'&#10;  Use -v to get more diff">monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x796cb4797f80&gt;
+
+    async def test_recovered_before_down_send_preserves_required_pair(monkeypatch):
+        async with api_client() as api:
+            m, _ = await setup(api)
+            await sample(api, m["id"], monkeypatch)
+            await sample(api, m["id"], monkeypatch, True)
+            sent = []
+    
+            async def sender(p):
+                sent.append(p)
+    
+            await drain(sender)
+            await reconcile()
+            await drain(sender)
+&gt;           assert [p["event_type"] for p in sent] == ["DOWN", "RECOVERY"]
+E           AssertionError: assert [] == ['DOWN', 'RECOVERY']
+E             
+E             Right contains 2 more items, first extra item: 'DOWN'
+E             Use -v to get more diff
+
+tests/test_notifications.py:370: AssertionError</failure></testcase><testcase classname="tests.test_database" name="test_expired_claim_never_starts_http" time="0.201"><failure message="Failed: Expired lease started HTTP">monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x796cb45604a0&gt;
+
+    async def test_expired_claim_never_starts_http(monkeypatch):
+        async with Session() as db, db.begin():
+            db.add(Monitor(name="expired preflight", url="https://example.com"))
+        claim = (await claim_due(1))[0]
+        async with Session() as db, db.begin():
+            row = await db.get(Monitor, claim.id)
+            row.lease_until = now() - timedelta(seconds=1)
+    
+        async def forbidden(*args):
+            pytest.fail("Expired lease started HTTP")
+    
+        monkeypatch.setattr("app.worker.check", forbidden)
+&gt;       await execute(claim, None)
+
+tests/test_database.py:75: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/worker.py:53: in execute
+    observation = await check(monitor, client)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (&lt;app.models.Monitor object at 0x796cb43ea690&gt;, None)
+
+    async def forbidden(*args):
+&gt;       pytest.fail("Expired lease started HTTP")
+E       Failed: Expired lease started HTTP
+
+tests/test_database.py:72: Failed</failure></testcase><testcase classname="tests.test_public_analytics" name="test_public_health_ignores_paused_freshness[states0-UP]" time="0.249" /><testcase classname="tests.test_public_analytics" name="test_public_health_ignores_paused_freshness[states1-DOWN]" time="0.268" /><testcase classname="tests.test_public_analytics" name="test_public_health_ignores_paused_freshness[states2-UNKNOWN]" time="0.215" /><testcase classname="tests.test_public_analytics" name="test_public_health_ignores_paused_freshness[states3-PAUSED]" time="0.225" /><testcase classname="tests.test_public_analytics" name="test_public_health_ignores_paused_freshness[states4-PAUSED]" time="0.239" /><testcase classname="tests.test_public_analytics" name="test_public_health_ignores_paused_freshness[states5-UP]" time="0.230"><failure message="AssertionError: assert 'UNKNOWN' == 'UP'&#10;  &#10;  - UP&#10;  + UNKNOWN">states = [('UP', 'FRESH'), ('PAUSED', 'STALE')], expected = 'UP'
+
+    @pytest.mark.parametrize(
+        "states,expected",
+        [
+            ([("UP", "FRESH")], "UP"),
+            ([("DOWN", "FRESH"), ("UP", "FRESH")], "DOWN"),
+            ([("UNKNOWN", "NO_DATA")], "UNKNOWN"),
+            ([("PAUSED", "STALE")], "PAUSED"),
+            ([("PAUSED", "NO_DATA"), ("PAUSED", "STALE")], "PAUSED"),
+            ([("UP", "FRESH"), ("PAUSED", "STALE")], "UP"),
+            ([("UP", "FRESH"), ("PAUSED", "NO_DATA")], "UP"),
+            ([("UP", "STALE")], "UNKNOWN"),
+            ([("DOWN", "STALE")], "DOWN"),
+            ([], "NO_DATA"),
+        ],
+    )
+    async def test_public_health_ignores_paused_freshness(states, expected):
+        async with api_client() as api, public_client() as public:
+            publications = []
+            for index, (state, freshness) in enumerate(states):
+                m = await create(api, name=f"Service {index}")
+                async with Session() as db, db.begin():
+                    row = await db.get(Monitor, uuid.UUID(m["id"]))
+                    row.state = state
+                    row.last_checked_at = (
+                        None if freshness == "NO_DATA" else now() - timedelta(
+                            hours=1 if freshness == "STALE" else 0
+                        )
+                    )
+                publications.append({"monitor_id": m["id"], "public_name": f"Service {index}"})
+            await page(api, None, publications=publications)
+            response = await public.get("/api/public/pages/customer-status")
+            assert response.status_code == 200
+&gt;           assert response.json()["state"] == expected
+E           AssertionError: assert 'UNKNOWN' == 'UP'
+E             
+E             - UP
+E             + UNKNOWN
+
+tests/test_public_analytics.py:183: AssertionError</failure></testcase><testcase classname="tests.test_public_analytics" name="test_public_health_ignores_paused_freshness[states6-UP]" time="0.238"><failure message="AssertionError: assert 'UNKNOWN' == 'UP'&#10;  &#10;  - UP&#10;  + UNKNOWN">states = [('UP', 'FRESH'), ('PAUSED', 'NO_DATA')], expected = 'UP'
+
+    @pytest.mark.parametrize(
+        "states,expected",
+        [
+            ([("UP", "FRESH")], "UP"),
+            ([("DOWN", "FRESH"), ("UP", "FRESH")], "DOWN"),
+            ([("UNKNOWN", "NO_DATA")], "UNKNOWN"),
+            ([("PAUSED", "STALE")], "PAUSED"),
+            ([("PAUSED", "NO_DATA"), ("PAUSED", "STALE")], "PAUSED"),
+            ([("UP", "FRESH"), ("PAUSED", "STALE")], "UP"),
+            ([("UP", "FRESH"), ("PAUSED", "NO_DATA")], "UP"),
+            ([("UP", "STALE")], "UNKNOWN"),
+            ([("DOWN", "STALE")], "DOWN"),
+            ([], "NO_DATA"),
+        ],
+    )
+    async def test_public_health_ignores_paused_freshness(states, expected):
+        async with api_client() as api, public_client() as public:
+            publications = []
+            for index, (state, freshness) in enumerate(states):
+                m = await create(api, name=f"Service {index}")
+                async with Session() as db, db.begin():
+                    row = await db.get(Monitor, uuid.UUID(m["id"]))
+                    row.state = state
+                    row.last_checked_at = (
+                        None if freshness == "NO_DATA" else now() - timedelta(
+                            hours=1 if freshness == "STALE" else 0
+                        )
+                    )
+                publications.append({"monitor_id": m["id"], "public_name": f"Service {index}"})
+            await page(api, None, publications=publications)
+            response = await public.get("/api/public/pages/customer-status")
+            assert response.status_code == 200
+&gt;           assert response.json()["state"] == expected
+E           AssertionError: assert 'UNKNOWN' == 'UP'
+E             
+E             - UP
+E             + UNKNOWN
+
+tests/test_public_analytics.py:183: AssertionError</failure></testcase><testcase classname="tests.test_public_analytics" name="test_public_health_ignores_paused_freshness[states7-UNKNOWN]" time="0.228" /><testcase classname="tests.test_public_analytics" name="test_public_health_ignores_paused_freshness[states8-DOWN]" time="0.215" /><testcase classname="tests.test_public_analytics" name="test_public_health_ignores_paused_freshness[states9-NO_DATA]" time="0.194" /></testsuite></testsuites>

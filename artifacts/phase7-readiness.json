@@ -1,0 +1,51 @@
+{
+  "formula": "PASS/(PASS+PARTIAL+FAIL+NOT VERIFIED)*100; NOT APPLICABLE excluded only with justification",
+  "origins": {
+    "M": {
+      "counts": {
+        "PASS": 70,
+        "PARTIAL": 2
+      },
+      "denominator": 72,
+      "percent": 97.22
+    },
+    "O": {
+      "counts": {
+        "PASS": 142,
+        "PARTIAL": 5,
+        "NOT VERIFIED": 2
+      },
+      "denominator": 149,
+      "percent": 95.3
+    },
+    "T": {
+      "counts": {
+        "PASS": 9
+      },
+      "denominator": 9,
+      "percent": 100.0
+    },
+    "OPT": {
+      "counts": {
+        "PASS": 2
+      },
+      "denominator": 2,
+      "percent": 100.0
+    }
+  },
+  "mandatory_project": {
+    "counts": {
+      "PASS": 221,
+      "PARTIAL": 7,
+      "NOT VERIFIED": 2
+    },
+    "denominator": 230,
+    "percent": 96.09
+  },
+  "all_rows_inventory": {
+    "PASS": 223,
+    "PARTIAL": 7,
+    "NOT VERIFIED": 2
+  },
+  "total_rows": 232
+}

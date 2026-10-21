@@ -1,0 +1,54 @@
+{
+  "checked_at": "2026-10-20T11:56:45.657245+00:00",
+  "status": "PASS",
+  "cases": [
+    {
+      "port": 8000,
+      "path": "/api/health",
+      "host": "localhost:8000",
+      "status": 200
+    },
+    {
+      "port": 8000,
+      "path": "/api/health",
+      "host": "backend:8000",
+      "status": 200
+    },
+    {
+      "port": 8000,
+      "path": "/api/health",
+      "host": "audit.invalid",
+      "status": 400
+    },
+    {
+      "port": 8000,
+      "path": "/api/health",
+      "host": "localhost.attacker.example",
+      "status": 400
+    },
+    {
+      "port": 8080,
+      "path": "/api/health",
+      "host": "localhost:8080",
+      "status": 200
+    },
+    {
+      "port": 8080,
+      "path": "/api/health",
+      "host": "audit.invalid",
+      "status": 400
+    },
+    {
+      "port": 8081,
+      "path": "/api/monitors",
+      "host": "localhost:8081",
+      "status": 404
+    },
+    {
+      "port": 8081,
+      "path": "/api/notifications",
+      "host": "localhost:8081",
+      "status": 404
+    }
+  ]
+}

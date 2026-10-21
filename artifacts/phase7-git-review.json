@@ -1,0 +1,13 @@
+{
+  "checked_at": "2026-10-20T12:21:56.662014+00:00",
+  "head": "42e40011f95c9c3ece533639d2b182b855b95a8d",
+  "branch": "feat/final-acceptance-release",
+  "phase6_anchor": "494e310bb670a141f32702b9644a3f03ee36e492",
+  "clean_runtime_commit": "acd17f449629c184838ffeab9597724314b3bd57",
+  "runtime_diff_since_clean_checkout": [],
+  "limited_secret_pattern_hits": [],
+  "history_text_blobs_scanned": 543,
+  "history_pattern_hits": [],
+  "status": "PASS",
+  "scope": "Current tracked UTF-8 files<=2MB; finite secret patterns, not full secret detection. No history rewrite by this stage."
+}

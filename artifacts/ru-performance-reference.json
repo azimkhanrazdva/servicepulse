@@ -1,0 +1,88 @@
+{
+  "checked_at": "2026-10-21T02:20:45.224688+00:00",
+  "status": "PASS",
+  "steady": {
+    "starts": 475,
+    "ends": 475,
+    "monitors": 50,
+    "maximum_concurrency": 41,
+    "overlaps": 0,
+    "unfinished": 0,
+    "outcomes": {
+      "success": 375,
+      "unexpected_status": 50,
+      "timeout": 50
+    },
+    "scheduler_delay_seconds": {
+      "count": 475,
+      "p50": 0.303889,
+      "p95": 4.84961,
+      "p99": 4.977074,
+      "max": 4.997708
+    }
+  },
+  "fault": {
+    "starts": 295,
+    "ends": 295,
+    "monitors": 51,
+    "maximum_concurrency": 17,
+    "overlaps": 0,
+    "unfinished": 0,
+    "outcomes": {
+      "success": 266,
+      "unexpected_status": 7,
+      "timeout": 13,
+      "network_error": 9
+    },
+    "scheduler_delay_seconds": {
+      "count": 295,
+      "p50": 0.319373,
+      "p95": 1.739643,
+      "p99": 7.162174,
+      "max": 8.559714
+    }
+  },
+  "cold_seconds": {
+    "count": 3,
+    "p50": 0.5540416919998279,
+    "p95": 0.6349984199998744,
+    "p99": 0.6349984199998744,
+    "max": 0.6349984199998744
+  },
+  "warm_seconds": {
+    "count": 21,
+    "p50": 0.5323700330000065,
+    "p95": 0.8667217229999551,
+    "p99": 1.1795881259999987,
+    "max": 1.1795881259999987
+  },
+  "persistence_audit": {
+    "checked_at": "2026-10-20T10:45:52.550710+00:00",
+    "project": "servicepulse-phase6-fault-load-f82127",
+    "persisted_observations": 290,
+    "observations_without_matching_actual_http_end": [],
+    "duplicate_timestamp_groups": 0,
+    "incident_monitors": [
+      {
+        "name": "fault-48",
+        "closed": null
+      },
+      {
+        "name": "fault-49",
+        "closed": null
+      },
+      {
+        "name": "fault-00",
+        "closed": "2026-10-20T10:37:21.048112+00:00"
+      },
+      {
+        "name": "fault-04",
+        "closed": null
+      }
+    ],
+    "status": "PASS",
+    "limit": "Matches each persisted timestamp to logged real HTTP completion within 1s; does not infer theoretical missed fixed-rate launches."
+  },
+  "attribution": "Earlier DB/browser snapshots predate final475 run. Treat as separate experiments.",
+  "scope": "Recomputed retained raw events and measurements, not a new load run. Fixed delay; shared host/OS cache retained."
+}

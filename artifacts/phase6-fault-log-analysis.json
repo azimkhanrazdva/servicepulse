@@ -1,0 +1,24 @@
+{
+  "source": "phase6-fault-load-worker.log",
+  "scope": "Actual logged launches across faults/restart; unfinished calls remain explicit; no invented fixed-rate denominator",
+  "starts": 295,
+  "ends": 295,
+  "maximum_concurrency": 17,
+  "same_monitor_overlaps": [],
+  "unfinished_at_log_end": [],
+  "outcomes": {
+    "success": 266,
+    "unexpected_status": 7,
+    "timeout": 13,
+    "network_error": 9
+  },
+  "scheduler_delay_seconds": {
+    "count": 295,
+    "mean": 0.5143865288135593,
+    "min": 0.014745,
+    "p50": 0.319373,
+    "p95": 1.739643,
+    "p99": 7.162174,
+    "max": 8.559714
+  }
+}

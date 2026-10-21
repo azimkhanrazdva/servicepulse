@@ -1,0 +1,153 @@
+{
+  "title": "Model metadata from the primary ServicePulse development session",
+  "thread_id": "01a15471-948d-73a2-aebb-01a9ba32e686",
+  "verified_at": "2026-10-21T16:02:11+05:00",
+  "source_session_sha256": "fee378ff1c336182697f1d65104976b616e008c79202322b86f36ac0c1e4b64d",
+  "privacy_filtered_export_sha256": "1c91aa163f2bf76702204e7d465d79406e939c49a8e9fa4b203e7b4783ea1c77",
+  "context_records": 26,
+  "counts": [
+    {
+      "model": "gpt-6.1-sol",
+      "effort": "medium",
+      "records": 24
+    },
+    {
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "records": 2
+    }
+  ],
+  "contexts": [
+    {
+      "timestamp": "2026-10-19T13:55:11.012Z",
+      "model": "gpt-6.1-sol",
+      "effort": "medium"
+    },
+    {
+      "timestamp": "2026-10-19T15:01:50.237Z",
+      "model": "gpt-6.1-sol",
+      "effort": "medium"
+    },
+    {
+      "timestamp": "2026-10-19T15:08:07.471Z",
+      "model": "gpt-6.1-sol",
+      "effort": "medium"
+    },
+    {
+      "timestamp": "2026-10-19T15:08:36.352Z",
+      "model": "gpt-6.1-sol",
+      "effort": "medium"
+    },
+    {
+      "timestamp": "2026-10-19T15:12:30.676Z",
+      "model": "gpt-6.1-sol",
+      "effort": "medium"
+    },
+    {
+      "timestamp": "2026-10-19T15:14:23.104Z",
+      "model": "gpt-6.1-sol",
+      "effort": "medium"
+    },
+    {
+      "timestamp": "2026-10-19T15:36:40.620Z",
+      "model": "gpt-6.1-sol",
+      "effort": "medium"
+    },
+    {
+      "timestamp": "2026-10-19T15:38:10.588Z",
+      "model": "gpt-6.1-sol",
+      "effort": "medium"
+    },
+    {
+      "timestamp": "2026-10-19T16:07:33.138Z",
+      "model": "gpt-6.1-sol",
+      "effort": "medium"
+    },
+    {
+      "timestamp": "2026-10-20T00:56:34.094Z",
+      "model": "gpt-6.1-sol",
+      "effort": "medium"
+    },
+    {
+      "timestamp": "2026-10-20T01:33:01.858Z",
+      "model": "gpt-6.1-sol",
+      "effort": "medium"
+    },
+    {
+      "timestamp": "2026-10-20T01:34:21.321Z",
+      "model": "gpt-6.1-sol",
+      "effort": "medium"
+    },
+    {
+      "timestamp": "2026-10-20T02:06:25.973Z",
+      "model": "gpt-6.1-sol",
+      "effort": "medium"
+    },
+    {
+      "timestamp": "2026-10-20T02:21:06.236Z",
+      "model": "gpt-6.1-sol",
+      "effort": "medium"
+    },
+    {
+      "timestamp": "2026-10-20T03:57:54.695Z",
+      "model": "gpt-6.1-sol",
+      "effort": "medium"
+    },
+    {
+      "timestamp": "2026-10-20T04:00:46.003Z",
+      "model": "gpt-6.1-sol",
+      "effort": "medium"
+    },
+    {
+      "timestamp": "2026-10-20T04:47:08.162Z",
+      "model": "gpt-6.1-sol",
+      "effort": "medium"
+    },
+    {
+      "timestamp": "2026-10-20T06:35:30.177Z",
+      "model": "gpt-6.1-sol",
+      "effort": "medium"
+    },
+    {
+      "timestamp": "2026-10-20T10:29:40.275Z",
+      "model": "gpt-6.1-sol",
+      "effort": "medium"
+    },
+    {
+      "timestamp": "2026-10-20T10:34:44.323Z",
+      "model": "gpt-6.1-sol",
+      "effort": "medium"
+    },
+    {
+      "timestamp": "2026-10-20T11:22:33.029Z",
+      "model": "gpt-6.1-sol",
+      "effort": "high"
+    },
+    {
+      "timestamp": "2026-10-20T11:53:49.011Z",
+      "model": "gpt-6.1-sol",
+      "effort": "high"
+    },
+    {
+      "timestamp": "2026-10-21T01:14:12.454Z",
+      "model": "gpt-6.1-sol",
+      "effort": "medium"
+    },
+    {
+      "timestamp": "2026-10-21T02:08:22.306Z",
+      "model": "gpt-6.1-sol",
+      "effort": "medium"
+    },
+    {
+      "timestamp": "2026-10-21T03:01:26.295Z",
+      "model": "gpt-6.1-sol",
+      "effort": "medium"
+    },
+    {
+      "timestamp": "2026-10-21T03:50:15.010Z",
+      "model": "gpt-6.1-sol",
+      "effort": "medium"
+    }
+  ],
+  "scope": "Primary development chat only; does not identify separate subagent or later audit sessions. No credentials, raw prompts or private local paths included."
+}

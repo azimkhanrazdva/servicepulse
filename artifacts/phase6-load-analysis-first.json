@@ -1,0 +1,67 @@
+{
+  "source": "phase6-load.json + phase6-load-events.jsonl",
+  "steady_delay_seconds": {
+    "count": 425,
+    "mean": 0.3240703082352941,
+    "min": 0.018274,
+    "p50": 0.270538,
+    "p95": 0.591554,
+    "p99": 0.628434,
+    "max": 0.638955
+  },
+  "mixed_fixed_delay_start_cadence_seconds": {
+    "count": 425,
+    "mean": 32.35608631058823,
+    "min": 30.309187,
+    "p50": 30.780569,
+    "p95": 32.524447,
+    "p99": 62.559877,
+    "max": 62.562075
+  },
+  "cpu_percent_samples": {
+    "servicepulse-phase6-performance-backend-1": {
+      "count": 44,
+      "mean": 11.592045454545454,
+      "min": 1.45,
+      "p50": 12.63,
+      "p95": 15.89,
+      "p99": 21.35,
+      "max": 21.35
+    },
+    "servicepulse-phase6-performance-db-1": {
+      "count": 44,
+      "mean": 5.634545454545455,
+      "min": 1.13,
+      "p50": 4.98,
+      "p95": 7.53,
+      "p99": 26.94,
+      "max": 26.94
+    }
+  },
+  "rss_container_usage_bytes_samples": {
+    "servicepulse-phase6-performance-backend-1": {
+      "count": 44,
+      "mean": 66651303.56363636,
+      "min": 63659048.96,
+      "p50": 66186117.12,
+      "p95": 69268930.56,
+      "p99": 78097940.48,
+      "max": 78097940.48
+    },
+    "servicepulse-phase6-performance-db-1": {
+      "count": 44,
+      "mean": 74384074.93818182,
+      "min": 59160657.92,
+      "p50": 79094087.68,
+      "p95": 82522931.2,
+      "p99": 85375057.92,
+      "max": 85375057.92
+    }
+  },
+  "limits": [
+    "Docker MemUsage, not process RSS or host peak; sampled, not continuous",
+    "Initial due delay includes fixture provisioning while worker stopped",
+    "Other local Compose regression/browser/build activity shared the Docker host",
+    "No unbounded suspension or sustained multi-worker fault guarantee"
+  ]
+}

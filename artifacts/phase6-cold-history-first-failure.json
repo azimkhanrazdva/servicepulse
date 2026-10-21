@@ -1,0 +1,96 @@
+{
+  "project": "servicepulse-phase6-cold-57299c",
+  "started_at": "2026-10-20T10:39:27.028194+00:00",
+  "cold_definition": "PostgreSQL restarted; shared_buffers cold, host OS page cache retained",
+  "trials": [
+    {
+      "at": "2026-10-20T10:39:52.375526+00:00",
+      "measurements": [
+        {
+          "index": 0,
+          "aggregate_seconds": 1.2212066349999304,
+          "sql_driver_seconds": 1.1952727920000825,
+          "non_sql_seconds": 0.02593384299984791,
+          "serialization_seconds": 0.0021648050000067087,
+          "query_count": 1,
+          "bytes": 55363,
+          "buckets": 360
+        },
+        {
+          "index": 1,
+          "aggregate_seconds": 0.9185102430000143,
+          "sql_driver_seconds": 0.9129693150000548,
+          "non_sql_seconds": 0.005540927999959422,
+          "serialization_seconds": 0.0013561460000346415,
+          "query_count": 1,
+          "bytes": 55363,
+          "buckets": 360
+        },
+        {
+          "index": 2,
+          "aggregate_seconds": 0.9198244200000545,
+          "sql_driver_seconds": 0.9139441739999938,
+          "non_sql_seconds": 0.005880246000060652,
+          "serialization_seconds": 0.0017332980000901443,
+          "query_count": 1,
+          "bytes": 55363,
+          "buckets": 360
+        },
+        {
+          "index": 3,
+          "aggregate_seconds": 0.9582414160000781,
+          "sql_driver_seconds": 0.9530739680000124,
+          "non_sql_seconds": 0.005167448000065633,
+          "serialization_seconds": 0.0012991080000119837,
+          "query_count": 1,
+          "bytes": 55363,
+          "buckets": 360
+        },
+        {
+          "index": 4,
+          "aggregate_seconds": 0.946946066999999,
+          "sql_driver_seconds": 0.9404456409999966,
+          "non_sql_seconds": 0.006500426000002335,
+          "serialization_seconds": 0.0013644289999774628,
+          "query_count": 1,
+          "bytes": 55357,
+          "buckets": 360
+        },
+        {
+          "index": 5,
+          "aggregate_seconds": 0.5671102460000839,
+          "sql_driver_seconds": 0.5616583259999288,
+          "non_sql_seconds": 0.005451920000155042,
+          "serialization_seconds": 0.0013537460000634383,
+          "query_count": 1,
+          "bytes": 55363,
+          "buckets": 360
+        },
+        {
+          "index": 6,
+          "aggregate_seconds": 0.497306248999962,
+          "sql_driver_seconds": 0.49241600300001664,
+          "non_sql_seconds": 0.004890245999945364,
+          "serialization_seconds": 0.001311433999944711,
+          "query_count": 1,
+          "bytes": 55362,
+          "buckets": 360
+        },
+        {
+          "index": 7,
+          "aggregate_seconds": 0.5196400819999099,
+          "sql_driver_seconds": 0.514213275999964,
+          "non_sql_seconds": 0.005426805999945827,
+          "serialization_seconds": 0.001483234999909655,
+          "query_count": 1,
+          "bytes": 55363,
+          "buckets": 360
+        }
+      ]
+    }
+  ],
+  "status": "FAIL",
+  "error": "Command '['docker', 'compose', '-p', 'servicepulse-phase6-cold-57299c', '-f', 'compose.performance.yaml', 'run', '--rm', '--no-deps', 'backend', 'python', 'tests/benchmark_cold.py', 'measure', 'acf68ecb-3430-4e37-987c-8a255f7b40ca']' returned non-zero exit status 1.",
+  "cleanup_exit_code": 0,
+  "ended_at": "2026-10-20T10:40:05.700212+00:00"
+}

@@ -1,7 +1,8 @@
 FROM python:3.12-slim
 WORKDIR /app
-COPY pyproject.toml requirements.lock ./
+COPY requirements.lock ./
 RUN pip install --no-cache-dir -r requirements.lock
+COPY pyproject.toml ./
 COPY app app
 RUN pip install --no-cache-dir --no-deps . && useradd --create-home servicepulse
 COPY alembic.ini .

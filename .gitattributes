@@ -1,2 +1,4 @@
 * text=auto eol=lf
 *.png binary
+# Preserve pytest's original failing traceback spacing as evidence.
+artifacts/phase6-reproduction.xml -whitespace

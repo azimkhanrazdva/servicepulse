@@ -1,0 +1,591 @@
+{"measurement": "http_start", "monitor_id": "c67b220c-fd7a-4126-b549-db57904354a5", "at": "2026-10-20T10:36:09.618963+00:00", "due_at": "2026-10-20T10:36:09.462712+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "c67b220c-fd7a-4126-b549-db57904354a5", "at": "2026-10-20T10:36:09.767491+00:00", "seconds": 0.14860999499995842, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "84b8e99b-b8e2-436d-b922-1621f83a77f3", "at": "2026-10-20T10:36:10.625455+00:00", "due_at": "2026-10-20T10:36:10.333671+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "84b8e99b-b8e2-436d-b922-1621f83a77f3", "at": "2026-10-20T10:36:10.732930+00:00", "seconds": 0.10751463799999783, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "019422cf-3f52-4d6a-a328-e8b368257934", "at": "2026-10-20T10:36:11.136850+00:00", "due_at": "2026-10-20T10:36:10.943683+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "019422cf-3f52-4d6a-a328-e8b368257934", "at": "2026-10-20T10:36:11.246721+00:00", "seconds": 0.11001045799997655, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "ca7ac177-e093-45a5-89d7-9ae89f74980c", "at": "2026-10-20T10:36:11.644859+00:00", "due_at": "2026-10-20T10:36:11.552562+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "ca7ac177-e093-45a5-89d7-9ae89f74980c", "at": "2026-10-20T10:36:11.754002+00:00", "seconds": 0.10917150200003789, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "eecb34a4-95c4-4908-aa9f-da8b61449253", "at": "2026-10-20T10:36:12.660985+00:00", "due_at": "2026-10-20T10:36:12.188851+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "eecb34a4-95c4-4908-aa9f-da8b61449253", "at": "2026-10-20T10:36:12.768804+00:00", "seconds": 0.10792551099996217, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "69610f23-92e2-48df-9224-04abbf429821", "at": "2026-10-20T10:36:13.166961+00:00", "due_at": "2026-10-20T10:36:12.848414+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "69610f23-92e2-48df-9224-04abbf429821", "at": "2026-10-20T10:36:13.273241+00:00", "seconds": 0.1063012480000225, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "0266ebfc-7764-4c64-8426-7dd2fe5fa63d", "at": "2026-10-20T10:36:13.673718+00:00", "due_at": "2026-10-20T10:36:13.433597+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "0266ebfc-7764-4c64-8426-7dd2fe5fa63d", "at": "2026-10-20T10:36:13.779549+00:00", "seconds": 0.1058510440000191, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "ef36ea42-c93e-4e48-9e56-4c3ce833ffd1", "at": "2026-10-20T10:36:14.181025+00:00", "due_at": "2026-10-20T10:36:13.985462+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "ef36ea42-c93e-4e48-9e56-4c3ce833ffd1", "at": "2026-10-20T10:36:14.286801+00:00", "seconds": 0.10579708099999152, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "c685d026-6f7c-463a-8ebb-c465e4e3d229", "at": "2026-10-20T10:36:14.688085+00:00", "due_at": "2026-10-20T10:36:14.552313+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "c685d026-6f7c-463a-8ebb-c465e4e3d229", "at": "2026-10-20T10:36:14.794603+00:00", "seconds": 0.10656022699998857, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "fc332273-2677-4de7-8d18-5e8fd3c0d055", "at": "2026-10-20T10:36:15.195232+00:00", "due_at": "2026-10-20T10:36:15.116006+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "fc332273-2677-4de7-8d18-5e8fd3c0d055", "at": "2026-10-20T10:36:15.300961+00:00", "seconds": 0.1057477919999883, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "eccd4b1b-0d2c-46de-852e-dbe3b492df04", "at": "2026-10-20T10:36:15.704430+00:00", "due_at": "2026-10-20T10:36:15.689685+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "eccd4b1b-0d2c-46de-852e-dbe3b492df04", "at": "2026-10-20T10:36:15.811598+00:00", "seconds": 0.10719249900000705, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "c74aed22-b74d-435d-9da3-f878815408ff", "at": "2026-10-20T10:36:16.716053+00:00", "due_at": "2026-10-20T10:36:16.239140+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "c74aed22-b74d-435d-9da3-f878815408ff", "at": "2026-10-20T10:36:16.821886+00:00", "seconds": 0.10585699300003171, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "bb31cc47-750c-4f76-944f-d05f9f8a3d18", "at": "2026-10-20T10:36:17.222916+00:00", "due_at": "2026-10-20T10:36:16.787850+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "bb31cc47-750c-4f76-944f-d05f9f8a3d18", "at": "2026-10-20T10:36:17.328857+00:00", "seconds": 0.10596205800004554, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "85ceea82-87af-4c4c-9d43-1772bc3dd397", "at": "2026-10-20T10:36:17.730770+00:00", "due_at": "2026-10-20T10:36:17.340951+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "85ceea82-87af-4c4c-9d43-1772bc3dd397", "at": "2026-10-20T10:36:17.837769+00:00", "seconds": 0.10701818600000479, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "64c26e94-baad-4ec8-9cfe-bb0c0fd62acb", "at": "2026-10-20T10:36:18.238687+00:00", "due_at": "2026-10-20T10:36:17.915122+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "64c26e94-baad-4ec8-9cfe-bb0c0fd62acb", "at": "2026-10-20T10:36:18.344905+00:00", "seconds": 0.10623675099998309, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "c32d394b-fa3d-4572-a03e-50638f1b9327", "at": "2026-10-20T10:36:18.749015+00:00", "due_at": "2026-10-20T10:36:18.486795+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "c32d394b-fa3d-4572-a03e-50638f1b9327", "at": "2026-10-20T10:36:18.855520+00:00", "seconds": 0.10652667600004406, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "520658d1-d758-4a9c-9753-401c3d921561", "at": "2026-10-20T10:36:19.256602+00:00", "due_at": "2026-10-20T10:36:19.055227+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "520658d1-d758-4a9c-9753-401c3d921561", "at": "2026-10-20T10:36:19.363086+00:00", "seconds": 0.10650452699997004, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "c3568030-ddbf-45fa-8a72-95700a45bb47", "at": "2026-10-20T10:36:19.763007+00:00", "due_at": "2026-10-20T10:36:19.616152+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "c3568030-ddbf-45fa-8a72-95700a45bb47", "at": "2026-10-20T10:36:19.868609+00:00", "seconds": 0.10562187300001824, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "96386357-e7cf-4ac9-9001-3dc469997200", "at": "2026-10-20T10:36:20.270649+00:00", "due_at": "2026-10-20T10:36:20.210664+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "96386357-e7cf-4ac9-9001-3dc469997200", "at": "2026-10-20T10:36:20.376366+00:00", "seconds": 0.10573798799998713, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "b5bd57bc-965a-450d-a1e5-8b63e2568174", "at": "2026-10-20T10:36:21.281939+00:00", "due_at": "2026-10-20T10:36:20.774369+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "b5bd57bc-965a-450d-a1e5-8b63e2568174", "at": "2026-10-20T10:36:21.387333+00:00", "seconds": 0.10541328400000793, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "0c09e0e9-3e6a-4313-8af4-1f7b95255c95", "at": "2026-10-20T10:36:21.790390+00:00", "due_at": "2026-10-20T10:36:21.338187+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "0c09e0e9-3e6a-4313-8af4-1f7b95255c95", "at": "2026-10-20T10:36:21.896367+00:00", "seconds": 0.10599989800005005, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "388a1c8e-725f-4fd6-b08d-ec2961765d2f", "at": "2026-10-20T10:36:22.298962+00:00", "due_at": "2026-10-20T10:36:21.889857+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "388a1c8e-725f-4fd6-b08d-ec2961765d2f", "at": "2026-10-20T10:36:22.407592+00:00", "seconds": 0.10865153800000371, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "49797ec1-f389-4c35-ac4e-07a8708b79bb", "at": "2026-10-20T10:36:22.807123+00:00", "due_at": "2026-10-20T10:36:22.473303+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "49797ec1-f389-4c35-ac4e-07a8708b79bb", "at": "2026-10-20T10:36:22.914734+00:00", "seconds": 0.10763045400000237, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "d113e9f4-36d2-4b13-afa3-e271b2dd2fd3", "at": "2026-10-20T10:36:23.313878+00:00", "due_at": "2026-10-20T10:36:23.053242+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "d113e9f4-36d2-4b13-afa3-e271b2dd2fd3", "at": "2026-10-20T10:36:23.421421+00:00", "seconds": 0.10756826099998307, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "9d59bcb5-5910-4548-b84b-74af55ba5d66", "at": "2026-10-20T10:36:23.822966+00:00", "due_at": "2026-10-20T10:36:23.640254+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "9d59bcb5-5910-4548-b84b-74af55ba5d66", "at": "2026-10-20T10:36:23.929469+00:00", "seconds": 0.10652746099998467, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "e3f29afa-25f4-4fde-b4a5-2b115f5528fa", "at": "2026-10-20T10:36:24.330979+00:00", "due_at": "2026-10-20T10:36:24.229457+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "e3f29afa-25f4-4fde-b4a5-2b115f5528fa", "at": "2026-10-20T10:36:24.437098+00:00", "seconds": 0.10613832500001763, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "1e51f4d0-7407-4dd2-a4cc-981ed9975a06", "at": "2026-10-20T10:36:24.838094+00:00", "due_at": "2026-10-20T10:36:24.791732+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "1e51f4d0-7407-4dd2-a4cc-981ed9975a06", "at": "2026-10-20T10:36:24.944429+00:00", "seconds": 0.10635647599997355, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "32de069a-c86b-4cec-b669-c52e48810f92", "at": "2026-10-20T10:36:25.849273+00:00", "due_at": "2026-10-20T10:36:25.388075+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "32de069a-c86b-4cec-b669-c52e48810f92", "at": "2026-10-20T10:36:25.955439+00:00", "seconds": 0.10618732800003272, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "c4640eef-7e3e-4413-87ff-67e4c44727b2", "at": "2026-10-20T10:36:26.359014+00:00", "due_at": "2026-10-20T10:36:25.950664+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "c4640eef-7e3e-4413-87ff-67e4c44727b2", "at": "2026-10-20T10:36:26.467430+00:00", "seconds": 0.10843517499995414, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "84f3ad43-c747-4eff-917a-49ec2da6b009", "at": "2026-10-20T10:36:26.865596+00:00", "due_at": "2026-10-20T10:36:26.501817+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "84f3ad43-c747-4eff-917a-49ec2da6b009", "at": "2026-10-20T10:36:26.971260+00:00", "seconds": 0.1056849469999861, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "b6d12b04-705e-4463-b40a-632191de4f89", "at": "2026-10-20T10:36:27.374961+00:00", "due_at": "2026-10-20T10:36:27.073121+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "b6d12b04-705e-4463-b40a-632191de4f89", "at": "2026-10-20T10:36:27.480619+00:00", "seconds": 0.10567749599999843, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "d20026ab-7778-4c6d-9a84-02cba4da074f", "at": "2026-10-20T10:36:27.879869+00:00", "due_at": "2026-10-20T10:36:27.648656+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "d20026ab-7778-4c6d-9a84-02cba4da074f", "at": "2026-10-20T10:36:27.985695+00:00", "seconds": 0.10584958900000174, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "ca1e1873-5b2f-41b8-92da-5610d4b5c81f", "at": "2026-10-20T10:36:28.391426+00:00", "due_at": "2026-10-20T10:36:28.246078+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "ca1e1873-5b2f-41b8-92da-5610d4b5c81f", "at": "2026-10-20T10:36:28.497923+00:00", "seconds": 0.10652204299998402, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "7cc6ddc3-4ce5-4c7a-ac8f-414906feec15", "at": "2026-10-20T10:36:28.896669+00:00", "due_at": "2026-10-20T10:36:28.843260+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "7cc6ddc3-4ce5-4c7a-ac8f-414906feec15", "at": "2026-10-20T10:36:29.003428+00:00", "seconds": 0.10677832400000398, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "f16a8c24-c984-4e30-9c33-9c6511104482", "at": "2026-10-20T10:36:29.912044+00:00", "due_at": "2026-10-20T10:36:29.404422+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "f16a8c24-c984-4e30-9c33-9c6511104482", "at": "2026-10-20T10:36:30.018576+00:00", "seconds": 0.10655276500000355, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "698657d5-0e4b-4a55-87c1-f117883eaf8a", "at": "2026-10-20T10:36:30.418422+00:00", "due_at": "2026-10-20T10:36:30.011355+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "698657d5-0e4b-4a55-87c1-f117883eaf8a", "at": "2026-10-20T10:36:30.524768+00:00", "seconds": 0.10636952300001212, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "71dae227-81f8-4d93-88e2-3b826211bb60", "at": "2026-10-20T10:36:30.926417+00:00", "due_at": "2026-10-20T10:36:30.597998+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "71dae227-81f8-4d93-88e2-3b826211bb60", "at": "2026-10-20T10:36:31.032906+00:00", "seconds": 0.10650807500002202, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "cfbb163e-8ee3-4127-a6f3-e72bd20ff613", "at": "2026-10-20T10:36:31.463318+00:00", "due_at": "2026-10-20T10:36:31.137664+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "cfbb163e-8ee3-4127-a6f3-e72bd20ff613", "at": "2026-10-20T10:36:31.574402+00:00", "seconds": 0.11112107799999649, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "770307e8-2a0a-4a88-b04b-33a3a86ad985", "at": "2026-10-20T10:36:32.467749+00:00", "due_at": "2026-10-20T10:36:32.037480+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "770307e8-2a0a-4a88-b04b-33a3a86ad985", "at": "2026-10-20T10:36:32.574779+00:00", "seconds": 0.10705365600000505, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "25d97985-0c5a-4df2-b7d2-477e1a43926d", "at": "2026-10-20T10:36:32.980610+00:00", "due_at": "2026-10-20T10:36:32.746802+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "25d97985-0c5a-4df2-b7d2-477e1a43926d", "at": "2026-10-20T10:36:33.089030+00:00", "seconds": 0.10844643799998721, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "3d0c0e1c-a822-4d97-9565-4e2e122d912e", "at": "2026-10-20T10:36:33.999079+00:00", "due_at": "2026-10-20T10:36:33.535272+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "3d0c0e1c-a822-4d97-9565-4e2e122d912e", "at": "2026-10-20T10:36:34.107799+00:00", "seconds": 0.10875135800000635, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "1269f647-8445-4b07-8093-227a3aa96b82", "at": "2026-10-20T10:36:34.503359+00:00", "due_at": "2026-10-20T10:36:34.218883+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "1269f647-8445-4b07-8093-227a3aa96b82", "at": "2026-10-20T10:36:34.612156+00:00", "seconds": 0.108831758000008, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "18aa456e-0210-4793-8331-0d56065596bf", "at": "2026-10-20T10:36:35.515350+00:00", "due_at": "2026-10-20T10:36:35.008509+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "18aa456e-0210-4793-8331-0d56065596bf", "at": "2026-10-20T10:36:35.621977+00:00", "seconds": 0.10664847000003874, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "52157890-2b1b-49fd-bbfb-c897caa5f6f2", "at": "2026-10-20T10:36:36.023025+00:00", "due_at": "2026-10-20T10:36:35.703652+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "52157890-2b1b-49fd-bbfb-c897caa5f6f2", "at": "2026-10-20T10:36:36.129458+00:00", "seconds": 0.10645288000000619, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "dd350c37-8685-4434-a776-e3603eb5b863", "at": "2026-10-20T10:36:36.533210+00:00", "due_at": "2026-10-20T10:36:36.304640+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "dd350c37-8685-4434-a776-e3603eb5b863", "at": "2026-10-20T10:36:36.639694+00:00", "seconds": 0.10667205699996885, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "028140e0-a362-47d3-b615-ebc92ec3c64f", "at": "2026-10-20T10:36:37.040150+00:00", "due_at": "2026-10-20T10:36:36.865474+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "028140e0-a362-47d3-b615-ebc92ec3c64f", "at": "2026-10-20T10:36:37.145566+00:00", "seconds": 0.10543542800002115, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "8838419e-a756-4c4d-b40b-46fa591b32a4", "at": "2026-10-20T10:36:37.545962+00:00", "due_at": "2026-10-20T10:36:37.411437+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "8838419e-a756-4c4d-b40b-46fa591b32a4", "at": "2026-10-20T10:36:37.652080+00:00", "seconds": 0.10613709199998311, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "7a315b14-9963-422a-bef1-e8c77f7623e5", "at": "2026-10-20T10:36:38.055065+00:00", "due_at": "2026-10-20T10:36:38.007077+00:00", "active": 1}
+{"measurement": "http_start", "monitor_id": "028435b1-3c0c-4a8d-af16-b480b5acd04d", "at": "2026-10-20T10:36:39.067863+00:00", "due_at": "2026-10-20T10:36:38.565290+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "028435b1-3c0c-4a8d-af16-b480b5acd04d", "at": "2026-10-20T10:36:39.174692+00:00", "seconds": 0.10684874300000047, "outcome": "unexpected_status", "active": 1}
+{"measurement": "http_start", "monitor_id": "027331be-9aa1-4faf-9a4e-b1530414d342", "at": "2026-10-20T10:36:39.580175+00:00", "due_at": "2026-10-20T10:36:39.101211+00:00", "active": 2}
+{"measurement": "http_start", "monitor_id": "c67b220c-fd7a-4126-b549-db57904354a5", "at": "2026-10-20T10:36:40.084107+00:00", "due_at": "2026-10-20T10:36:39.783570+00:00", "active": 3}
+{"measurement": "http_end", "monitor_id": "c67b220c-fd7a-4126-b549-db57904354a5", "at": "2026-10-20T10:36:40.189301+00:00", "seconds": 0.10521097099996268, "outcome": "success", "active": 2}
+{"measurement": "http_start", "monitor_id": "84b8e99b-b8e2-436d-b922-1621f83a77f3", "at": "2026-10-20T10:36:41.095408+00:00", "due_at": "2026-10-20T10:36:40.739151+00:00", "active": 3}
+{"measurement": "http_end", "monitor_id": "84b8e99b-b8e2-436d-b922-1621f83a77f3", "at": "2026-10-20T10:36:41.201411+00:00", "seconds": 0.10602249300001176, "outcome": "success", "active": 2}
+{"measurement": "http_end", "monitor_id": "027331be-9aa1-4faf-9a4e-b1530414d342", "at": "2026-10-20T10:36:41.582095+00:00", "seconds": 2.001945030999991, "outcome": "timeout", "active": 1}
+{"measurement": "http_start", "monitor_id": "019422cf-3f52-4d6a-a328-e8b368257934", "at": "2026-10-20T10:36:41.602218+00:00", "due_at": "2026-10-20T10:36:41.253427+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "019422cf-3f52-4d6a-a328-e8b368257934", "at": "2026-10-20T10:36:41.707511+00:00", "seconds": 0.10531112900002881, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "ca7ac177-e093-45a5-89d7-9ae89f74980c", "at": "2026-10-20T10:36:42.113140+00:00", "due_at": "2026-10-20T10:36:41.761955+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "ca7ac177-e093-45a5-89d7-9ae89f74980c", "at": "2026-10-20T10:36:42.218432+00:00", "seconds": 0.10530983600000354, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "eecb34a4-95c4-4908-aa9f-da8b61449253", "at": "2026-10-20T10:36:43.126233+00:00", "due_at": "2026-10-20T10:36:42.775124+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "eecb34a4-95c4-4908-aa9f-da8b61449253", "at": "2026-10-20T10:36:43.231590+00:00", "seconds": 0.10537502699997958, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "69610f23-92e2-48df-9224-04abbf429821", "at": "2026-10-20T10:36:43.638255+00:00", "due_at": "2026-10-20T10:36:43.278558+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "69610f23-92e2-48df-9224-04abbf429821", "at": "2026-10-20T10:36:43.744134+00:00", "seconds": 0.10590152100002115, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "0266ebfc-7764-4c64-8426-7dd2fe5fa63d", "at": "2026-10-20T10:36:44.142630+00:00", "due_at": "2026-10-20T10:36:43.783994+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "0266ebfc-7764-4c64-8426-7dd2fe5fa63d", "at": "2026-10-20T10:36:44.248102+00:00", "seconds": 0.1054904419999616, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "ef36ea42-c93e-4e48-9e56-4c3ce833ffd1", "at": "2026-10-20T10:36:44.652973+00:00", "due_at": "2026-10-20T10:36:44.291620+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "ef36ea42-c93e-4e48-9e56-4c3ce833ffd1", "at": "2026-10-20T10:36:44.758188+00:00", "seconds": 0.10523453100000779, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "c685d026-6f7c-463a-8ebb-c465e4e3d229", "at": "2026-10-20T10:36:45.159513+00:00", "due_at": "2026-10-20T10:36:44.800940+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "c685d026-6f7c-463a-8ebb-c465e4e3d229", "at": "2026-10-20T10:36:45.265357+00:00", "seconds": 0.1058607549999806, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "fc332273-2677-4de7-8d18-5e8fd3c0d055", "at": "2026-10-20T10:36:45.667665+00:00", "due_at": "2026-10-20T10:36:45.306185+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "fc332273-2677-4de7-8d18-5e8fd3c0d055", "at": "2026-10-20T10:36:45.773122+00:00", "seconds": 0.10547727299996268, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "eccd4b1b-0d2c-46de-852e-dbe3b492df04", "at": "2026-10-20T10:36:46.177342+00:00", "due_at": "2026-10-20T10:36:45.817270+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "eccd4b1b-0d2c-46de-852e-dbe3b492df04", "at": "2026-10-20T10:36:46.282686+00:00", "seconds": 0.10536290900000722, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "c74aed22-b74d-435d-9da3-f878815408ff", "at": "2026-10-20T10:36:47.190956+00:00", "due_at": "2026-10-20T10:36:46.828326+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "c74aed22-b74d-435d-9da3-f878815408ff", "at": "2026-10-20T10:36:47.297195+00:00", "seconds": 0.10625893900004257, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "bb31cc47-750c-4f76-944f-d05f9f8a3d18", "at": "2026-10-20T10:36:47.697405+00:00", "due_at": "2026-10-20T10:36:47.333934+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "bb31cc47-750c-4f76-944f-d05f9f8a3d18", "at": "2026-10-20T10:36:47.802677+00:00", "seconds": 0.1052877249999824, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "85ceea82-87af-4c4c-9d43-1772bc3dd397", "at": "2026-10-20T10:36:48.207923+00:00", "due_at": "2026-10-20T10:36:47.843181+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "85ceea82-87af-4c4c-9d43-1772bc3dd397", "at": "2026-10-20T10:36:48.314170+00:00", "seconds": 0.10626676200001839, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "64c26e94-baad-4ec8-9cfe-bb0c0fd62acb", "at": "2026-10-20T10:36:48.715289+00:00", "due_at": "2026-10-20T10:36:48.350666+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "64c26e94-baad-4ec8-9cfe-bb0c0fd62acb", "at": "2026-10-20T10:36:48.820511+00:00", "seconds": 0.10524055999997017, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "c32d394b-fa3d-4572-a03e-50638f1b9327", "at": "2026-10-20T10:36:49.222507+00:00", "due_at": "2026-10-20T10:36:48.860409+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "c32d394b-fa3d-4572-a03e-50638f1b9327", "at": "2026-10-20T10:36:49.327925+00:00", "seconds": 0.1054360440000437, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "520658d1-d758-4a9c-9753-401c3d921561", "at": "2026-10-20T10:36:49.730119+00:00", "due_at": "2026-10-20T10:36:49.368528+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "520658d1-d758-4a9c-9753-401c3d921561", "at": "2026-10-20T10:36:49.835415+00:00", "seconds": 0.10531416200001331, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "c3568030-ddbf-45fa-8a72-95700a45bb47", "at": "2026-10-20T10:36:50.240261+00:00", "due_at": "2026-10-20T10:36:49.873591+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "c3568030-ddbf-45fa-8a72-95700a45bb47", "at": "2026-10-20T10:36:50.345499+00:00", "seconds": 0.10525613599997996, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "96386357-e7cf-4ac9-9001-3dc469997200", "at": "2026-10-20T10:36:50.747013+00:00", "due_at": "2026-10-20T10:36:50.381450+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "96386357-e7cf-4ac9-9001-3dc469997200", "at": "2026-10-20T10:36:50.852482+00:00", "seconds": 0.10548771999998507, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "b5bd57bc-965a-450d-a1e5-8b63e2568174", "at": "2026-10-20T10:36:51.758473+00:00", "due_at": "2026-10-20T10:36:51.392389+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "b5bd57bc-965a-450d-a1e5-8b63e2568174", "at": "2026-10-20T10:36:51.863827+00:00", "seconds": 0.10537275299998328, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "0c09e0e9-3e6a-4313-8af4-1f7b95255c95", "at": "2026-10-20T10:36:52.267828+00:00", "due_at": "2026-10-20T10:36:51.901759+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "0c09e0e9-3e6a-4313-8af4-1f7b95255c95", "at": "2026-10-20T10:36:52.373446+00:00", "seconds": 0.10563909799998328, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "388a1c8e-725f-4fd6-b08d-ec2961765d2f", "at": "2026-10-20T10:36:52.778584+00:00", "due_at": "2026-10-20T10:36:52.413578+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "388a1c8e-725f-4fd6-b08d-ec2961765d2f", "at": "2026-10-20T10:36:52.884132+00:00", "seconds": 0.10556725700001834, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "49797ec1-f389-4c35-ac4e-07a8708b79bb", "at": "2026-10-20T10:36:53.285454+00:00", "due_at": "2026-10-20T10:36:52.919509+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "49797ec1-f389-4c35-ac4e-07a8708b79bb", "at": "2026-10-20T10:36:53.390747+00:00", "seconds": 0.10531149900003811, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "d113e9f4-36d2-4b13-afa3-e271b2dd2fd3", "at": "2026-10-20T10:36:53.793305+00:00", "due_at": "2026-10-20T10:36:53.426401+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "d113e9f4-36d2-4b13-afa3-e271b2dd2fd3", "at": "2026-10-20T10:36:53.898731+00:00", "seconds": 0.10544449699995084, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "9d59bcb5-5910-4548-b84b-74af55ba5d66", "at": "2026-10-20T10:36:54.300197+00:00", "due_at": "2026-10-20T10:36:53.935144+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "9d59bcb5-5910-4548-b84b-74af55ba5d66", "at": "2026-10-20T10:36:54.405587+00:00", "seconds": 0.1054083010000113, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "e3f29afa-25f4-4fde-b4a5-2b115f5528fa", "at": "2026-10-20T10:36:54.814190+00:00", "due_at": "2026-10-20T10:36:54.443148+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "e3f29afa-25f4-4fde-b4a5-2b115f5528fa", "at": "2026-10-20T10:36:54.921183+00:00", "seconds": 0.10701717099999541, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "1e51f4d0-7407-4dd2-a4cc-981ed9975a06", "at": "2026-10-20T10:36:55.323823+00:00", "due_at": "2026-10-20T10:36:54.950371+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "1e51f4d0-7407-4dd2-a4cc-981ed9975a06", "at": "2026-10-20T10:36:55.429361+00:00", "seconds": 0.10556030899999769, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "32de069a-c86b-4cec-b669-c52e48810f92", "at": "2026-10-20T10:36:56.334771+00:00", "due_at": "2026-10-20T10:36:55.960368+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "32de069a-c86b-4cec-b669-c52e48810f92", "at": "2026-10-20T10:36:56.440800+00:00", "seconds": 0.10604896499995675, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "c4640eef-7e3e-4413-87ff-67e4c44727b2", "at": "2026-10-20T10:36:56.844801+00:00", "due_at": "2026-10-20T10:36:56.472214+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "c4640eef-7e3e-4413-87ff-67e4c44727b2", "at": "2026-10-20T10:36:56.951791+00:00", "seconds": 0.1070192429999679, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "84f3ad43-c747-4eff-917a-49ec2da6b009", "at": "2026-10-20T10:36:57.354429+00:00", "due_at": "2026-10-20T10:36:56.976610+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "84f3ad43-c747-4eff-917a-49ec2da6b009", "at": "2026-10-20T10:36:57.462479+00:00", "seconds": 0.10807546099999854, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "b6d12b04-705e-4463-b40a-632191de4f89", "at": "2026-10-20T10:36:57.865623+00:00", "due_at": "2026-10-20T10:36:57.485651+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "b6d12b04-705e-4463-b40a-632191de4f89", "at": "2026-10-20T10:36:57.972299+00:00", "seconds": 0.1067029789999765, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "d20026ab-7778-4c6d-9a84-02cba4da074f", "at": "2026-10-20T10:36:58.376210+00:00", "due_at": "2026-10-20T10:36:57.991060+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "d20026ab-7778-4c6d-9a84-02cba4da074f", "at": "2026-10-20T10:36:58.482314+00:00", "seconds": 0.10612389899995378, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "ca1e1873-5b2f-41b8-92da-5610d4b5c81f", "at": "2026-10-20T10:36:58.884744+00:00", "due_at": "2026-10-20T10:36:58.503371+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "ca1e1873-5b2f-41b8-92da-5610d4b5c81f", "at": "2026-10-20T10:36:58.990015+00:00", "seconds": 0.10528983799997604, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "7cc6ddc3-4ce5-4c7a-ac8f-414906feec15", "at": "2026-10-20T10:36:59.661851+00:00", "due_at": "2026-10-20T10:36:59.008358+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "7cc6ddc3-4ce5-4c7a-ac8f-414906feec15", "at": "2026-10-20T10:36:59.768763+00:00", "seconds": 0.10694329500000777, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "f16a8c24-c984-4e30-9c33-9c6511104482", "at": "2026-10-20T10:37:00.114290+00:00", "due_at": "2026-10-20T10:37:00.023324+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "f16a8c24-c984-4e30-9c33-9c6511104482", "at": "2026-10-20T10:37:00.219745+00:00", "seconds": 0.10547502200000736, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "698657d5-0e4b-4a55-87c1-f117883eaf8a", "at": "2026-10-20T10:37:00.620527+00:00", "due_at": "2026-10-20T10:37:00.530053+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "698657d5-0e4b-4a55-87c1-f117883eaf8a", "at": "2026-10-20T10:37:00.725684+00:00", "seconds": 0.105176680999989, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "71dae227-81f8-4d93-88e2-3b826211bb60", "at": "2026-10-20T10:37:01.129223+00:00", "due_at": "2026-10-20T10:37:01.038510+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "71dae227-81f8-4d93-88e2-3b826211bb60", "at": "2026-10-20T10:37:01.235674+00:00", "seconds": 0.1064681059999657, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "cfbb163e-8ee3-4127-a6f3-e72bd20ff613", "at": "2026-10-20T10:37:01.642207+00:00", "due_at": "2026-10-20T10:37:01.581389+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "cfbb163e-8ee3-4127-a6f3-e72bd20ff613", "at": "2026-10-20T10:37:01.748361+00:00", "seconds": 0.10621423599997115, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "770307e8-2a0a-4a88-b04b-33a3a86ad985", "at": "2026-10-20T10:37:02.659290+00:00", "due_at": "2026-10-20T10:37:02.580642+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "770307e8-2a0a-4a88-b04b-33a3a86ad985", "at": "2026-10-20T10:37:02.765234+00:00", "seconds": 0.10596398699999554, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "25d97985-0c5a-4df2-b7d2-477e1a43926d", "at": "2026-10-20T10:37:03.165294+00:00", "due_at": "2026-10-20T10:37:03.093790+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "25d97985-0c5a-4df2-b7d2-477e1a43926d", "at": "2026-10-20T10:37:03.270670+00:00", "seconds": 0.10539366899996594, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "3d0c0e1c-a822-4d97-9565-4e2e122d912e", "at": "2026-10-20T10:37:04.178294+00:00", "due_at": "2026-10-20T10:37:04.114059+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "3d0c0e1c-a822-4d97-9565-4e2e122d912e", "at": "2026-10-20T10:37:04.283383+00:00", "seconds": 0.10510825500000465, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "1269f647-8445-4b07-8093-227a3aa96b82", "at": "2026-10-20T10:37:04.688743+00:00", "due_at": "2026-10-20T10:37:04.620371+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "1269f647-8445-4b07-8093-227a3aa96b82", "at": "2026-10-20T10:37:04.794136+00:00", "seconds": 0.10541032999998379, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "18aa456e-0210-4793-8331-0d56065596bf", "at": "2026-10-20T10:37:05.700619+00:00", "due_at": "2026-10-20T10:37:05.627517+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "18aa456e-0210-4793-8331-0d56065596bf", "at": "2026-10-20T10:37:05.806840+00:00", "seconds": 0.106246724000016, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "52157890-2b1b-49fd-bbfb-c897caa5f6f2", "at": "2026-10-20T10:37:06.212835+00:00", "due_at": "2026-10-20T10:37:06.134609+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "52157890-2b1b-49fd-bbfb-c897caa5f6f2", "at": "2026-10-20T10:37:06.319005+00:00", "seconds": 0.1061959090000073, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "dd350c37-8685-4434-a776-e3603eb5b863", "at": "2026-10-20T10:37:06.717621+00:00", "due_at": "2026-10-20T10:37:06.644382+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "dd350c37-8685-4434-a776-e3603eb5b863", "at": "2026-10-20T10:37:06.822883+00:00", "seconds": 0.10528153100000281, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "028140e0-a362-47d3-b615-ebc92ec3c64f", "at": "2026-10-20T10:37:07.225508+00:00", "due_at": "2026-10-20T10:37:07.150293+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "028140e0-a362-47d3-b615-ebc92ec3c64f", "at": "2026-10-20T10:37:07.330606+00:00", "seconds": 0.10511950300002582, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "8838419e-a756-4c4d-b40b-46fa591b32a4", "at": "2026-10-20T10:37:07.732116+00:00", "due_at": "2026-10-20T10:37:07.657006+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "8838419e-a756-4c4d-b40b-46fa591b32a4", "at": "2026-10-20T10:37:07.837836+00:00", "seconds": 0.10573754400002144, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "028435b1-3c0c-4a8d-af16-b480b5acd04d", "at": "2026-10-20T10:37:09.248167+00:00", "due_at": "2026-10-20T10:37:09.177561+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "028435b1-3c0c-4a8d-af16-b480b5acd04d", "at": "2026-10-20T10:37:09.353943+00:00", "seconds": 0.10579540599997017, "outcome": "unexpected_status", "active": 1}
+{"measurement": "http_end", "monitor_id": "7a315b14-9963-422a-bef1-e8c77f7623e5", "at": "2026-10-20T10:37:10.060063+00:00", "seconds": 32.007343467, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "c67b220c-fd7a-4126-b549-db57904354a5", "at": "2026-10-20T10:37:10.259935+00:00", "due_at": "2026-10-20T10:37:10.194372+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "c67b220c-fd7a-4126-b549-db57904354a5", "at": "2026-10-20T10:37:10.366018+00:00", "seconds": 0.10610572500002036, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "84b8e99b-b8e2-436d-b922-1621f83a77f3", "at": "2026-10-20T10:37:11.278118+00:00", "due_at": "2026-10-20T10:37:11.207626+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "84b8e99b-b8e2-436d-b922-1621f83a77f3", "at": "2026-10-20T10:37:11.388398+00:00", "seconds": 0.11030578699995885, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "027331be-9aa1-4faf-9a4e-b1530414d342", "at": "2026-10-20T10:37:11.790596+00:00", "due_at": "2026-10-20T10:37:11.585994+00:00", "active": 1}
+{"measurement": "http_start", "monitor_id": "019422cf-3f52-4d6a-a328-e8b368257934", "at": "2026-10-20T10:37:11.803427+00:00", "due_at": "2026-10-20T10:37:11.712368+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "019422cf-3f52-4d6a-a328-e8b368257934", "at": "2026-10-20T10:37:11.913806+00:00", "seconds": 0.11041295299997955, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "ca7ac177-e093-45a5-89d7-9ae89f74980c", "at": "2026-10-20T10:37:12.308454+00:00", "due_at": "2026-10-20T10:37:12.223150+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "ca7ac177-e093-45a5-89d7-9ae89f74980c", "at": "2026-10-20T10:37:12.434531+00:00", "seconds": 0.12610372599999664, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "eecb34a4-95c4-4908-aa9f-da8b61449253", "at": "2026-10-20T10:37:13.424655+00:00", "due_at": "2026-10-20T10:37:13.236633+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "eecb34a4-95c4-4908-aa9f-da8b61449253", "at": "2026-10-20T10:37:13.536420+00:00", "seconds": 0.11179571000002397, "outcome": "success", "active": 1}
+{"measurement": "http_end", "monitor_id": "027331be-9aa1-4faf-9a4e-b1530414d342", "at": "2026-10-20T10:37:13.793966+00:00", "seconds": 2.003414243000009, "outcome": "timeout", "active": 0}
+{"measurement": "http_start", "monitor_id": "69610f23-92e2-48df-9224-04abbf429821", "at": "2026-10-20T10:37:13.914242+00:00", "due_at": "2026-10-20T10:37:13.749039+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "69610f23-92e2-48df-9224-04abbf429821", "at": "2026-10-20T10:37:14.020427+00:00", "seconds": 0.1062098300000116, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "0266ebfc-7764-4c64-8426-7dd2fe5fa63d", "at": "2026-10-20T10:37:14.419287+00:00", "due_at": "2026-10-20T10:37:14.252602+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "0266ebfc-7764-4c64-8426-7dd2fe5fa63d", "at": "2026-10-20T10:37:14.524823+00:00", "seconds": 0.10555583100000376, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "ef36ea42-c93e-4e48-9e56-4c3ce833ffd1", "at": "2026-10-20T10:37:14.932583+00:00", "due_at": "2026-10-20T10:37:14.762528+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "ef36ea42-c93e-4e48-9e56-4c3ce833ffd1", "at": "2026-10-20T10:37:15.043393+00:00", "seconds": 0.11084225199999764, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "c685d026-6f7c-463a-8ebb-c465e4e3d229", "at": "2026-10-20T10:37:15.450334+00:00", "due_at": "2026-10-20T10:37:15.269845+00:00", "active": 1}
+{"measurement": "http_start", "monitor_id": "c67b220c-fd7a-4126-b549-db57904354a5", "at": "2026-10-20T10:37:15.451590+00:00", "due_at": "2026-10-20T10:37:14.932798+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "c67b220c-fd7a-4126-b549-db57904354a5", "at": "2026-10-20T10:37:15.462052+00:00", "seconds": 0.010487451000017245, "outcome": "unexpected_status", "active": 1}
+{"measurement": "http_end", "monitor_id": "c685d026-6f7c-463a-8ebb-c465e4e3d229", "at": "2026-10-20T10:37:15.562420+00:00", "seconds": 0.11211776699997245, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "c67b220c-fd7a-4126-b549-db57904354a5", "at": "2026-10-20T10:37:15.958387+00:00", "due_at": "2026-10-20T10:37:15.640465+00:00", "active": 1}
+{"measurement": "http_start", "monitor_id": "fc332273-2677-4de7-8d18-5e8fd3c0d055", "at": "2026-10-20T10:37:15.960738+00:00", "due_at": "2026-10-20T10:37:15.777966+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "c67b220c-fd7a-4126-b549-db57904354a5", "at": "2026-10-20T10:37:15.972048+00:00", "seconds": 0.013689316000011331, "outcome": "unexpected_status", "active": 1}
+{"measurement": "http_end", "monitor_id": "fc332273-2677-4de7-8d18-5e8fd3c0d055", "at": "2026-10-20T10:37:16.075579+00:00", "seconds": 0.11487794299995358, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "eccd4b1b-0d2c-46de-852e-dbe3b492df04", "at": "2026-10-20T10:37:16.467147+00:00", "due_at": "2026-10-20T10:37:16.287469+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "eccd4b1b-0d2c-46de-852e-dbe3b492df04", "at": "2026-10-20T10:37:16.573897+00:00", "seconds": 0.10677913900002522, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "c74aed22-b74d-435d-9da3-f878815408ff", "at": "2026-10-20T10:37:17.482182+00:00", "due_at": "2026-10-20T10:37:17.302038+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "c74aed22-b74d-435d-9da3-f878815408ff", "at": "2026-10-20T10:37:17.590492+00:00", "seconds": 0.10834165599999324, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "bb31cc47-750c-4f76-944f-d05f9f8a3d18", "at": "2026-10-20T10:37:17.988054+00:00", "due_at": "2026-10-20T10:37:17.807219+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "bb31cc47-750c-4f76-944f-d05f9f8a3d18", "at": "2026-10-20T10:37:18.095062+00:00", "seconds": 0.1070293329999572, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "85ceea82-87af-4c4c-9d43-1772bc3dd397", "at": "2026-10-20T10:37:18.501733+00:00", "due_at": "2026-10-20T10:37:18.318726+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "85ceea82-87af-4c4c-9d43-1772bc3dd397", "at": "2026-10-20T10:37:18.611184+00:00", "seconds": 0.10947994499997549, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "64c26e94-baad-4ec8-9cfe-bb0c0fd62acb", "at": "2026-10-20T10:37:19.007976+00:00", "due_at": "2026-10-20T10:37:18.825619+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "64c26e94-baad-4ec8-9cfe-bb0c0fd62acb", "at": "2026-10-20T10:37:19.114468+00:00", "seconds": 0.10650994399998126, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "c32d394b-fa3d-4572-a03e-50638f1b9327", "at": "2026-10-20T10:37:19.518664+00:00", "due_at": "2026-10-20T10:37:19.332252+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "c32d394b-fa3d-4572-a03e-50638f1b9327", "at": "2026-10-20T10:37:19.625844+00:00", "seconds": 0.10721729099998356, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "520658d1-d758-4a9c-9753-401c3d921561", "at": "2026-10-20T10:37:20.023293+00:00", "due_at": "2026-10-20T10:37:19.839805+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "520658d1-d758-4a9c-9753-401c3d921561", "at": "2026-10-20T10:37:20.130371+00:00", "seconds": 0.10710374100000308, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "c3568030-ddbf-45fa-8a72-95700a45bb47", "at": "2026-10-20T10:37:20.534524+00:00", "due_at": "2026-10-20T10:37:20.349803+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "c3568030-ddbf-45fa-8a72-95700a45bb47", "at": "2026-10-20T10:37:20.644042+00:00", "seconds": 0.10954576900002166, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "c67b220c-fd7a-4126-b549-db57904354a5", "at": "2026-10-20T10:37:21.040894+00:00", "due_at": "2026-10-20T10:37:20.912293+00:00", "active": 1}
+{"measurement": "http_start", "monitor_id": "96386357-e7cf-4ac9-9001-3dc469997200", "at": "2026-10-20T10:37:21.042249+00:00", "due_at": "2026-10-20T10:37:20.856792+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "c67b220c-fd7a-4126-b549-db57904354a5", "at": "2026-10-20T10:37:21.048033+00:00", "seconds": 0.007155800000020918, "outcome": "success", "active": 1}
+{"measurement": "http_end", "monitor_id": "96386357-e7cf-4ac9-9001-3dc469997200", "at": "2026-10-20T10:37:21.150073+00:00", "seconds": 0.10784294400002636, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "b5bd57bc-965a-450d-a1e5-8b63e2568174", "at": "2026-10-20T10:37:22.055158+00:00", "due_at": "2026-10-20T10:37:21.870708+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "b5bd57bc-965a-450d-a1e5-8b63e2568174", "at": "2026-10-20T10:37:22.163491+00:00", "seconds": 0.10835502999998425, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "0c09e0e9-3e6a-4313-8af4-1f7b95255c95", "at": "2026-10-20T10:37:22.563786+00:00", "due_at": "2026-10-20T10:37:22.378069+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "0c09e0e9-3e6a-4313-8af4-1f7b95255c95", "at": "2026-10-20T10:37:22.671233+00:00", "seconds": 0.10748454299999821, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "388a1c8e-725f-4fd6-b08d-ec2961765d2f", "at": "2026-10-20T10:37:23.070571+00:00", "due_at": "2026-10-20T10:37:22.888456+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "388a1c8e-725f-4fd6-b08d-ec2961765d2f", "at": "2026-10-20T10:37:23.176724+00:00", "seconds": 0.10617134099999248, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "49797ec1-f389-4c35-ac4e-07a8708b79bb", "at": "2026-10-20T10:37:23.578219+00:00", "due_at": "2026-10-20T10:37:23.395338+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "49797ec1-f389-4c35-ac4e-07a8708b79bb", "at": "2026-10-20T10:37:23.683922+00:00", "seconds": 0.10572071900003266, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "d113e9f4-36d2-4b13-afa3-e271b2dd2fd3", "at": "2026-10-20T10:37:24.086591+00:00", "due_at": "2026-10-20T10:37:23.903452+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "d113e9f4-36d2-4b13-afa3-e271b2dd2fd3", "at": "2026-10-20T10:37:24.191907+00:00", "seconds": 0.10533493200000521, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "9d59bcb5-5910-4548-b84b-74af55ba5d66", "at": "2026-10-20T10:37:24.594166+00:00", "due_at": "2026-10-20T10:37:24.411807+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "9d59bcb5-5910-4548-b84b-74af55ba5d66", "at": "2026-10-20T10:37:24.699312+00:00", "seconds": 0.10516415400002188, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "e3f29afa-25f4-4fde-b4a5-2b115f5528fa", "at": "2026-10-20T10:37:25.102557+00:00", "due_at": "2026-10-20T10:37:24.927472+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "e3f29afa-25f4-4fde-b4a5-2b115f5528fa", "at": "2026-10-20T10:37:25.208538+00:00", "seconds": 0.10600031600000648, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "1e51f4d0-7407-4dd2-a4cc-981ed9975a06", "at": "2026-10-20T10:37:27.284321+00:00", "due_at": "2026-10-20T10:37:25.433960+00:00", "active": 1}
+{"measurement": "http_start", "monitor_id": "c4640eef-7e3e-4413-87ff-67e4c44727b2", "at": "2026-10-20T10:37:27.305063+00:00", "due_at": "2026-10-20T10:37:26.957817+00:00", "active": 2}
+{"measurement": "http_start", "monitor_id": "32de069a-c86b-4cec-b669-c52e48810f92", "at": "2026-10-20T10:37:27.307441+00:00", "due_at": "2026-10-20T10:37:26.445405+00:00", "active": 3}
+{"measurement": "http_end", "monitor_id": "1e51f4d0-7407-4dd2-a4cc-981ed9975a06", "at": "2026-10-20T10:37:27.407608+00:00", "seconds": 0.1233068820000085, "outcome": "success", "active": 2}
+{"measurement": "http_end", "monitor_id": "c4640eef-7e3e-4413-87ff-67e4c44727b2", "at": "2026-10-20T10:37:27.410936+00:00", "seconds": 0.10589218699999492, "outcome": "success", "active": 1}
+{"measurement": "http_end", "monitor_id": "32de069a-c86b-4cec-b669-c52e48810f92", "at": "2026-10-20T10:37:27.413813+00:00", "seconds": 0.10638687499999833, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "84f3ad43-c747-4eff-917a-49ec2da6b009", "at": "2026-10-20T10:37:27.787128+00:00", "due_at": "2026-10-20T10:37:27.469479+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "84f3ad43-c747-4eff-917a-49ec2da6b009", "at": "2026-10-20T10:37:27.891483+00:00", "seconds": 0.10629031400003441, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "b6d12b04-705e-4463-b40a-632191de4f89", "at": "2026-10-20T10:37:28.292767+00:00", "due_at": "2026-10-20T10:37:27.979173+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "b6d12b04-705e-4463-b40a-632191de4f89", "at": "2026-10-20T10:37:28.400717+00:00", "seconds": 0.10797921300002145, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "d20026ab-7778-4c6d-9a84-02cba4da074f", "at": "2026-10-20T10:37:28.802013+00:00", "due_at": "2026-10-20T10:37:28.487687+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "d20026ab-7778-4c6d-9a84-02cba4da074f", "at": "2026-10-20T10:37:28.907783+00:00", "seconds": 0.10579088399998682, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "ca1e1873-5b2f-41b8-92da-5610d4b5c81f", "at": "2026-10-20T10:37:29.310475+00:00", "due_at": "2026-10-20T10:37:28.994516+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "ca1e1873-5b2f-41b8-92da-5610d4b5c81f", "at": "2026-10-20T10:37:29.416880+00:00", "seconds": 0.10643132000001287, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "7cc6ddc3-4ce5-4c7a-ac8f-414906feec15", "at": "2026-10-20T10:37:29.817418+00:00", "due_at": "2026-10-20T10:37:29.775085+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "7cc6ddc3-4ce5-4c7a-ac8f-414906feec15", "at": "2026-10-20T10:37:29.922970+00:00", "seconds": 0.10557526399998096, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "f16a8c24-c984-4e30-9c33-9c6511104482", "at": "2026-10-20T10:37:30.324356+00:00", "due_at": "2026-10-20T10:37:30.224404+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "f16a8c24-c984-4e30-9c33-9c6511104482", "at": "2026-10-20T10:37:30.430359+00:00", "seconds": 0.10602173300003415, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "698657d5-0e4b-4a55-87c1-f117883eaf8a", "at": "2026-10-20T10:37:30.831097+00:00", "due_at": "2026-10-20T10:37:30.730169+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "698657d5-0e4b-4a55-87c1-f117883eaf8a", "at": "2026-10-20T10:37:30.936294+00:00", "seconds": 0.10521441000003051, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "71dae227-81f8-4d93-88e2-3b826211bb60", "at": "2026-10-20T10:37:31.339866+00:00", "due_at": "2026-10-20T10:37:31.240452+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "71dae227-81f8-4d93-88e2-3b826211bb60", "at": "2026-10-20T10:37:31.445242+00:00", "seconds": 0.10539460299997927, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "cfbb163e-8ee3-4127-a6f3-e72bd20ff613", "at": "2026-10-20T10:37:31.851264+00:00", "due_at": "2026-10-20T10:37:31.753187+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "cfbb163e-8ee3-4127-a6f3-e72bd20ff613", "at": "2026-10-20T10:37:31.957126+00:00", "seconds": 0.10588422999995828, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "770307e8-2a0a-4a88-b04b-33a3a86ad985", "at": "2026-10-20T10:37:32.867848+00:00", "due_at": "2026-10-20T10:37:32.770761+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "770307e8-2a0a-4a88-b04b-33a3a86ad985", "at": "2026-10-20T10:37:32.973392+00:00", "seconds": 0.10556217200002038, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "25d97985-0c5a-4df2-b7d2-477e1a43926d", "at": "2026-10-20T10:37:33.378550+00:00", "due_at": "2026-10-20T10:37:33.275318+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "25d97985-0c5a-4df2-b7d2-477e1a43926d", "at": "2026-10-20T10:37:33.484826+00:00", "seconds": 0.10629509500000722, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "3d0c0e1c-a822-4d97-9565-4e2e122d912e", "at": "2026-10-20T10:37:34.397159+00:00", "due_at": "2026-10-20T10:37:34.287932+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "3d0c0e1c-a822-4d97-9565-4e2e122d912e", "at": "2026-10-20T10:37:34.502824+00:00", "seconds": 0.10568290700001626, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "1269f647-8445-4b07-8093-227a3aa96b82", "at": "2026-10-20T10:37:34.909142+00:00", "due_at": "2026-10-20T10:37:34.799127+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "1269f647-8445-4b07-8093-227a3aa96b82", "at": "2026-10-20T10:37:35.015207+00:00", "seconds": 0.10608408099994904, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "18aa456e-0210-4793-8331-0d56065596bf", "at": "2026-10-20T10:37:35.923027+00:00", "due_at": "2026-10-20T10:37:35.812227+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "18aa456e-0210-4793-8331-0d56065596bf", "at": "2026-10-20T10:37:36.029204+00:00", "seconds": 0.106195189999994, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "52157890-2b1b-49fd-bbfb-c897caa5f6f2", "at": "2026-10-20T10:37:36.429332+00:00", "due_at": "2026-10-20T10:37:36.323493+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "52157890-2b1b-49fd-bbfb-c897caa5f6f2", "at": "2026-10-20T10:37:36.534651+00:00", "seconds": 0.10533493399998406, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "dd350c37-8685-4434-a776-e3603eb5b863", "at": "2026-10-20T10:37:36.940499+00:00", "due_at": "2026-10-20T10:37:36.827687+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "dd350c37-8685-4434-a776-e3603eb5b863", "at": "2026-10-20T10:37:37.045989+00:00", "seconds": 0.10551083400002881, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "028140e0-a362-47d3-b615-ebc92ec3c64f", "at": "2026-10-20T10:37:37.448794+00:00", "due_at": "2026-10-20T10:37:37.335490+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "028140e0-a362-47d3-b615-ebc92ec3c64f", "at": "2026-10-20T10:37:37.554400+00:00", "seconds": 0.10562426100000266, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "8838419e-a756-4c4d-b40b-46fa591b32a4", "at": "2026-10-20T10:37:37.960055+00:00", "due_at": "2026-10-20T10:37:37.842683+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "8838419e-a756-4c4d-b40b-46fa591b32a4", "at": "2026-10-20T10:37:38.065707+00:00", "seconds": 0.10567134899997654, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "028435b1-3c0c-4a8d-af16-b480b5acd04d", "at": "2026-10-20T10:37:39.481503+00:00", "due_at": "2026-10-20T10:37:39.380055+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "028435b1-3c0c-4a8d-af16-b480b5acd04d", "at": "2026-10-20T10:37:39.590300+00:00", "seconds": 0.10882892700004732, "outcome": "unexpected_status", "active": 0}
+{"measurement": "http_start", "monitor_id": "7a315b14-9963-422a-bef1-e8c77f7623e5", "at": "2026-10-20T10:37:40.493334+00:00", "due_at": "2026-10-20T10:37:40.064618+00:00", "active": 1}
+{"measurement": "http_start", "monitor_id": "84b8e99b-b8e2-436d-b922-1621f83a77f3", "at": "2026-10-20T10:37:41.507286+00:00", "due_at": "2026-10-20T10:37:41.394151+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "84b8e99b-b8e2-436d-b922-1621f83a77f3", "at": "2026-10-20T10:37:41.614554+00:00", "seconds": 0.10729944999997088, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "019422cf-3f52-4d6a-a328-e8b368257934", "at": "2026-10-20T10:37:42.016814+00:00", "due_at": "2026-10-20T10:37:41.920255+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "019422cf-3f52-4d6a-a328-e8b368257934", "at": "2026-10-20T10:37:42.126323+00:00", "seconds": 0.1095412380000198, "outcome": "success", "active": 1}
+{"event": "scheduler_error", "type": "gaierror"}
+{"measurement": "http_start", "monitor_id": "027331be-9aa1-4faf-9a4e-b1530414d342", "at": "2026-10-20T10:37:50.974635+00:00", "due_at": "2026-10-20T10:37:43.812461+00:00", "active": 2}
+{"measurement": "http_start", "monitor_id": "eecb34a4-95c4-4908-aa9f-da8b61449253", "at": "2026-10-20T10:37:50.981093+00:00", "due_at": "2026-10-20T10:37:43.543462+00:00", "active": 3}
+{"measurement": "http_start", "monitor_id": "ef36ea42-c93e-4e48-9e56-4c3ce833ffd1", "at": "2026-10-20T10:37:50.981333+00:00", "due_at": "2026-10-20T10:37:45.051345+00:00", "active": 4}
+{"measurement": "http_start", "monitor_id": "c74aed22-b74d-435d-9da3-f878815408ff", "at": "2026-10-20T10:37:50.982471+00:00", "due_at": "2026-10-20T10:37:47.596885+00:00", "active": 5}
+{"measurement": "http_start", "monitor_id": "bb31cc47-750c-4f76-944f-d05f9f8a3d18", "at": "2026-10-20T10:37:50.984997+00:00", "due_at": "2026-10-20T10:37:48.100510+00:00", "active": 6}
+{"measurement": "http_start", "monitor_id": "fc332273-2677-4de7-8d18-5e8fd3c0d055", "at": "2026-10-20T10:37:50.985228+00:00", "due_at": "2026-10-20T10:37:46.081986+00:00", "active": 7}
+{"measurement": "http_start", "monitor_id": "85ceea82-87af-4c4c-9d43-1772bc3dd397", "at": "2026-10-20T10:37:50.985662+00:00", "due_at": "2026-10-20T10:37:48.619092+00:00", "active": 8}
+{"measurement": "http_start", "monitor_id": "c685d026-6f7c-463a-8ebb-c465e4e3d229", "at": "2026-10-20T10:37:50.987123+00:00", "due_at": "2026-10-20T10:37:45.573507+00:00", "active": 9}
+{"measurement": "http_start", "monitor_id": "69610f23-92e2-48df-9224-04abbf429821", "at": "2026-10-20T10:37:50.987318+00:00", "due_at": "2026-10-20T10:37:44.026244+00:00", "active": 10}
+{"measurement": "http_start", "monitor_id": "64c26e94-baad-4ec8-9cfe-bb0c0fd62acb", "at": "2026-10-20T10:37:50.987647+00:00", "due_at": "2026-10-20T10:37:49.119318+00:00", "active": 11}
+{"measurement": "http_start", "monitor_id": "c32d394b-fa3d-4572-a03e-50638f1b9327", "at": "2026-10-20T10:37:51.000402+00:00", "due_at": "2026-10-20T10:37:49.632754+00:00", "active": 12}
+{"measurement": "http_start", "monitor_id": "520658d1-d758-4a9c-9753-401c3d921561", "at": "2026-10-20T10:37:51.001575+00:00", "due_at": "2026-10-20T10:37:50.138353+00:00", "active": 13}
+{"measurement": "http_start", "monitor_id": "0266ebfc-7764-4c64-8426-7dd2fe5fa63d", "at": "2026-10-20T10:37:51.001943+00:00", "due_at": "2026-10-20T10:37:44.530883+00:00", "active": 14}
+{"measurement": "http_start", "monitor_id": "c3568030-ddbf-45fa-8a72-95700a45bb47", "at": "2026-10-20T10:37:51.002204+00:00", "due_at": "2026-10-20T10:37:50.649538+00:00", "active": 15}
+{"measurement": "http_start", "monitor_id": "eccd4b1b-0d2c-46de-852e-dbe3b492df04", "at": "2026-10-20T10:37:51.002605+00:00", "due_at": "2026-10-20T10:37:46.579961+00:00", "active": 16}
+{"measurement": "http_start", "monitor_id": "ca7ac177-e093-45a5-89d7-9ae89f74980c", "at": "2026-10-20T10:37:51.010295+00:00", "due_at": "2026-10-20T10:37:42.450581+00:00", "active": 17}
+{"measurement": "http_end", "monitor_id": "eecb34a4-95c4-4908-aa9f-da8b61449253", "at": "2026-10-20T10:37:51.117772+00:00", "seconds": 0.13670219300001918, "outcome": "success", "active": 16}
+{"measurement": "http_end", "monitor_id": "ef36ea42-c93e-4e48-9e56-4c3ce833ffd1", "at": "2026-10-20T10:37:51.120029+00:00", "seconds": 0.13870827800002417, "outcome": "success", "active": 15}
+{"measurement": "http_end", "monitor_id": "c74aed22-b74d-435d-9da3-f878815408ff", "at": "2026-10-20T10:37:51.120837+00:00", "seconds": 0.13839085699999032, "outcome": "success", "active": 14}
+{"measurement": "http_end", "monitor_id": "bb31cc47-750c-4f76-944f-d05f9f8a3d18", "at": "2026-10-20T10:37:51.123202+00:00", "seconds": 0.138224020999985, "outcome": "success", "active": 13}
+{"measurement": "http_end", "monitor_id": "fc332273-2677-4de7-8d18-5e8fd3c0d055", "at": "2026-10-20T10:37:51.124064+00:00", "seconds": 0.13884744900002488, "outcome": "success", "active": 12}
+{"measurement": "http_end", "monitor_id": "85ceea82-87af-4c4c-9d43-1772bc3dd397", "at": "2026-10-20T10:37:51.124750+00:00", "seconds": 0.13909994200002984, "outcome": "success", "active": 11}
+{"measurement": "http_end", "monitor_id": "c685d026-6f7c-463a-8ebb-c465e4e3d229", "at": "2026-10-20T10:37:51.128941+00:00", "seconds": 0.14183553200001597, "outcome": "success", "active": 10}
+{"measurement": "http_end", "monitor_id": "69610f23-92e2-48df-9224-04abbf429821", "at": "2026-10-20T10:37:51.129748+00:00", "seconds": 0.14244032699997433, "outcome": "success", "active": 9}
+{"measurement": "http_end", "monitor_id": "64c26e94-baad-4ec8-9cfe-bb0c0fd62acb", "at": "2026-10-20T10:37:51.131735+00:00", "seconds": 0.14410621700000092, "outcome": "success", "active": 8}
+{"measurement": "http_end", "monitor_id": "c32d394b-fa3d-4572-a03e-50638f1b9327", "at": "2026-10-20T10:37:51.132523+00:00", "seconds": 0.13213875600001757, "outcome": "success", "active": 7}
+{"measurement": "http_end", "monitor_id": "0266ebfc-7764-4c64-8426-7dd2fe5fa63d", "at": "2026-10-20T10:37:51.133195+00:00", "seconds": 0.13126386499999398, "outcome": "success", "active": 6}
+{"measurement": "http_end", "monitor_id": "520658d1-d758-4a9c-9753-401c3d921561", "at": "2026-10-20T10:37:51.138567+00:00", "seconds": 0.1370127929999967, "outcome": "success", "active": 5}
+{"measurement": "http_end", "monitor_id": "c3568030-ddbf-45fa-8a72-95700a45bb47", "at": "2026-10-20T10:37:51.141265+00:00", "seconds": 0.1390807509999945, "outcome": "success", "active": 4}
+{"measurement": "http_end", "monitor_id": "eccd4b1b-0d2c-46de-852e-dbe3b492df04", "at": "2026-10-20T10:37:51.144832+00:00", "seconds": 0.14224377699997603, "outcome": "success", "active": 3}
+{"measurement": "http_end", "monitor_id": "ca7ac177-e093-45a5-89d7-9ae89f74980c", "at": "2026-10-20T10:37:51.146832+00:00", "seconds": 0.13655876500001796, "outcome": "success", "active": 2}
+{"measurement": "http_start", "monitor_id": "96386357-e7cf-4ac9-9001-3dc469997200", "at": "2026-10-20T10:37:51.397615+00:00", "due_at": "2026-10-20T10:37:51.155427+00:00", "active": 3}
+{"measurement": "http_start", "monitor_id": "c67b220c-fd7a-4126-b549-db57904354a5", "at": "2026-10-20T10:37:51.398750+00:00", "due_at": "2026-10-20T10:37:51.068094+00:00", "active": 4}
+{"measurement": "http_end", "monitor_id": "c67b220c-fd7a-4126-b549-db57904354a5", "at": "2026-10-20T10:37:51.408275+00:00", "seconds": 0.00954405999999608, "outcome": "success", "active": 3}
+{"measurement": "http_end", "monitor_id": "96386357-e7cf-4ac9-9001-3dc469997200", "at": "2026-10-20T10:37:51.509533+00:00", "seconds": 0.11195261899996467, "outcome": "success", "active": 2}
+{"measurement": "http_start", "monitor_id": "b5bd57bc-965a-450d-a1e5-8b63e2568174", "at": "2026-10-20T10:37:52.432293+00:00", "due_at": "2026-10-20T10:37:52.169850+00:00", "active": 3}
+{"measurement": "http_end", "monitor_id": "b5bd57bc-965a-450d-a1e5-8b63e2568174", "at": "2026-10-20T10:37:52.541408+00:00", "seconds": 0.10914621500000976, "outcome": "success", "active": 2}
+{"measurement": "http_start", "monitor_id": "0c09e0e9-3e6a-4313-8af4-1f7b95255c95", "at": "2026-10-20T10:37:52.964515+00:00", "due_at": "2026-10-20T10:37:52.677128+00:00", "active": 3}
+{"measurement": "http_end", "monitor_id": "027331be-9aa1-4faf-9a4e-b1530414d342", "at": "2026-10-20T10:37:52.976628+00:00", "seconds": 2.00201274799997, "outcome": "timeout", "active": 2}
+{"measurement": "http_end", "monitor_id": "0c09e0e9-3e6a-4313-8af4-1f7b95255c95", "at": "2026-10-20T10:37:53.078103+00:00", "seconds": 0.11363407499999312, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "388a1c8e-725f-4fd6-b08d-ec2961765d2f", "at": "2026-10-20T10:37:53.529728+00:00", "due_at": "2026-10-20T10:37:53.181757+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "388a1c8e-725f-4fd6-b08d-ec2961765d2f", "at": "2026-10-20T10:37:53.638154+00:00", "seconds": 0.10845766300002424, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "49797ec1-f389-4c35-ac4e-07a8708b79bb", "at": "2026-10-20T10:37:54.040187+00:00", "due_at": "2026-10-20T10:37:53.688530+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "49797ec1-f389-4c35-ac4e-07a8708b79bb", "at": "2026-10-20T10:37:54.148284+00:00", "seconds": 0.10812756600000739, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "d113e9f4-36d2-4b13-afa3-e271b2dd2fd3", "at": "2026-10-20T10:37:54.553111+00:00", "due_at": "2026-10-20T10:37:54.196205+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "d113e9f4-36d2-4b13-afa3-e271b2dd2fd3", "at": "2026-10-20T10:37:54.662053+00:00", "seconds": 0.10897063700002718, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "9d59bcb5-5910-4548-b84b-74af55ba5d66", "at": "2026-10-20T10:37:55.061720+00:00", "due_at": "2026-10-20T10:37:54.703733+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "9d59bcb5-5910-4548-b84b-74af55ba5d66", "at": "2026-10-20T10:37:55.169858+00:00", "seconds": 0.1081610360000127, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "e3f29afa-25f4-4fde-b4a5-2b115f5528fa", "at": "2026-10-20T10:37:55.571412+00:00", "due_at": "2026-10-20T10:37:55.213732+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "e3f29afa-25f4-4fde-b4a5-2b115f5528fa", "at": "2026-10-20T10:37:55.678596+00:00", "seconds": 0.10720431400000052, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "1e51f4d0-7407-4dd2-a4cc-981ed9975a06", "at": "2026-10-20T10:37:57.609288+00:00", "due_at": "2026-10-20T10:37:57.420132+00:00", "active": 2}
+{"measurement": "http_start", "monitor_id": "32de069a-c86b-4cec-b669-c52e48810f92", "at": "2026-10-20T10:37:57.610895+00:00", "due_at": "2026-10-20T10:37:57.427554+00:00", "active": 3}
+{"measurement": "http_start", "monitor_id": "c4640eef-7e3e-4413-87ff-67e4c44727b2", "at": "2026-10-20T10:37:57.611198+00:00", "due_at": "2026-10-20T10:37:57.426727+00:00", "active": 4}
+{"measurement": "http_end", "monitor_id": "1e51f4d0-7407-4dd2-a4cc-981ed9975a06", "at": "2026-10-20T10:37:57.721918+00:00", "seconds": 0.1126508060000333, "outcome": "success", "active": 3}
+{"measurement": "http_end", "monitor_id": "32de069a-c86b-4cec-b669-c52e48810f92", "at": "2026-10-20T10:37:57.724698+00:00", "seconds": 0.1138337579999984, "outcome": "success", "active": 2}
+{"measurement": "http_end", "monitor_id": "c4640eef-7e3e-4413-87ff-67e4c44727b2", "at": "2026-10-20T10:37:57.725832+00:00", "seconds": 0.11465146000000459, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "84f3ad43-c747-4eff-917a-49ec2da6b009", "at": "2026-10-20T10:37:58.115055+00:00", "due_at": "2026-10-20T10:37:57.896290+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "84f3ad43-c747-4eff-917a-49ec2da6b009", "at": "2026-10-20T10:37:58.222565+00:00", "seconds": 0.10753217199999199, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "b6d12b04-705e-4463-b40a-632191de4f89", "at": "2026-10-20T10:37:58.623575+00:00", "due_at": "2026-10-20T10:37:58.408481+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "b6d12b04-705e-4463-b40a-632191de4f89", "at": "2026-10-20T10:37:58.731176+00:00", "seconds": 0.10762901100002864, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "d20026ab-7778-4c6d-9a84-02cba4da074f", "at": "2026-10-20T10:37:59.132700+00:00", "due_at": "2026-10-20T10:37:58.912973+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "d20026ab-7778-4c6d-9a84-02cba4da074f", "at": "2026-10-20T10:37:59.240324+00:00", "seconds": 0.10764592900000025, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "ca1e1873-5b2f-41b8-92da-5610d4b5c81f", "at": "2026-10-20T10:37:59.644457+00:00", "due_at": "2026-10-20T10:37:59.422744+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "ca1e1873-5b2f-41b8-92da-5610d4b5c81f", "at": "2026-10-20T10:37:59.750934+00:00", "seconds": 0.10650250099996583, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "7cc6ddc3-4ce5-4c7a-ac8f-414906feec15", "at": "2026-10-20T10:38:00.157042+00:00", "due_at": "2026-10-20T10:37:59.927956+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "7cc6ddc3-4ce5-4c7a-ac8f-414906feec15", "at": "2026-10-20T10:38:00.262970+00:00", "seconds": 0.10595206300001792, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "f16a8c24-c984-4e30-9c33-9c6511104482", "at": "2026-10-20T10:38:00.667506+00:00", "due_at": "2026-10-20T10:38:00.435273+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "f16a8c24-c984-4e30-9c33-9c6511104482", "at": "2026-10-20T10:38:00.773332+00:00", "seconds": 0.10584817700004123, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "698657d5-0e4b-4a55-87c1-f117883eaf8a", "at": "2026-10-20T10:38:01.180331+00:00", "due_at": "2026-10-20T10:38:00.941000+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "698657d5-0e4b-4a55-87c1-f117883eaf8a", "at": "2026-10-20T10:38:01.285647+00:00", "seconds": 0.10533735999996452, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "71dae227-81f8-4d93-88e2-3b826211bb60", "at": "2026-10-20T10:38:01.694487+00:00", "due_at": "2026-10-20T10:38:01.451429+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "71dae227-81f8-4d93-88e2-3b826211bb60", "at": "2026-10-20T10:38:01.802472+00:00", "seconds": 0.10801288100003603, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "cfbb163e-8ee3-4127-a6f3-e72bd20ff613", "at": "2026-10-20T10:38:02.202297+00:00", "due_at": "2026-10-20T10:38:01.961662+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "cfbb163e-8ee3-4127-a6f3-e72bd20ff613", "at": "2026-10-20T10:38:02.309196+00:00", "seconds": 0.10692818899997292, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "770307e8-2a0a-4a88-b04b-33a3a86ad985", "at": "2026-10-20T10:38:03.215493+00:00", "due_at": "2026-10-20T10:38:02.978782+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "770307e8-2a0a-4a88-b04b-33a3a86ad985", "at": "2026-10-20T10:38:03.322625+00:00", "seconds": 0.1071577889999844, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "25d97985-0c5a-4df2-b7d2-477e1a43926d", "at": "2026-10-20T10:38:03.724784+00:00", "due_at": "2026-10-20T10:38:03.489744+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "25d97985-0c5a-4df2-b7d2-477e1a43926d", "at": "2026-10-20T10:38:03.831277+00:00", "seconds": 0.10652447000001075, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "3d0c0e1c-a822-4d97-9565-4e2e122d912e", "at": "2026-10-20T10:38:04.738105+00:00", "due_at": "2026-10-20T10:38:04.508078+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "3d0c0e1c-a822-4d97-9565-4e2e122d912e", "at": "2026-10-20T10:38:04.844322+00:00", "seconds": 0.10623655699998835, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "1269f647-8445-4b07-8093-227a3aa96b82", "at": "2026-10-20T10:38:05.245391+00:00", "due_at": "2026-10-20T10:38:05.020254+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "1269f647-8445-4b07-8093-227a3aa96b82", "at": "2026-10-20T10:38:05.351335+00:00", "seconds": 0.10596736400003692, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "18aa456e-0210-4793-8331-0d56065596bf", "at": "2026-10-20T10:38:06.262247+00:00", "due_at": "2026-10-20T10:38:06.034462+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "18aa456e-0210-4793-8331-0d56065596bf", "at": "2026-10-20T10:38:06.372363+00:00", "seconds": 0.11014070300001322, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "52157890-2b1b-49fd-bbfb-c897caa5f6f2", "at": "2026-10-20T10:38:06.771215+00:00", "due_at": "2026-10-20T10:38:06.538982+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "52157890-2b1b-49fd-bbfb-c897caa5f6f2", "at": "2026-10-20T10:38:06.878666+00:00", "seconds": 0.1074762319999536, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "dd350c37-8685-4434-a776-e3603eb5b863", "at": "2026-10-20T10:38:07.280982+00:00", "due_at": "2026-10-20T10:38:07.050243+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "dd350c37-8685-4434-a776-e3603eb5b863", "at": "2026-10-20T10:38:07.387107+00:00", "seconds": 0.10614840900001354, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "028140e0-a362-47d3-b615-ebc92ec3c64f", "at": "2026-10-20T10:38:07.789275+00:00", "due_at": "2026-10-20T10:38:07.559399+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "028140e0-a362-47d3-b615-ebc92ec3c64f", "at": "2026-10-20T10:38:07.895691+00:00", "seconds": 0.1064423539999666, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "8838419e-a756-4c4d-b40b-46fa591b32a4", "at": "2026-10-20T10:38:08.299937+00:00", "due_at": "2026-10-20T10:38:08.070204+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "8838419e-a756-4c4d-b40b-46fa591b32a4", "at": "2026-10-20T10:38:08.406725+00:00", "seconds": 0.10681848699999819, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "028435b1-3c0c-4a8d-af16-b480b5acd04d", "at": "2026-10-20T10:38:09.817081+00:00", "due_at": "2026-10-20T10:38:09.599922+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "028435b1-3c0c-4a8d-af16-b480b5acd04d", "at": "2026-10-20T10:38:09.922645+00:00", "seconds": 0.10558396999999786, "outcome": "unexpected_status", "active": 1}
+{"measurement": "http_start", "monitor_id": "84b8e99b-b8e2-436d-b922-1621f83a77f3", "at": "2026-10-20T10:38:11.843288+00:00", "due_at": "2026-10-20T10:38:11.620514+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "84b8e99b-b8e2-436d-b922-1621f83a77f3", "at": "2026-10-20T10:38:11.950016+00:00", "seconds": 0.10675213600001143, "outcome": "success", "active": 1}
+{"measurement": "http_end", "monitor_id": "7a315b14-9963-422a-bef1-e8c77f7623e5", "at": "2026-10-20T10:38:12.497887+00:00", "seconds": 32.00647016600004, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "eecb34a4-95c4-4908-aa9f-da8b61449253", "at": "2026-10-20T10:38:12.861346+00:00", "due_at": "2026-10-20T10:38:12.792043+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "eecb34a4-95c4-4908-aa9f-da8b61449253", "at": "2026-10-20T10:38:14.863857+00:00", "seconds": 2.0025394839999535, "outcome": "timeout", "active": 0}
+{"measurement": "http_start", "monitor_id": "eecb34a4-95c4-4908-aa9f-da8b61449253", "at": "2026-10-20T10:38:14.886913+00:00", "due_at": "2026-10-20T10:38:13.147270+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "eecb34a4-95c4-4908-aa9f-da8b61449253", "at": "2026-10-20T10:38:16.888637+00:00", "seconds": 2.0017453720000162, "outcome": "timeout", "active": 0}
+{"measurement": "http_start", "monitor_id": "1d6badfd-eac7-435e-b08e-3aaf13d153e9", "at": "2026-10-20T10:38:17.417567+00:00", "due_at": "2026-10-20T10:38:17.048929+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "1d6badfd-eac7-435e-b08e-3aaf13d153e9", "at": "2026-10-20T10:38:17.424273+00:00", "seconds": 0.006734422000022278, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "ef36ea42-c93e-4e48-9e56-4c3ce833ffd1", "at": "2026-10-20T10:38:21.492525+00:00", "due_at": "2026-10-20T10:38:21.183606+00:00", "active": 1}
+{"measurement": "http_start", "monitor_id": "85ceea82-87af-4c4c-9d43-1772bc3dd397", "at": "2026-10-20T10:38:21.492741+00:00", "due_at": "2026-10-20T10:38:21.187022+00:00", "active": 2}
+{"measurement": "http_start", "monitor_id": "c74aed22-b74d-435d-9da3-f878815408ff", "at": "2026-10-20T10:38:21.493466+00:00", "due_at": "2026-10-20T10:38:21.185013+00:00", "active": 3}
+{"measurement": "http_start", "monitor_id": "c685d026-6f7c-463a-8ebb-c465e4e3d229", "at": "2026-10-20T10:38:21.493726+00:00", "due_at": "2026-10-20T10:38:21.189480+00:00", "active": 4}
+{"measurement": "http_start", "monitor_id": "bb31cc47-750c-4f76-944f-d05f9f8a3d18", "at": "2026-10-20T10:38:21.495307+00:00", "due_at": "2026-10-20T10:38:21.188016+00:00", "active": 5}
+{"measurement": "http_start", "monitor_id": "69610f23-92e2-48df-9224-04abbf429821", "at": "2026-10-20T10:38:21.495478+00:00", "due_at": "2026-10-20T10:38:21.192899+00:00", "active": 6}
+{"measurement": "http_start", "monitor_id": "64c26e94-baad-4ec8-9cfe-bb0c0fd62acb", "at": "2026-10-20T10:38:21.495733+00:00", "due_at": "2026-10-20T10:38:21.190740+00:00", "active": 7}
+{"measurement": "http_start", "monitor_id": "fc332273-2677-4de7-8d18-5e8fd3c0d055", "at": "2026-10-20T10:38:21.496371+00:00", "due_at": "2026-10-20T10:38:21.188842+00:00", "active": 8}
+{"measurement": "http_start", "monitor_id": "520658d1-d758-4a9c-9753-401c3d921561", "at": "2026-10-20T10:38:21.501804+00:00", "due_at": "2026-10-20T10:38:21.212471+00:00", "active": 9}
+{"measurement": "http_start", "monitor_id": "c32d394b-fa3d-4572-a03e-50638f1b9327", "at": "2026-10-20T10:38:21.506501+00:00", "due_at": "2026-10-20T10:38:21.193666+00:00", "active": 10}
+{"measurement": "http_start", "monitor_id": "eccd4b1b-0d2c-46de-852e-dbe3b492df04", "at": "2026-10-20T10:38:21.526664+00:00", "due_at": "2026-10-20T10:38:21.216601+00:00", "active": 11}
+{"measurement": "http_start", "monitor_id": "c3568030-ddbf-45fa-8a72-95700a45bb47", "at": "2026-10-20T10:38:21.528141+00:00", "due_at": "2026-10-20T10:38:21.213966+00:00", "active": 12}
+{"measurement": "http_start", "monitor_id": "c67b220c-fd7a-4126-b549-db57904354a5", "at": "2026-10-20T10:38:21.528707+00:00", "due_at": "2026-10-20T10:38:21.414328+00:00", "active": 13}
+{"measurement": "http_start", "monitor_id": "0266ebfc-7764-4c64-8426-7dd2fe5fa63d", "at": "2026-10-20T10:38:21.530564+00:00", "due_at": "2026-10-20T10:38:21.215383+00:00", "active": 14}
+{"measurement": "http_end", "monitor_id": "c67b220c-fd7a-4126-b549-db57904354a5", "at": "2026-10-20T10:38:21.538050+00:00", "seconds": 0.009360273999959645, "outcome": "success", "active": 13}
+{"measurement": "http_end", "monitor_id": "ef36ea42-c93e-4e48-9e56-4c3ce833ffd1", "at": "2026-10-20T10:38:21.621373+00:00", "seconds": 0.12886904100002994, "outcome": "success", "active": 12}
+{"measurement": "http_end", "monitor_id": "85ceea82-87af-4c4c-9d43-1772bc3dd397", "at": "2026-10-20T10:38:21.624230+00:00", "seconds": 0.13150203300000385, "outcome": "success", "active": 11}
+{"measurement": "http_end", "monitor_id": "c74aed22-b74d-435d-9da3-f878815408ff", "at": "2026-10-20T10:38:21.625093+00:00", "seconds": 0.13164408599999433, "outcome": "success", "active": 10}
+{"measurement": "http_end", "monitor_id": "c685d026-6f7c-463a-8ebb-c465e4e3d229", "at": "2026-10-20T10:38:21.627752+00:00", "seconds": 0.13403970799998888, "outcome": "success", "active": 9}
+{"measurement": "http_end", "monitor_id": "bb31cc47-750c-4f76-944f-d05f9f8a3d18", "at": "2026-10-20T10:38:21.628756+00:00", "seconds": 0.133462819999977, "outcome": "success", "active": 8}
+{"measurement": "http_end", "monitor_id": "64c26e94-baad-4ec8-9cfe-bb0c0fd62acb", "at": "2026-10-20T10:38:21.629439+00:00", "seconds": 0.13374260599999843, "outcome": "success", "active": 7}
+{"measurement": "http_end", "monitor_id": "69610f23-92e2-48df-9224-04abbf429821", "at": "2026-10-20T10:38:21.630331+00:00", "seconds": 0.13486338999996406, "outcome": "success", "active": 6}
+{"measurement": "http_end", "monitor_id": "fc332273-2677-4de7-8d18-5e8fd3c0d055", "at": "2026-10-20T10:38:21.631037+00:00", "seconds": 0.1347175880000009, "outcome": "success", "active": 5}
+{"measurement": "http_end", "monitor_id": "520658d1-d758-4a9c-9753-401c3d921561", "at": "2026-10-20T10:38:21.633744+00:00", "seconds": 0.13195748900000126, "outcome": "success", "active": 4}
+{"measurement": "http_end", "monitor_id": "c32d394b-fa3d-4572-a03e-50638f1b9327", "at": "2026-10-20T10:38:21.634561+00:00", "seconds": 0.1280773930000123, "outcome": "success", "active": 3}
+{"measurement": "http_end", "monitor_id": "eccd4b1b-0d2c-46de-852e-dbe3b492df04", "at": "2026-10-20T10:38:21.640237+00:00", "seconds": 0.11359323099998164, "outcome": "success", "active": 2}
+{"measurement": "http_end", "monitor_id": "c3568030-ddbf-45fa-8a72-95700a45bb47", "at": "2026-10-20T10:38:21.645934+00:00", "seconds": 0.11781210399999509, "outcome": "success", "active": 1}
+{"measurement": "http_end", "monitor_id": "0266ebfc-7764-4c64-8426-7dd2fe5fa63d", "at": "2026-10-20T10:38:21.647538+00:00", "seconds": 0.11698781899997357, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "96386357-e7cf-4ac9-9001-3dc469997200", "at": "2026-10-20T10:38:21.976316+00:00", "due_at": "2026-10-20T10:38:21.516214+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "96386357-e7cf-4ac9-9001-3dc469997200", "at": "2026-10-20T10:38:22.082138+00:00", "seconds": 0.1058432169999719, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "b5bd57bc-965a-450d-a1e5-8b63e2568174", "at": "2026-10-20T10:38:22.994481+00:00", "due_at": "2026-10-20T10:38:22.554110+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "b5bd57bc-965a-450d-a1e5-8b63e2568174", "at": "2026-10-20T10:38:23.103217+00:00", "seconds": 0.10875946900000599, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "027331be-9aa1-4faf-9a4e-b1530414d342", "at": "2026-10-20T10:38:23.502566+00:00", "due_at": "2026-10-20T10:38:22.985192+00:00", "active": 1}
+{"measurement": "http_start", "monitor_id": "0c09e0e9-3e6a-4313-8af4-1f7b95255c95", "at": "2026-10-20T10:38:23.505589+00:00", "due_at": "2026-10-20T10:38:23.090288+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "0c09e0e9-3e6a-4313-8af4-1f7b95255c95", "at": "2026-10-20T10:38:23.612250+00:00", "seconds": 0.10667999000003192, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "388a1c8e-725f-4fd6-b08d-ec2961765d2f", "at": "2026-10-20T10:38:24.013340+00:00", "due_at": "2026-10-20T10:38:23.647327+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "388a1c8e-725f-4fd6-b08d-ec2961765d2f", "at": "2026-10-20T10:38:24.119037+00:00", "seconds": 0.10571862700004431, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "49797ec1-f389-4c35-ac4e-07a8708b79bb", "at": "2026-10-20T10:38:24.520539+00:00", "due_at": "2026-10-20T10:38:24.155951+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "49797ec1-f389-4c35-ac4e-07a8708b79bb", "at": "2026-10-20T10:38:24.627597+00:00", "seconds": 0.10707722299997613, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "d113e9f4-36d2-4b13-afa3-e271b2dd2fd3", "at": "2026-10-20T10:38:25.032399+00:00", "due_at": "2026-10-20T10:38:24.668423+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "d113e9f4-36d2-4b13-afa3-e271b2dd2fd3", "at": "2026-10-20T10:38:25.138139+00:00", "seconds": 0.1057604189999779, "outcome": "success", "active": 1}
+{"measurement": "http_end", "monitor_id": "027331be-9aa1-4faf-9a4e-b1530414d342", "at": "2026-10-20T10:38:25.504542+00:00", "seconds": 2.0020028489999504, "outcome": "timeout", "active": 0}
+{"measurement": "http_start", "monitor_id": "9d59bcb5-5910-4548-b84b-74af55ba5d66", "at": "2026-10-20T10:38:25.540679+00:00", "due_at": "2026-10-20T10:38:25.176847+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "9d59bcb5-5910-4548-b84b-74af55ba5d66", "at": "2026-10-20T10:38:25.646464+00:00", "seconds": 0.1058054539999489, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "e3f29afa-25f4-4fde-b4a5-2b115f5528fa", "at": "2026-10-20T10:38:26.050095+00:00", "due_at": "2026-10-20T10:38:25.683803+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "e3f29afa-25f4-4fde-b4a5-2b115f5528fa", "at": "2026-10-20T10:38:26.155616+00:00", "seconds": 0.1055410110000139, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "1e51f4d0-7407-4dd2-a4cc-981ed9975a06", "at": "2026-10-20T10:38:28.071775+00:00", "due_at": "2026-10-20T10:38:27.738127+00:00", "active": 1}
+{"measurement": "http_start", "monitor_id": "32de069a-c86b-4cec-b669-c52e48810f92", "at": "2026-10-20T10:38:28.074109+00:00", "due_at": "2026-10-20T10:38:27.740896+00:00", "active": 2}
+{"measurement": "http_start", "monitor_id": "c4640eef-7e3e-4413-87ff-67e4c44727b2", "at": "2026-10-20T10:38:28.074335+00:00", "due_at": "2026-10-20T10:38:27.739735+00:00", "active": 3}
+{"measurement": "http_end", "monitor_id": "1e51f4d0-7407-4dd2-a4cc-981ed9975a06", "at": "2026-10-20T10:38:28.182667+00:00", "seconds": 0.11091242300000204, "outcome": "success", "active": 2}
+{"measurement": "http_end", "monitor_id": "32de069a-c86b-4cec-b669-c52e48810f92", "at": "2026-10-20T10:38:28.184834+00:00", "seconds": 0.11074447400000054, "outcome": "success", "active": 1}
+{"measurement": "http_end", "monitor_id": "c4640eef-7e3e-4413-87ff-67e4c44727b2", "at": "2026-10-20T10:38:28.186519+00:00", "seconds": 0.11219516799997109, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "84f3ad43-c747-4eff-917a-49ec2da6b009", "at": "2026-10-20T10:38:28.582406+00:00", "due_at": "2026-10-20T10:38:28.231292+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "84f3ad43-c747-4eff-917a-49ec2da6b009", "at": "2026-10-20T10:38:28.689674+00:00", "seconds": 0.10729679299998907, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "b6d12b04-705e-4463-b40a-632191de4f89", "at": "2026-10-20T10:38:29.090040+00:00", "due_at": "2026-10-20T10:38:28.738355+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "b6d12b04-705e-4463-b40a-632191de4f89", "at": "2026-10-20T10:38:29.196285+00:00", "seconds": 0.10626612499999055, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "d20026ab-7778-4c6d-9a84-02cba4da074f", "at": "2026-10-20T10:38:29.604538+00:00", "due_at": "2026-10-20T10:38:29.249232+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "d20026ab-7778-4c6d-9a84-02cba4da074f", "at": "2026-10-20T10:38:29.711235+00:00", "seconds": 0.10671849699997438, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "ca1e1873-5b2f-41b8-92da-5610d4b5c81f", "at": "2026-10-20T10:38:30.113897+00:00", "due_at": "2026-10-20T10:38:29.755978+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "ca1e1873-5b2f-41b8-92da-5610d4b5c81f", "at": "2026-10-20T10:38:30.221561+00:00", "seconds": 0.10769773499998792, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "7cc6ddc3-4ce5-4c7a-ac8f-414906feec15", "at": "2026-10-20T10:38:30.625737+00:00", "due_at": "2026-10-20T10:38:30.267611+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "7cc6ddc3-4ce5-4c7a-ac8f-414906feec15", "at": "2026-10-20T10:38:30.733089+00:00", "seconds": 0.1073762620000025, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "f16a8c24-c984-4e30-9c33-9c6511104482", "at": "2026-10-20T10:38:31.135775+00:00", "due_at": "2026-10-20T10:38:30.778319+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "f16a8c24-c984-4e30-9c33-9c6511104482", "at": "2026-10-20T10:38:31.242039+00:00", "seconds": 0.10628257800004803, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "698657d5-0e4b-4a55-87c1-f117883eaf8a", "at": "2026-10-20T10:38:31.648195+00:00", "due_at": "2026-10-20T10:38:31.291399+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "698657d5-0e4b-4a55-87c1-f117883eaf8a", "at": "2026-10-20T10:38:31.753945+00:00", "seconds": 0.10577222099999517, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "71dae227-81f8-4d93-88e2-3b826211bb60", "at": "2026-10-20T10:38:32.155967+00:00", "due_at": "2026-10-20T10:38:31.807724+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "71dae227-81f8-4d93-88e2-3b826211bb60", "at": "2026-10-20T10:38:32.261711+00:00", "seconds": 0.10576138900000842, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "cfbb163e-8ee3-4127-a6f3-e72bd20ff613", "at": "2026-10-20T10:38:32.665070+00:00", "due_at": "2026-10-20T10:38:32.314886+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "cfbb163e-8ee3-4127-a6f3-e72bd20ff613", "at": "2026-10-20T10:38:32.770551+00:00", "seconds": 0.10550248100003046, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "770307e8-2a0a-4a88-b04b-33a3a86ad985", "at": "2026-10-20T10:38:33.677247+00:00", "due_at": "2026-10-20T10:38:33.328164+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "770307e8-2a0a-4a88-b04b-33a3a86ad985", "at": "2026-10-20T10:38:33.784158+00:00", "seconds": 0.1069311040000116, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "25d97985-0c5a-4df2-b7d2-477e1a43926d", "at": "2026-10-20T10:38:34.185816+00:00", "due_at": "2026-10-20T10:38:33.837297+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "25d97985-0c5a-4df2-b7d2-477e1a43926d", "at": "2026-10-20T10:38:34.291390+00:00", "seconds": 0.10559344699998974, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "3d0c0e1c-a822-4d97-9565-4e2e122d912e", "at": "2026-10-20T10:38:35.200409+00:00", "due_at": "2026-10-20T10:38:34.851091+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "3d0c0e1c-a822-4d97-9565-4e2e122d912e", "at": "2026-10-20T10:38:35.307831+00:00", "seconds": 0.10744445200003838, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "1269f647-8445-4b07-8093-227a3aa96b82", "at": "2026-10-20T10:38:35.710142+00:00", "due_at": "2026-10-20T10:38:35.356695+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "1269f647-8445-4b07-8093-227a3aa96b82", "at": "2026-10-20T10:38:35.816356+00:00", "seconds": 0.10623651700001346, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "18aa456e-0210-4793-8331-0d56065596bf", "at": "2026-10-20T10:38:36.725295+00:00", "due_at": "2026-10-20T10:38:36.377785+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "18aa456e-0210-4793-8331-0d56065596bf", "at": "2026-10-20T10:38:36.832305+00:00", "seconds": 0.10703404299999875, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "52157890-2b1b-49fd-bbfb-c897caa5f6f2", "at": "2026-10-20T10:38:37.235843+00:00", "due_at": "2026-10-20T10:38:36.884359+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "52157890-2b1b-49fd-bbfb-c897caa5f6f2", "at": "2026-10-20T10:38:37.342464+00:00", "seconds": 0.10669167600002538, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "dd350c37-8685-4434-a776-e3603eb5b863", "at": "2026-10-20T10:38:37.742458+00:00", "due_at": "2026-10-20T10:38:37.394151+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "dd350c37-8685-4434-a776-e3603eb5b863", "at": "2026-10-20T10:38:37.849762+00:00", "seconds": 0.10733233499996686, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "028140e0-a362-47d3-b615-ebc92ec3c64f", "at": "2026-10-20T10:38:38.248622+00:00", "due_at": "2026-10-20T10:38:37.902056+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "028140e0-a362-47d3-b615-ebc92ec3c64f", "at": "2026-10-20T10:38:38.354156+00:00", "seconds": 0.1055548190000195, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "8838419e-a756-4c4d-b40b-46fa591b32a4", "at": "2026-10-20T10:38:38.763120+00:00", "due_at": "2026-10-20T10:38:38.414353+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "8838419e-a756-4c4d-b40b-46fa591b32a4", "at": "2026-10-20T10:38:38.870492+00:00", "seconds": 0.1074498919999769, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "028435b1-3c0c-4a8d-af16-b480b5acd04d", "at": "2026-10-20T10:38:40.295235+00:00", "due_at": "2026-10-20T10:38:39.928769+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "028435b1-3c0c-4a8d-af16-b480b5acd04d", "at": "2026-10-20T10:38:40.408208+00:00", "seconds": 0.11300847799998337, "outcome": "unexpected_status", "active": 0}
+{"measurement": "http_start", "monitor_id": "84b8e99b-b8e2-436d-b922-1621f83a77f3", "at": "2026-10-20T10:38:42.327690+00:00", "due_at": "2026-10-20T10:38:41.955077+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "84b8e99b-b8e2-436d-b922-1621f83a77f3", "at": "2026-10-20T10:38:42.438295+00:00", "seconds": 0.11063771100003805, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "7a315b14-9963-422a-bef1-e8c77f7623e5", "at": "2026-10-20T10:38:42.871525+00:00", "due_at": "2026-10-20T10:38:42.505868+00:00", "active": 1}
+{"measurement": "http_start", "monitor_id": "eecb34a4-95c4-4908-aa9f-da8b61449253", "at": "2026-10-20T10:38:47.393049+00:00", "due_at": "2026-10-20T10:38:46.891895+00:00", "active": 2}
+{"measurement": "http_start", "monitor_id": "1d6badfd-eac7-435e-b08e-3aaf13d153e9", "at": "2026-10-20T10:38:47.899806+00:00", "due_at": "2026-10-20T10:38:47.432300+00:00", "active": 3}
+{"measurement": "http_end", "monitor_id": "1d6badfd-eac7-435e-b08e-3aaf13d153e9", "at": "2026-10-20T10:38:47.904431+00:00", "seconds": 0.004639865999990889, "outcome": "success", "active": 2}
+{"measurement": "http_start", "monitor_id": "019422cf-3f52-4d6a-a328-e8b368257934", "at": "2026-10-20T10:38:48.408191+00:00", "due_at": "2026-10-20T10:38:48.070542+00:00", "active": 3}
+{"measurement": "http_end", "monitor_id": "019422cf-3f52-4d6a-a328-e8b368257934", "at": "2026-10-20T10:38:48.513773+00:00", "seconds": 0.10560240499995643, "outcome": "success", "active": 2}
+{"measurement": "http_end", "monitor_id": "eecb34a4-95c4-4908-aa9f-da8b61449253", "at": "2026-10-20T10:38:49.394975+00:00", "seconds": 2.0019442859999685, "outcome": "timeout", "active": 1}
+{"measurement": "http_start", "monitor_id": "c67b220c-fd7a-4126-b549-db57904354a5", "at": "2026-10-20T10:38:51.976226+00:00", "due_at": "2026-10-20T10:38:51.542792+00:00", "active": 2}
+{"measurement": "http_start", "monitor_id": "85ceea82-87af-4c4c-9d43-1772bc3dd397", "at": "2026-10-20T10:38:51.976461+00:00", "due_at": "2026-10-20T10:38:51.663008+00:00", "active": 3}
+{"measurement": "http_start", "monitor_id": "ef36ea42-c93e-4e48-9e56-4c3ce833ffd1", "at": "2026-10-20T10:38:51.976832+00:00", "due_at": "2026-10-20T10:38:51.657827+00:00", "active": 4}
+{"measurement": "http_start", "monitor_id": "bb31cc47-750c-4f76-944f-d05f9f8a3d18", "at": "2026-10-20T10:38:51.977956+00:00", "due_at": "2026-10-20T10:38:51.667117+00:00", "active": 5}
+{"measurement": "http_start", "monitor_id": "c685d026-6f7c-463a-8ebb-c465e4e3d229", "at": "2026-10-20T10:38:51.978274+00:00", "due_at": "2026-10-20T10:38:51.666399+00:00", "active": 6}
+{"measurement": "http_start", "monitor_id": "64c26e94-baad-4ec8-9cfe-bb0c0fd62acb", "at": "2026-10-20T10:38:51.978508+00:00", "due_at": "2026-10-20T10:38:51.667803+00:00", "active": 7}
+{"measurement": "http_start", "monitor_id": "fc332273-2677-4de7-8d18-5e8fd3c0d055", "at": "2026-10-20T10:38:51.978731+00:00", "due_at": "2026-10-20T10:38:51.669416+00:00", "active": 8}
+{"measurement": "http_start", "monitor_id": "c74aed22-b74d-435d-9da3-f878815408ff", "at": "2026-10-20T10:38:51.979448+00:00", "due_at": "2026-10-20T10:38:51.663920+00:00", "active": 9}
+{"measurement": "http_start", "monitor_id": "69610f23-92e2-48df-9224-04abbf429821", "at": "2026-10-20T10:38:51.979681+00:00", "due_at": "2026-10-20T10:38:51.668664+00:00", "active": 10}
+{"measurement": "http_start", "monitor_id": "c32d394b-fa3d-4572-a03e-50638f1b9327", "at": "2026-10-20T10:38:51.985093+00:00", "due_at": "2026-10-20T10:38:51.670831+00:00", "active": 11}
+{"measurement": "http_end", "monitor_id": "c67b220c-fd7a-4126-b549-db57904354a5", "at": "2026-10-20T10:38:52.001710+00:00", "seconds": 0.025503361999994922, "outcome": "success", "active": 10}
+{"measurement": "http_start", "monitor_id": "c3568030-ddbf-45fa-8a72-95700a45bb47", "at": "2026-10-20T10:38:52.002904+00:00", "due_at": "2026-10-20T10:38:51.707637+00:00", "active": 11}
+{"measurement": "http_start", "monitor_id": "520658d1-d758-4a9c-9753-401c3d921561", "at": "2026-10-20T10:38:52.006872+00:00", "due_at": "2026-10-20T10:38:51.672103+00:00", "active": 12}
+{"measurement": "http_start", "monitor_id": "0266ebfc-7764-4c64-8426-7dd2fe5fa63d", "at": "2026-10-20T10:38:52.009015+00:00", "due_at": "2026-10-20T10:38:51.708426+00:00", "active": 13}
+{"measurement": "http_start", "monitor_id": "eccd4b1b-0d2c-46de-852e-dbe3b492df04", "at": "2026-10-20T10:38:52.009194+00:00", "due_at": "2026-10-20T10:38:51.706652+00:00", "active": 14}
+{"measurement": "http_end", "monitor_id": "85ceea82-87af-4c4c-9d43-1772bc3dd397", "at": "2026-10-20T10:38:52.102060+00:00", "seconds": 0.12561424300002955, "outcome": "success", "active": 13}
+{"measurement": "http_end", "monitor_id": "ef36ea42-c93e-4e48-9e56-4c3ce833ffd1", "at": "2026-10-20T10:38:52.104699+00:00", "seconds": 0.1278811180000048, "outcome": "success", "active": 12}
+{"measurement": "http_end", "monitor_id": "c685d026-6f7c-463a-8ebb-c465e4e3d229", "at": "2026-10-20T10:38:52.108155+00:00", "seconds": 0.1298949279999988, "outcome": "success", "active": 11}
+{"measurement": "http_end", "monitor_id": "bb31cc47-750c-4f76-944f-d05f9f8a3d18", "at": "2026-10-20T10:38:52.109265+00:00", "seconds": 0.13132407199998397, "outcome": "success", "active": 10}
+{"measurement": "http_end", "monitor_id": "fc332273-2677-4de7-8d18-5e8fd3c0d055", "at": "2026-10-20T10:38:52.109961+00:00", "seconds": 0.13123990899998716, "outcome": "success", "active": 9}
+{"measurement": "http_end", "monitor_id": "69610f23-92e2-48df-9224-04abbf429821", "at": "2026-10-20T10:38:52.110616+00:00", "seconds": 0.13094692300001043, "outcome": "success", "active": 8}
+{"measurement": "http_end", "monitor_id": "c74aed22-b74d-435d-9da3-f878815408ff", "at": "2026-10-20T10:38:52.111235+00:00", "seconds": 0.13180090599996674, "outcome": "success", "active": 7}
+{"measurement": "http_end", "monitor_id": "64c26e94-baad-4ec8-9cfe-bb0c0fd62acb", "at": "2026-10-20T10:38:52.112095+00:00", "seconds": 0.13360054699995771, "outcome": "success", "active": 6}
+{"measurement": "http_end", "monitor_id": "c32d394b-fa3d-4572-a03e-50638f1b9327", "at": "2026-10-20T10:38:52.112810+00:00", "seconds": 0.1277307629999882, "outcome": "success", "active": 5}
+{"measurement": "http_end", "monitor_id": "c3568030-ddbf-45fa-8a72-95700a45bb47", "at": "2026-10-20T10:38:52.119075+00:00", "seconds": 0.11618513700000221, "outcome": "success", "active": 4}
+{"measurement": "http_end", "monitor_id": "520658d1-d758-4a9c-9753-401c3d921561", "at": "2026-10-20T10:38:52.132308+00:00", "seconds": 0.1254509590000339, "outcome": "success", "active": 3}
+{"measurement": "http_end", "monitor_id": "0266ebfc-7764-4c64-8426-7dd2fe5fa63d", "at": "2026-10-20T10:38:52.134053+00:00", "seconds": 0.1250524839999798, "outcome": "success", "active": 2}
+{"measurement": "http_end", "monitor_id": "eccd4b1b-0d2c-46de-852e-dbe3b492df04", "at": "2026-10-20T10:38:52.135754+00:00", "seconds": 0.12657033099998216, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "96386357-e7cf-4ac9-9001-3dc469997200", "at": "2026-10-20T10:38:52.453500+00:00", "due_at": "2026-10-20T10:38:52.086637+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "96386357-e7cf-4ac9-9001-3dc469997200", "at": "2026-10-20T10:38:52.558836+00:00", "seconds": 0.10535504099999571, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "b5bd57bc-965a-450d-a1e5-8b63e2568174", "at": "2026-10-20T10:38:53.464211+00:00", "due_at": "2026-10-20T10:38:53.108459+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "b5bd57bc-965a-450d-a1e5-8b63e2568174", "at": "2026-10-20T10:38:53.570356+00:00", "seconds": 0.10616380499999423, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "0c09e0e9-3e6a-4313-8af4-1f7b95255c95", "at": "2026-10-20T10:38:53.972881+00:00", "due_at": "2026-10-20T10:38:53.618553+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "0c09e0e9-3e6a-4313-8af4-1f7b95255c95", "at": "2026-10-20T10:38:54.079150+00:00", "seconds": 0.10628935400001183, "outcome": "success", "active": 1}
+{"measurement": "http_start", "monitor_id": "388a1c8e-725f-4fd6-b08d-ec2961765d2f", "at": "2026-10-20T10:38:54.480404+00:00", "due_at": "2026-10-20T10:38:54.124562+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "388a1c8e-725f-4fd6-b08d-ec2961765d2f", "at": "2026-10-20T10:38:54.483163+00:00", "seconds": 0.0027763640000557643, "outcome": "network_error", "active": 1}
+{"measurement": "http_start", "monitor_id": "49797ec1-f389-4c35-ac4e-07a8708b79bb", "at": "2026-10-20T10:38:54.988428+00:00", "due_at": "2026-10-20T10:38:54.632085+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "49797ec1-f389-4c35-ac4e-07a8708b79bb", "at": "2026-10-20T10:38:54.991387+00:00", "seconds": 0.002979969000023175, "outcome": "network_error", "active": 1}
+{"measurement": "http_start", "monitor_id": "d113e9f4-36d2-4b13-afa3-e271b2dd2fd3", "at": "2026-10-20T10:38:55.496063+00:00", "due_at": "2026-10-20T10:38:55.143667+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "d113e9f4-36d2-4b13-afa3-e271b2dd2fd3", "at": "2026-10-20T10:38:55.498310+00:00", "seconds": 0.0022624099999575265, "outcome": "network_error", "active": 1}
+{"measurement": "http_start", "monitor_id": "027331be-9aa1-4faf-9a4e-b1530414d342", "at": "2026-10-20T10:38:56.010748+00:00", "due_at": "2026-10-20T10:38:55.511964+00:00", "active": 2}
+{"measurement": "http_start", "monitor_id": "9d59bcb5-5910-4548-b84b-74af55ba5d66", "at": "2026-10-20T10:38:56.012211+00:00", "due_at": "2026-10-20T10:38:55.650875+00:00", "active": 3}
+{"measurement": "http_end", "monitor_id": "027331be-9aa1-4faf-9a4e-b1530414d342", "at": "2026-10-20T10:38:56.017464+00:00", "seconds": 0.006736619999969662, "outcome": "network_error", "active": 2}
+{"measurement": "http_end", "monitor_id": "9d59bcb5-5910-4548-b84b-74af55ba5d66", "at": "2026-10-20T10:38:56.018911+00:00", "seconds": 0.006718983999974171, "outcome": "network_error", "active": 1}
+{"measurement": "http_start", "monitor_id": "e3f29afa-25f4-4fde-b4a5-2b115f5528fa", "at": "2026-10-20T10:38:56.517785+00:00", "due_at": "2026-10-20T10:38:56.160403+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "e3f29afa-25f4-4fde-b4a5-2b115f5528fa", "at": "2026-10-20T10:38:56.520331+00:00", "seconds": 0.0025665009999897848, "outcome": "network_error", "active": 1}
+{"measurement": "http_end", "monitor_id": "7a315b14-9963-422a-bef1-e8c77f7623e5", "at": "2026-10-20T10:38:56.997414+00:00", "seconds": 14.125915805000034, "outcome": "network_error", "active": 0}
+{"measurement": "http_start", "monitor_id": "69610f23-92e2-48df-9224-04abbf429821", "at": "2026-10-20T10:38:57.528868+00:00", "due_at": "2026-10-20T10:38:57.463215+00:00", "active": 1}
+{"measurement": "http_start", "monitor_id": "1e51f4d0-7407-4dd2-a4cc-981ed9975a06", "at": "2026-10-20T10:38:58.547769+00:00", "due_at": "2026-10-20T10:38:58.193160+00:00", "active": 2}
+{"measurement": "http_start", "monitor_id": "32de069a-c86b-4cec-b669-c52e48810f92", "at": "2026-10-20T10:38:58.549189+00:00", "due_at": "2026-10-20T10:38:58.193900+00:00", "active": 3}
+{"measurement": "http_start", "monitor_id": "c4640eef-7e3e-4413-87ff-67e4c44727b2", "at": "2026-10-20T10:38:58.549466+00:00", "due_at": "2026-10-20T10:38:58.194558+00:00", "active": 4}
+{"measurement": "http_start", "monitor_id": "84f3ad43-c747-4eff-917a-49ec2da6b009", "at": "2026-10-20T10:38:59.053885+00:00", "due_at": "2026-10-20T10:38:58.695058+00:00", "active": 5}
+{"measurement": "http_end", "monitor_id": "69610f23-92e2-48df-9224-04abbf429821", "at": "2026-10-20T10:38:59.529249+00:00", "seconds": 2.002468909000015, "outcome": "timeout", "active": 4}
+{"measurement": "http_start", "monitor_id": "b6d12b04-705e-4463-b40a-632191de4f89", "at": "2026-10-20T10:38:59.564694+00:00", "due_at": "2026-10-20T10:38:59.201793+00:00", "active": 5}
+{"measurement": "http_start", "monitor_id": "d20026ab-7778-4c6d-9a84-02cba4da074f", "at": "2026-10-20T10:39:00.071718+00:00", "due_at": "2026-10-20T10:38:59.717443+00:00", "active": 6}
+{"measurement": "http_end", "monitor_id": "d20026ab-7778-4c6d-9a84-02cba4da074f", "at": "2026-10-20T10:39:00.074873+00:00", "seconds": 0.0031752610000239656, "outcome": "network_error", "active": 5}
+{"measurement": "http_end", "monitor_id": "1e51f4d0-7407-4dd2-a4cc-981ed9975a06", "at": "2026-10-20T10:39:00.549069+00:00", "seconds": 2.0013332330000253, "outcome": "timeout", "active": 4}
+{"measurement": "http_end", "monitor_id": "32de069a-c86b-4cec-b669-c52e48810f92", "at": "2026-10-20T10:39:00.550304+00:00", "seconds": 2.0011341400000333, "outcome": "timeout", "active": 3}
+{"measurement": "http_end", "monitor_id": "c4640eef-7e3e-4413-87ff-67e4c44727b2", "at": "2026-10-20T10:39:00.551014+00:00", "seconds": 2.0015621869999904, "outcome": "timeout", "active": 2}
+{"measurement": "http_start", "monitor_id": "ca1e1873-5b2f-41b8-92da-5610d4b5c81f", "at": "2026-10-20T10:39:00.578112+00:00", "due_at": "2026-10-20T10:39:00.228842+00:00", "active": 3}
+{"measurement": "http_end", "monitor_id": "ca1e1873-5b2f-41b8-92da-5610d4b5c81f", "at": "2026-10-20T10:39:00.580696+00:00", "seconds": 0.00260552499997857, "outcome": "network_error", "active": 2}
+{"measurement": "http_end", "monitor_id": "84f3ad43-c747-4eff-917a-49ec2da6b009", "at": "2026-10-20T10:39:01.055196+00:00", "seconds": 2.0013322630000516, "outcome": "timeout", "active": 1}
+{"measurement": "http_start", "monitor_id": "7cc6ddc3-4ce5-4c7a-ac8f-414906feec15", "at": "2026-10-20T10:39:01.082810+00:00", "due_at": "2026-10-20T10:39:00.738981+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "7cc6ddc3-4ce5-4c7a-ac8f-414906feec15", "at": "2026-10-20T10:39:01.088594+00:00", "seconds": 0.005798739999988811, "outcome": "success", "active": 1}
+{"measurement": "http_end", "monitor_id": "b6d12b04-705e-4463-b40a-632191de4f89", "at": "2026-10-20T10:39:01.566169+00:00", "seconds": 2.0014959839999733, "outcome": "timeout", "active": 0}
+{"measurement": "http_start", "monitor_id": "f16a8c24-c984-4e30-9c33-9c6511104482", "at": "2026-10-20T10:39:01.588745+00:00", "due_at": "2026-10-20T10:39:01.247723+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "f16a8c24-c984-4e30-9c33-9c6511104482", "at": "2026-10-20T10:39:01.594635+00:00", "seconds": 0.005907471999989866, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "698657d5-0e4b-4a55-87c1-f117883eaf8a", "at": "2026-10-20T10:39:02.095425+00:00", "due_at": "2026-10-20T10:39:01.759932+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "698657d5-0e4b-4a55-87c1-f117883eaf8a", "at": "2026-10-20T10:39:02.099928+00:00", "seconds": 0.004518057999973735, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "69610f23-92e2-48df-9224-04abbf429821", "at": "2026-10-20T10:39:02.603701+00:00", "due_at": "2026-10-20T10:39:02.118675+00:00", "active": 1}
+{"measurement": "http_start", "monitor_id": "71dae227-81f8-4d93-88e2-3b826211bb60", "at": "2026-10-20T10:39:02.606025+00:00", "due_at": "2026-10-20T10:39:02.266384+00:00", "active": 2}
+{"measurement": "http_end", "monitor_id": "69610f23-92e2-48df-9224-04abbf429821", "at": "2026-10-20T10:39:02.610725+00:00", "seconds": 0.0070401930000230095, "outcome": "success", "active": 1}
+{"measurement": "http_end", "monitor_id": "71dae227-81f8-4d93-88e2-3b826211bb60", "at": "2026-10-20T10:39:02.614241+00:00", "seconds": 0.008231783000042014, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "cfbb163e-8ee3-4127-a6f3-e72bd20ff613", "at": "2026-10-20T10:39:03.110380+00:00", "due_at": "2026-10-20T10:39:02.775755+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "cfbb163e-8ee3-4127-a6f3-e72bd20ff613", "at": "2026-10-20T10:39:03.115836+00:00", "seconds": 0.005473807999976543, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "770307e8-2a0a-4a88-b04b-33a3a86ad985", "at": "2026-10-20T10:39:04.125062+00:00", "due_at": "2026-10-20T10:39:03.788519+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "770307e8-2a0a-4a88-b04b-33a3a86ad985", "at": "2026-10-20T10:39:04.130508+00:00", "seconds": 0.005465755999978228, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "25d97985-0c5a-4df2-b7d2-477e1a43926d", "at": "2026-10-20T10:39:04.633679+00:00", "due_at": "2026-10-20T10:39:04.295907+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "25d97985-0c5a-4df2-b7d2-477e1a43926d", "at": "2026-10-20T10:39:04.638425+00:00", "seconds": 0.004762461999973766, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "3d0c0e1c-a822-4d97-9565-4e2e122d912e", "at": "2026-10-20T10:39:05.645895+00:00", "due_at": "2026-10-20T10:39:05.313126+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "3d0c0e1c-a822-4d97-9565-4e2e122d912e", "at": "2026-10-20T10:39:05.651597+00:00", "seconds": 0.0057183359999726235, "outcome": "success", "active": 0}
+{"measurement": "http_start", "monitor_id": "1269f647-8445-4b07-8093-227a3aa96b82", "at": "2026-10-20T10:39:06.156953+00:00", "due_at": "2026-10-20T10:39:05.821408+00:00", "active": 1}
+{"measurement": "http_end", "monitor_id": "1269f647-8445-4b07-8093-227a3aa96b82", "at": "2026-10-20T10:39:06.162611+00:00", "seconds": 0.005675412000016422, "outcome": "success", "active": 0}

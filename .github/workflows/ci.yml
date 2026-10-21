@@ -1,9 +1,15 @@
 name: checks
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
 jobs:
   backend:
     runs-on: ubuntu-latest
     services:
+      mailpit:
+        image: axllent/mailpit:v1.27
+        ports: ['1025:1025', '8025:8025']
       postgres:
         image: postgres:17-alpine
         env:
@@ -17,6 +23,8 @@ jobs:
     env:
       DATABASE_URL: postgresql+asyncpg://servicepulse:local-development-only@localhost/servicepulse_test
       TEST_DATABASE_URL: postgresql+asyncpg://servicepulse:local-development-only@localhost/servicepulse_test
+      SMTP_HOST: localhost
+      MAILPIT_URL: http://localhost:8025
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -35,7 +43,38 @@ jobs:
         with: {node-version: '24', cache: npm, cache-dependency-path: frontend/package-lock.json}
       - run: npm ci
       - run: npm run typecheck
+      - run: npm run lint
       - run: npm test
       - run: npm run format:check
       - run: npm run build
+      - run: node scripts/ru_ui_audit.cjs
+        working-directory: .
       - run: npm audit --audit-level=high
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '24', cache: npm, cache-dependency-path: frontend/package-lock.json}
+      - run: npm ci
+        working-directory: frontend
+      - run: npx playwright install --with-deps chromium
+        working-directory: frontend
+      - run: cp .env.example .env
+      - run: docker compose up -d --build --wait
+      - run: npm run test:e2e
+        working-directory: frontend
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-evidence
+          path: |
+            artifacts/browser-tests.json
+            artifacts/phase5-public-browser.json
+            artifacts/phase4-browser-mail.json
+            artifacts/phase7-release-journey.json
+            output/playwright/*.png
+            output/playwright/phase6-monochrome/
+            artifacts/phase6-accessibility-*.json
+      - run: docker compose down --remove-orphans
+        if: always()

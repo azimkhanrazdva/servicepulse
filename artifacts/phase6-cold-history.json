@@ -1,0 +1,331 @@
+{
+  "project": "servicepulse-phase6-cold-ce2b93",
+  "started_at": "2026-10-20T10:48:40.796079+00:00",
+  "cold_definition": "PostgreSQL restarted; shared_buffers cold, host OS page cache retained",
+  "trials": [
+    {
+      "at": "2026-10-20T10:49:09.900019+00:00",
+      "measurements": [
+        {
+          "index": 0,
+          "aggregate_seconds": 0.5540416919998279,
+          "sql_driver_seconds": 0.5232894480000141,
+          "non_sql_seconds": 0.0307522439998138,
+          "serialization_seconds": 0.0013698980001208838,
+          "query_count": 2,
+          "aggregate_query_count": 1,
+          "transaction_local_setting_count": 1,
+          "bytes": 55362,
+          "buckets": 360
+        },
+        {
+          "index": 1,
+          "aggregate_seconds": 0.4837798940000084,
+          "sql_driver_seconds": 0.47746030600001177,
+          "non_sql_seconds": 0.0063195879999966564,
+          "serialization_seconds": 0.0013157350001620216,
+          "query_count": 2,
+          "aggregate_query_count": 1,
+          "transaction_local_setting_count": 1,
+          "bytes": 55363,
+          "buckets": 360
+        },
+        {
+          "index": 2,
+          "aggregate_seconds": 0.5105194940001638,
+          "sql_driver_seconds": 0.5050303809998695,
+          "non_sql_seconds": 0.00548911300029431,
+          "serialization_seconds": 0.0013580180000190012,
+          "query_count": 2,
+          "aggregate_query_count": 1,
+          "transaction_local_setting_count": 1,
+          "bytes": 55357,
+          "buckets": 360
+        },
+        {
+          "index": 3,
+          "aggregate_seconds": 0.4788837240000703,
+          "sql_driver_seconds": 0.47272468799997114,
+          "non_sql_seconds": 0.0061590360000991495,
+          "serialization_seconds": 0.0013128770001458179,
+          "query_count": 2,
+          "aggregate_query_count": 1,
+          "transaction_local_setting_count": 1,
+          "bytes": 55363,
+          "buckets": 360
+        },
+        {
+          "index": 4,
+          "aggregate_seconds": 0.4799923549999221,
+          "sql_driver_seconds": 0.4736878460000753,
+          "non_sql_seconds": 0.006304508999846803,
+          "serialization_seconds": 0.0014730299999428098,
+          "query_count": 2,
+          "aggregate_query_count": 1,
+          "transaction_local_setting_count": 1,
+          "bytes": 55357,
+          "buckets": 360
+        },
+        {
+          "index": 5,
+          "aggregate_seconds": 0.5311932209999668,
+          "sql_driver_seconds": 0.5243750050001381,
+          "non_sql_seconds": 0.006818215999828681,
+          "serialization_seconds": 0.0016455360000691144,
+          "query_count": 2,
+          "aggregate_query_count": 1,
+          "transaction_local_setting_count": 1,
+          "bytes": 55363,
+          "buckets": 360
+        },
+        {
+          "index": 6,
+          "aggregate_seconds": 0.4874848260001272,
+          "sql_driver_seconds": 0.4818625670002348,
+          "non_sql_seconds": 0.005622258999892438,
+          "serialization_seconds": 0.001604525000175272,
+          "query_count": 2,
+          "aggregate_query_count": 1,
+          "transaction_local_setting_count": 1,
+          "bytes": 55363,
+          "buckets": 360
+        },
+        {
+          "index": 7,
+          "aggregate_seconds": 0.489656062999984,
+          "sql_driver_seconds": 0.4827640869998504,
+          "non_sql_seconds": 0.006891976000133582,
+          "serialization_seconds": 0.001465212999846699,
+          "query_count": 2,
+          "aggregate_query_count": 1,
+          "transaction_local_setting_count": 1,
+          "bytes": 55362,
+          "buckets": 360
+        }
+      ]
+    },
+    {
+      "at": "2026-10-20T10:49:18.587478+00:00",
+      "measurements": [
+        {
+          "index": 0,
+          "aggregate_seconds": 0.551800768000021,
+          "sql_driver_seconds": 0.5236265480000384,
+          "non_sql_seconds": 0.028174219999982597,
+          "serialization_seconds": 0.001386967999906119,
+          "query_count": 2,
+          "aggregate_query_count": 1,
+          "transaction_local_setting_count": 1,
+          "bytes": 55362,
+          "buckets": 360
+        },
+        {
+          "index": 1,
+          "aggregate_seconds": 0.5248675100001492,
+          "sql_driver_seconds": 0.5188680979999845,
+          "non_sql_seconds": 0.005999412000164739,
+          "serialization_seconds": 0.0016873439999471884,
+          "query_count": 2,
+          "aggregate_query_count": 1,
+          "transaction_local_setting_count": 1,
+          "bytes": 55363,
+          "buckets": 360
+        },
+        {
+          "index": 2,
+          "aggregate_seconds": 0.5398640290000003,
+          "sql_driver_seconds": 0.533901195999988,
+          "non_sql_seconds": 0.005962833000012324,
+          "serialization_seconds": 0.0013410139999905368,
+          "query_count": 2,
+          "aggregate_query_count": 1,
+          "transaction_local_setting_count": 1,
+          "bytes": 55363,
+          "buckets": 360
+        },
+        {
+          "index": 3,
+          "aggregate_seconds": 0.5000617910000074,
+          "sql_driver_seconds": 0.494633998999916,
+          "non_sql_seconds": 0.005427792000091358,
+          "serialization_seconds": 0.0013014250000651373,
+          "query_count": 2,
+          "aggregate_query_count": 1,
+          "transaction_local_setting_count": 1,
+          "bytes": 55362,
+          "buckets": 360
+        },
+        {
+          "index": 4,
+          "aggregate_seconds": 0.5323700330000065,
+          "sql_driver_seconds": 0.5258678520001467,
+          "non_sql_seconds": 0.006502180999859775,
+          "serialization_seconds": 0.0016581079999014037,
+          "query_count": 2,
+          "aggregate_query_count": 1,
+          "transaction_local_setting_count": 1,
+          "bytes": 55363,
+          "buckets": 360
+        },
+        {
+          "index": 5,
+          "aggregate_seconds": 0.5252786690000448,
+          "sql_driver_seconds": 0.5199581819999821,
+          "non_sql_seconds": 0.0053204870000627125,
+          "serialization_seconds": 0.0014073729998926865,
+          "query_count": 2,
+          "aggregate_query_count": 1,
+          "transaction_local_setting_count": 1,
+          "bytes": 55363,
+          "buckets": 360
+        },
+        {
+          "index": 6,
+          "aggregate_seconds": 0.6258102709998639,
+          "sql_driver_seconds": 0.6192179849999775,
+          "non_sql_seconds": 0.006592285999886371,
+          "serialization_seconds": 0.0013250950000838202,
+          "query_count": 2,
+          "aggregate_query_count": 1,
+          "transaction_local_setting_count": 1,
+          "bytes": 55358,
+          "buckets": 360
+        },
+        {
+          "index": 7,
+          "aggregate_seconds": 0.5489965210001628,
+          "sql_driver_seconds": 0.5438213619997896,
+          "non_sql_seconds": 0.005175159000373242,
+          "serialization_seconds": 0.0013766439999471913,
+          "query_count": 2,
+          "aggregate_query_count": 1,
+          "transaction_local_setting_count": 1,
+          "bytes": 55363,
+          "buckets": 360
+        }
+      ]
+    },
+    {
+      "at": "2026-10-20T10:49:29.137048+00:00",
+      "measurements": [
+        {
+          "index": 0,
+          "aggregate_seconds": 0.6349984199998744,
+          "sql_driver_seconds": 0.5990902050000386,
+          "non_sql_seconds": 0.035908214999835764,
+          "serialization_seconds": 0.0017140610000296874,
+          "query_count": 2,
+          "aggregate_query_count": 1,
+          "transaction_local_setting_count": 1,
+          "bytes": 55366,
+          "buckets": 360
+        },
+        {
+          "index": 1,
+          "aggregate_seconds": 0.6604068320000351,
+          "sql_driver_seconds": 0.6541171510000368,
+          "non_sql_seconds": 0.006289680999998382,
+          "serialization_seconds": 0.0013108480000028067,
+          "query_count": 2,
+          "aggregate_query_count": 1,
+          "transaction_local_setting_count": 1,
+          "bytes": 55365,
+          "buckets": 360
+        },
+        {
+          "index": 2,
+          "aggregate_seconds": 0.8667217229999551,
+          "sql_driver_seconds": 0.8575142919999053,
+          "non_sql_seconds": 0.009207431000049837,
+          "serialization_seconds": 0.0030885720000242145,
+          "query_count": 2,
+          "aggregate_query_count": 1,
+          "transaction_local_setting_count": 1,
+          "bytes": 55366,
+          "buckets": 360
+        },
+        {
+          "index": 3,
+          "aggregate_seconds": 1.1795881259999987,
+          "sql_driver_seconds": 1.1698290070000894,
+          "non_sql_seconds": 0.009759118999909333,
+          "serialization_seconds": 0.0019755420000819868,
+          "query_count": 2,
+          "aggregate_query_count": 1,
+          "transaction_local_setting_count": 1,
+          "bytes": 55364,
+          "buckets": 360
+        },
+        {
+          "index": 4,
+          "aggregate_seconds": 0.5879496879999806,
+          "sql_driver_seconds": 0.5798039689998404,
+          "non_sql_seconds": 0.008145719000140161,
+          "serialization_seconds": 0.002033471999993708,
+          "query_count": 2,
+          "aggregate_query_count": 1,
+          "transaction_local_setting_count": 1,
+          "bytes": 55365,
+          "buckets": 360
+        },
+        {
+          "index": 5,
+          "aggregate_seconds": 0.5828394980001121,
+          "sql_driver_seconds": 0.5766877030000614,
+          "non_sql_seconds": 0.006151795000050697,
+          "serialization_seconds": 0.0027320960000452033,
+          "query_count": 2,
+          "aggregate_query_count": 1,
+          "transaction_local_setting_count": 1,
+          "bytes": 55365,
+          "buckets": 360
+        },
+        {
+          "index": 6,
+          "aggregate_seconds": 0.5803136170000016,
+          "sql_driver_seconds": 0.5731228559998272,
+          "non_sql_seconds": 0.0071907610001744615,
+          "serialization_seconds": 0.0016892999999527092,
+          "query_count": 2,
+          "aggregate_query_count": 1,
+          "transaction_local_setting_count": 1,
+          "bytes": 55364,
+          "buckets": 360
+        },
+        {
+          "index": 7,
+          "aggregate_seconds": 0.6977228500002184,
+          "sql_driver_seconds": 0.691365155000085,
+          "non_sql_seconds": 0.00635769500013339,
+          "serialization_seconds": 0.0014508089998344076,
+          "query_count": 2,
+          "aggregate_query_count": 1,
+          "transaction_local_setting_count": 1,
+          "bytes": 55365,
+          "buckets": 360
+        }
+      ]
+    }
+  ],
+  "cold_seconds": {
+    "count": 3,
+    "mean": 0.580280293333241,
+    "min": 0.551800768000021,
+    "p50": 0.5540416919998279,
+    "p95": 0.6349984199998744,
+    "p99": 0.6349984199998744,
+    "max": 0.6349984199998744
+  },
+  "warm_seconds": {
+    "count": 21,
+    "mean": 0.5911571778571799,
+    "min": 0.4788837240000703,
+    "p50": 0.5323700330000065,
+    "p95": 0.8667217229999551,
+    "p99": 1.1795881259999987,
+    "max": 1.1795881259999987
+  },
+  "status": "PASS",
+  "cleanup_exit_code": 0,
+  "ended_at": "2026-10-20T10:49:31.201663+00:00"
+}

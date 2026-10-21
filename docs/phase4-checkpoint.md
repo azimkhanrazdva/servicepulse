@@ -1,0 +1,5 @@
+# Контрольная точка Phase4: обслуживание и почта
+
+Русская навигационная редакция подготовлена 21 октября 2026. Это архив: даты, результаты и незавершённые пункты относятся к описанному этапу. Полный исходный отчёт сохранён в [Git](https://github.com/azimkhanrazdva/servicepulse/blob/f3866cd16a8027855afb4d65c55b598c4d535452/docs/phase4-checkpoint.md); настоящий перевод не является новым выполнением команд.
+
+Реализованы monitor/group maintenance, half-open UTC окна, overlaps, real DOWN с отдельным badge, outbox/routes/deliveries, SMTP dispatcher и диагностика. Новый recipient действует на будущие incidents, удаление route отзывает pending. Проверки:107 backend PASS17,83 с,15 component,5 browser PASS19,1 с; fault suite77,437 с. Exact ade9c13 CI39379923079 успешен. Ошибка выбора native select и stale refresh error после reconnect исправлены с реальными регрессиями. Историческая отмена unattempted DOWN при быстром восстановлении была ограничением Phase4, позднее исправлена в 0006; нельзя приписывать исправление этому checkpoint.

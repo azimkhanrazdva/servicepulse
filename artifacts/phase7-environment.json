@@ -1,0 +1,10 @@
+{
+  "checked_at": "2026-10-20T12:12:07.763310+00:00",
+  "host_os": "Windows-10-10.0.26200-SP0",
+  "python": "3.11.9",
+  "node": "v24.15.0",
+  "docker_engine": "29.7.2",
+  "docker_cpu_allocation": 16,
+  "docker_memory_gib": 7.61,
+  "note": "Phase7 host observation, not retroactively attributed as exact resource configuration of every Phase6 experiment."
+}

@@ -1,0 +1,49 @@
+name: servicepulse-phase6-performance
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: servicepulse_test
+      POSTGRES_USER: servicepulse
+      POSTGRES_PASSWORD: local-development-only
+    volumes: [performance-pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U servicepulse -d servicepulse_test]
+      interval: 1s
+      timeout: 3s
+      retries: 30
+  migrate:
+    build: ./backend
+    environment: &performance-env
+      DATABASE_URL: postgresql+asyncpg://servicepulse:local-development-only@db/servicepulse_test
+      SIMULATOR_ORIGIN: http://simulator:8090
+    command: [alembic, upgrade, head]
+    depends_on:
+      db: {condition: service_healthy}
+  backend:
+    build: ./backend
+    environment: *performance-env
+    ports: ['127.0.0.1:19000:8000']
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/ready')"]
+      interval: 1s
+      timeout: 3s
+      retries: 30
+  worker:
+    build: ./backend
+    environment: *performance-env
+    command: [python, tests/load_worker.py]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      simulator: {condition: service_started}
+  simulator:
+    build: ./simulator
+  frontend:
+    build: ./frontend
+    ports: ['127.0.0.1:19080:80']
+    depends_on:
+      backend: {condition: service_healthy}
+volumes:
+  performance-pgdata:

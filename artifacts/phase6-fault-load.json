@@ -1,0 +1,85 @@
+{
+  "started_at": "2026-10-20T10:35:40.625911+00:00",
+  "project": "servicepulse-phase6-fault-load-f82127",
+  "checks": {
+    "real_threshold_down_recovery": "PASS",
+    "worker_restart_preserves_history_and_resumes": "PASS",
+    "postgres_outage_integrity_and_resume": "PASS",
+    "edit_pause_resume_delete_group_changes": "PASS",
+    "backend_restart_simulator_outage_recovery": "PASS",
+    "two_browser_clients_sse_incidents_reconnect": "PASS"
+  },
+  "initial": {
+    "at": "2026-10-20T10:37:11.333983+00:00",
+    "results": 99,
+    "monitors": 50,
+    "open_incidents": 1,
+    "duplicate_open": 0,
+    "due_without_lease": 0,
+    "xact_commit": 454,
+    "xact_rollback": 3891,
+    "blks_read": 294,
+    "blks_hit": 31827
+  },
+  "worker_recovery_seconds": 16.54700000000048,
+  "db_recovery_seconds": 22.359999999999673,
+  "api_ms": {
+    "count": 20,
+    "mean": 11.960859999953755,
+    "min": 9.144100000412436,
+    "p50": 9.826200000134122,
+    "p95": 24.75219999996625,
+    "p99": 25.761599999896134,
+    "max": 25.761599999896134
+  },
+  "resource_snapshot": [
+    {
+      "BlockIO": "0B / 0B",
+      "CPUPerc": "12.48%",
+      "Container": "d34b138a9e9da4a0464cec36928a1ce8233285f8cd368b99b34d82fee039e160",
+      "ID": "d34b138a9e9d",
+      "MemPerc": "0.81%",
+      "MemUsage": "62.79MiB / 7.609GiB",
+      "Name": "servicepulse-phase6-fault-load-f82127-backend-1",
+      "NetIO": "310kB / 492kB",
+      "PIDs": "3"
+    },
+    {
+      "BlockIO": "0B / 438kB",
+      "CPUPerc": "5.55%",
+      "Container": "fd964ac95185db0f52e75669f828dce95d15cde3e782d8d4df6a1bed05d3e602",
+      "ID": "fd964ac95185",
+      "MemPerc": "0.70%",
+      "MemUsage": "54.25MiB / 7.609GiB",
+      "Name": "servicepulse-phase6-fault-load-f82127-db-1",
+      "NetIO": "1.06MB / 1.82MB",
+      "PIDs": "19"
+    },
+    {
+      "BlockIO": "0B / 0B",
+      "CPUPerc": "1.98%",
+      "Container": "4d741bbf1db112a23d43f19fb34266240c8b21d59d9feffafc8dad25012af0e3",
+      "ID": "4d741bbf1db1",
+      "MemPerc": "0.81%",
+      "MemUsage": "63.25MiB / 7.609GiB",
+      "Name": "servicepulse-phase6-fault-load-f82127-worker-1",
+      "NetIO": "636kB / 715kB",
+      "PIDs": "17"
+    }
+  ],
+  "final": {
+    "at": "2026-10-20T10:39:05.827549+00:00",
+    "results": 289,
+    "monitors": 50,
+    "open_incidents": 3,
+    "duplicate_open": 0,
+    "due_without_lease": 1,
+    "xact_commit": 1221,
+    "xact_rollback": 5744,
+    "blks_read": 598,
+    "blks_hit": 100452
+  },
+  "status": "PASS",
+  "elapsed_seconds": 206.17200000000048,
+  "ended_at": "2026-10-20T10:39:06.797988+00:00"
+}

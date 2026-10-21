@@ -1,0 +1,5 @@
+# Проектирование публичной страницы и аналитики
+
+Русская навигационная редакция подготовлена 21 октября 2026. Это архив: даты, результаты и незавершённые пункты относятся к описанному этапу. Полный исходный отчёт сохранён в [Git](https://github.com/azimkhanrazdva/servicepulse/blob/f3866cd16a8027855afb4d65c55b598c4d535452/docs/phase5-design.md); настоящий перевод не является новым выполнением команд.
+
+PublicPage disabled по умолчанию; Publication создаётся только при согласии для каждого monitor, public ID не равен monitor UUID. Разрешение show_history отдельное и включает ранее собранную агрегированную историю. Public API не имеет admin/OpenAPI routes, только безопасную проекцию, generic404/503, read-only transactions, no-store/no-replay. Каждый SSE tick перепроверяет enabled/membership; клиент очищает данные при revoke/disconnect, поздний REST не восстанавливает отозванный snapshot. Analytics: successful/observed, coverage отдельно из captured intervals без backfill legacy cadence; null отличается от 0, пропуски не соединяются. Bounded SQL вместо месячной ORM-загрузки; shared роль остаётся production-ограничением.

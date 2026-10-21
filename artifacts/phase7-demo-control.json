@@ -1,0 +1,14 @@
+{
+  "checked_at": "2026-10-20T12:06:01.032386+00:00",
+  "status": "PASS",
+  "checks": [
+    {
+      "requested_status": 500,
+      "observed_http_status": 500
+    },
+    {
+      "requested_status": 200,
+      "observed_http_status": 200
+    }
+  ]
+}

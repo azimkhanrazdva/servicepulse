@@ -1,0 +1,5 @@
+# Завершённая контрольная точка Phase6
+
+Русская навигационная редакция подготовлена 21 октября 2026. Это архив: даты, результаты и незавершённые пункты относятся к описанному этапу. Полный исходный отчёт сохранён в [Git](https://github.com/azimkhanrazdva/servicepulse/blob/f3866cd16a8027855afb4d65c55b598c4d535452/docs/phase6-final-checkpoint.md); настоящий перевод не является новым выполнением команд.
+
+Сохранены 0006 notification fixes, worker expiry и public freshness/Host guards. Выполнены fault-under50, отдельные cold/warm measurements и transaction-local JIT correction, чёрно-белый admin/public, честная 500 selection, request deadlines, modal/drafts/keyboard/clipboard. Итог 149 backend/32 component/11 Chromium PASS;12axe scans0violations, без WCAG-сертификации. Delayed/refused SMTP49,859 с, fault matrix206,172 с;100000-row coldmax635 мс/warm p95867 мс/max1180 мс. Actions39454055596 успешен для 6575f9a; окончательный 494e310 отдельно прошёл 39454646522. Никаких PR/merge/публичности не менялось; owner model/essay/access тогда ещё не получены.

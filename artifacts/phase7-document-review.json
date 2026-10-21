@@ -1,0 +1,16 @@
+{
+  "checked_at": "2026-10-20T12:21:56.775109+00:00",
+  "status": "PASS",
+  "reviewed_files": {
+    "README.md": "895f946b86dc36cbee8d0d8e18c49cdde8eb16192a59ee0098a493148311a947",
+    "docs/phase7-security-review.md": "9204a9b3966109da23129860325e92f0c965a9b9186d49b3ef1604e4e4dfc79a",
+    "docs/demo-script.md": "72ff2cdd4a5e26125e4dec1da35f4bc9bff68ac763b07b13b55dec1faa211a28",
+    "docs/submission-guide.md": "7317d4e04853284b027bb0591594786fd9ea7816527f35937549346400dc0880",
+    "docs/release-checklist.md": "b2deded53033f32cf3e3749f426d102e98a611730b2d32b5dca56181fadf1a37",
+    "docs/phase7-checkpoint.md": "445a2e53cdfd314d7095f2e62d826964f4976e79433a06c8a835582a55012988",
+    "docs/phase7-performance.md": "fb980b314d868d18f4868057e4f603228393cbd855e2981501a719b56b6338bc",
+    "docs/ai-development.md": "f7d58c262a233f7160465d62cc596147f18ca88fb30c5ae51469bee454bb8927",
+    "docs/github-workflow.md": "fc75add0548578c6c691663fec60b7b56502b7b424526eb1cfcd3acddac960d6"
+  },
+  "scope": "Manual content/source review plus deterministic link/token checks. No owner essay/model/access approval inferred."
+}

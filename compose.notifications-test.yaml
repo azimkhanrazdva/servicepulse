@@ -1,0 +1,60 @@
+name: servicepulse-phase4-fault
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: servicepulse_test
+      POSTGRES_USER: servicepulse
+      POSTGRES_PASSWORD: local-development-only
+    volumes: [fault-pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U servicepulse -d servicepulse_test]
+      interval: 1s
+      timeout: 3s
+      retries: 30
+  migrate:
+    build: ./backend
+    environment: &test-env
+      DATABASE_URL: postgresql+asyncpg://servicepulse:local-development-only@db/servicepulse_test
+      SIMULATOR_ORIGIN: http://simulator:8090
+      SMTP_HOST: mailpit
+      SMTP_TIMEOUT_SECONDS: 0.5
+    command: [alembic, upgrade, head]
+    depends_on:
+      db: {condition: service_healthy}
+  backend:
+    build: ./backend
+    environment: *test-env
+    ports: ['127.0.0.1:18000:8000']
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/ready')"]
+      interval: 1s
+      timeout: 3s
+      retries: 30
+  worker:
+    build: ./backend
+    environment: *test-env
+    command: [python, -m, app.worker]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      simulator: {condition: service_started}
+  dispatcher:
+    build: ./backend
+    environment: *test-env
+    command: [python, -m, app.dispatcher]
+    stop_grace_period: 2s
+    logging:
+      driver: json-file
+      options: {max-size: '10m', max-file: '3'}
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      mailpit: {condition: service_started}
+  simulator:
+    build: ./simulator
+  mailpit:
+    image: axllent/mailpit:v1.27
+    ports: ['127.0.0.1:18025:8025']
+volumes:
+  fault-pgdata:

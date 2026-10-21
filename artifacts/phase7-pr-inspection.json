@@ -1,0 +1,1139 @@
+{
+  "checked_at": "2026-10-20T11:42:20.202405+00:00",
+  "reviews": [
+    {
+      "additions": 4515,
+      "baseRefName": "main",
+      "changedFiles": 49,
+      "deletions": 358,
+      "files": [
+        {
+          "path": ".github/workflows/ci.yml",
+          "additions": 5,
+          "deletions": 1,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "AGENTS.md",
+          "additions": 6,
+          "deletions": 2,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "README.md",
+          "additions": 44,
+          "deletions": 15,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "artifacts/backend-tests.xml",
+          "additions": 1,
+          "deletions": 1,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "artifacts/browser-tests.json",
+          "additions": 56,
+          "deletions": 14,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "artifacts/frontend-tests.json",
+          "additions": 1,
+          "deletions": 1,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "artifacts/github-ci-phase2.json",
+          "additions": 1,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "artifacts/npm-audit.json",
+          "additions": 2,
+          "deletions": 2,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "artifacts/phase2-checkpoint.json",
+          "additions": 65,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "artifacts/phase2-smoke.json",
+          "additions": 17,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "backend/app/groups.py",
+          "additions": 140,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "backend/app/main.py",
+          "additions": 59,
+          "deletions": 6,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "backend/app/models.py",
+          "additions": 34,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "backend/app/schemas.py",
+          "additions": 50,
+          "deletions": 2,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "backend/app/worker.py",
+          "additions": 15,
+          "deletions": 1,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "backend/migrations/versions/0002_management.py",
+          "additions": 61,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "backend/pyproject.toml",
+          "additions": 2,
+          "deletions": 1,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "backend/requirements.lock",
+          "additions": 2,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "backend/tests/run.py",
+          "additions": 51,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "backend/tests/test_core.py",
+          "additions": 18,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "backend/tests/test_database.py",
+          "additions": 257,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "docs/architecture.md",
+          "additions": 43,
+          "deletions": 14,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "docs/decisions.md",
+          "additions": 29,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "docs/development-log.md",
+          "additions": 113,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "docs/github-workflow.md",
+          "additions": 33,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "docs/phase2-checkpoint.md",
+          "additions": 62,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "docs/pr-phase2.md",
+          "additions": 52,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "docs/pr-summary.md",
+          "additions": 21,
+          "deletions": 3,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "docs/progress.md",
+          "additions": 45,
+          "deletions": 17,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "docs/prompts/002-phase2.md",
+          "additions": 406,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "docs/requirements-provenance.md",
+          "additions": 150,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "docs/requirements.md",
+          "additions": 21,
+          "deletions": 19,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "docs/review.md",
+          "additions": 31,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "frontend/e2e/management.spec.ts",
+          "additions": 126,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "frontend/eslint.config.js",
+          "additions": 13,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "frontend/package-lock.json",
+          "additions": 1334,
+          "deletions": 102,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "frontend/package.json",
+          "additions": 7,
+          "deletions": 2,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "frontend/src/App.test.tsx",
+          "additions": 22,
+          "deletions": 12,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "additions": 181,
+          "deletions": 143,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "frontend/src/GroupsPanel.test.tsx",
+          "additions": 83,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "frontend/src/GroupsPanel.tsx",
+          "additions": 220,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "frontend/src/MonitorForm.test.tsx",
+          "additions": 111,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "frontend/src/MonitorForm.tsx",
+          "additions": 170,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "frontend/src/api.ts",
+          "additions": 60,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "frontend/src/style.css",
+          "additions": 101,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "output/playwright/desktop.png",
+          "additions": 0,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "output/playwright/mobile.png",
+          "additions": 0,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "output/playwright/phase2-desktop.png",
+          "additions": 0,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "scripts/phase2_smoke.py",
+          "additions": 194,
+          "deletions": 0,
+          "changeType": "ADDED"
+        }
+      ],
+      "headRefName": "feat/monitor-management-groups",
+      "headRefOid": "3569b1c05f0ddbf19d954f7f44f3a0f3bec91067",
+      "mergeStateStatus": "CLEAN",
+      "mergeable": "MERGEABLE",
+      "number": 1,
+      "reviews": [],
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-20T06:36:04Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/azimkhanrazdva/servicepulse/actions/runs/39381266717/job/118490668907",
+          "name": "backend",
+          "startedAt": "2026-10-20T06:35:31Z",
+          "status": "COMPLETED",
+          "workflowName": "checks"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-19T20:30:01Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/azimkhanrazdva/servicepulse/actions/runs/39319717248/job/118290312792",
+          "name": "backend",
+          "startedAt": "2026-10-19T20:29:22Z",
+          "status": "COMPLETED",
+          "workflowName": "checks"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-20T06:35:59Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/azimkhanrazdva/servicepulse/actions/runs/39381266717/job/118490669192",
+          "name": "frontend",
+          "startedAt": "2026-10-20T06:35:32Z",
+          "status": "COMPLETED",
+          "workflowName": "checks"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-19T20:29:43Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/azimkhanrazdva/servicepulse/actions/runs/39319717248/job/118290312419",
+          "name": "frontend",
+          "startedAt": "2026-10-19T20:29:22Z",
+          "status": "COMPLETED",
+          "workflowName": "checks"
+        }
+      ],
+      "title": "feat: add versioned monitor management and groups",
+      "url": "https://github.com/azimkhanrazdva/servicepulse/pull/1",
+      "local_head_matches": true,
+      "base_is_ancestor": true,
+      "unexpected_paths": [],
+      "secret_pattern_matches": 0
+    },
+    {
+      "additions": 2368,
+      "baseRefName": "feat/monitor-management-groups",
+      "changedFiles": 42,
+      "deletions": 101,
+      "files": [
+        {
+          "path": "README.md",
+          "additions": 31,
+          "deletions": 14,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "artifacts/backend-tests.xml",
+          "additions": 1,
+          "deletions": 1,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "artifacts/browser-tests.json",
+          "additions": 70,
+          "deletions": 18,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "artifacts/frontend-tests.json",
+          "additions": 1,
+          "deletions": 1,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "artifacts/github-ci-phase3.json",
+          "additions": 1,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "artifacts/phase3-checkpoint.json",
+          "additions": 67,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "artifacts/phase3-smoke.json",
+          "additions": 18,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "artifacts/proxy-recreate.json",
+          "additions": 9,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "backend/app/incidents.py",
+          "additions": 112,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "backend/app/main.py",
+          "additions": 8,
+          "deletions": 1,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "backend/app/models.py",
+          "additions": 31,
+          "deletions": 1,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "backend/app/schemas.py",
+          "additions": 40,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "backend/app/worker.py",
+          "additions": 4,
+          "deletions": 1,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "backend/migrations/versions/0003_incidents.py",
+          "additions": 49,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "backend/pyproject.toml",
+          "additions": 1,
+          "deletions": 1,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "backend/tests/run.py",
+          "additions": 72,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "backend/tests/test_database.py",
+          "additions": 311,
+          "deletions": 3,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "docs/architecture.md",
+          "additions": 58,
+          "deletions": 11,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "docs/decisions.md",
+          "additions": 22,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "docs/development-log.md",
+          "additions": 89,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "docs/github-workflow.md",
+          "additions": 9,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "docs/phase3-checkpoint.md",
+          "additions": 50,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "docs/pr-phase3.md",
+          "additions": 37,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "docs/progress.md",
+          "additions": 32,
+          "deletions": 17,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "docs/prompts/003-phase3.md",
+          "additions": 482,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "docs/requirements.md",
+          "additions": 40,
+          "deletions": 18,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "docs/review.md",
+          "additions": 39,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "frontend/e2e/incidents.spec.ts",
+          "additions": 101,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "frontend/nginx.conf",
+          "additions": 4,
+          "deletions": 1,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "frontend/package-lock.json",
+          "additions": 2,
+          "deletions": 2,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "frontend/package.json",
+          "additions": 1,
+          "deletions": 1,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "frontend/src/App.test.tsx",
+          "additions": 5,
+          "deletions": 5,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "additions": 14,
+          "deletions": 5,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "frontend/src/IncidentsPanel.test.tsx",
+          "additions": 90,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "frontend/src/IncidentsPanel.tsx",
+          "additions": 191,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "frontend/src/style.css",
+          "additions": 25,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "output/playwright/desktop.png",
+          "additions": 0,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "output/playwright/mobile.png",
+          "additions": 0,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "output/playwright/phase2-desktop.png",
+          "additions": 0,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "output/playwright/phase3-incidents.png",
+          "additions": 0,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "scripts/phase3_smoke.py",
+          "additions": 167,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "scripts/proxy_recreate_smoke.py",
+          "additions": 84,
+          "deletions": 0,
+          "changeType": "ADDED"
+        }
+      ],
+      "headRefName": "feat/incident-lifecycle",
+      "headRefOid": "3529b66b207c2284e789ea989bd8a7a793002d91",
+      "mergeStateStatus": "CLEAN",
+      "mergeable": "MERGEABLE",
+      "number": 2,
+      "reviews": [],
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-20T06:36:15Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/azimkhanrazdva/servicepulse/actions/runs/39381277581/job/118490703884",
+          "name": "backend",
+          "startedAt": "2026-10-20T06:35:38Z",
+          "status": "COMPLETED",
+          "workflowName": "checks"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-19T20:57:28Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/azimkhanrazdva/servicepulse/actions/runs/39323524697/job/118303371656",
+          "name": "backend",
+          "startedAt": "2026-10-19T20:56:51Z",
+          "status": "COMPLETED",
+          "workflowName": "checks"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-20T06:35:59Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/azimkhanrazdva/servicepulse/actions/runs/39381277581/job/118490704080",
+          "name": "frontend",
+          "startedAt": "2026-10-20T06:35:38Z",
+          "status": "COMPLETED",
+          "workflowName": "checks"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-19T20:57:20Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/azimkhanrazdva/servicepulse/actions/runs/39323524697/job/118303371054",
+          "name": "frontend",
+          "startedAt": "2026-10-19T20:56:51Z",
+          "status": "COMPLETED",
+          "workflowName": "checks"
+        }
+      ],
+      "title": "feat: persist confirmed incidents and synchronize the incident journal",
+      "url": "https://github.com/azimkhanrazdva/servicepulse/pull/2",
+      "local_head_matches": true,
+      "base_is_ancestor": true,
+      "unexpected_paths": [],
+      "secret_pattern_matches": 0
+    },
+    {
+      "additions": 5079,
+      "baseRefName": "feat/incident-lifecycle",
+      "changedFiles": 67,
+      "deletions": 155,
+      "files": [
+        {
+          "path": ".env.example",
+          "additions": 5,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": ".github/workflows/ci.yml",
+          "additions": 5,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "README.md",
+          "additions": 81,
+          "deletions": 19,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "artifacts/backend-tests.xml",
+          "additions": 1,
+          "deletions": 1,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "artifacts/browser-tests.json",
+          "additions": 72,
+          "deletions": 20,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "artifacts/frontend-tests.json",
+          "additions": 1,
+          "deletions": 1,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "artifacts/github-ci-phase4-audit.json",
+          "additions": 1,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "artifacts/github-ci-phase4.json",
+          "additions": 1,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "artifacts/phase2-smoke.json",
+          "additions": 2,
+          "deletions": 2,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "artifacts/phase3-smoke.json",
+          "additions": 6,
+          "deletions": 6,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "artifacts/phase4-audit.json",
+          "additions": 68,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "artifacts/phase4-browser-mail.json",
+          "additions": 14,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "artifacts/phase4-checkpoint.json",
+          "additions": 158,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "artifacts/phase4-fault.json",
+          "additions": 28,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "artifacts/phase4-fault.log",
+          "additions": 50,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "artifacts/proxy-recreate.json",
+          "additions": 4,
+          "deletions": 4,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "artifacts/smoke.json",
+          "additions": 10,
+          "deletions": 7,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "backend/Dockerfile",
+          "additions": 2,
+          "deletions": 1,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "backend/app/config.py",
+          "additions": 4,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "backend/app/dispatcher.py",
+          "additions": 104,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "backend/app/incidents.py",
+          "additions": 9,
+          "deletions": 1,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "backend/app/main.py",
+          "additions": 8,
+          "deletions": 1,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "backend/app/maintenance.py",
+          "additions": 204,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "backend/app/models.py",
+          "additions": 84,
+          "deletions": 1,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "backend/app/notifications.py",
+          "additions": 301,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "backend/migrations/script.py.mako",
+          "additions": 18,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "backend/migrations/versions/0004_maintenance_outbox.py",
+          "additions": 109,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "backend/pyproject.toml",
+          "additions": 1,
+          "deletions": 1,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "backend/tests/acceptance_crash.py",
+          "additions": 20,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "backend/tests/run.py",
+          "additions": 45,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "backend/tests/test_notifications.py",
+          "additions": 595,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "compose.notifications-test.yaml",
+          "additions": 60,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "compose.yaml",
+          "additions": 20,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "docs/architecture.md",
+          "additions": 46,
+          "deletions": 28,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "docs/decisions.md",
+          "additions": 34,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "docs/development-log.md",
+          "additions": 225,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "docs/github-workflow.md",
+          "additions": 35,
+          "deletions": 2,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "docs/phase4-audit.md",
+          "additions": 128,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "docs/phase4-checkpoint.md",
+          "additions": 67,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "docs/phase4-design.md",
+          "additions": 65,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "docs/pr-phase2.md",
+          "additions": 5,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "docs/pr-phase3.md",
+          "additions": 6,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "docs/pr-phase4.md",
+          "additions": 37,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "docs/progress.md",
+          "additions": 71,
+          "deletions": 20,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "docs/prompts/004-phase4.md",
+          "additions": 967,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "docs/prompts/005-stacked-pull-requests.md",
+          "additions": 7,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "docs/prompts/006-phase4-audit.md",
+          "additions": 20,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "docs/prompts/README.md",
+          "additions": 5,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "docs/requirements.md",
+          "additions": 63,
+          "deletions": 28,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "docs/review.md",
+          "additions": 52,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "frontend/e2e/maintenance.spec.ts",
+          "additions": 203,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "frontend/package-lock.json",
+          "additions": 2,
+          "deletions": 2,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "frontend/package.json",
+          "additions": 1,
+          "deletions": 1,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "frontend/src/App.test.tsx",
+          "additions": 1,
+          "deletions": 1,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "additions": 36,
+          "deletions": 5,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "frontend/src/GroupsPanel.test.tsx",
+          "additions": 1,
+          "deletions": 1,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "frontend/src/GroupsPanel.tsx",
+          "additions": 11,
+          "deletions": 1,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "frontend/src/IncidentsPanel.tsx",
+          "additions": 2,
+          "deletions": 1,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "frontend/src/MaintenancePanel.test.tsx",
+          "additions": 190,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "frontend/src/MaintenancePanel.tsx",
+          "additions": 352,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "frontend/src/style.css",
+          "additions": 31,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "output/playwright/desktop.png",
+          "additions": 0,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "output/playwright/mobile.png",
+          "additions": 0,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "output/playwright/phase2-desktop.png",
+          "additions": 0,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "output/playwright/phase3-incidents.png",
+          "additions": 0,
+          "deletions": 0,
+          "changeType": "MODIFIED"
+        },
+        {
+          "path": "output/playwright/phase4-maintenance.png",
+          "additions": 0,
+          "deletions": 0,
+          "changeType": "ADDED"
+        },
+        {
+          "path": "scripts/phase4_fault_smoke.py",
+          "additions": 325,
+          "deletions": 0,
+          "changeType": "ADDED"
+        }
+      ],
+      "headRefName": "feat/maintenance-email-outbox",
+      "headRefOid": "442496f980b7e9ef14179b1895bdcbf517f5152c",
+      "mergeStateStatus": "CLEAN",
+      "mergeable": "MERGEABLE",
+      "number": 3,
+      "reviews": [],
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-20T07:18:50Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/azimkhanrazdva/servicepulse/actions/runs/39385587089/job/118504524663",
+          "name": "backend",
+          "startedAt": "2026-10-20T07:17:55Z",
+          "status": "COMPLETED",
+          "workflowName": "checks"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-20T07:18:39Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/azimkhanrazdva/servicepulse/actions/runs/39385578025/job/118504493110",
+          "name": "backend",
+          "startedAt": "2026-10-20T07:17:49Z",
+          "status": "COMPLETED",
+          "workflowName": "checks"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-20T07:18:27Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/azimkhanrazdva/servicepulse/actions/runs/39385587089/job/118504524527",
+          "name": "frontend",
+          "startedAt": "2026-10-20T07:17:55Z",
+          "status": "COMPLETED",
+          "workflowName": "checks"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-20T07:18:17Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/azimkhanrazdva/servicepulse/actions/runs/39385578025/job/118504493329",
+          "name": "frontend",
+          "startedAt": "2026-10-20T07:17:50Z",
+          "status": "COMPLETED",
+          "workflowName": "checks"
+        }
+      ],
+      "title": "feat: add maintenance windows and durable email notifications",
+      "url": "https://github.com/azimkhanrazdva/servicepulse/pull/3",
+      "local_head_matches": true,
+      "base_is_ancestor": true,
+      "unexpected_paths": [],
+      "secret_pattern_matches": 0
+    }
+  ]
+}

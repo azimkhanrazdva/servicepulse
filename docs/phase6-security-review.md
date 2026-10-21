@@ -1,0 +1,5 @@
+# Архив security review Phase6
+
+Русская навигационная редакция подготовлена 21 октября 2026. Это архив: даты, результаты и незавершённые пункты относятся к описанному этапу. Полный исходный отчёт сохранён в [Git](https://github.com/azimkhanrazdva/servicepulse/blob/f3866cd16a8027855afb4d65c55b598c4d535452/docs/phase6-security-review.md); настоящий перевод не является новым выполнением команд.
+
+Граница: доверенное локальное Compose-развёртывание, не интернет-сертификация. SSRF: URL/all DNSanswers/numericpin/HostSNI/noredirect/proxy/body-time-compression bounds; simulator exception узкое. Public routes/projection/revoke/read-only проверены настоящими PostgreSQL/Chromium тестами. Management Host allowlist и loopback не auth. Ограниченные source/history scans, npm/pip scans тогда 0known; advisory-состояние меняется. Shared public role, production TLS/rate/SSE/egress/backups/provider остаются задачами. Независимый frontend review не обнаружил новых public projection regressions; он не запускал тесты. Physical SMTP duplicates не скрыты.

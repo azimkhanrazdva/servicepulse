@@ -1,0 +1,22 @@
+[
+  {
+    "surface": "admin-detail",
+    "violations": [],
+    "incomplete": [
+      "aria-prohibited-attr",
+      "color-contrast",
+      "th-has-data-cells"
+    ]
+  },
+  {
+    "surface": "editor",
+    "violations": []
+  },
+  {
+    "surface": "public",
+    "violations": [],
+    "incomplete": [
+      "aria-prohibited-attr"
+    ]
+  }
+]

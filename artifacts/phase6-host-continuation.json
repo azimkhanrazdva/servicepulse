@@ -1,0 +1,55 @@
+{
+  "started_at": "2026-10-20T10:47:13.252370+00:00",
+  "checks": [
+    {
+      "port": 8000,
+      "host": "localhost",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "port": 8000,
+      "host": "127.0.0.1",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "port": 8000,
+      "host": "servicepulse-audit.invalid",
+      "status": 400,
+      "expected": 400
+    },
+    {
+      "port": 8000,
+      "host": "localhost.attacker.example",
+      "status": 400,
+      "expected": 400
+    },
+    {
+      "port": 8080,
+      "host": "localhost",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "port": 8080,
+      "host": "127.0.0.1",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "port": 8080,
+      "host": "servicepulse-audit.invalid",
+      "status": 400,
+      "expected": 400
+    },
+    {
+      "port": 8080,
+      "host": "localhost.attacker.example",
+      "status": 400,
+      "expected": 400
+    }
+  ],
+  "status": "PASS",
+  "ended_at": "2026-10-20T10:47:13.350976+00:00"
+}

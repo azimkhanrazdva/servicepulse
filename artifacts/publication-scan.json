@@ -1,0 +1,9 @@
+{
+  "checked_at": "2026-10-21T03:05:53.914001+00:00",
+  "head": "7dae3d230b3e38527e78ad6dc117a451605ff4f6",
+  "status": "PASS",
+  "current_pattern_hits": [],
+  "history_pattern_hits": [],
+  "history_text_blobs_scanned": 699,
+  "scope": "Finite key/token patterns, UTF-8 text <=2MB, all reachable refs; not universal secret detection. Only .env.example tracked, local disposable credentials allowed."
+}

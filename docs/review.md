@@ -1,54 +1,7 @@
-# First checkpoint review
+# История инженерного review и текущие границы
 
-This is the implementation agent's separate code-review pass, **not an independent reviewer
-or a completed final product audit**. Full incident/outbox/maintenance/restart/load/public
-security review remains mandatory when those features exist.
+Русская навигационная редакция подготовлена 21 октября 2026. Это архив: даты, результаты и незавершённые пункты относятся к описанному этапу. Полный исходный отчёт сохранён в [Git](https://github.com/azimkhanrazdva/servicepulse/blob/f3866cd16a8027855afb4d65c55b598c4d535452/docs/review.md); настоящий перевод не является новым выполнением команд.
 
-## Resolved findings
+Первый собственный review проверял HTTP/persistence/concurrency/SSRF/negative states и обнаруживал реальные ошибки до объявления PASS. Phase3 исправил nginxDNS после изменения backendIP; Phase4 изучил атомарность outbox/lock order/SMTP uncertainty; Phase5 public projection/permissions/read-only/analytics и явно оставил ACC-EMAIL-01. Phase6 независимые frontend/harness follow-up проходы были read-only и не выполняли тесты; главный агент воспроизвёл/исправил подтверждённые проблемы, затем фактически запускал gates. Phase7 собственный критический pass и raw evidence audit не назывался новым независимым review.
 
-| ID | Severity | Evidence / issue | Resolution / verification |
-|---|---|---|---|
-| REV-01 | HIGH | Initial Vitest 3 dependency tree: tinypool/mocker advisories | Updated Vitest 5.0.5, reran tests/build; artifacts/npm-audit.json reports zero findings |
-| REV-02 | MEDIUM | Browser offline test retained Live for an existing SSE stream | Explicit offline close and online reconnect in App.tsx, regression unit and real two-context browser test |
-| REV-03 | HIGH | Numeric-IP TLS pool key could allow reuse across virtual hostnames | Connection: close per request; original Host and IDNA SNI retained; checker tests assert header and SNI |
-| REV-04 | MEDIUM | Slow initial REST response could overwrite newer SSE snapshot | Ignore initial list response after first snapshot |
-| REV-05 | MEDIUM | Untrusted response charset could throw unexpected decoder exceptions | Match bounded raw response as UTF-8 with replacement; document policy |
-| REV-06 | LOW | Empty CSS @import emitted build warning | Removed; build clean |
-| REV-07 | LOW | Non-root container pytest could not write /app/.pytest_cache | Disable pytest cache in isolated container run |
-| REV-08 | MEDIUM | Earlier test tables had no Alembic revision, breaking migration-aware reruns | Guarded disposable-test runner resets known test tables and revision metadata before migrations; repeated final image run passes 31 tests |
-
-## Reviewed invariants
-
-- Create validates unknown fields, name/URL length and numeric bounds; DB duplicates numeric bounds.
-- Claims commit before HTTP; SKIP LOCKED prevents competing claim of one eligible row.
-- Only free task capacity is claimed; worker uses a pooled, bounded async HTTPX client.
-- Completion locks the row and checks claim UUID; deletion/lease replacement prevents stale writes.
-- Completion and observation insertion share one DB transaction. No catch-up results are fabricated.
-- DNS answers are checked before numeric-IP connection; redirects/environment proxy disabled;
-  total timeout includes DNS and raw stream; compression is rejected and body cap is tested.
-- API schema projection excludes lease tokens and DSN. There is no public projection yet;
-  management API is explicitly private/trusted-local, not a public API.
-- Native browser reconnect gets complete snapshots; independent browser contexts were tested.
-- No fictional uptime, active-incident count, email-success indicator or unavailable navigation.
-- Initial migration is explicit, not importing mutable ORM models. Separate test database refuses
-  destructive setup unless both configured URLs end with /servicepulse_test.
-
-## Remaining review items / limitations
-
-- HIGH before public hosting: management has no auth/rate limiting; keep loopback binding and
-  implement access boundary before internet exposure. No publication is authorized or claimed.
-- HIGH for final submission: incident/outbox/maintenance/public requirements are unimplemented;
-  first checkpoint must never be presented as assignment completion.
-- MEDIUM: no live external HTTPS/SNI or egress firewall test; request construction alone is
-  insufficient proof of TLS behavior across all DNS/CDN/network setups.
-- MEDIUM: no actual stopped-process/restart/slow-check-over-interval test yet. A fenced lease
-  prevents stale commits; absolute non-overlap during arbitrarily long process suspension
-  beyond lease expiry is not guaranteed. Test and document the failure model in phase 3.
-- MEDIUM: monthly history aggregation, coverage semantics and load measurements not done.
-- LOW: SSE/database polling and list caps are appropriate for 50 monitors, not an unbounded fleet.
-- LOW: Docker tags/build tooling and simulator transitive dependencies are not fully locked;
-  application Python lock and npm lockfile cover the primary code paths.
-- LOW: API logs are ordinary access logs; complete structured API errors/observability later.
-
-These are visible checkpoint limits, not a release approval. No full security compliance or
-exactly-once SMTP claim is made. See requirements.md for pending acceptance tests.
+21 октября русский UI сохраняет protocol enum/option values и API schema. Автоматический перевод тестовых ожидаемых строк ошибочно затронул 4 import paths и EventSource stub: typecheck/tests обнаружили это, технические имена восстановлены из Git. Статусы и labels отделены, native required/error/abort/deadline проверки не отключены. Новые корректные русские ожидания сохраняют старую семантику тестов. ESLint потребовал cause у локализованного networkerror, formatting проверено заново. Нельзя объявлять каждый найденный тестовый selector mismatch критическим дефектом приложения. Свежие числа/команды и ограничения в OWNER_FINAL_REPORT_RU.md и development-log.md.

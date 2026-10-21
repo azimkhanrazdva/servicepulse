@@ -12,6 +12,7 @@ from sqlalchemy import or_, select
 from app.checker import check, transition
 from app.config import settings
 from app.db import Session, engine
+from app.incidents import observe_incident
 from app.models import CheckResult, Monitor, now
 
 log = logging.getLogger("servicepulse.worker")
@@ -37,14 +38,31 @@ async def claim_due(limit):
         for monitor in monitors:
             monitor.lease_token = uuid.uuid4()
             monitor.lease_until = now() + timedelta(seconds=monitor.timeout_seconds + 15)
+            monitor.run_requested = False
         return monitors
 
 
 async def execute(monitor, client):
-    observation = await check(monitor, client)
     async with Session() as db, db.begin():
         current = await db.scalar(select(Monitor).where(Monitor.id == monitor.id).with_for_update())
         if current is None or current.lease_token != monitor.lease_token:
+            return
+        timestamp = now()
+        if current.lease_until is None or current.lease_until <= timestamp:
+            return
+        if current.config_version != monitor.config_version or current.state == "PAUSED":
+            current.lease_token = current.lease_until = None
+            return
+        # Budget starts after obtaining the preflight lock, rather than before its wait.
+        current.lease_until = timestamp + timedelta(seconds=monitor.timeout_seconds + 15)
+    observation = await check(monitor, client)
+    observed_at = now()  # HTTP completion, before waiting for the persistence row lock.
+    async with Session() as db, db.begin():
+        current = await db.scalar(select(Monitor).where(Monitor.id == monitor.id).with_for_update())
+        if current is None or current.lease_token != monitor.lease_token:
+            return
+        if current.config_version != monitor.config_version or current.state == "PAUSED":
+            current.lease_token = current.lease_until = None
             return
         current.state, current.consecutive_failures = transition(
             current.state,
@@ -52,10 +70,13 @@ async def execute(monitor, client):
             observation.success,
             current.failure_threshold,
         )
-        current.last_checked_at = now()
+        current.last_checked_at = observed_at
+        await observe_incident(db, current, observation.success, observed_at)
         current.last_status_code = observation.status_code
         current.last_response_ms = observation.response_ms
-        current.next_due_at = now() + timedelta(seconds=current.interval_seconds)
+        current.next_due_at = (
+            now() if current.run_requested else now() + timedelta(seconds=current.interval_seconds)
+        )
         current.lease_token = current.lease_until = None
         db.add(
             CheckResult(
@@ -65,6 +86,8 @@ async def execute(monitor, client):
                 status_code=observation.status_code,
                 response_ms=observation.response_ms,
                 error=observation.error,
+                config_version=monitor.config_version,
+                interval_seconds=monitor.interval_seconds,
             )
         )
     log.info(

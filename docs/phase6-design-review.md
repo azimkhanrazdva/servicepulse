@@ -1,0 +1,5 @@
+# Проверка чёрно-белого интерфейса Phase6
+
+Русская навигационная редакция подготовлена 21 октября 2026. Это архив: даты, результаты и незавершённые пункты относятся к описанному этапу. Полный исходный отчёт сохранён в [Git](https://github.com/azimkhanrazdva/servicepulse/blob/f3866cd16a8027855afb4d65c55b598c4d535452/docs/phase6-design-review.md); настоящий перевод не является новым выполнением команд.
+
+Одна система нейтральных tokens вместо наложения тем; навигация с selected state, реальные search/status/group/sort в явно ограниченной 500 selection. Native modal сохраняет конфликтный draft и блокирует dismissal во время save, focus trap/return, мобильное меню sticky. Coverage показано рядом с observed uptime; low coverage предупреждает о неполноте времени. Диагностика deliveries использует настоящие IDs/status/attempts; copy/preview реально проверены. Axe выявил контраст 4,47 и недоступный scrollregion: цвет исправлен на#666, regions получили labels/tabIndex. Четыре размера 390/768/1440/1920, keyboard/Enter/Escape/clipboard,12axe0violations и реальные screenshots. Полного screenreader/WCAG утверждения нет.

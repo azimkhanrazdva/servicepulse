@@ -1,123 +1,87 @@
-# Architecture — first checkpoint and target design
+# Архитектура ServicePulse
 
-The owner prescribed this stack; this design keeps it. Scope of this delivery is foundation
-and a real create → schedule → HTTP → persist → display slice. Later components below are
-**designs**, not implementation claims. See requirements.md for individual status.
+Актуальная русская редакция от 21 октября 2026. Сохранены архитектура Phase6 и миграция 0006. Локализация меняет представление; API, схема данных, scheduler и правила уведомлений сохранены. Полное предыдущее описание доступно в истории Git на `f3866cd`.
+
+## Сервисы
 
 ```mermaid
 flowchart LR
   UI[React / nginx] --> API[FastAPI]
   API --> DB[(PostgreSQL)]
-  Worker[async Python worker] --> DB
+  Worker[async worker] --> DB
   Worker --> Targets[HTTP targets / simulator]
-  API -->|SSE snapshot invalidation| UI
-  Worker -. future outbox dispatcher .-> SMTP[Mailpit]
+  API -->|SSE| UI
+  Dispatcher[SMTP dispatcher] --> DB
+  Dispatcher --> Mailpit[Mailpit]
+  PublicUI[Public React / nginx] --> PublicAPI[Public FastAPI]
+  PublicAPI --> DB
 ```
 
-## Services and boundaries
+| Сервис | Назначение |
+|---|---|
+| Административный frontend/API | CRUD, группы, инциденты, обслуживание, аналитика, публикация и уведомления |
+| Публичный frontend/API | Отдельные bundle, ASGI и nginx; разрешённые GET и публичный SSE |
+| Worker | HTTPX/asyncio, до 50 одновременных проверок, сохранённые claims и leases |
+| Dispatcher | Отдельный процесс доставки; сверка обязательств каждые 2 с независимо от HTTP |
+| PostgreSQL | Единственный источник настроек, результатов, состояния и очереди уведомлений |
+| Simulator и Mailpit | Настоящие HTTP и SMTP без писем внешним получателям |
 
-- Frontend: React, TypeScript, Vite production build, nginx same-origin /api proxy.
-  Dark operations console, native form validation, semantic table, honest empty/error states.
-- API: FastAPI + Pydantic + SQLAlchemy async sessions, Alembic schema. Create/list/detail/history,
-  enqueue run-now, health/readiness and SSE snapshots in the first slice.
-- Worker: separate process; bounded asyncio tasks and one pooled HTTPX client. Claims due
-  monitors using PostgreSQL `FOR UPDATE SKIP LOCKED`. A UUID claim token and expiring lease
-  fence stale workers. HTTP total deadline is shorter than the lease. No backfilled checks.
-- PostgreSQL: authoritative config, results and scheduling state. Later incidents/outbox/groups
-  are separate tables added through reviewed migrations.
-- Simulator: controllable local HTTP status, delay, body and redirect responses; no external dependency.
-- Mailpit: local SMTP capture included in Compose; dispatch is a later phase.
+Порты управления привязаны к 127.0.0.1. Авторизации нет: TrustedHost не заменяет её. Для размещения в интернете нужна отдельная защита управления. nginx повторно разрешает Docker DNS с TTL 2 с после смены IP backend, сохраняя URI и SSE.
 
-## Initial persisted model
+## Данные
 
-Monitor: UUID, name, URL, interval (30..3600 seconds), timeout (0.1..120 seconds), expected
-status (100..599), optional expected string, failure threshold (1..10, default 2), state,
-consecutive failures, last observation/status/latency, next due time, lease token/expiry.
-CheckResult: UUID, monitor FK with cascade delete, timestamp, success, HTTP code, latency,
-bounded error category. Composite index (monitor_id, checked_at) supports recent history.
-Schema constraints also enforce bounds; times are UTC timestamptz.
+| Сущность | Основные поля и ограничения |
+|---|---|
+| Monitor | UUID, URL, интервал 30–3600 с, таймаут 0,1–120 с, ожидаемый HTTP-код 100–599, текст, порог 1–10; состояние, серия ошибок, метрики, next_due, lease, config_version |
+| CheckResult | Время наблюдения, результат, HTTP-код, длительность, ограниченная причина; зафиксированные config_version и интервал |
+| Group и membership | Состав, состояние по мониторам, адресаты и политика почты; связи FK |
+| Incident | Начало, восстановление, причина закрытия; уникальный открытый инцидент для monitor |
+| MaintenanceWindow | Начало и конец, ровно одна цель: monitor или group; ограничения времени и версии |
+| NotificationEvent/Delivery | Уникальные логические события и доставки, сохранённые маршруты, eligibility, попытки, claims и подтверждение |
+| PublicPage/Publication | По умолчанию отключена; slug, title, version; отдельный публичный ID, подпись и явное разрешение истории |
 
-## Target model (not migrated yet)
+Индексы и FK создаются миграциями 0001–0006. Составной индекс `(monitor_id, checked_at)` поддерживает историю; частичный уникальный индекс защищает открытые инциденты. Удаление monitor отзывает публикацию. Изменение публикации не меняет lease, настройки проверки или инцидент.
 
-Group + MonitorGroup join table (many-to-many); GroupRecipient validates email addresses.
-Incident has monitor FK, opened_at, recovered_at; partial unique index permits one open
-incident per monitor. MaintenanceWindow targets exactly one monitor or group, has start/end
-and end > start constraint. Outbox uses unique (incident_id, group_id, event_type), frozen
-recipient payload, attempts, next_attempt_at, lease, sent_at. PublicPage + publication join
-table selects public name and state only; no private URL, errors, recipients or config.
+## Состояния и выполнение
 
-## State and incident policy
+| Событие | Результат |
+|---|---|
+| Нет наблюдений | UNKNOWN |
+| Первый успех | UP, серия ошибок сбрасывается |
+| Ошибка ниже порога | Последнее подтверждённое состояние сохраняется; ошибка видна в результате |
+| Достигнут порог, по умолчанию 2 | DOWN и один открытый инцидент |
+| Успех после DOWN | UP, автоматическое закрытие с восстановлением |
+| Pause/resume | PAUSED без очередных проверок; после resume новое состояние определяется наблюдением |
+| Ручной запуск | Тот же HTTP и защита от пересечений; занятый monitor может вернуть 409 |
+| Смена конфигурации | Текущие метрики и серия сбрасываются, история остаётся; прежний инцидент закрывается административно |
+| Maintenance | Реальные результаты продолжают записываться; меняется политика писем |
 
-Initial UNKNOWN. First success → UP. First failure preserves UNKNOWN or UP until threshold
-consecutive failures; threshold (default two) → DOWN. Success resets failures and → UP.
-The threshold reduces false alerts without an extra state. An HTTP response must match both
-status and optional body string. Manual runs use the same queue/claim and state rules.
-The initial slice computes state; **incident records and alert delivery are not implemented**.
+Для группы: пустой состав — UNKNOWN; все на паузе — PAUSED; среди активных DOWN имеет приоритет над UNKNOWN, затем UP. Точные переходы проверяются тестами из [матрицы](phase7-final-acceptance.md).
 
-Target: threshold opens one incident transactionally; first success closes it. PAUSED prevents
-scheduled/manual launches; resume schedules immediately and resets the confirmation streak,
-but preserves open incident until an observed success. Configuration edits increment a version;
-in-flight results are discarded if version changed (edit/pause are not in the initial API).
-Group: DOWN if any active member DOWN, otherwise UNKNOWN if any active member UNKNOWN,
-otherwise UP; all paused → PAUSED; empty → UNKNOWN. Maintenance is a badge/policy, never UP.
+Scheduler использует fixed-delay: следующая проверка назначается после завершения предыдущей. `FOR UPDATE SKIP LOCKED`, lease token и config version защищают от параллельных запусков и устаревших результатов. Медленный сайт занимает одну задачу в ограниченном пуле. Отмена и сетевые ошибки обрабатываются отдельно. После restart просроченные leases освобождаются; пропущенные наблюдения не создаются задним числом и не считаются падением.
 
-## Scheduling, crashes and races
+## Уведомления и обслуживание
 
-Each tick claims only free capacity (default 50). Claim commits before network I/O. Lease is
-timeout + 15 seconds. Completion locks the row and checks the token before committing result
-and state. A process crash leaves a recoverable lease, not a synthetic failure. Due time is
-completion + interval (fixed delay; no catch-up storm). A run-now while leased returns 409.
-HTTP work has an outer asyncio deadline covering DNS and streaming. Cancellation releases no
-fake observation: restart waits for lease expiry. First slice supports multiple workers via
-DB claims; restart, multi-worker and 50-monitor performance still require dedicated tests.
+Результат, состояние, инцидент и событие outbox фиксируются транзакционно. Уникальные ключи предотвращают повторные логические события и доставки. Адресаты фиксируются; dispatcher отдельно выполняет claim, prepare, SMTP send и ack. Перед отправкой заново проверяется разрешённость. Уже отправляемое письмо отозвать нельзя.
 
-## Notifications and maintenance (target)
+Повторные ошибки одного инцидента не создают новые DOWN. Для новых инцидентов 0006 и runtime сохраняют eligibility: быстрое восстановление вне maintenance не отменяет обязательную пару DOWN→RECOVERY. У старых записей неизвестное eligibility не угадывается; массовые письма задним числом не создаются.
 
-State transition + incident + outbox insert share a transaction. Two consecutive failures open
-an incident; repeated failed checks do not create new logical events. Maintenance does not stop
-checks. Effective suppression is the union of monitor and group windows. At every dispatcher
-tick re-evaluate windows and open incidents; enqueue deferred DOWN after last window ends if
-still down. If recovered during maintenance, suppress the deferred alert; send recovery only
-to groups for which the DOWN event was delivered. Freeze recipients per event, back off SMTP
-errors. SMTP acceptance + DB crash can duplicate physical delivery; do not claim exactly once.
-Ordering between DOWN and recovery and pending-send maintenance races need transaction tests.
+Пересекающиеся окна monitor/group учитываются совместно. Во время обслуживания наблюдения продолжаются, уведомления подавляются. Если DOWN сохраняется после окна, сверка создаёт обязательство без фиктивного CheckResult. Падение и восстановление целиком внутри обслуживания не порождают устаревшую пару писем.
 
-## Realtime and history
+Claims и ack защищены token. Временные ошибки повторяются с задержкой 5–300 с, максимум 8 попыток. Постоянный отказ или исчерпание попыток дают FAILED и требуют расследования. SMTP acceptance перед crash без ack может привести к физическому дублю. Message-ID стабилен, но exactly-once доставку во внешний mailbox SMTP не гарантирует.
 
-SSE emits current monitor snapshots every two seconds from PostgreSQL. Native EventSource
-reconnects and receives a complete snapshot: clients need no in-memory shared broadcaster.
-This is low-volume polling over SSE, not PostgreSQL NOTIFY; scales to the assignment, not a
-large fleet. First slice history returns the most recent 100 bounded results; monthly time
-buckets, gaps, 24h/7d/30d availability and public projection are later work.
-Uptime target definition: observed successful samples / all observed samples, with sample
-count and coverage shown separately. Missing periods are gaps and excluded, never failures.
+## SSE, публичность и аналитика
 
-## SSRF and deployment
+Административный SSE каждые 2 с передаёт согласованный снимок в REPEATABLE READ. После reconnect клиент получает полное состояние; длительности обновляются локально каждую секунду. Два независимых клиента работают одновременно.
 
-Only HTTP/HTTPS with no credentials, fragment or scoped IPv6. Resolve and validate **all**
-addresses on each check; reject any non-global destination. Connect to the validated numeric IP
-while retaining original Host and TLS SNI. Redirects are not followed. Proxies are disabled.
-Connection: close prevents a numeric-IP connection pool from reusing one virtual host's TLS
-session for a different host at the same IP. This sacrifices keep-alive reuse in the first
-slice; HTTPX still bounds active connections. Body matching is UTF-8 with replacement.
-Body uses identity encoding, streaming cap (1 MiB) and total deadline; encoded responses are
-rejected to prevent decompression bombs. Explicit simulator origin bypasses private-IP block
-only for that exact scheme/host/port. It is empty by default in code; example Compose opts in.
-Network egress policy remains recommended defense in depth; unusual NAT/proxy routing is
-outside application control. HTTPS SNI is based on HTTPX/httpcore extension, covered by source
-reference and request-construction test; live external TLS validation remains NOT VERIFIED.
+Публичная проекция не содержит URL, внутренние IDs, административные имена, email, ошибки или outbox. Каждый GET и SSE tick заново проверяет разрешения страницы, состава и истории. Неизвестный и запрещённый ресурс получают одинаковый 404. Ответы не кэшируются; при disconnect/revoke клиент очищает данные и не применяет поздний REST поверх отзыва. Уже полученные данные физически отозвать невозможно. Общая DB role остаётся ограничением: read-only transaction не равна отдельным правам PostgreSQL.
 
-Management has no authentication and is intended for a trusted local machine. Compose binds
-only to 127.0.0.1; PostgreSQL and simulator control ports are not published. Do not expose
-management API publicly. Public-page routing isolation/auth hardening is required before hosting.
+SQL-аналитика выполняет `SET LOCAL jit=off` и один ограниченный aggregate SELECT. Для 24 ч/7 д/30 д возвращается максимум 288/336/360 точек. Доступность — доля успешных наблюдений; покрытие рассчитывается отдельно по зафиксированным интервалам с объединением пересечений. Ручные серии и одинаковые timestamps не удваивают покрытие. Старый неизвестный интервал не восстанавливается догадкой. НЕТ ДАННЫХ отличается от реального нуля; пропуски не соединяются и не превращаются в ошибки. Пауза исключается из публичной freshness; устаревший DOWN показывается как последнее известное состояние с предупреждением.
 
-## Verification and delivery plan
+## Безопасность и проверка
 
-0 discovery + requirement matrix → 1 foundation/migrations/build → first-slice checkpoint.
-2 CRUD/groups → 3 incident engine, leases and concurrent edits → 4 maintenance/outbox/SMTP →
-5 complete UI/public page → 6 integrated load/restart/privacy/security audit → 7 submission.
-Unit tests cover state and URL policy. Integration tests use real disposable PostgreSQL.
-Smoke script creates its own monitor, waits for worker result, verifies API/history/UI and removes
-only that monitor. Later browser tests cover two clients, reconnect and public privacy; load
-test records actual throughput/concurrency/lateness and history latency. CI runs lint, pytest
-with PostgreSQL, frontend tests/typecheck/build. No future test is labeled passed.
+Разрешены HTTP/HTTPS, проверяются все DNS answers, используется numeric pinning с Host/SNI. Redirect и proxy отключены; таймаут и размер ответа ограничены. Исключение simulator задаётся явно для узкого origin. Отдельный живой TLS/SNI стенд, auth, минимальные DB privileges и egress firewall остаются дальнейшей работой.
+
+`frontend/src/ru.ts` локализует отображение, native validation и ошибки. API fields, enum, option values и заголовки не переводятся; даты используют ru-RU. Сохранённые имена пользователя не меняются. Русские письма сохраняют X-ServicePulse-Event, Message-ID и дедупликацию.
+
+Проверяются PostgreSQL/integration, component tests, настоящий Chromium в четырёх размерах, два клиента, reconnect, privacy, maintenance, Mailpit, чистое развёртывание и сбои доставки. Измерения нагрузки 20 октября отделены от регрессии 21 октября. Актуальные команды, результаты и ограничения — в [отчёте владельцу](OWNER_FINAL_REPORT_RU.md).

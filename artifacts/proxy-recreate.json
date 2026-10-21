@@ -1,0 +1,9 @@
+{
+  "started_at": "2026-10-20T04:17:57.993474+00:00",
+  "status": "PASS",
+  "old_ip": "172.18.0.8",
+  "new_ip": "172.18.0.12",
+  "frontend_container_unchanged": true,
+  "proxied_ready_and_api": "PASS",
+  "elapsed_seconds": 6.641
+}

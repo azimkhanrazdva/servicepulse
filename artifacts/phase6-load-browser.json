@@ -1,0 +1,182 @@
+{
+  "started_at": "2026-10-20T04:19:04.185Z",
+  "theme": "v0.5 baseline",
+  "viewports": [
+    {
+      "width": 390,
+      "height": 844,
+      "all_50_rendered_ms": 295.2497000000001,
+      "document_overflow": false,
+      "overflowing": [
+        {
+          "tag": "TABLE",
+          "class": "",
+          "right": 960.65625,
+          "text": "ServiceStatusHTTPResponseLast checked24h observed uptimeCurr"
+        },
+        {
+          "tag": "THEAD",
+          "class": "",
+          "right": 960.65625,
+          "text": "ServiceStatusHTTPResponseLast checked24h observed uptimeCurr"
+        },
+        {
+          "tag": "TR",
+          "class": "",
+          "right": 960.65625,
+          "text": "ServiceStatusHTTPResponseLast checked24h observed uptimeCurr"
+        },
+        {
+          "tag": "TH",
+          "class": "",
+          "right": 464.75,
+          "text": "Response"
+        },
+        {
+          "tag": "TH",
+          "class": "",
+          "right": 575.34375,
+          "text": "Last checked"
+        },
+        {
+          "tag": "TH",
+          "class": "",
+          "right": 731.65625,
+          "text": "24h observed uptime"
+        },
+        {
+          "tag": "TH",
+          "class": "",
+          "right": 859.796875,
+          "text": "Current outage"
+        },
+        {
+          "tag": "TH",
+          "class": "",
+          "right": 960.65625,
+          "text": "Action"
+        },
+        {
+          "tag": "TBODY",
+          "class": "",
+          "right": 960.65625,
+          "text": "load-00http://simulator:8090/target/load-00● UP200129 ms09:1"
+        },
+        {
+          "tag": "TR",
+          "class": "",
+          "right": 960.65625,
+          "text": "load-00http://simulator:8090/target/load-00● UP200129 ms09:1"
+        },
+        {
+          "tag": "TD",
+          "class": "mono",
+          "right": 464.75,
+          "text": "129 ms"
+        },
+        {
+          "tag": "TD",
+          "class": "",
+          "right": 575.34375,
+          "text": "09:18:38"
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "all_50_rendered_ms": 239.72440000000006,
+      "document_overflow": false,
+      "overflowing": [
+        {
+          "tag": "TABLE",
+          "class": "",
+          "right": 1274.65625,
+          "text": "ServiceStatusHTTPResponseLast checked24h observed uptimeCurr"
+        },
+        {
+          "tag": "THEAD",
+          "class": "",
+          "right": 1274.65625,
+          "text": "ServiceStatusHTTPResponseLast checked24h observed uptimeCurr"
+        },
+        {
+          "tag": "TR",
+          "class": "",
+          "right": 1274.65625,
+          "text": "ServiceStatusHTTPResponseLast checked24h observed uptimeCurr"
+        },
+        {
+          "tag": "TH",
+          "class": "",
+          "right": 841.34375,
+          "text": "Last checked"
+        },
+        {
+          "tag": "TH",
+          "class": "",
+          "right": 1013.65625,
+          "text": "24h observed uptime"
+        },
+        {
+          "tag": "TH",
+          "class": "",
+          "right": 1157.796875,
+          "text": "Current outage"
+        },
+        {
+          "tag": "TH",
+          "class": "",
+          "right": 1274.65625,
+          "text": "Action"
+        },
+        {
+          "tag": "TBODY",
+          "class": "",
+          "right": 1274.65625,
+          "text": "load-00http://simulator:8090/target/load-00● UP200129 ms09:1"
+        },
+        {
+          "tag": "TR",
+          "class": "",
+          "right": 1274.65625,
+          "text": "load-00http://simulator:8090/target/load-00● UP200129 ms09:1"
+        },
+        {
+          "tag": "TD",
+          "class": "",
+          "right": 841.34375,
+          "text": "09:18:38"
+        },
+        {
+          "tag": "TD",
+          "class": "",
+          "right": 1013.65625,
+          "text": "100.00%"
+        },
+        {
+          "tag": "TD",
+          "class": "",
+          "right": 1157.796875,
+          "text": "—"
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "all_50_rendered_ms": 248.03240000000005,
+      "document_overflow": false,
+      "overflowing": []
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "all_50_rendered_ms": 273.75700000000006,
+      "document_overflow": false,
+      "overflowing": []
+    }
+  ],
+  "status": "PASS",
+  "ended_at": "2026-10-20T04:19:07.657Z"
+}

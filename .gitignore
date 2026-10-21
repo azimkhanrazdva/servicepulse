@@ -12,3 +12,11 @@ test-results/
 coverage.xml
 artifacts/local/
 output/playwright/results/
+
+
+output/playwright/design-results/
+output/playwright/management-debug/
+output/playwright/management-verified/
+
+output/playwright/release-debug/
+output/playwright/phase7-clean-results/

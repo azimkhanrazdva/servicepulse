@@ -1,72 +1,54 @@
-# ServicePulse progress — first checkpoint
+## Обновление 2026-10-21T16:02:11+05:00: подтверждённая модель и TIMELAPSE
 
-## Completed
+README и действующее AI-disclosure указывают `gpt-6.1-sol`: метаданные основного чата подтверждают 24 записи `medium` и 2 `high`. Добавлены [model-session-metadata.json](model-session-metadata.json) и отдельная [хронология TIMELAPSE.md](../TIMELAPSE.md). Исходные промпты и исторические acceptance-снимки сохраняют старые формулировки и не являются текущей идентификацией модели.
 
-- Empty-workspace/environment discovery; original PDF task 3 and recruiter requirements read.
-- Minimal target architecture, data/state policy, decision log and 133-ID acceptance matrix.
-- API/worker/React/PostgreSQL/Alembic/simulator/Mailpit/Compose foundation and CI definition.
-- Actual create → HTTP worker → persisted observation → dashboard/history vertical slice.
-- SSE two-client updates and browser offline/online reconnect regression fixed and tested.
-- Opt-in seed, real smoke, backend/unit/DB and frontend/component/browser tests.
-- Exact master user prompt preserved; AI disclosure, essay template and review summary.
+Перед обновлением проверен `192ba30`: push 39567534293 и PR 39567540790 SUCCESS, 150 backend/35 component/13 browser. Новый документальный commit получит отдельную проверку после push. Ветка `codex/russian-submission`, репозиторий публичный; main не объединён с этой веткой. Письмо не отправлено. Пользовательские данные и volumes не изменяются.
 
-## In Progress
+---
 
-No product implementation is in progress. First slice verified; waiting for owner review.
-Checkpoint committed locally; consolidated evidence: artifacts/checkpoint.json.
-This is the owner-review checkpoint; no phase 2 implementation begins without continuation.
+# Текущее дополнение: CI и публичный репозиторий
 
-## Blocked
+Обновлено 2026-10-21T08:08:30+05:00. По явной команде владельца репозиторий открыт; GitHub isPrivate=false и три анонимных GET=200. Ссылка для проверки: https://github.com/azimkhanrazdva/servicepulse/tree/codex/russian-submission; main остаётся 0.1. PR #4 существует, merge не выполнялся.
 
-No architectural blocker for the first slice. Local socket/Docker/network/browser operations
-require approved execution outside the sandbox; successful retries are logged.
-GitHub CLI is absent and no remote is configured. Neither is needed for local verification;
-publication needs owner approval later. Exact model identifier and personal essay need owner input
-before final submission, not before continuing development.
+Исправлены оба форматтера E2E: нулевые секунды datetime-local нормализуются. Ошибка исходного PR-прогона39562658442 реально воспроизведена. Новый детерминированный тест10повторов PASS, полная регрессия13browser/35component PASS, typecheck/lint/format/build PASS. Исправление76e6755 загружено: push39567089094 и PR39567096370 SUCCESS, все3jobs; скачанные artifacts13browser/12axe подтверждены. Итоговый документальный HEAD проверяется отдельно; окончательный run в ответе владельцу. Остановиться на контрольной точке. Детали: [ci-datetime-fix.md](ci-datetime-fix.md).
 
-## Next Tasks
+Ниже сохранено историческое состояние предыдущей контрольной точки; его приватность/число12browser/оценка доступа не являются текущими.
 
-1. Owner reviews first checkpoint and requests continuation.
-2. Phase 2: edit/version fencing, pause/resume, delete UI, group CRUD/membership/settings.
-3. Phase 3: durable incident lifecycle, restart and slow-check/concurrency fault coverage.
-4. Phase 4: maintenance windows, transactional outbox, retries and actual Mailpit assertions.
-5. Phase 5: remaining UI, coverage-aware uptime/charts, public projection and privacy tests.
-6. Phase 6: sustained 50 monitors / 30s, actual restarts, month history benchmark and final review.
-7. Phase 7: audit all pending requirements, owner essay (exactly ten sentences), approve publication.
+---
 
-## Verification Status
+# ServicePulse v1.0 — состояние подготовки
 
-PASS: first HTTP smoke, initial PostgreSQL tests (26), expanded host unit tests (27 + 4 DB
-skips), frontend tests (4), TypeScript, build, Python lint/format, frontend formatting,
-two real Chromium E2E tests, npm audit (zero findings), seed idempotency.
-Expanded DB/migration runner: PASS 31 tests, zero skips; artifacts/backend-tests.xml. Final rebuilt-image rerun: PASS 31 tests in 0.61s; final HTTP smoke PASS; final E2E 2 passed in 5.0s.
+## Завершено
 
-NOT VERIFIED: hosted GitHub Actions, SMTP dispatch/dedup/maintenance, persisted incidents,
-public privacy page, full-month history/uptime, sustained 50-monitor cadence, fault/restart
-recovery, live external TLS and final security/product audit. These are required later.
+Phase1–7 сохранены. 21 октября переведены admin/public UI, ошибки, формы, native validation и письма; API enum и бизнес-правила сохранены. Подготовлены русские действующие руководства, таблицы и черновик эссе. Обозначение модели раскрыто со слов владельца. Обнаруженное расхождение advisory certifi документировано, pin обновлён до 2026.10.19.
 
-## Current Branch
+## В работе
 
-`feat/first-vertical-slice`. Local only; no remote/push/PR/merge.
+Русская техническая контрольная точка завершена. Commit `4fb9a9a51c9074d379e12b0520cfb2643ba1a2bd` загружен обычным private push; Actions `39560600915` подтвердил все 3 jobs. Скачанный browser artifact содержит 12 PASS, без skipped/flaky/unexpected, и 12 axe scans без нарушений. Snapshot — `artifacts/ru-ci.json`. Итоговый документальный commit получает отдельную проверку точного SHA после push; её run указывается в финальном ответе без бесконечного цикла commit→proof→commit. Остановиться для проверки владельцем.
 
-## Latest Commit
+## Блокировки
 
-Implementation checkpoint: `4f212d959b63f590d3438c3c6ed86089069347e3` —
-`feat: implement verified monitoring vertical slice`, 2026-10-19 19:51:16 +05:00, Codex Agent.
-This entry belongs to a subsequent documentation commit; `git log -1 --format=fuller`
-resolves current HEAD (a file cannot embed its own commit hash). No publication occurred.
+Подтверждённых технических BLOCKER/HIGH в доверенном локальном объёме не осталось. Для сдачи нужны личное утверждение эссе, проверка приватного доступа работодателя и фактическая отправка владельцем. Письмо агент не отправляет. Модель уже предоставлена владельцем, повторное подтверждение не блокирует работу.
 
-## Important Context
+## Следующие задачи
 
-Start date 2026-10-19; deadline 2026-10-26. P0 features before P2 polish. Stop at the first slice.
-Read AGENTS.md, requirements.md, architecture.md and development-log.md before resuming.
-Group/incident/outbox/public tables described in architecture are **target design only**.
-States are currently computed without incident records. Mailpit is running but no email is sent.
-UNKNOWN/UP preserve their state on the first failure; default second failure → DOWN.
-History is latest 100 rows; monitor lists/SSE cap at 500. Fixed-delay cadence is completion + interval.
-No synthetic results during downtime. Expiring leases fence commits; arbitrary process suspension
-beyond lease expiry is a documented fault-model limit, not an absolute non-overlap guarantee.
-Private targets are blocked unless origin exactly matches configured simulator service/port.
-All published ports bind loopback. .env is ignored, only disposable test defaults are tracked.
-Screenshots are actual browser captures in output/playwright; tests remove only their own monitors.
-Demo setup leaves two real monitors for owner inspection; repeated seed adds no duplicates.
+1. Владелец проверяет русский интерфейс, отчёт и ограничения.
+2. Владелец утверждает или редактирует эссе из 10 предложений.
+3. Владелец проверяет доступ работодателя и передаёт точную ветку/commit до 26 октября.
+4. Новые PR/merge и следующие инженерные улучшения — только по отдельному решению.
+
+## Статус проверок
+
+21 октября после certifi patch: локально 150 backend PASS (31,31 с), 35 component PASS, 12 Chromium PASS; 12 axe scans без нарушений. Чистый committed clone с новой DB0006 и restart PASS (67,625 с); 7 SMTP fault-групп PASS (84,969 с), 2 delayed/refused группы PASS (45,297 с). Typecheck/lint/format/build и текущие npm/pip scans успешны. Hosted CI `4fb9a9a`: 150 backend PASS (27,02 с), 35 component PASS, 12 browser PASS (105,821 с). Нагрузочные 475/295 и месячные 3 cold/21 warm измерения относятся к 20 октября. M:71/72=98,61%; все обязательные проектные критерии реестра:222/230=96,52%. PARTIAL не получает балл; не заявлять 100% сдачи.
+
+## Текущая ветка
+
+`codex/russian-submission` от чистого `f3866cd16a8027855afb4d65c55b598c4d535452`. Приватный `azimkhanrazdva/servicepulse`; PR #1–3 существуют, новые не создавались. История не переписывалась.
+
+## Последний commit
+
+Подтверждённый code/docs checkpoint: `4fb9a9a51c9074d379e12b0520cfb2643ba1a2bd`; ранее `40644e68e3e730a18b96b2212950ac82416be9e3` — certifi, `9b73496` — локализация. Последующий handoff HEAD и его Actions проверяются после push и указываются в итоговом ответе: документ не знает собственного будущего hash.
+
+## Важный контекст
+
+Архитектура, 0006, scheduler, аналитика, SSRF и outbox policy не переписаны. Два исходных Demo monitors и пользовательские volumes сохраняются. Старые artifacts не выданы за новые; архивные документы имеют русские навигационные редакции со ссылками на полный исходник в Git. Подлинные промпты и raw outputs сохраняют исходный язык. Ограничения: trusted-local management без auth, общая public DB role, конечные SMTP retry и возможность физического дубля после acceptance-before-ack, неполные дополнительные owner-критерии. Техническая готовность не означает SUBMITTED.

@@ -1,39 +1,24 @@
-# Decision log
+# Инженерные решения
 
-## ADR-001 — owner stack and runtime
-Context: independent backend/frontend, relational persistence and asynchronous I/O required.
-Decision: FastAPI, Pydantic, SQLAlchemy 2, Alembic, PostgreSQL, React/TypeScript/Vite.
-Python 3.12 in containers; local Python 3.11 remains supported for tests.
-Alternatives: Go or Node API, Vue UI. Trade-offs: async database sessions require care.
-Consequences: retain the owner's preferred stack and typed boundaries; no Redis/Celery/Kafka.
+Русская актуальная редакция; подробные исходные ADR и их реальная последовательность сохранены в Git:f3866cd. Таблица описывает принятые решения, не создаёт новые даты прошлых событий.
 
-## ADR-002 — PostgreSQL scheduler
-Context: no overlapping runs, crash recovery, low fleet size and separate worker.
-Decision: small asyncio loop, row claims with SKIP LOCKED, expiring fenced leases.
-Alternatives: APScheduler, Celery. Trade-offs: own a small scheduling implementation and
-dedicated concurrency tests; fixed delay cadence does not guarantee exact wall-clock intervals.
-Consequences: one operational source of truth, bounded tasks, no extra queue service.
+| Контекст | Решение | Альтернативы | Компромисс и последствия |
+|---|---|---|---|
+| Клиент-серверный продукт | FastAPI/Python3.12, React/TS, PostgreSQL | Go/Node/Vue | Стек владельца; отдельные процессы, общий DB источник правды |
+| Регулярные asyncHTTP | Небольшой asyncio scheduler с PostgreSQLclaims/leases/UUIDfencing | APScheduler, Celery/Redis | Fixed-delay/ограниченная конкурентность; без лишнего broker. Нет distributedexactly-once |
+| Два клиента/живые статусы | SSE полные снимки каждые 2 с | WebSocket/polling | Односторонних обновлений достаточно; дополнительное DB чтение, reconnect полная синхронизация |
+| Краткая ошибка | Две последовательные ошибки, порог 1..10 настраивается | Первая ошибка DOWN, сложная degradedmodel | Меньше ложных инцидентов, confirmation задержка; UNKNOWN до наблюдений |
+| Конкурентные изменения | config_version/409 + locks/fencedcompletion | Last-write-wins | Черновик сохраняется; edit сбрасывает текущую метрику, история остаётся |
+| Инциденты | Uniqueopenmonitorindex, атомарный result/state/incident/outbox | In-memory состояние | Restart без фиктивных наблюдений; administrativeclosures не RECOVERY |
+| Email | TransactionalOutbox + uniqueevent/delivery + frozenroutes | SMTP внутри DBtransaction | Логическая дедупликация; physicalduplicates после acceptancecrash возможны |
+| Maintenance | Реальный статус отдельно от alertpolicy, reconciliation без CheckResult | Остановить проверки, считать UP | Наблюдения продолжаются; endwindowDOWN получает obligation |
+| Быстрое восстановление |0006persistedeligibility/requiredDOWN | Отменять всю очередь при восстановлении | Исправляет ACC-EMAIL-01 для новых incidents; legacyunknown не угадывается |
+| SSRF | Все DNSanswers проверены, numericpin+Host/SNI, no redirects/proxies | Проверить только URL/первый IP | Narrow simulatororiginopt-in; TLS интеграционныйстенд и egressfirewall будущаяработа |
+| Публичность | Отдельные ASGI/build/nginx, explicitprojection/consent, show_historyopt-in | Общий adminAPI скрытьв UI | Нет private полей; sharedDBrole покасталобы production риском |
+| Аналитика | Наблюдаемая доступность+отдельно coverage, boundedSQLbuckets | Предположить UP между проверками, загрузить всё в ORM | NO DATA честное; limit360 точек, legacycadence не backfill |
+| DensehistoryJIT | SET LOCAL jit=off внутри analytics transaction | Глобально отключить JIT, миграция/partitioning | Не меняет семантику; измерен warmp95867 мс/max1180 мс, sort остаётся |
+| Дизайн | Единый чёрно-белый CSS, nativeforms/SVG | Новая UI/chart библиотека | Компактный локальный продукт; axe не WCAG сертификация |
+| Русский язык 21 октября | Локализовать представление, nativevalidation и SMTPbody; API неизменен | Полная i18n платформа | Один язык без зависимостей; optionvalues/headers/enumcodes сохраняются |
+| История доказательств | Русская редакция архивов со ссылкой на f3866cd, исходные промпты и rawartifacts не тронуты | Переписать прошлые события/объявить старый тест новым | История проверяема, новые отчёты несут свои фактические время/команды |
 
-## ADR-003 — SSE snapshots
-Context: two clients and reconnect synchronization, server-to-browser updates only.
-Decision: complete snapshots every two seconds through SSE, same-origin nginx proxy.
-Alternatives: WebSocket, browser polling, DB NOTIFY. Trade-offs: small periodic database read,
-not instant event delivery. Consequences: API replicas need no shared in-memory event bus.
-
-## ADR-004 — confirmation and outbox (target)
-Context: transient errors and retrying SMTP must not duplicate logical alerts.
-Decision: two consecutive failures by default, unique incident/event keys, transactional outbox.
-Alternatives: send email inside check task. Trade-offs: SMTP cannot guarantee physical exactly-once.
-Consequences: incidents/outbox must ship together with maintenance reconciliation and race tests;
-initial state logic alone does not satisfy notification requirements.
-
-## ADR-005 — safe destination pinning
-Context: user-controlled URLs create SSRF and DNS-rebinding risks.
-Decision: validate all DNS answers and connect to chosen numeric IP with original Host/SNI,
-disable redirects and proxies, cap streamed bytes/time. Narrow opt-in simulator origin.
-Alternatives: validate DNS then use hostname (rebinding race), hostname allowlist only.
-Trade-offs: no redirects or compressed responses initially; single chosen address may fail
-even when another address is reachable. Consequences: test construction and deny private DNS;
-add live TLS test and network egress defense before public deployment.
-Sources: [HTTPX transports](https://www.python-httpx.org/advanced/transports/),
-[HTTPCore SNI extension](https://www.encode.io/httpcore/extensions/).
+Открытые решения владельца: лицензия проекта, employeraccess, создание следующих PR/merge и окончательная отправка. Модель раскрыта по данным владельца, без техподтверждения. Эссе требует утверждения.

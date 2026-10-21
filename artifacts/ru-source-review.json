@@ -1,0 +1,17 @@
+{
+  "checked_at": "2026-10-21T02:20:45.166468+00:00",
+  "status": "PASS",
+  "head": "4fb9a9a51c9074d379e12b0520cfb2643ba1a2bd",
+  "unchanged_monitoring_policy_paths": [
+    "backend/app/worker.py",
+    "backend/app/analytics.py",
+    "backend/app/security.py",
+    "backend/app/models.py",
+    "backend/app/notifications.py",
+    "backend/migrations",
+    "compose.yaml",
+    ".env.example"
+  ],
+  "limited_secret_pattern_hits": [],
+  "limits": "Finite current tracked-text patterns, not universal secret detection; complete past history scan retained in phase7-git-review.json."
+}
