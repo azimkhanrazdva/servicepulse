@@ -1,19 +1,17 @@
-# v1.0 candidate release checklist
+# Контрольный список перед передачей
 
-Local technical evidence:150 backend PASS,32 component PASS,12 Chromium PASS, migrations0001–0006 and ORM/catalog agreement PASS. Twelve axe scans had0violations with incomplete checks retained; no WCAG certification. TypeScript/ESLint/Prettier/build/Ruff pass. New generic500 regression and real unified release journey retained. Exact code-checkpoint42e4001 evidence is phase7-ci.json; the final handoff-only SHA gets a separate live Actions check after push. A checklist never substitutes for Actions.
+| Проверка | Критерий завершения |
+|---|---|
+| Русский интерфейс | Admin/public, формы, ошибки, письма, даты и native validation проверены; технические enum сохранены |
+| Backend/PostgreSQL | Свежие 150 тестов, миграции новой и старых баз, Alembic check |
+| Frontend | 35 component tests, typecheck, ESLint, Prettier и build |
+| Интеграция | 12 реальных Chromium E2E: HTTP, incidents, maintenance, SMTP, SSE и отзыв публикации |
+| Надёжность | Перезапуски и данные проверены; прошлые 475/295 нагрузочных запусков указаны отдельно |
+| Безопасность | SSRF, Host и публичная проекция проверены; dependency scan не является сертификацией |
+| Документация | Русские действующие инструкции и отчёт; подлинные промпты и исходные результаты сохранены |
+| GitHub | Приватный репозиторий, правильная ветка, обычный push, успешный CI именно проверяемого SHA |
+| Модель | `solana 6.1 - medium` указана со слов владельца, без независимого подтверждения |
+| Эссе | Ровно 10 предложений; требуется личное утверждение владельца |
+| Доступ и сдача | Работодатель имеет доступ, владелец одобрил пакет и фактически передал материалы |
 
-- [x] Original PDF requirement provenance reviewed; employer/owner/engineering/optional counts separated.
-- [x] Genuine branch from494e310; no rewrite/backdating/force-push.
-- [x] Real monitor CRUD/threshold/incidents/maintenance/Mailpit/public consent+revocation/analytics journey executed.
-- [x] SMTP outage/retry/restart/acceptance-before-ack faults executed locally; physical duplicate ambiguity disclosed.
-- [x] Clean immutable committed clone, new0006DB, HTTP persistence and restart recovery verified. Shared Docker host/cache disclosed; volumes retained.
-- [x] Raw50-monitor and cold/warm evidence rechecked; no expensive unnecessary rerun or invented measurements.
-- [x] Public/private APIs, Host/error/SSRF guards, bounded response/time and dependencies reviewed within local scope.
-- [x] Current README/demo/submission/progress/audit prepared; known partials listed.
-- [x] Exact code-checkpoint42e4001 Actions39463440225 all3jobsSUCCESS; downloaded12browser/12axe evidence verified.
-- [ ] Final documentation-head exact-SHA run: check live branch Actions and final session report after push; snapshot above is not self-referential proof of a later commit.
-- [ ] OWNER ACTION REQUIRED: exact model confirmation and approved ten-sentence essay.
-- [ ] OWNER ACTION REQUIRED: authorization for new PRs/merge if desired, employer read access, submission approval.
-- [ ] Official employer submission (not authorized; owner says do not send email).
-
-No GitHub Release, tag or public publication is implied by a1.0.0 metadata label. Final owner review remains required.
+Фактические результаты находятся в [отчёте](OWNER_FINAL_REPORT_RU.md) и `artifacts/ru-*`. Этот список сам по себе не делает проверки успешными. Новые PR, merge, смена приватности, отправка письма и удаление данных требуют отдельного решения владельца.

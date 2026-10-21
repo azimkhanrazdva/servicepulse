@@ -4,8 +4,7 @@
     "violations": [],
     "incomplete": [
       "aria-prohibited-attr",
-      "color-contrast",
-      "th-has-data-cells"
+      "color-contrast"
     ]
   },
   {

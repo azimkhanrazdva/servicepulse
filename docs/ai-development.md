@@ -1,25 +1,19 @@
-# AI-assisted development disclosure
+# Разработка с AI
 
-Tool: OpenAI Codex desktop workspace / API agent. Model family reported by system: GPT-6.
-Exact model identifier: **OWNER TO CONFIRM** — **MODEL CONFIRMATION REQUIRED FROM OWNER**; no reliable exact identifier is exposed to the agent.
-Codex was selected for local file editing, executable test feedback, Git and inspectable changes.
-Owner supplied scope, stack, acceptance constraints, deadline and publication policy.
-Agent performs implementation, local commands, test authoring, review and documentation.
-Owner reviews checkpoints, approves major architecture changes and controls remote publication
-and final submission. No approval of finished work is implied by the original instructions.
+| Вопрос | Фактическое описание |
+|---|---|
+| Инструмент | OpenAI Codex в desktop workspace |
+| Модель | **solana 6.1 - medium**, именно такое обозначение сообщил владелец 21 октября 2026 |
+| Уровень подтверждения | Данные владельца; агент не подтверждал deployment/modelID через API или экспорт. Название не исправлено догадкой на другое |
+| Почему Codex | Изменения файлов, команды, тесты и Git можно проверять в одном рабочем процессе |
+| Почему эта модель | Выбор владельца; отдельное сравнительное исследование моделей не проводилось |
+| Владелец | Задаёт объём/приоритеты/стек, проверяет checkpoints, утверждает личное эссе и контролирует передачу/доступ/merge |
+| Агент | Исследует код, реализует, пишет/запускает тесты, исправляет подтверждённые ошибки, документирует реальные результаты |
 
-Validation is actual command execution recorded in development-log.md and artifacts/.
-Requirements remain pending until linked evidence exists. Generated code is reviewed for
-input validation, transaction behavior, resource bounds and truthful UI states.
-Skills used: ponytail, frontend-design, security-best-practices, pdf and playwright. Graphify guidance was read;
-workspace was empty (no existing corpus/graph), so no graph build was useful or performed.
-No delegated agents were used in the first checkpoint.
+Применён цикл inspect→implement→test→review→document→commit. Ни даты, ни тесты, ни commits не реконструировались задним числом. Исходные промпты в prompts/; это не полный export сессии. Работодатель допускает журнал решений/разработки вместо export. Историческая familyGPT-6 в ранних отчётах отражает тогдашнее знание, а не независимое подтверждение названия владельца.
 
-docs/prompts/ records actual instructions or explicitly labeled excerpts. It is not a complete
-session export. The owner may use Codex's share/export UI after reviewing logs for secrets;
-no public share link is created automatically. Third-party dependencies are credited in README.
+В ходе разработки обнаруживались реальные дефекты: отмена неотправленного DOWN при быстром восстановлении, expiredclaimpreflight, proxyDNS после замены backend, детали coverage/manualbursts, формы/keyboard/контраст. Исправления и первоначальные сбои сохранены в Git и artifacts; проверки не удалялись ради зелёного результата. Phase6 независимые follow-upreviewers изучали frontend/harness без исполнения тестов; Phase7 финальную проверку выполнял implementation-agent. На русском этапе новых review-agent сессий не заявляется.
 
+В переводе применены ponytail для минимальных изменений, Playwright для существующей регрессии и stop-slop для черновика эссе. Полноценная i18n зависимость не добавлена: продукту нужен один язык. Первые автозамены затронули importpaths тестов; typecheck это обнаружил, пути восстановлены из Git, ограничения API/optionvalues сохранены. Изменённые ожидания тестов соответствуют русским подписям, а не ослаблению проверки поведения.
 
-Phase6 continuation used ponytail/frontend-design, Playwright and security-best-practices guidance. Two independent read-only follow-up reviewers inspected frontend correctness/privacy and fault-harness integrity; their review did not run tests. The main agent corrected confirmed findings, executed149backend/32component/11browser checks and actual SMTP/fault/performance experiments. Original partial checkpoint and failures remain evidence; no fabricated incremental dates/commits or complete session-export claim.
-
-Phase7 uses the same Codex workspace workflow; exact model remains OWNER TO CONFIRM. The owner explicitly said not to send the employer email and that the essay is not ready. This stage adds real generic-error and unified browser acceptance tests, executes150/32/12 local regressions, an immutable clean-clone/new-DB journey and real local SMTP faults, and reviews retained raw performance evidence. No new delegated review-agent run is claimed. The implementation agent performed the final source/evidence review; historical independent Phase6 review is identified separately. The full actual Phase7 prompt is docs/prompts/007-phase7-final.md. Prompts and logs are not a complete session export. No invitation, public publication, release or submission is inferred from passing tests.
+Владелец сообщил, что не надо отправлять письмо работодателю. Ни отправка, ни приглашение collaborators, ни merge/publicvisibility/release не выполняются без отдельного решения. Эссе сформировано только как черновик на основе обсуждавшегося проекта и требует личного утверждения.

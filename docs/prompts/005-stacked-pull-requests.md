@@ -1,6 +1,6 @@
-# Owner request: review PRs for completed stages
+# Запрос владельца: PR завершённых этапов
 
-Recorded during the actual 2026-10-20 session; this is the request text, not a full session export.
+Фактический запрос в сессии20октября2026; цитата пользователя, не полный export.
 
 > На данный момент в приватном GitHub-репозитории есть полноценная хронология коммитов, но нет ни одного Pull Request.
 > В письме Mad Devs PR не является отдельным обязательным пунктом, однако для этой вакансии он будет полезным подтверждением навыков ревью и GitHub Flow.

@@ -1,21 +1,14 @@
-# Requirement provenance audit (133 baseline IDs retained)
+# Происхождение требований
 
-Phase7 reread of the original13-page PDF (SHA256 3b7934746efef38066c6164c68df93ee6a0175c7ac7af8472372537a609539d7; general pp1–2, task3 pp4–5) corrects two earlier over-attributions: UI-02 actual response code in dashboard and UI-06 complete state-transition timeline are owner additions, not explicit PDF demands. Configured expected HTTP status remains MON-04/M; mandatory incident journal remains HIS-05..08/M. Current232-row evidence/status/origin ledger is phase7-criteria.json and phase7-final-acceptance.md. Phase additions INC/P4/P5/P6/P7 are owner criteria; they must not inflate employer counts. The ten-sentence personal essay comes from owner/recruiter instructions, not task3 PDF feature text. No PDF instructions override owner authorization.
+M — прямое требование работодателя; O — дополнительный запрос владельца; T — инженерный критерий; OPT — опциональный выбор.133baseline ID сохранены, вместе с поздними критериями их 232. Эти строки не являются 232 независимыми требованиями MadDevs. Текущие статусы/доказательства: phase7-final-acceptance.md; английские исходные поля JSON оставлены как машинная provenance, русское представление — *_ru.
 
-M = explicit employer requirement or directly split employer scenario (PDF pp.1-2,4-5).
-O = additional owner requirement from the master prompt / Phase 2; not claimed as PDF text.
-T = engineering acceptance criterion implementing the owner/employer behavior, not a prescribed employer design.
-OPT = optional choice; it must not be counted as a separate mandatory employer feature.
+Первичный PDF:13 страниц, общие требования pp1–2, задание 3 pp4–5. SHA256 3b7934746efef38066c6164c68df93ee6a0175c7ac7af8472372537a609539d7. Документ не выдаёт разрешение на merge/публикацию или использование секретов.
 
-The employer accepts prompts OR a decision log OR session export. The owner requested several evidence files;
-their individual existence is an owner workflow requirement, not several independent employer demands.
-An exact two-failure threshold, three load cycles and p95 under one second are our acceptance choices;
-the PDF specifies transient-error protection, 50 monitors at 30s and fast month history without those exact numbers.
-Authentication is optional; trusted-local boundaries remain an owner security requirement.
-UI-08 includes owner-required incident summary and conditional aggregate uptime; aggregate uptime is optional.
-All P0/P1 labels are project priorities, not a claim that 133 separate requirements were issued by Mad Devs.
+UI-02 (фактический HTTP-код на dashboard) и UI-06 (полный state timeline) исправлены с M на O при чтении PDF в Phase7. Ожидаемый status остаётся MON-04/M; журнал инцидентов HIS-05..08/M. Ровно 2 ошибки,3 нагрузочныхцикла и p95<1 с — проектные критерии, не точные формулировки PDF. Auth опционален. M допускает prompts ИЛИ log решений ИЛИ export; наличие нескольких документов не следует выдавать за несколько требований работодателя.
 
-| ID | Origin |
+DEL-09 требует понятное описание запуска/состояния. Английская README была предпочтением владельца в начальном master prompt;21 октября владелец явно заменил его русским языком. Это не невыполнение языкового требования работодателя. GEN-07 теперь раскрывает solana 6.1 - medium по данным владельца; независимого modelID-подтверждения не заявляем. Эссе относится к личной части владельца, draft не означает approval. P0/P1/P2 — приоритеты проекта. Поздние INC/P4/P5/P6/P7 — O и не увеличивают число M.
+
+| ID | Происхождение |
 |---|---|
 | GEN-01 | M |
 | GEN-02 | M |

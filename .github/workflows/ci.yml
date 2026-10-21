@@ -47,6 +47,8 @@ jobs:
       - run: npm test
       - run: npm run format:check
       - run: npm run build
+      - run: node scripts/ru_ui_audit.cjs
+        working-directory: .
       - run: npm audit --audit-level=high
   browser:
     runs-on: ubuntu-latest

@@ -1,11 +1,18 @@
-# ServicePulse — current acceptance index
+# Требования и текущая приёмка
 
-Current canonical per-ID ledger: [phase7-criteria.json](phase7-criteria.json), rendered as the [final acceptance matrix](phase7-final-acceptance.md). Every row retains its ID, requirement, component, acceptance criterion, implementation, concrete verification, actual result/evidence, status and limitation. `python scripts/phase7_acceptance_audit.py` validates IDs, real executed test symbols, evidence paths and the strict counts; it does not convert file existence to product success.
+Канонический реестр — [phase7-criteria.json](phase7-criteria.json), русская таблица по каждому ID — [phase7-final-acceptance.md](phase7-final-acceptance.md). Итоговые проценты, доказательства и план — [отчёт владельцу](OWNER_FINAL_REPORT_RU.md).
 
-There are133 baseline project obligations +69 additional Phase3–6 owner criteria +30 final acceptance criteria =232 rows. These are not232 employer requirements. Sources: original owner master prompt/recruiter messages, original PDF general pp1–2/task3 pp4–5, and actual later phase prompts. [Provenance](requirements-provenance.md) distinguishes M employer, O owner, T engineering and OPT optional choice. UI-02/UI-06 were corrected from M to O after Phase7 PDF reread; expected status and incident journal remain mandatory. Full original baseline acceptance text is retained in the canonical ledger and genuine Git history; old checkpoint reports retain their actual historical statuses.
+В реестре 232 связанных проектных критерия: 133 исходных, 69 уточнений Phase3–6 и 30 критериев финальной приёмки. Это не 232 независимых требования работодателя. Источник проверен по PDF: 13 страниц, общие требования на страницах 1–2, задание №3 на страницах 4–5. SHA256: `3b7934746efef38066c6164c68df93ee6a0175c7ac7af8472372537a609539d7`. Документ не заменяет разрешений владельца.
 
-PASS means implemented and actually verified within stated scope. PARTIAL receives no percentage credit. FAIL is a reproduced unmet acceptance. NOT VERIFIED is unproven, including unavailable owner approvals; NOT APPLICABLE is excluded only with a written reason. Formula for each origin: PASS/(PASS+PARTIAL+FAIL+NOT VERIFIED)*100. Overlapping split behavior rows are traceability, not statistically independent quality samples.
+| Обозначение | Источник |
+|---|---|
+| M | Обязательное требование MadDevs |
+| O | Требование владельца |
+| T | Инженерный критерий реализации |
+| OPT | Необязательный выбор |
 
-Mandatory runtime scope includes monitor scheduling/CRUD/group status, live dashboard/public pages, real threshold/incident lifecycle, maintenance suppression/continued observations, ordered DOWN/RECOVERY with logical dedup/retries, explicit safe publication and24h/7d/30d observed analytics. Test coverage includes two clients, no overlap, slow resources, restart/gaps,50×30s and bounded monthly history. See final matrix for each ID and evidence, not an undifferentiated complete badge.
+Формула: PASS/(PASS+PARTIAL+FAIL+NOT VERIFIED)×100. PARTIAL не получает полного балла; NOT APPLICABLE исключается только с причиной. Проценты пересекающихся разделов нельзя складывать. Наличие файла или описания не доказывает выполнение требования.
 
-Submission is separate: exact model identification and employer private access remain incomplete; personal essay is absent and unapproved. Additional owner partials: complete state timeline, globally paginated fleet counts, fully structured API logs and live externalTLS verification. SharedpublicDBrole/no-auth local deployment/SMTP duplicate ambiguity/performance limits remain disclosed. Current checkpoint is [phase7-checkpoint.md](phase7-checkpoint.md), not official submission.
+Обязательный объём: управление мониторами и группами; проверки с интервалом 30–3600 с; порог ошибок и инциденты; maintenance без остановки наблюдений; SMTP и логическая дедупликация; публичный opt-in и отдельный SSE; история и доступность за 24 ч/7 д/30 д; два клиента, reconnect, restart, отсутствие пересечений; воспроизводимая нагрузка 50×30 и быстрая месячная история. Каждый пункт связан с реализацией и конкретной проверкой в реестре.
+
+21 октября владелец заменил предпочтение английской README русским языком документации и интерфейса. Это не меняет оригинальные требования MadDevs. Обозначение модели раскрыто со слов владельца; техническое подтверждение не выдумывается. Эссе остаётся черновиком, доступ работодателя к приватному репозиторию ещё требует проверки. Старые нагрузочные результаты не считаются сегодняшними прогонами.

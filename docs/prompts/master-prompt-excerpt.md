@@ -1,6 +1,6 @@
-# Verbatim excerpt from the actual user prompt
+# Дословный фрагмент исходного промпта
 
-This is an excerpt, not the complete master prompt or session transcript.
+Это фрагмент, не полный master prompt и не transcript сессии.
 
 > Inspect → Plan → Implement → Test → Review → Document → Commit.
 

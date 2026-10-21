@@ -1,26 +1,28 @@
-# Roadmap — remaining scope, not future history
+# План до сдачи 26 октября 2026
 
-System date2026-10-20; owner deadline2026-10-26. Technical Phase7 candidate is at owner review; no autonomous work after this session is promised. See progress.md and the genuine log for completed work, not earlier calendar estimates.
+План составлен 21 октября 2026 в часовом поясе Asia/Qyzylorda. Будущие сроки ниже являются планом, а не вымышленными отметками о выполнении. После окончания сессии агент не обещает самостоятельную фоновую работу.
 
-## Before submission — OWNER ACTION REQUIRED
+| Этап | Что уже выполнено | Что осталось сделать | Приоритет | Ответственный | Срок | Критерий завершения |
+|---|---|---|---|---|---|---|
+| Русская версия | Переведены admin/public, формы, ошибки и письма | Завершить отчёты, повторные проверки и exact-SHA CI | P0 | Агент |21 октября | Свежие gates PASS, русский отчёт, проверенный приватный push |
+| Личная проверка | Подготовлены таблицы, инструкции и эссе | Пройти интерфейс и утвердить текст/ограничения | P0 | Владелец |22 октября | Явное одобрение либо конкретный список замечаний |
+| Исправления по замечаниям | Подтверждённых открытых обязательных BLOCKER/HIGH нет | Исправить только воспроизводимые дефекты, если появятся | P0 | Агент по команде владельца |22–23 октября | Воспроизведение, исправление, релевантная регрессия и новый CI |
+| GitHub review | PR#1/#2/#3 существуют; последующие базы и тексты подготовлены | Решить, нужны ли новые PR и merge, отдельно разрешить действия | P1 | Владелец решает; агент действует после разрешения |23 октября | Правильные bases/diffs/checks без переписывания истории |
+| Репетиция | Готов локальный demo на simulator/Mailpit | Владелец проходит сценарий 5–10 минут | P0 | Владелец |24 октября | Показать HTTP→DOWN→RECOVERY, maintenance и public revoke |
+| Доступ проверяющему | Есть приватный repo и актуальная ветка | Выдать read access и проверить его с аккаунта работодателя | P0 | Владелец |24–25 октября | Работодатель видит именно проверенный код, README и CI |
+| Заморозка пакета | Подготовлены код, история, AI evidence и инструкции | Утвердить эссе, точный branch/commit и известные ограничения | P0 | Владелец |25 октября | Полный согласованный комплект без необъяснённых критических проблем |
+| Отправка | Материалы подготовлены; агент не отправлял письмо | Передать ссылку и материалы выбранным каналом | P0 | Только владелец |26 октября | Фактическое подтверждение отправки; лишь затем SUBMITTED |
 
-Confirm exact Codex model, write/approve ten personal essay sentences, review current acceptance/limits, authorize any desired newPRs/merges and employer private access, rehearse demo and decide delivery. Owner says not to send email. Keep private visibility. Missing inputs are not fabricated product tests.
+## После сдачи
 
-## Bounded engineering follow-up
-
-| Work | Why / prerequisite |
+| Задача | Польза и условие начала |
 |---|---|
-| Full state-transition timeline | Additional owner scope beyond incident/check journal; define edit/pause/resume audit semantics |
-| Management pagination/global counters beyond500 | Current loaded selection is explicitly labeled; measure next fleet size |
-| Structured API logs | Worker/dispatcher JSON already; define bounded request/correlation fields without leaking secrets |
-| Controlled TLS/certificate fixture | Strengthen live SNI/cert verification evidence; keep outbound policy intact |
-| Dense-history sort/index tuning | Warm p95867ms, max1.180s; preserve no-data/coverage semantics and benchmark before changes |
-| Manual screen-reader/WCAG review |12axe scans/keyboard are scoped evidence, not certification |
+| Полная история смены состояний | Сейчас есть отдельные проверки и инциденты; нужен согласованный журнал UP/UNKNOWN/PAUSED/config |
+| Глобальная pagination и counters сверх 500 | Текущая ограниченная выборка явно подписана; сначала измерить новый размер fleet |
+| JSON API logs | Добавить безопасные request/correlation поля; worker/dispatcher уже пишут JSON |
+| Живой TLS/SNI стенд | Проверить certificate validation при numeric pinning без отключения защиты |
+| Dense-history tuning | Измеренный warm maximum1180 мс раскрыт; сравнить SQL plans и не нарушить gaps/coverage |
+| Ручная accessibility-проверка | Axe и keyboard не заменяют screen-reader/WCAG assessment |
+| Production deployment | Auth/RBAC, отдельная public DB role, TLS/rate/SSE/egress budgets, backups/restore, согласованная retention и SMTP provider |
 
-## Before internet-facing production
-
-Authenticated/authorized management, dedicated least-privilege public DB role, TLS ingress/rate/SSE budgets, egress controls, backups/restore drills, owner-approved retention and externalSMTP credentials/provider tests. No production-ready claim. Exact-once physicalSMTP cannot be promised merely by an outbox.
-
-## Optional later product ideas
-
-Additional channels, roles/teams, incident acknowledgement/escalation, certificate/DNS checks, exports and multiregion checks only with explicit user need and acceptance rules. Redis/Celery/Kubernetes, billing and speculative abstractions remain unjustified by this take-home scope. No scheduled future work is implied.
+Новые каналы, multiregion, billing и брокеры не входят в сдачу без отдельного объёма. Не тратить P0 на необязательную полировку. Удаление данных, retention и публикация требуют решения владельца.

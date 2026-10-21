@@ -1,0 +1,352 @@
+{
+  "project": "servicepulse-release-57a6a0ae",
+  "started_at": "2026-10-21T01:58:44.806335+00:00",
+  "checks": {
+    "fresh_database_migrated_to_head": "PASS",
+    "http_worker_settings_history_groups_restart": "PASS",
+    "fresh_http_incidents_smtp_analytics_public_browser": "PASS"
+  },
+  "source_commit": "40644e68e3e730a18b96b2212950ac82416be9e3",
+  "schema": {
+    "migration": "0006",
+    "tables": [
+      "check_results",
+      "group_recipients",
+      "groups",
+      "incidents",
+      "maintenance_windows",
+      "monitor_groups",
+      "monitors",
+      "notification_deliveries",
+      "notification_events",
+      "notification_routes",
+      "public_pages",
+      "publications"
+    ],
+    "constraints": [
+      {
+        "table": "alembic_version",
+        "type": "p",
+        "definition": "PRIMARY KEY (version_num)"
+      },
+      {
+        "table": "monitors",
+        "type": "c",
+        "definition": "CHECK (((interval_seconds >= 30) AND (interval_seconds <= 3600)))"
+      },
+      {
+        "table": "monitors",
+        "type": "c",
+        "definition": "CHECK (((timeout_seconds >= (0.1)::double precision) AND (timeout_seconds <= (120)::double precision)))"
+      },
+      {
+        "table": "monitors",
+        "type": "c",
+        "definition": "CHECK (((expected_status >= 100) AND (expected_status <= 599)))"
+      },
+      {
+        "table": "monitors",
+        "type": "c",
+        "definition": "CHECK (((failure_threshold >= 1) AND (failure_threshold <= 10)))"
+      },
+      {
+        "table": "monitors",
+        "type": "c",
+        "definition": "CHECK (((state)::text = ANY ((ARRAY['UNKNOWN'::character varying, 'UP'::character varying, 'DOWN'::character varying, 'PAUSED'::character varying])::text[])))"
+      },
+      {
+        "table": "monitors",
+        "type": "c",
+        "definition": "CHECK ((consecutive_failures >= 0))"
+      },
+      {
+        "table": "monitors",
+        "type": "c",
+        "definition": "CHECK (((lease_token IS NULL) = (lease_until IS NULL)))"
+      },
+      {
+        "table": "monitors",
+        "type": "p",
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "table": "check_results",
+        "type": "p",
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "table": "check_results",
+        "type": "f",
+        "definition": "FOREIGN KEY (monitor_id) REFERENCES monitors(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "monitors",
+        "type": "c",
+        "definition": "CHECK ((config_version >= 1))"
+      },
+      {
+        "table": "groups",
+        "type": "c",
+        "definition": "CHECK ((config_version >= 1))"
+      },
+      {
+        "table": "groups",
+        "type": "p",
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "table": "monitor_groups",
+        "type": "p",
+        "definition": "PRIMARY KEY (group_id, monitor_id)"
+      },
+      {
+        "table": "monitor_groups",
+        "type": "f",
+        "definition": "FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "monitor_groups",
+        "type": "f",
+        "definition": "FOREIGN KEY (monitor_id) REFERENCES monitors(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "group_recipients",
+        "type": "p",
+        "definition": "PRIMARY KEY (group_id, email)"
+      },
+      {
+        "table": "group_recipients",
+        "type": "f",
+        "definition": "FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "incidents",
+        "type": "c",
+        "definition": "CHECK (((closed_at IS NULL) OR (closed_at >= opened_at)))"
+      },
+      {
+        "table": "incidents",
+        "type": "c",
+        "definition": "CHECK (((recovered_at IS NULL) OR (recovered_at = closed_at)))"
+      },
+      {
+        "table": "incidents",
+        "type": "c",
+        "definition": "CHECK (((closed_at IS NULL) = (closure_reason IS NULL)))"
+      },
+      {
+        "table": "incidents",
+        "type": "c",
+        "definition": "CHECK (((closure_reason IS NULL) OR ((closure_reason)::text = ANY ((ARRAY['RECOVERED'::character varying, 'PAUSED'::character varying, 'CONFIG_CHANGED'::character varying])::text[]))))"
+      },
+      {
+        "table": "incidents",
+        "type": "c",
+        "definition": "CHECK (((recovered_at IS NOT NULL) = (NOT ((closure_reason)::text IS DISTINCT FROM 'RECOVERED'::text))))"
+      },
+      {
+        "table": "incidents",
+        "type": "p",
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "table": "incidents",
+        "type": "f",
+        "definition": "FOREIGN KEY (monitor_id) REFERENCES monitors(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "maintenance_windows",
+        "type": "c",
+        "definition": "CHECK (((monitor_id IS NULL) <> (group_id IS NULL)))"
+      },
+      {
+        "table": "maintenance_windows",
+        "type": "c",
+        "definition": "CHECK ((config_version >= 1))"
+      },
+      {
+        "table": "maintenance_windows",
+        "type": "c",
+        "definition": "CHECK ((end_at > start_at))"
+      },
+      {
+        "table": "maintenance_windows",
+        "type": "p",
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "table": "maintenance_windows",
+        "type": "f",
+        "definition": "FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "maintenance_windows",
+        "type": "f",
+        "definition": "FOREIGN KEY (monitor_id) REFERENCES monitors(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "notification_events",
+        "type": "c",
+        "definition": "CHECK (((event_type)::text = ANY ((ARRAY['DOWN'::character varying, 'RECOVERY'::character varying])::text[])))"
+      },
+      {
+        "table": "notification_events",
+        "type": "p",
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "table": "notification_events",
+        "type": "u",
+        "definition": "UNIQUE (incident_id, event_type)"
+      },
+      {
+        "table": "notification_events",
+        "type": "f",
+        "definition": "FOREIGN KEY (incident_id) REFERENCES incidents(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "publications",
+        "type": "u",
+        "definition": "UNIQUE (page_id, monitor_id)"
+      },
+      {
+        "table": "publications",
+        "type": "f",
+        "definition": "FOREIGN KEY (page_id) REFERENCES public_pages(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "notification_deliveries",
+        "type": "c",
+        "definition": "CHECK ((((status)::text = 'INFLIGHT'::text) = (lease_token IS NOT NULL)))"
+      },
+      {
+        "table": "notification_deliveries",
+        "type": "c",
+        "definition": "CHECK ((((status)::text = 'SENT'::text) = (sent_at IS NOT NULL)))"
+      },
+      {
+        "table": "notification_deliveries",
+        "type": "c",
+        "definition": "CHECK (((status)::text = ANY ((ARRAY['PENDING'::character varying, 'INFLIGHT'::character varying, 'SENT'::character varying, 'CANCELLED'::character varying, 'FAILED'::character varying])::text[])))"
+      },
+      {
+        "table": "notification_deliveries",
+        "type": "c",
+        "definition": "CHECK (((lease_token IS NULL) = (lease_until IS NULL)))"
+      },
+      {
+        "table": "notification_deliveries",
+        "type": "c",
+        "definition": "CHECK ((attempts >= 0))"
+      },
+      {
+        "table": "notification_deliveries",
+        "type": "p",
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "table": "notification_deliveries",
+        "type": "u",
+        "definition": "UNIQUE (event_id, email)"
+      },
+      {
+        "table": "notification_deliveries",
+        "type": "f",
+        "definition": "FOREIGN KEY (event_id) REFERENCES notification_events(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "notification_routes",
+        "type": "p",
+        "definition": "PRIMARY KEY (event_id, group_id, email)"
+      },
+      {
+        "table": "notification_routes",
+        "type": "f",
+        "definition": "FOREIGN KEY (event_id) REFERENCES notification_events(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "check_results",
+        "type": "c",
+        "definition": "CHECK (((interval_seconds >= 30) AND (interval_seconds <= 3600)))"
+      },
+      {
+        "table": "public_pages",
+        "type": "c",
+        "definition": "CHECK ((config_version >= 1))"
+      },
+      {
+        "table": "public_pages",
+        "type": "p",
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "table": "public_pages",
+        "type": "u",
+        "definition": "UNIQUE (slug)"
+      },
+      {
+        "table": "publications",
+        "type": "p",
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "table": "publications",
+        "type": "f",
+        "definition": "FOREIGN KEY (monitor_id) REFERENCES monitors(id) ON DELETE CASCADE"
+      }
+    ],
+    "indexes": [
+      "CREATE UNIQUE INDEX alembic_version_pkc ON public.alembic_version USING btree (version_num)",
+      "CREATE UNIQUE INDEX monitors_pkey ON public.monitors USING btree (id)",
+      "CREATE INDEX ix_monitors_next_due_at ON public.monitors USING btree (next_due_at)",
+      "CREATE UNIQUE INDEX check_results_pkey ON public.check_results USING btree (id)",
+      "CREATE INDEX ix_results_monitor_time ON public.check_results USING btree (monitor_id, checked_at)",
+      "CREATE UNIQUE INDEX groups_pkey ON public.groups USING btree (id)",
+      "CREATE UNIQUE INDEX monitor_groups_pkey ON public.monitor_groups USING btree (group_id, monitor_id)",
+      "CREATE INDEX ix_monitor_groups_monitor_id ON public.monitor_groups USING btree (monitor_id)",
+      "CREATE UNIQUE INDEX group_recipients_pkey ON public.group_recipients USING btree (group_id, email)",
+      "CREATE UNIQUE INDEX incidents_pkey ON public.incidents USING btree (id)",
+      "CREATE UNIQUE INDEX uq_incidents_open_monitor ON public.incidents USING btree (monitor_id) WHERE (closed_at IS NULL)",
+      "CREATE INDEX ix_incidents_monitor_time ON public.incidents USING btree (monitor_id, opened_at, id)",
+      "CREATE INDEX ix_incidents_time ON public.incidents USING btree (opened_at, id)",
+      "CREATE UNIQUE INDEX maintenance_windows_pkey ON public.maintenance_windows USING btree (id)",
+      "CREATE INDEX ix_maintenance_group_time ON public.maintenance_windows USING btree (group_id, start_at, end_at)",
+      "CREATE INDEX ix_maintenance_monitor_time ON public.maintenance_windows USING btree (monitor_id, start_at, end_at)",
+      "CREATE UNIQUE INDEX notification_events_pkey ON public.notification_events USING btree (id)",
+      "CREATE UNIQUE INDEX notification_events_incident_id_event_type_key ON public.notification_events USING btree (incident_id, event_type)",
+      "CREATE UNIQUE INDEX notification_deliveries_pkey ON public.notification_deliveries USING btree (id)",
+      "CREATE UNIQUE INDEX notification_deliveries_event_id_email_key ON public.notification_deliveries USING btree (event_id, email)",
+      "CREATE INDEX ix_delivery_due ON public.notification_deliveries USING btree (status, next_attempt_at, lease_until)",
+      "CREATE UNIQUE INDEX notification_routes_pkey ON public.notification_routes USING btree (event_id, group_id, email)",
+      "CREATE UNIQUE INDEX public_pages_pkey ON public.public_pages USING btree (id)",
+      "CREATE UNIQUE INDEX public_pages_slug_key ON public.public_pages USING btree (slug)",
+      "CREATE UNIQUE INDEX publications_pkey ON public.publications USING btree (id)",
+      "CREATE UNIQUE INDEX publications_page_id_monitor_id_key ON public.publications USING btree (page_id, monitor_id)"
+    ]
+  },
+  "journey": {
+    "started_at": "2026-10-21T01:59:23.632Z",
+    "name": "release-1792547963435",
+    "messages": [
+      {
+        "id": "moghSByjPAckJAaGjjXcb3",
+        "subject": "ServicePulse RECOVERY: \u0412\u043e\u0441\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u0435 release-1792547963435"
+      },
+      {
+        "id": "MnKh4KcHxPQcakrBLXWWan",
+        "subject": "ServicePulse DOWN: \u041f\u0430\u0434\u0435\u043d\u0438\u0435 release-1792547963435"
+      }
+    ],
+    "redirect": {
+      "status": 302,
+      "error": "unexpected_status"
+    },
+    "status": "PASS",
+    "ended_at": "2026-10-21T01:59:48.038Z"
+  },
+  "limits": "Fresh immutable local clone and new volume; existing Docker layer cache/host OS retained. Port override isolates owner stack; default8081 preview links tested separately.",
+  "status": "PASS",
+  "cleanup_exit_code": 0,
+  "elapsed_seconds": 67.625,
+  "ended_at": "2026-10-21T01:59:52.426502+00:00"
+}

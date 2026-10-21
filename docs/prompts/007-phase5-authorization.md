@@ -1,7 +1,6 @@
-# Owner message: begin Phase 5
+# Разрешение владельца начать Phase5
 
-Actual user message preserved during this session; not an earlier standalone technical prompt
-or a full session export. No standalone detailed Phase5 prompt was present in docs/prompts at discovery.
+Сохранённое фактическое сообщение, не ранее полученный отдельный подробный промпт и не полный export.
 
 # SERVICEPULSE — ПЕРЕХОД К PHASE 5
 

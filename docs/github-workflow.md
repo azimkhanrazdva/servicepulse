@@ -1,119 +1,31 @@
-# GitHub publication and review
+# GitHub: фактическая история и безопасный порядок действий
 
-Owner authorized uploads after each completed, verified stage and selected **private** visibility
-on 2026-10-19. The owner subsequently explicitly authorized phase2/3/4 PR creation;
-no permission for automatic merge or public visibility is inferred.
+Репозиторий https://github.com/azimkhanrazdva/servicepulse остаётся приватным. Main хранит ранний baseline; проверять нужно актуальную feature ветку. Русская подготовка начата 21 октября от чистого f3866cd на codex/russian-submission. История не переписывается; commits имеют реальные даты, обычный push разрешён владельцем после проверенного этапа. Новые PR, merge, collaborators, release/tag и изменение visibility требуют отдельного решения.
 
-Repository: https://github.com/azimkhanrazdva/servicepulse
+## Существующая цепочка
 
-At 2026-10-19T20:15:13.5894672+05:00 verification returned isPrivate=true and defaultBranch=main.
-origin/main and origin/feat/first-vertical-slice both resolved to
-bd4362991d1b74e52b46fa35d53cb04fb9f38835. Its parent is the real initial implementation
-4f212d959b63f590d3438c3c6ed86089069347e3. No initial commit/date was rewritten.
+| Этап | Head | Base | Фактический PR |
+|---|---|---|---|
+| Phase2 | feat/monitor-management-groups | main |#1 |
+| Phase3 | feat/incident-lifecycle | feat/monitor-management-groups |#2 |
+| Phase4 | feat/maintenance-email-outbox | feat/incident-lifecycle |#3 |
+| Phase5 | feat/public-status-analytics | feat/maintenance-email-outbox | Только подготовлен текст |
+| Phase6 | feat/reliability-audit-redesign | feat/public-status-analytics | Только подготовлен текст |
+| Phase7 | feat/final-acceptance-release | feat/reliability-audit-redesign | Только подготовлен текст |
+| Русская версия | codex/russian-submission | feat/final-acceptance-release | Создание не разрешено автоматически |
 
-GitHub CLI 2.102.0 was installed for this workflow; the owner completed browser device login.
-Credentials stay in the OS keyring. Do not save device codes or tokens in project files.
+PR#1/#2/#3 были созданы по последующему явному запросу владельца; это не подтверждение review в прошлом. Проверка 20 октября: OPEN/MERGEABLE/CLEAN, корректные ancestorbases, CI успешен, formalreviews0, heads3569b1c/3529b66/442496f. Новые действительные состояния фиксируются в текущем отчёте; старые проверки не заменяют свежие. Поздние Phase6 исправления не приписываются старым Phase4heads.
 
-There was no main branch or earlier common baseline before the root implementation commit.
-Creating an empty root now would manufacture history. Instead main records the delivered v0.1
-baseline; its existing code commit is reviewable directly. A full-code first-slice PR cannot
-have a meaningful diff against this identical baseline; no such PR is claimed.
-The requested first PR text is prepared in pr-summary.md, with this limitation disclosed.
+## Подготовленные команды, не свидетельство исполнения
 
-Phase 2 uses feat/monitor-management-groups descended from bd43629. Its commits can be pushed
-after local acceptance and compared with main. Prepare PR text in pr-phase2.md. Creating/merging
-the remote PR required separate owner authorization, subsequently provided below.
-No stale-main checkout or data deletion needed.
-
-CI is defined for push, PR and manual dispatch. Check actual Actions status after pushing;
-workflow presence alone does not prove a run. Hosted results and URLs belong in development-log.md.
-The original baseline push yielded an active workflow but no run in the initial API queries;
-do not label that baseline hosted CI successful. Phase2 manual dispatch run 39319384324
-completed successfully for 034b4bda783e0a69a47d4c4875ea05fc36819e19 (both backend/frontend).
-Actual structured result: artifacts/github-ci-phase2.json. GitHub warned about older action
-Node runtimes being forced to Node 24 and the ubuntu-latest migration; these were annotations,
-not failed checks. Updating action major versions remains a low-priority follow-up.
-
-Phase3 discovery on 2026-10-19 confirmed no PR in any state. feat/incident-lifecycle branches
-from phase2 HEAD 3569b1c, not main. See pr-phase3.md for exact prepared creation commands and
-stacked base/merge order. PR2 targets main; PR3 targets phase2 until phase2 merges, then main.
-Upload authorization remains private branch pushes only, with no automatic PR or merge.
-
-Phase3 implementation 5b43b20 pushed to origin/feat/incident-lifecycle. Automatic push workflow
-39323301037 passed both backend/frontend jobs on that exact SHA. main and phase2 refs remain unchanged.
-Structured result: artifacts/github-ci-phase3.json. Later docs-only handoff records the verified outcome.
-
-Phase4 discovery confirmed clean phase3 HEAD 3529b66 and no PR in any state. New branch
-feat/maintenance-email-outbox starts there. pr-phase4.md prepares the full review chain and exact
-creation command (base feat/incident-lifecycle). Local backend commit 2a159d1 is a real incremental
-checkpoint; it was kept local while UI/fault verification continued. Private upload follows final local gate.
-
-Phase4 verified commits 2a159d1 + ade9c13 were pushed after all local gates passed. Automatic run
-39379923079 completed SUCCESS for ade9c13b470dc02a9437d488b724b7a05eb54417 (backend 47s/frontend 21s,
-including real local SMTP/Mailpit CI service). Private=true and no PR in any state rechecked after push.
-Actual result: artifacts/github-ci-phase4.json. main/phase2/phase3 remain unchanged; no merge or force-push.
-
-## Later owner-authorized review PRs — 2026-10-20
-
-Created ready-for-review private-repository PRs for the existing completed commits:
-
-| Phase | PR | Head | Base |
-| --- | --- | --- | --- |
-| 2 | [#1](https://github.com/azimkhanrazdva/servicepulse/pull/1) | feat/monitor-management-groups | main |
-| 3 | [#2](https://github.com/azimkhanrazdva/servicepulse/pull/2) | feat/incident-lifecycle | feat/monitor-management-groups |
-| 4 | [#3](https://github.com/azimkhanrazdva/servicepulse/pull/3) | feat/maintenance-email-outbox | feat/incident-lifecycle |
-
-Each description links its dependency, actual checkpoint and implementation CI, with limitations.
-These are newly created review artifacts, not retroactive evidence of an earlier review.
-All three initial pull_request CI runs passed: 39381266717, 39381277581, 39381291388.
-The chronological log records commands and actual local time. GitHub timestamps are retained as
-reported; they are not used to overwrite local chronology.
-
-Merge is not authorized. When separately approved, merge in phase order 2 → 3 → 4 and retarget
-the next PR to main after its base lands. Prefer merge commits to preserve shared ancestry;
-squash/rebase would require explicit repair of dependent branches. Do not delete a base while
-another PR depends on it. No history rewrite, force push, visibility change or fabricated review.
-
-## Phase5 verified private branch upload
-
-Owner explicitly authorized Phase5 after accepting audited v0.4. feat/public-status-analytics starts
-from unchanged 442496f on feat/maintenance-email-outbox; no earlier branch was merged or rewritten.
-Backend c489815 and UI/integration 9c155c3 were pushed only after the complete local stage gate.
-[Hosted run 39390308186](https://github.com/azimkhanrazdva/servicepulse/actions/runs/39390308186)
-passed backend/frontend and actual Compose/Chromium browser jobs on exact 9c155c3.
-The downloaded hosted browser JSON proves seven passed/zero skipped/unexpected/flaky.
-Actual reports: artifacts/github-ci-phase5.json and github-browser-phase5.json.
-
-No Phase5 PR was created: pr-phase5.md prepares its summary with base feat/maintenance-email-outbox
-(dependency PR #3), not stale main. Owner authorization for prior PRs #1–#3 does not silently grant
-another PR or merge. Private visibility and original commit dates remain unchanged.
-
-## Phase6 local reliability increment —2026-10-20
-
-Discovery confirmed clean4696798, three open stacked PRs and no Phase5 PR. Actual Phase5 HEAD
-Actions39390995802 is SUCCESS, independently rechecked. Created owner-requested
-feat/reliability-audit-redesign from4696798 after git fetch origin. No old branch was rewritten.
-Phase6 is unfinished: verified logical local commits may be kept, but unfinished-stage changes
-must remain local under AGENTS.md. No Phase6 push/remote PR/merge/visibility change is performed.
-pr-phase5.md remains prepared with base feat/maintenance-email-outbox; pr-phase6.md prepares the
-later dependency on feat/public-status-analytics. Creating those new remote PRs needs specific
-owner authorization; preparing descriptions is not permission to create them.
-
-
-## Phase7 — current checked chain and prepared future commands
-
-The earlier paragraphs are historical stage notes. Current base494e310 was clean and had successful exact Actions39454646522 at discovery. Phase6 is now complete and privately uploaded. Phase7 branch feat/final-acceptance-release starts there without rewriting any prior commit. Its completed-stage private push is authorized; creating new PRs and merge remain separate owner decisions.
-
-Actual read-only review at2026-10-20T11:42:20Z: existing#1/#2/#3 OPEN, MERGEABLE/CLEAN, correct ancestor bases, successful existing checks, zero formal reviews. Heads3569b1c/3529b66/442496f match local saved phase branches. Their49/42/67 changed-file inventories were inspected; no unexpected env/vendor/archive paths or limited private-key/GitHub/AWS patterns. Source review considered monitor/version/group, incident transaction and maintenance/outbox boundaries against current regressions. Later Phase6 fixes are deliberately not backdated into historical branch snapshots. Intermediate phase heads are not the final corrected deployment candidate.
-
-No new PR was created by Phase7. After explicit owner approval only, these prepared commands create the next stacked chain (no invented PR numbers):
+После отдельного разрешения владельца:
 
 ```powershell
 gh pr create --repo azimkhanrazdva/servicepulse --head feat/public-status-analytics --base feat/maintenance-email-outbox --title 'feat: add isolated public status and observed analytics' --body-file docs/pr-phase5.md
 gh pr create --repo azimkhanrazdva/servicepulse --head feat/reliability-audit-redesign --base feat/public-status-analytics --title 'feat: verify reliability and refine monitoring interface' --body-file docs/pr-phase6.md
-gh pr create --repo azimkhanrazdva/servicepulse --head feat/final-acceptance-release --base feat/reliability-audit-redesign --title 'test: complete final release acceptance and handoff' --body-file docs/pr-phase7.md
+gh pr create --repo azimkhanrazdva/servicepulse --head feat/final-acceptance-release --base feat/reliability-audit-redesign --title 'test: complete final acceptance' --body-file docs/pr-phase7.md
 ```
 
-After separately approved review/merge, use merge commits in order Phase2→3→4→5→6→7. For example only after permission: `gh pr merge 1 --merge`, then retarget dependent#2 with `gh pr edit 2 --base main`, recheck diff/checks, merge#2, retarget#3 and continue with the actual later PR numbers. Do not merge all blindly. Do not squash/rebase shared ancestry, force-push or delete a base branch while dependents remain. No automatic collaborator/reviewer invitation, public visibility, tag/release or employer email.
+Для русского этапа headcodex/russian-submission/basefeat/final-acceptance-release; текст отчёта сам по себе не разрешает PR. Номера будущих PR не выдумываются. При разрешённом merge идти Phase2→3→4→5→6→7→RU, предпочитать mergecommits, после вливания очередной базы менять следующий base на main и перепроверять diff/checks. Например `gh pr merge 1 --merge`, затем `gh pr edit 2 --base main` допустимы только после разрешения. Не squash/rebase общую цепочку, не force-push, не удалять basebranch пока есть dependents.
 
-Final private push/CI hashes and timestamps belong in development-log.md/artifacts/phase7-ci.json; a prepared command is not evidence of execution. CurrentPR inspection is artifacts/phase7-pr-inspection.json. The absence of later PRs is owner-controlled workflow pending, not a separately missing Mad Devs PDF feature.
+Перед передачей дать работодателю точную ссылку на проверенную ветку/commit либо закончить разрешённую цепочку. Создание PR не отдельное обязательное требование MadDevs; это выбранное владельцем подтверждение GitHubFlow. Подробные исходные команды/CI истории доступны в Git:f3866cd и rawartifacts.

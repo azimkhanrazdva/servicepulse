@@ -1,0 +1,104 @@
+[
+  {
+    "file": "docs/phase2-checkpoint.md",
+    "original_commit": "f3866cd16a8027855afb4d65c55b598c4d535452",
+    "sha256": "e8cc894dbb8b0a1af2d9eb0bec8c6b1329e2aff0e585e81b3189b84b41409fc2",
+    "edition": "Russian archival navigation; original complete prose remains immutable in Git"
+  },
+  {
+    "file": "docs/phase3-checkpoint.md",
+    "original_commit": "f3866cd16a8027855afb4d65c55b598c4d535452",
+    "sha256": "3afeb91b9fb13fa232a2703f580a1736c721981b2c52641d1f503ce775db4224",
+    "edition": "Russian archival navigation; original complete prose remains immutable in Git"
+  },
+  {
+    "file": "docs/phase4-checkpoint.md",
+    "original_commit": "f3866cd16a8027855afb4d65c55b598c4d535452",
+    "sha256": "bfa478eb90f0475c62e99511b8286c9d3924eaade70dd3ba5fbed5d04a0287a1",
+    "edition": "Russian archival navigation; original complete prose remains immutable in Git"
+  },
+  {
+    "file": "docs/phase4-audit.md",
+    "original_commit": "f3866cd16a8027855afb4d65c55b598c4d535452",
+    "sha256": "9f71ac48e551cb57656e39da1571712345e49a19968e98a4412a447144db3a95",
+    "edition": "Russian archival navigation; original complete prose remains immutable in Git"
+  },
+  {
+    "file": "docs/phase4-design.md",
+    "original_commit": "f3866cd16a8027855afb4d65c55b598c4d535452",
+    "sha256": "f3682298c0ae1a6e4ef4a079a2f17b1e92fb26f6ee8e6ba8d8b942eb1e545728",
+    "edition": "Russian archival navigation; original complete prose remains immutable in Git"
+  },
+  {
+    "file": "docs/phase5-checkpoint.md",
+    "original_commit": "f3866cd16a8027855afb4d65c55b598c4d535452",
+    "sha256": "c9f7b072ed6179bae09e3470460989099caf6651b5ad726feac223fab99f504e",
+    "edition": "Russian archival navigation; original complete prose remains immutable in Git"
+  },
+  {
+    "file": "docs/phase5-design.md",
+    "original_commit": "f3866cd16a8027855afb4d65c55b598c4d535452",
+    "sha256": "8fbfe163ea2f47a51e71e9d2206aa2675bddc90a2443683965c9252171a54493",
+    "edition": "Russian archival navigation; original complete prose remains immutable in Git"
+  },
+  {
+    "file": "docs/phase6-checkpoint.md",
+    "original_commit": "f3866cd16a8027855afb4d65c55b598c4d535452",
+    "sha256": "393060d7400011deaac5ad3ae77e38f377cad24e1b44106bc9a0ead273cf10c9",
+    "edition": "Russian archival navigation; original complete prose remains immutable in Git"
+  },
+  {
+    "file": "docs/phase6-final-checkpoint.md",
+    "original_commit": "f3866cd16a8027855afb4d65c55b598c4d535452",
+    "sha256": "1a654e2b735c7095ed6826ef354e60122127b677e0edb69ea5910f06cdc0fb9e",
+    "edition": "Russian archival navigation; original complete prose remains immutable in Git"
+  },
+  {
+    "file": "docs/phase6-audit.md",
+    "original_commit": "f3866cd16a8027855afb4d65c55b598c4d535452",
+    "sha256": "fc399aff6fd930287f29e3121bfb211d96bc03bc714a41c5911261dc82e14bc0",
+    "edition": "Russian archival navigation; original complete prose remains immutable in Git"
+  },
+  {
+    "file": "docs/phase6-design-review.md",
+    "original_commit": "f3866cd16a8027855afb4d65c55b598c4d535452",
+    "sha256": "12ff3cddb98f7c54a39314b7a052b82a9173668d766ca6d41d37b423b7fc13e1",
+    "edition": "Russian archival navigation; original complete prose remains immutable in Git"
+  },
+  {
+    "file": "docs/phase6-notification-policy.md",
+    "original_commit": "f3866cd16a8027855afb4d65c55b598c4d535452",
+    "sha256": "2d226268b38d29a449f3a91a8dcfe3710cf12adf678dfd519e0bfa5ca97d8833",
+    "edition": "Russian archival navigation; original complete prose remains immutable in Git"
+  },
+  {
+    "file": "docs/phase6-security-review.md",
+    "original_commit": "f3866cd16a8027855afb4d65c55b598c4d535452",
+    "sha256": "5a015a518340bf8442dbea10f9c62e0c3c16f888589fea93ba8a4ab6fff2e2f0",
+    "edition": "Russian archival navigation; original complete prose remains immutable in Git"
+  },
+  {
+    "file": "docs/phase6-performance.md",
+    "original_commit": "f3866cd16a8027855afb4d65c55b598c4d535452",
+    "sha256": "3353af9a3f1106495e096a5c8aa06f44587b4dc3784d18a5e8a7b8795f6ed496",
+    "edition": "Russian archival navigation; original complete prose remains immutable in Git"
+  },
+  {
+    "file": "docs/phase7-checkpoint.md",
+    "original_commit": "f3866cd16a8027855afb4d65c55b598c4d535452",
+    "sha256": "445a2e53cdfd314d7095f2e62d826964f4976e79433a06c8a835582a55012988",
+    "edition": "Russian archival navigation; original complete prose remains immutable in Git"
+  },
+  {
+    "file": "docs/final-acceptance-issues.md",
+    "original_commit": "f3866cd16a8027855afb4d65c55b598c4d535452",
+    "sha256": "d925e0155b5155bb4bb8a8b44364356d14fc41d27fd857a090f85e8614772c09",
+    "edition": "Russian archival navigation; original complete prose remains immutable in Git"
+  },
+  {
+    "file": "docs/review.md",
+    "original_commit": "f3866cd16a8027855afb4d65c55b598c4d535452",
+    "sha256": "4ef217216712c1e0785bccef4b30e1bde048d69d7605d32782e16cb7f7e660df",
+    "edition": "Russian archival navigation; original complete prose remains immutable in Git"
+  }
+]

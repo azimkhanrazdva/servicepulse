@@ -1,15 +1,15 @@
 {
-  "recorded_at": "2026-10-21T01:46:21.520Z",
+  "recorded_at": "2026-10-21T01:59:37.918Z",
   "status": "PASS",
   "public_rest": {
     "title": "Customer service health",
     "state": "UP",
     "services": [
       {
-        "id": "24c5b135-3c51-4a2d-856b-6becfda29842",
+        "id": "4041c072-96fa-43c1-afd5-5210ecfdb217",
         "name": "Customer API",
         "state": "UP",
-        "last_checked_at": "2026-10-21T01:46:07.716008+00:00",
+        "last_checked_at": "2026-10-21T01:59:24.263426+00:00",
         "freshness": "FRESH",
         "maintenance": false,
         "show_history": true
@@ -21,10 +21,10 @@
     "state": "UP",
     "services": [
       {
-        "id": "24c5b135-3c51-4a2d-856b-6becfda29842",
+        "id": "4041c072-96fa-43c1-afd5-5210ecfdb217",
         "name": "Customer API",
         "state": "UP",
-        "last_checked_at": "2026-10-21T01:46:07.716008+00:00",
+        "last_checked_at": "2026-10-21T01:59:24.263426+00:00",
         "freshness": "FRESH",
         "maintenance": false,
         "show_history": true
@@ -33,7 +33,7 @@
   },
   "month_bucket_count": 360,
   "month_samples": 1,
-  "month_coverage_percent": 0.00005360297067901234,
+  "month_coverage_percent": 0.00005890470679012346,
   "checks": [
     "admin_opt_in",
     "route_isolation",

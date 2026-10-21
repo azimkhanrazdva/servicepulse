@@ -1,18 +1,7 @@
-# Prompt evidence
+# Подлинные промпты и происхождение материалов
 
-The user supplied a Russian master prompt titled “MASTER PROMPT — MAD DEVS JUNIOR AGENTIC
-DEVELOPER TAKE-HOME ASSIGNMENT” on 2026-10-19. The first delivery is explicitly limited to
-steps A–F and must stop at a verified first vertical slice for owner review.
+Здесь сохранены фактические сообщения и вложения владельца. Это не полный export сессии.001-master-prompt.md скопирован только из user-message response_item локального JSONL, без system prompts и посторонних сообщений. master-prompt-excerpt.md — явно помеченный фрагмент. Исходные тексты не переводятся задним числом: это доказательства того, что действительно было передано, а не новая инструкция.
 
-This directory is not a full chat export. 001-master-prompt.md is the verbatim original user
-message extracted from that message's response_item in the local Codex JSONL session record.
-Only this user message was copied; system prompts, unrelated messages and tool logs were not.
-master-prompt-excerpt.md is a short explicitly labeled excerpt for convenience.
+004-phase4.md позднее сопоставлялся с доступным вложением: SHA256 совпал; новый факт получения отсутствовавшего промпта не выдумывался.005 содержит запрос создать реальные PR завершённых этапов;006-phase4-audit.md — последующий пользовательский аудит;007-phase5-authorization.md — фактическая команда начатьPhase5, не отдельный подробный старый промпт.009-phase6-continuation.md сохранён из вложения, следующая команда была «продолжи».007-phase7-final.md — фактическое задание финальной приёмки.
 
-The owner-requested Phase4 audit later checked the existing 004-phase4.md against the available
-earlier attachment: SHA-256 matched exactly. See phase4-audit.md for evidence and the owner's
-clarification. This is not a new receipt or an invented session export. Original PDF/master
-requirements remain the compliance baseline.
-
-
-Continuation recorded at 2026-10-20T15:53:12+05:00: 009-phase6-continuation.md is the verbatim owner attachment from the current context. It is not a complete session export. The subsequent owner message was “продолжи”.
+Русская подготовка21октября: перевод UI/документации, таблицы, десять предложений эссе как черновик, модель solana 6.1 - medium по данным владельца, план до26октября; запрет работодателю email/merge/visibility/data deletion. Новое сообщение сохранено в010-russian-submission.md. Исходные цитаты сохраняют язык автора; технические слова и имена не заменяются догадками. Владелец может экспортировать сессию через доступный интерфейс только после проверки секретов; агент не создаёт фальшивый export и публичную sharelink автоматически.

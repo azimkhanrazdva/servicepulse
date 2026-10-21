@@ -1,0 +1,170 @@
+# ServicePulse v1.0 — итоговый отчёт владельцу
+
+Сформирован: 2026-10-21T07:14:07+05:00, Asia/Qyzylorda. Дата подготовки —21 октября 2026, срок сдачи —26 октября 2026.
+
+**Техническая демонстрация проверена. Пакет готов к рассмотрению владельцем; официальная отправка не выполнена.** Подготовка документации не означает SUBMITTED. Письмо работодателю, merge, смена приватности и удаление пользовательских данных не выполнялись.
+
+## 1. Готовность по разделам
+
+Процент — PASS/(PASS+PARTIAL+FAIL+NOT VERIFIED)×100 по явному набору ID, перечисленному ниже. PARTIAL не получает полного балла; NOT APPLICABLE исключается только с обоснованием. OPT исключены из обязательных процентов. Разделы — пересекающиеся представления реестра: их проценты нельзя складывать или усреднять для оценки работодателя.
+
+| Раздел | Что сделано | Что работает | Что осталось | Статус | Готовность, % |
+|---|---|---|---|---|---:|
+| Backend | FastAPI, CRUD, version409, группы и health | 150 PostgreSQL/backend тестов, атомарность и конфликты | API access logs ещё текстовые; JSON worker/dispatcher есть | PARTIAL | 90.91 (10/11) |
+| Frontend | Русские admin/public, формы, ошибки, статусы, даты и native validation | 35 component и 12 Chromium; реальные действия и SSE | Полный state timeline; глобальные counters/pagination сверх 500 | PARTIAL | 88.89 (16/18) |
+| PostgreSQL | Schema0006, FK/constraints/indexes, persistence | Fresh/legacy migrations и новая изолированная DB | В обязательном локальном объёме остатка нет; production backups/role hardening отдельно | PASS | 100.00 (7/7) |
+| Мониторинг | Async HTTPX, fixed-delay, leases/fencing, threshold/incidents | Свежие HTTP/ручной запуск/restart; сохранённый 50×30 опыт отдельно | Дополнительные типы проверок и регионы вне объёма | PASS | 100.00 (21/21) |
+| Уведомления | Русские письма, persisted outbox/routes/retry и maintenance | Реальный Mailpit, DOWN→RECOVERY,7fault-групп и delayed/refused pair | External SMTP не проверяется; finite retry/physical duplicate ambiguity остаются | PASS | 100.00 (23/23) |
+| Аналитика | 24 ч/7 д/30 д, SQL buckets, coverage и НЕТ ДАННЫХ | Свежая регрессия; raw100k/360buckets benchmark20 октября | Warm outlier1180 мс; нет универсальной гарантии<1 с | PASS | 100.00 (14/14) |
+| Безопасность | SSRF/Host/public isolation; patch certifi после scan | 150backend/12browser privacy; актуальные npm/pip scans | Live external TLS fixture; auth/least-privilege/rate/egress перед production | PARTIAL | 93.75 (15/16) |
+| Тестирование | Регрессия, migration fixtures, realbrowser/SMTP/clean runtime | 150/35/12,12axe0violations; точный CI проверяется отдельно | Полная WCAG/production сертификация не заявляется | PARTIAL / NOT VERIFIED | 91.67 (11/12) |
+| GitHub | Приватный repo, настоящие commits,3 существующих PR, prepared stack | Ветки и ancestry сохраняются, обычный проверенный push | Employer read access; новые PR/merge только по решению владельца | PARTIAL / NOT VERIFIED | 77.78 (7/9) |
+| Документация | Русская README, архитектура, гайды, матрица, история и draft essay | Пер-ID доказательства, автоматическая проверка 10 предложений | Личное утверждение эссе и финальная отправка владельцем | PARTIAL | 86.36 (19/22) |
+
+### Проверяемый знаменатель каждого раздела
+
+| Раздел | ID, по которым рассчитана доля |
+|---|---|
+| Backend | GEN-01, GEN-02, FND-04, FND-05, MON-10, GRP-01, GRP-02, GRP-03, GRP-04, INC-04, INC-05 |
+| Frontend | GEN-03, UI-01, UI-02, UI-03, UI-04, UI-05, UI-06, UI-07, UI-08, UI-09, UI-10, UI-11, UI-12, UI-13, PUB-01, PUB-02, SCN-01, SCN-02 |
+| PostgreSQL | GEN-04, FND-01, FND-02, REL-05, INC-03, P4-21, P5-02 |
+| Мониторинг | MON-01, MON-02, MON-03, MON-04, MON-05, MON-06, MON-07, MON-08, MON-09, FND-03, SCN-06, SCN-07, SCN-08, SCN-12, SCN-13, SCN-14, SCN-17, SCN-18, REL-01, REL-02, REL-03 |
+| Уведомления | NTF-01, NTF-02, NTF-03, NTF-04, NTF-05, NTF-06, NTF-07, NTF-08, MNT-01, MNT-02, MNT-03, MNT-04, MNT-05, MNT-06, MNT-07, MNT-08, SCN-03, SCN-04, SCN-05, SCN-09, SCN-10, SCN-11, P6-REQ-02 |
+| Аналитика | HIS-01, HIS-02, HIS-03, HIS-04, HIS-05, HIS-06, HIS-07, HIS-08, HIS-09, P5-09, P5-10, P5-11, P6-REQ-04, P6-REQ-07 |
+| Безопасность | SEC-01, SEC-02, SEC-03, SEC-04, SEC-05, SEC-06, SEC-07, SEC-08, SEC-09, SEC-10, PUB-03, PUB-04, SCN-16, P5-05, P5-06, P5-08 |
+| Тестирование | DEL-04, DEL-05, P7-07, P7-08, P7-09, P7-10, P7-11, P7-12, P4-19, P5-15, P6-REQ-12, P7-24 |
+| GitHub | DEL-16, DEL-17, DEL-18, P4-23, P4-24, P5-01, P7-22, P7-23, P7-24 |
+| Документация | GEN-06, GEN-07, GEN-08, GEN-12, DEL-09, DEL-10, DEL-11, DEL-12, DEL-13, DEL-14, DEL-15, DEL-19, DEL-20, DEL-21, DEL-22, P7-20, P7-25, P7-26, P7-27, P7-28, P7-29, P7-30 |
+
+## 2. Требования MadDevs и дополнительные критерии
+
+В реестре 232 связанных критерия проекта, а не 232 независимых требования работодателя. M — работодатель, O — владелец, T — инженерный критерий, OPT — допустимый необязательный выбор. Полная русская таблица: [phase7-final-acceptance.md](phase7-final-acceptance.md); машинный расчёт: [ru-readiness.json](../artifacts/ru-readiness.json).
+
+| Источник | Всего | PASS | PARTIAL | FAIL | NOT VERIFIED | NOT APPLICABLE | Строгая доля, % |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| M | 72 | 71 | 1 | 0 | 0 | 0 | 98.61 |
+| O | 149 | 139 | 7 | 0 | 3 | 0 | 93.29 |
+| T | 9 | 9 | 0 | 0 | 0 | 0 | 100.00 |
+| OPT | 2 | 2 | 0 | 0 | 0 | 0 | 100.00 |
+
+**Обязательные требования работодателя: 98.61% (71/72 PASS).** Остаток M — DEL-18: фактический доступ работодателю к приватному репозиторию не проверен. GEN-07 теперь раскрыт с явным источником модели: это подтверждение честного disclosure, не техническая идентификация deployment. Русская README не нарушает языкового требования работодателя: English был ранним предпочтением владельца и заменён новым запросом.
+
+Проектные критерии без OPT: **95.22%**. Эта математическая доля не вероятность отсутствия ошибок и не субъективная оценка красоты. Демонстрационный сценарий имеет PASS в заявленной локальной границе. Готовность к официальной передаче зависит от личного утверждения эссе, проверки версии/ограничений, read access и решения об отправке.
+
+## 3. Свежие проверки 21 октября
+
+| Команда / проверка | Фактический результат | Доказательство |
+|---|---|---|
+| docker compose up -d --build --wait | PASS; работающие API/frontend/DB/worker/dispatcher/public/Mailpit, без reset volumes | ru-clean-checkout.json; localhost8080 |
+| docker compose --profile test run --rm --build tests | 150 PASS; legacy0001..0005→0006, Alembic без новых операций | ru-backend-tests.xml |
+| npm test | 35 PASS;3 новых проверки русского отображения/API errors/native validation | ru-component-tests.json |
+| npm run test:e2e -- --workers=2 | 12 PASS;0 skipped/flaky/unexpected, два admin+два public клиента, реальные HTTP и письма | ru-browser-tests.json; ru-release-journey.json |
+| TypeScript / ESLint / Prettier / build / Ruff | PASS после исправления пойманных lint/format ошибок | development-log.md; текущий CI |
+| Четыре viewport и axe | 390×844,768×1024,1440×900,1920×1080;12scans/0violations | ru-accessibility-*.json; output/playwright/ru |
+| node scripts/ru_ui_audit.cjs | Статические JSX/aria/placeholder проверены; technical names разрешены | ru-ui-audit.json |
+| phase4_fault_smoke.py с ru-prefix | 7 групп PASS;SMTP outage/retry/restart/maintenance/crash, logicaldedup | ru-smtp-faults.json/log |
+| python scripts/phase6_email_smoke.py | 2 группы PASS; delayed dispatcher/quick recovery/refusal, тот же ID и порядок | ru-email-continuation.json |
+| phase7_clean_checkout.py --ref codex/russian-submission | PASS: committed clone, новая DB0006, HTTP/history/groups/restarts/fulljourney; общий host/cache раскрыт | ru-clean-checkout.json; ru-clean-browser.json |
+| Host/public route probes | 8 реальных GET случаев PASS | ru-host-guard.json |
+| npm audit / pip-audit | 0 known после certifi pin refresh; исходный scan с 1 finding сохранён | ru-npm-audit.json; ru-pip-audit-before.json; ru-pip-audit.json |
+
+**CI нового русского этапа пока NOT VERIFIED.** Зелёный Phase7 run20 октября не засчитывается за новый код. После проверенного приватного push требуется actual exact-SHA run и downloaded browser artifact.
+
+## 4. Что было неуспешно и что исправлено
+
+| Наблюдение | Исправление / граница |
+|---|---|
+| После перевода 15 старых component ожиданий не совпали с UI | Русские labels и regex обновлены; assertions поведения сохранены; тесты не удалялись |
+| Широкая замена в тестах затронула 4imports и EventSource stub | Typecheck/tests обнаружили ошибку; imports восстановлены из Git, технические globals сохранены |
+| Переведённый maintenance option мог отправить русское значение | Явные value=ACTIVE/UPCOMING/ENDED сохраняют API enum; display отдельно |
+| ESLint потребовал cause у network error; Prettier отметил тест | Cause добавлен, форматирование исправлено, gates повторены |
+| pip-audit отметил certifi2026.10.18, upstream называет эту версию patched | Источники расходятся;2026.10.19 опубликована и закреплена. Не заявляется доказанная эксплуатация 18; postscan0known и rebuild/regression выполнены |
+
+Security sources: [upstream advisory](https://github.com/certifi/python-certifi/security/advisories/GHSA-6q48-6c7w-9gw2), [PyPI2026.10.19](https://pypi.org/project/certifi/2026.10.19/). Обоснование и границы: [ru-security-review.md](ru-security-review.md).
+
+## 5. Сохранённые измерения 20 октября, не новые load tests
+
+| Эксперимент | Результат | Ограничение |
+|---|---|---|
+| Steady50×30 с/300 с |475HTTP/475DB,375success/100expectedfail, max41,0overlap; steady delay p95552 мс | Fixed-delay, не обещанные 500 запусков; ранний browser/DBsnapshot относится к другому прогону |
+| Fault-under50 |295HTTP/max17/0overlap; delay p951,740 с; worker16,547 с/DB22,360 с recovery |51 lifetimeUUID из-за замены 1monitor, initial/finalfleet50; shutdown290DB против 289 live |
+| Dense monthly |100000rows одного monitor/360buckets;3cold/21warm, coldmax635 мс, warmp95867 мс/max1180 мс | OS cache/sharedhost; не HTTP SLA и не universal<1s |
+
+Исходные данные переанализированы; scheduler/SQL не менялись при переводе. Certifi pin влияет на truststore, а не планировщик/агрегацию; новый TLS benchmark не выдумывается. Raw proof и scope: phase7-performance.md и ru-performance-reference.json.
+
+## 6. Известные ограничения
+
+| Ограничение | Что это означает |
+|---|---|
+| Локальное управление без auth | Не открывать management8000/8080/Mailpit в интернет; public только отдельный ingress |
+| Shared public DB role | Read-only transactions/allowlist не заменяют отдельные DB privileges |
+| SMTP uncertainty и 8attempts | Возможен физический дубль после acceptancecrash; FAILED требует расследования; внешний mailbox не проверен |
+| Дополнительные owner PARTIAL | Полный state timeline, global pagination>500, JSON API logs, живой externalTLSfixture |
+| Analytics semantics | Sample uptime не равен непрерывной доступности; legacy cadence/eligibility не угадываются, gaps не DOWN |
+| Accessibility/security |12axe и 0known advisories не являются WCAG/production/security сертификацией |
+
+## 7. Модель и происхождение документации
+
+Инструмент — OpenAI Codex. Обозначение **solana 6.1 - medium** дано владельцем 21 октября 2026 и воспроизведено буквально. Независимого технического подтверждения modelID или сравнительного исследования моделей нет. Технические имена, API, команды, исходные данные пользователя и кодовые идентификаторы английские; UI и текущие инструкции русские. Подлинные цитаты промптов и raw outputs не переписываются ради языка.
+
+Архивные отчёты получили русские навигационные редакции со ссылкой на полные исходные документы в immutable Git f3866cd. Это не дословный полный перевод старой прозы и не реконструкция хронологии. Старые artifacts сохранены побайтно; новые имеют ru-prefix.39 исторических записей журнала связаны с исходными строками; metadata исходных файлов в ru-document-provenance.json. Фальшивый session export не создавался.
+
+## 8. Эссе: черновик, ровно 10 предложений
+
+Текст не утверждён владельцем. Счётчик проверяет только тело эссе, без заголовка и этой пометки.
+
+Сейчас я работаю над ServicePulse, системой мониторинга доступности сайтов, которую готовлю как тестовое задание для MadDevs.
+Самая сложная часть для меня заключается в том, чтобы обосновать надёжность системы при сбоях и показать проверяемый результат.
+Я использую Codex для реализации и тестирования, а со своей стороны задаю требования, проверяю отчёты и принимаю решения о следующем этапе.
+Например, при аудите мы обнаружили, что быстрое восстановление сайта могло отменить ещё не отправленное уведомление о подтверждённом падении.
+После исправления система сохраняет обязательную пару уведомлений даже при задержке обработчика почты.
+Отдельного внимания потребовали окна обслуживания, во время которых проверки должны продолжаться, а письма должны подавляться по заданным правилам.
+Я прошу агента проверять такие сценарии на реальных HTTP-запросах и локальном почтовом сервисе, а не ограничиваться описанием кода.
+Падающие тесты показали и менее заметные проблемы, включая поведение форм, восстановление соединения и обработку устаревших данных.
+Поэтому я отделяю подтверждённые результаты от ограничений и не считаю красивый интерфейс достаточным доказательством готовности.
+Перед сдачей я хочу убедиться, что другой разработчик сможет запустить проект, воспроизвести основные сценарии и понять, что ещё требует улучшения.
+
+## 9. План до 26 октября 2026
+
+
+План составлен 21 октября 2026 в часовом поясе Asia/Qyzylorda. Будущие сроки ниже являются планом, а не вымышленными отметками о выполнении. После окончания сессии агент не обещает самостоятельную фоновую работу.
+
+| Этап | Что уже выполнено | Что осталось сделать | Приоритет | Ответственный | Срок | Критерий завершения |
+|---|---|---|---|---|---|---|
+| Русская версия | Переведены admin/public, формы, ошибки и письма | Завершить отчёты, повторные проверки и exact-SHA CI | P0 | Агент |21 октября | Свежие gates PASS, русский отчёт, проверенный приватный push |
+| Личная проверка | Подготовлены таблицы, инструкции и эссе | Пройти интерфейс и утвердить текст/ограничения | P0 | Владелец |22 октября | Явное одобрение либо конкретный список замечаний |
+| Исправления по замечаниям | Подтверждённых открытых обязательных BLOCKER/HIGH нет | Исправить только воспроизводимые дефекты, если появятся | P0 | Агент по команде владельца |22–23 октября | Воспроизведение, исправление, релевантная регрессия и новый CI |
+| GitHub review | PR#1/#2/#3 существуют; последующие базы и тексты подготовлены | Решить, нужны ли новые PR и merge, отдельно разрешить действия | P1 | Владелец решает; агент действует после разрешения |23 октября | Правильные bases/diffs/checks без переписывания истории |
+| Репетиция | Готов локальный demo на simulator/Mailpit | Владелец проходит сценарий 5–10 минут | P0 | Владелец |24 октября | Показать HTTP→DOWN→RECOVERY, maintenance и public revoke |
+| Доступ проверяющему | Есть приватный repo и актуальная ветка | Выдать read access и проверить его с аккаунта работодателя | P0 | Владелец |24–25 октября | Работодатель видит именно проверенный код, README и CI |
+| Заморозка пакета | Подготовлены код, история, AI evidence и инструкции | Утвердить эссе, точный branch/commit и известные ограничения | P0 | Владелец |25 октября | Полный согласованный комплект без необъяснённых критических проблем |
+| Отправка | Материалы подготовлены; агент не отправлял письмо | Передать ссылку и материалы выбранным каналом | P0 | Только владелец |26 октября | Фактическое подтверждение отправки; лишь затем SUBMITTED |
+
+## После сдачи
+
+| Задача | Польза и условие начала |
+|---|---|
+| Полная история смены состояний | Сейчас есть отдельные проверки и инциденты; нужен согласованный журнал UP/UNKNOWN/PAUSED/config |
+| Глобальная pagination и counters сверх 500 | Текущая ограниченная выборка явно подписана; сначала измерить новый размер fleet |
+| JSON API logs | Добавить безопасные request/correlation поля; worker/dispatcher уже пишут JSON |
+| Живой TLS/SNI стенд | Проверить certificate validation при numeric pinning без отключения защиты |
+| Dense-history tuning | Измеренный warm maximum1180 мс раскрыт; сравнить SQL plans и не нарушить gaps/coverage |
+| Ручная accessibility-проверка | Axe и keyboard не заменяют screen-reader/WCAG assessment |
+| Production deployment | Auth/RBAC, отдельная public DB role, TLS/rate/SSE/egress budgets, backups/restore, согласованная retention и SMTP provider |
+
+Новые каналы, multiregion, billing и брокеры не входят в сдачу без отдельного объёма. Не тратить P0 на необязательную полировку. Удаление данных, retention и публикация требуют решения владельца.
+
+
+## 10. Что владелец делает лично
+
+| Действие | Обязательность | Признак завершения |
+|---|---|---|
+| Посмотреть русский UI и известные ограничения | P0 | Личное одобрение либо конкретные замечания |
+| Прочитать и утвердить 10 предложений эссе | P0 | Явное согласие с личной формулировкой; правки снова пересчитаны |
+| Проверить точную ветку/commit и запустить demo | P0 | Воспроизводится HTTP→incident→Mailpit→recovery→maintenance→public |
+| Дать работодателю private read access | P0 | Доступ проверен с аккаунта проверяющего |
+| Решить вопрос следующих PR/merge | P1, выбор владельца | Отдельное разрешение на конкретные действия; не обязательный PDF deliverable |
+| Передать материалы до 26 октября | P0, только владелец | Фактическое подтверждение отправки |
+| При желании уточнить написание модели в UI | Не блокирует уже честно раскрытое обозначение | При уточнении обновить attribution без догадки о modelID |
+
+Агент не отправляет письмо работодателю, не выполняет merge, не меняет приватность и не удаляет пользовательские данные. Новая разработка после этой контрольной точки — по следующей команде владельца.
