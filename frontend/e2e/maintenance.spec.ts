@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { execFileSync } from "node:child_process";
 import { writeFileSync } from "node:fs";
+import { localDateTime as local } from "./datetime";
 
 function control(name: string, status: number) {
   execFileSync(
@@ -18,12 +19,6 @@ function control(name: string, status: number) {
     ],
     { cwd: ".." },
   );
-}
-function local(value: number) {
-  const d = new Date(value);
-  return new Date(value - d.getTimezoneOffset() * 60000)
-    .toISOString()
-    .slice(0, 19);
 }
 
 test("maintenance CRUD, two clients, DOWN state, suppression and actual Mailpit release", async ({

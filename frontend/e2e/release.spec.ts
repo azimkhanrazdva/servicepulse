@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { execFileSync } from "node:child_process";
 import { writeFileSync } from "node:fs";
+import { localDateTime as local } from "./datetime";
 
 test("complete release journey with real HTTP, maintenance, Mailpit and public revocation", async ({
   browser,
@@ -70,12 +71,6 @@ test("complete release journey with real HTTP, maintenance, Mailpit and public r
         { timeout: 15000 },
       )
       .not.toBe(before[0]?.id);
-  }
-  function local(ms: number) {
-    const date = new Date(ms);
-    return new Date(ms - date.getTimezoneOffset() * 60000)
-      .toISOString()
-      .slice(0, 19);
   }
   try {
     control(200);

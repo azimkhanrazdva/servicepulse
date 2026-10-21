@@ -288,9 +288,15 @@ def render_owner_report():
         "Агент не отправляет письмо работодателю, не выполняет merge, не меняет приватность и не удаляет пользовательские данные. Новая разработка после этой контрольной точки — по следующей команде владельца.",
         "",
     ]
-    (ROOT / "docs/OWNER_FINAL_REPORT_RU.md").write_text(
-        russian_typography("\n".join(lines)), encoding="utf-8"
-    )
+    body = russian_typography("\n".join(lines))
+    update = ROOT / "docs/ci-datetime-fix.md"
+    if update.exists():
+        body = (
+            update.read_text(encoding="utf-8")
+            + "\n\n---\n\n## Архивный отчёт русской контрольной точки\n\n"
+            + body
+        )
+    (ROOT / "docs/OWNER_FINAL_REPORT_RU.md").write_text(body, encoding="utf-8")
 
 
 if __name__ == "__main__":

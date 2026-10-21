@@ -1,0 +1,8 @@
+{
+  "at": "2026-10-21T03:02:44.333Z",
+  "status": "REPRODUCED",
+  "value": "2026-10-21T07:35:00",
+  "normalized": "2026-10-21T07:35",
+  "error": "locator.fill: Error: Malformed value\nCall log:\n\u001b[2m  - waiting for locator('input')\u001b[22m\n\u001b[2m    - locator resolved to <input step=\"1\" type=\"datetime-local\"/>\u001b[22m\n\u001b[2m    - fill(\"2026-10-21T07:35:00\")\u001b[22m\n\u001b[2m  - attempting fill action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and editable\u001b[22m\n",
+  "browser": "156.0.8078.4"
+}

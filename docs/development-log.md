@@ -97,3 +97,12 @@ Commit `4fb9a9a51c9074d379e12b0520cfb2643ba1a2bd` загружен обычны�
 Проверено HTTP GET: в основной базе по-прежнему ровно два исходных Demo monitors с прежними IDs. `gh repo view` подтвердил isPrivate=true; `gh pr list` — только прежние открытые PR1–3 с правильными bases. Новые PR/merge/release/invites/письма/смена visibility/удаление данных не выполнялись. Письма тестов принимал только Mailpit.
 
 Документальная передача получает следующий настоящий commit и отдельный exact-HEAD CI; его будущий hash не выдумывается. Локальные и hosted timestamps сохранены без исправления часов; межсредовая синхронизация не подтверждена. Следующий шаг — личная проверка владельца, эссе, private read access и отправка до 26 октября. Самостоятельная фоновая работа не обещается.
+
+
+## 2026-10-21T08:08:30+05:00 — исправление подтверждённого FAIL и разрешённая публикация
+
+Запрос: исправить PR run39562658442, дать правильную ветку/commit, проверить доступ. `gh auth status`, `gh run view --log-failed`: browser11PASS/1FAIL, maintenance fill2026-10-21T07:35:00→Malformed value. Фиксированное воспроизведение в настоящем Chromium сохранено отдельно. Два форматтера найдены через rg; общий helper убирает только завершающие :00. Новый regression test проверяет00/01/59/полночь;10повторов PASS7,3с; полный suite13PASS, component35PASS, typecheck/ESLint/Prettier/buildPASS. Новых backend результатов пока не заявлялось; production code не менялся. Тесты не удалялись, retry не добавлялся.
+
+Проверка collaborators показала только владельца, invitations пусты. Владелец затем явно ответил «сделай репозиторий публичным», заменив прежнее ограничение private. До действия выполнен scan699textblobs/currentfiles без совпадений выбранных secretpatterns, .env отсутствует в Git. `gh repo edit --visibility public --accept-visibility-change-consequences` успешно; `gh repo view` подтвердилfalse для isPrivate. Три HTTP GET без авторизации подтвердили200 дляrepo/branch/7dae3d2. Это не подтверждение прочтения работодателем. Приглашений/писем/merge/удаления volumes нет.
+
+Релевантные файлы: frontend/e2e/datetime.ts/datetime.spec.ts/maintenance.spec.ts/release.spec.ts, README, AGENTS, документы и новые artifactsci-datetime/publication. Старые reports/screenshots после сохранения нового browserJSON восстановлены точными путями Git; не выданы за новые. PR#4 уже существовал; агент его не создавал. Следующий шаг — настоящий commit/push, проверка новых push и pull_request Actions, затем запись результата и остановка для владельца.

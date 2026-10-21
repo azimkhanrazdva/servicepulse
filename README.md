@@ -24,7 +24,7 @@ Python3.12, FastAPI, Pydantic, SQLAlchemy2, Alembic, PostgreSQL17, HTTPX/asyncio
 
 Docker Engine/Desktop с Linux containers и Docker Compose. Проверенная среда предыдущего этапа: Compose5.5.1; изолированный acceptance harness использует !override и требует 2.24.4+. Свободные локальные порты:8080,8000,8081,8025. Первое получение образов/зависимостей требует интернета. Для обычного запуска host Python/Node не нужны; для тестовых скриптов нужны Python3.11+, Node24 и Chromium.
 
-Клонируйте приватный репозиторий после получения доступа и выберите актуальную ветку проверки; main может оставаться ранним baseline:
+Репозиторий публичный по явному решению владельца от 21 октября 2026. Выберите актуальную ветку проверки `codex/russian-submission`: в `main` остаётся ранняя версия 0.1. Снимок до исправления CI: [`7dae3d2`](https://github.com/azimkhanrazdva/servicepulse/commit/7dae3d230b3e38527e78ad6dc117a451605ff4f6); исправление `datetime-local` находится в следующих commits этой ветки.
 
 ```powershell
 git clone https://github.com/azimkhanrazdva/servicepulse.git
