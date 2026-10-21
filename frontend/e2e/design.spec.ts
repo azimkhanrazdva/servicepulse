@@ -62,16 +62,16 @@ for (const [width, height] of [
           )
           .toBe(true);
         if (section === "notifications")
-          await expect(page.getByText("Loading delivery status…")).toHaveCount(
-            0,
-          );
+          await expect(
+            page.getByText("Загрузка состояния доставки…"),
+          ).toHaveCount(0);
         await page.screenshot({ path: `${dir}/${width}-${section}.png` });
       }
       await page.goto("/#monitors");
       await page.getByRole("button", { name: slug, exact: true }).click();
       await expect(page.locator(".uptime-grid")).toBeVisible();
       await page.locator(".detail").scrollIntoViewIfNeeded();
-      await expect(page.getByText("Loading availability history…")).toHaveCount(
+      await expect(page.getByText("Загрузка истории наблюдений…")).toHaveCount(
         0,
       );
       await page.screenshot({ path: `${dir}/${width}-details.png` });
@@ -86,7 +86,7 @@ for (const [width, height] of [
       expect(result.violations).toEqual([]);
       await page.goto("/#overview");
       if (width <= 650) {
-        const toggle = page.getByRole("button", { name: /Workspace menu/ });
+        const toggle = page.getByRole("button", { name: /Меню разделов/ });
         await toggle.focus();
         await page.keyboard.press("Enter");
         await expect(toggle).toHaveAttribute("aria-expanded", "true");
@@ -95,7 +95,7 @@ for (const [width, height] of [
         await expect(toggle).toBeFocused();
       }
       const add = page.getByRole("button", {
-        name: "+ Add monitor",
+        name: "+ Добавить монитор",
         exact: true,
       });
       await add.focus();
@@ -120,7 +120,7 @@ for (const [width, height] of [
       const publication = await request.post("/api/status-pages", {
         data: {
           slug,
-          title: "Service availability",
+          title: "Доступность сервиса",
           enabled: true,
           publications: [
             {
@@ -140,12 +140,14 @@ for (const [width, height] of [
       const card = page
         .locator(".group-card")
         .filter({ has: page.locator(`a[href$="/status/${slug}"]`) });
-      await card.getByRole("button", { name: "Copy public link" }).click();
+      await card
+        .getByRole("button", { name: "Скопировать публичную ссылку" })
+        .click();
       await expect
         .poll(() => page.evaluate(() => navigator.clipboard.readText()))
         .toBe(`http://127.0.0.1:8081/status/${slug}`);
       await expect(
-        card.getByRole("link", { name: "Open public page" }),
+        card.getByRole("link", { name: "Открыть публичную страницу" }),
       ).toHaveAttribute("href", `http://127.0.0.1:8081/status/${slug}`);
       await page.goto(`http://127.0.0.1:8081/status/${slug}`);
       await expect(page.locator(".uptime-grid")).toBeVisible();

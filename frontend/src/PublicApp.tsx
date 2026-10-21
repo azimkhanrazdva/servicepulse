@@ -1,3 +1,4 @@
+import { statusLabel } from "./ru";
 import { useEffect, useState } from "react";
 import { AnalyticsPanel } from "./AnalyticsPanel";
 import { withDeadline } from "./network";
@@ -16,7 +17,7 @@ type Snapshot = { title: string; state: string; services: Service[] };
 export function PublicApp() {
   const slug = location.pathname.split("/").filter(Boolean)[1] ?? "";
   const [snapshot, setSnapshot] = useState<Snapshot | null>(null);
-  const [connection, setConnection] = useState("Connecting");
+  const [connection, setConnection] = useState("Подключение");
   const [error, setError] = useState("");
   const [retry, setRetry] = useState(0);
   useEffect(() => {
@@ -33,26 +34,26 @@ export function PublicApp() {
           setSnapshot(JSON.parse((event as MessageEvent).data));
           received = true;
           setError("");
-          setConnection("Live");
+          setConnection("На связи");
         } catch {
-          setError("Status update could not be read.");
+          setError("Не удалось прочитать обновление статуса.");
         }
       });
       stream.addEventListener("unavailable", () => {
         if (!active) return;
         received = true;
         setSnapshot(null);
-        setError("This status page is unavailable.");
-        setConnection("Unavailable");
+        setError("Эта страница состояния недоступна.");
+        setConnection("Недоступно");
         stream?.close();
       });
       stream.onerror = () => {
         if (active) {
           received = true;
           setSnapshot(null);
-          setConnection("Reconnecting");
+          setConnection("Переподключение");
           setError(
-            "Public status connection interrupted. Retry to revalidate the page.",
+            "Соединение со страницей состояния прервано. Повторите запрос для проверки доступа.",
           );
         }
       };
@@ -62,8 +63,8 @@ export function PublicApp() {
         if (!response.ok)
           throw new Error(
             response.status === 404
-              ? "This status page is unavailable."
-              : "Could not load public status.",
+              ? "Эта страница состояния недоступна."
+              : "Не удалось загрузить публичный статус.",
           );
         return response.json();
       }),
@@ -81,7 +82,7 @@ export function PublicApp() {
       stream?.close();
       received = true;
       setSnapshot(null);
-      setConnection("Reconnecting");
+      setConnection("Переподключение");
     };
     connect();
     window.addEventListener("offline", offline);
@@ -100,52 +101,54 @@ export function PublicApp() {
           <span className="brand-icon">ϟ</span> ServicePulse
         </span>
         <span
-          className={`connection ${connection === "Live" ? "live" : ""}`}
+          className={`connection ${connection === "На связи" ? "live" : ""}`}
           role="status"
         >
           ● {connection}
         </span>
       </header>
       <div className="public-intro">
-        <div className="eyebrow">SERVICE STATUS / LIVE OBSERVATIONS</div>
+        <div className="eyebrow">СОСТОЯНИЕ СЕРВИСОВ / РЕАЛЬНЫЕ НАБЛЮДЕНИЯ</div>
         <h1>
-          {snapshot?.title ?? "Service status"}
+          {snapshot?.title ?? "Состояние сервисов"}
           <span>.</span>
         </h1>
-        <p>Current service health, shared by its owner.</p>
+        <p>Текущее состояние сервисов, опубликованное владельцем.</p>
       </div>
-      {connection === "Reconnecting" && (
+      {connection === "Переподключение" && (
         <p className="notice">
-          Connection interrupted. Displayed observations may be stale.
+          Соединение прервано. Отображаемые наблюдения могут устареть.
         </p>
       )}
       {error && (
         <div className="error" role="alert">
           {error}
-          <button onClick={() => setRetry((v) => v + 1)}>Retry status</button>
+          <button onClick={() => setRetry((v) => v + 1)}>
+            Повторить загрузку
+          </button>
         </div>
       )}
-      {!snapshot && !error && <p>Loading public status…</p>}
+      {!snapshot && !error && <p>Загрузка публичного статуса…</p>}
       {snapshot && (
         <>
           <div
             className={`public-overall overall-${snapshot.state.toLowerCase()}`}
           >
             <span className={`status ${snapshot.state.toLowerCase()}`}>
-              ● {snapshot.state}
+              ● {statusLabel(snapshot.state)}
             </span>
             <p>
               {snapshot.state === "UP"
-                ? "Published services are operational."
+                ? "Опубликованные сервисы доступны."
                 : snapshot.state === "DOWN"
-                  ? "A published service has a confirmed incident."
-                  : "See individual services for observation coverage."}
+                  ? "У опубликованного сервиса подтверждён инцидент."
+                  : "Покрытие наблюдениями указано для каждого сервиса."}
             </p>
           </div>
           {!snapshot.services.length && (
             <section className="panel public-empty">
-              <h2>No services published</h2>
-              <p>The owner has not selected services for this page.</p>
+              <h2>Сервисы не опубликованы</h2>
+              <p>Владелец ещё не выбрал сервисы для этой страницы.</p>
             </section>
           )}
           <div className="public-services">
@@ -160,23 +163,23 @@ export function PublicApp() {
                     <h2>{s.name}</h2>
                     <p>
                       {s.last_checked_at
-                        ? `Last observed ${new Date(s.last_checked_at).toLocaleString()}`
-                        : "NO DATA · awaiting first observation"}
+                        ? `Последнее наблюдение ${new Date(s.last_checked_at).toLocaleString("ru-RU")}`
+                        : "НЕТ ДАННЫХ · ожидание первого наблюдения"}
                     </p>
                   </div>
                   <span className={`status ${s.state.toLowerCase()}`}>
-                    ● {s.state}
+                    ● {statusLabel(s.state)}
                   </span>
                 </div>
                 {s.freshness === "STALE" && (
                   <p className="service-note">
-                    NO RECENT DATA · last known state shown; observation gap is
-                    not an outage.
+                    НЕТ СВЕЖИХ ДАННЫХ · показан последний известный статус;
+                    пропуск наблюдений не означает падение.
                   </p>
                 )}
                 {s.maintenance && (
                   <p className="service-note maintenance-badge">
-                    Scheduled maintenance · observations continue
+                    Плановое обслуживание · наблюдения продолжаются
                   </p>
                 )}
                 {s.show_history && (
@@ -191,7 +194,7 @@ export function PublicApp() {
         </>
       )}
       <footer className="public-footer">
-        ServicePulse · Observed, never assumed.
+        ServicePulse · Только подтверждённые наблюдения.
       </footer>
     </main>
   );

@@ -55,7 +55,7 @@ it("renders only the public snapshot and clears it on live revocation", async ()
   render(<PublicApp />);
   expect(await screen.findByText("Customer API")).toBeTruthy();
   act(() => Events.current.emit("status", { ...snapshot, services: [] }));
-  expect(await screen.findByText("No services published")).toBeTruthy();
+  expect(await screen.findByText("Сервисы не опубликованы")).toBeTruthy();
   expect(screen.queryByText("Customer API")).toBeNull();
   act(() => Events.current.emit("unavailable", {}));
   expect(await screen.findByRole("alert")).toBeTruthy();
@@ -97,6 +97,6 @@ it("handles missing pages and offers a real retry", async () => {
   vi.stubGlobal("fetch", fetcher);
   render(<PublicApp />);
   expect(await screen.findByRole("alert")).toBeTruthy();
-  fireEvent.click(screen.getByRole("button", { name: "Retry status" }));
+  fireEvent.click(screen.getByRole("button", { name: "Повторить загрузку" }));
   await waitFor(() => expect(fetcher).toHaveBeenCalledTimes(2));
 });

@@ -10,17 +10,33 @@ export async function withDeadline<T>(
   const stop = new Promise<never>((_, reject) => {
     cancelled = () => {
       controller.abort();
-      reject(new DOMException("Request cancelled", "AbortError"));
+      reject(new DOMException("Запрос отменён", "AbortError"));
     };
     timer = setTimeout(() => {
       controller.abort();
-      reject(new Error("Request timed out. Check your connection and retry."));
+      reject(
+        new Error(
+          "Время ожидания истекло. Проверьте соединение и повторите запрос.",
+        ),
+      );
     }, milliseconds);
     if (external?.aborted) cancelled();
     else external?.addEventListener("abort", cancelled, { once: true });
   });
   try {
     return await Promise.race([operation(controller.signal), stop]);
+  } catch (error) {
+    if (error instanceof SyntaxError)
+      throw new Error(
+        "Получен некорректный ответ сервера. Повторите запрос позже.",
+        { cause: error },
+      );
+    if (error instanceof TypeError)
+      throw new Error(
+        "Нет соединения с сервером. Проверьте сеть и повторите запрос.",
+        { cause: error },
+      );
+    throw error;
   } finally {
     clearTimeout(timer!);
     external?.removeEventListener("abort", cancelled);

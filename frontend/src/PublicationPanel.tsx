@@ -87,7 +87,7 @@ export function PublicationPanel({ monitors }: { monitors: Monitor[] }) {
     }
   }
   async function remove(page: Page) {
-    if (!confirm(`Delete public status page “${page.title}”?`)) return;
+    if (!confirm(`Удалить публичную страницу «${page.title}”?`)) return;
     setBusy(true);
     try {
       await request(
@@ -105,14 +105,14 @@ export function PublicationPanel({ monitors }: { monitors: Monitor[] }) {
     <section id="publication" className="panel">
       <div className="section-heading">
         <div>
-          <h2>Public status pages</h2>
-          <p>Private by default · explicitly choose every published service</p>
+          <h2>Публичные страницы</h2>
+          <p>По умолчанию закрыто · явно выберите каждый публикуемый сервис</p>
         </div>
-        <button onClick={() => edit("new")}>+ Create status page</button>
+        <button onClick={() => edit("new")}>+ Создать страницу</button>
       </div>
       {loadError && (
         <p className="error" role="alert">
-          Publication settings: {loadError}
+          Настройки публикации: {loadError}
         </p>
       )}
       {error && (
@@ -122,14 +122,14 @@ export function PublicationPanel({ monitors }: { monitors: Monitor[] }) {
       )}
       {conflict && (
         <p className="service-note">
-          Your publication draft is preserved.{" "}
+          Ваш черновик публикации сохранён.{" "}
           <button
             onClick={() => {
               edit(null);
               setRefresh((v) => v + 1);
             }}
           >
-            Discard publication draft and reload
+            Отменить черновик публикации и загрузить заново
           </button>
         </p>
       )}
@@ -139,10 +139,10 @@ export function PublicationPanel({ monitors }: { monitors: Monitor[] }) {
           key={current?.id ?? "new"}
           onSubmit={save}
         >
-          <h3>{current ? "Edit status page" : "New status page"}</h3>
+          <h3>{current ? "Изменить страницу" : "Новая страница состояния"}</h3>
           <div className="fields">
             <label>
-              Public page title
+              Заголовок публичной страницы
               <input
                 name="title"
                 required
@@ -151,7 +151,7 @@ export function PublicationPanel({ monitors }: { monitors: Monitor[] }) {
               />
             </label>
             <label>
-              Public page slug
+              Адрес страницы (slug)
               <input
                 name="slug"
                 required
@@ -168,14 +168,15 @@ export function PublicationPanel({ monitors }: { monitors: Monitor[] }) {
               name="enabled"
               defaultChecked={current?.enabled ?? false}
             />
-            Page is publicly enabled
+            Разрешить публичный доступ к странице
           </label>
           <p>
-            Only selected monitors are published. Enter a separate public label.
-            URLs, groups, recipients and internal errors are never shared.
+            Публикуются только выбранные мониторы. Укажите отдельное публичное
+            название. URL, группы, получатели и внутренние ошибки не
+            публикуются.
           </p>
           {!monitors.length && (
-            <p>No monitors available. Create a monitor first.</p>
+            <p>Мониторов пока нет. Сначала создайте монитор.</p>
           )}
           {monitors.map((m) => {
             const publication = current?.publications.find(
@@ -196,12 +197,12 @@ export function PublicationPanel({ monitors }: { monitors: Monitor[] }) {
                       )
                     }
                   />
-                  Publish {m.name}
+                  Опубликовать {m.name}
                 </label>
                 {checked && (
                   <div className="fields">
                     <label>
-                      Public label for {m.name}
+                      Публичное название для {m.name}
                       <input
                         name={`label-${m.id}`}
                         required
@@ -215,7 +216,7 @@ export function PublicationPanel({ monitors }: { monitors: Monitor[] }) {
                         name={`history-${m.id}`}
                         defaultChecked={publication?.show_history ?? false}
                       />
-                      Publish aggregated history for {m.name}
+                      Опубликовать агрегированную историю для {m.name}
                     </label>
                   </div>
                 )}
@@ -224,17 +225,17 @@ export function PublicationPanel({ monitors }: { monitors: Monitor[] }) {
           })}
           <div className="actions">
             <button className="primary" disabled={busy || conflict}>
-              Save publication
+              Сохранить публикацию
             </button>
             <button type="button" onClick={() => edit(null)}>
-              Cancel publication
+              Отменить публикацию
             </button>
           </div>
         </form>
       )}
       {!pages.length && !loadError && (
         <p className="service-note">
-          No public status pages. Nothing is published.
+          Публичных страниц нет. Ничего не опубликовано.
         </p>
       )}
       <div className="publication-pages">
@@ -242,15 +243,15 @@ export function PublicationPanel({ monitors }: { monitors: Monitor[] }) {
           <article className="group-card" key={page.id}>
             <h3>{page.title}</h3>
             <p>
-              {page.enabled ? "Enabled" : "Disabled"} ·{" "}
-              {page.publications.length} published services
+              {page.enabled ? "Включена" : "Выключена"} ·{" "}
+              {page.publications.length} опубликованных сервисов
             </p>
             <a
               href={`${location.protocol}//${location.hostname}:8081/status/${page.slug}`}
               target="_blank"
               rel="noreferrer"
             >
-              Open public page ↗
+              Открыть публичную страницу ↗
             </a>
             <div className="row-actions">
               <button
@@ -263,19 +264,21 @@ export function PublicationPanel({ monitors }: { monitors: Monitor[] }) {
                     setCopied(page.id);
                   } catch {
                     setError(
-                      "Could not copy the link. Use Open public page and copy its address.",
+                      "Не удалось скопировать ссылку. Откройте публичную страницу и скопируйте её адрес.",
                     );
                   }
                 }}
               >
-                Copy public link
+                Скопировать публичную ссылку
               </button>
-              {copied === page.id && <span role="status">Link copied.</span>}
+              {copied === page.id && (
+                <span role="status">Ссылка скопирована.</span>
+              )}
               <button disabled={busy} onClick={() => edit(page)}>
-                Edit publication
+                Изменить публикацию
               </button>
               <button disabled={busy} onClick={() => remove(page)}>
-                Delete status page
+                Удалить страницу
               </button>
             </div>
           </article>

@@ -1,3 +1,4 @@
+import { statusLabel } from "./ru";
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { ApiError, request } from "./api";
@@ -53,7 +54,7 @@ export function GroupsPanel({
       );
       onChange(group);
       edit(null);
-      notify(current ? "Group updated." : "Group created.");
+      notify(current ? "Группа обновлена." : "Группа создана.");
     } catch (e) {
       setError((e as Error).message);
       setConflict(e instanceof ApiError && e.status === 409);
@@ -74,7 +75,7 @@ export function GroupsPanel({
   async function remove(group: Group) {
     if (
       !window.confirm(
-        `Delete group “${group.name}”? Monitors and observations will be retained.`,
+        `Удалить группу «${group.name}»? Мониторы и наблюдения сохранятся.`,
       )
     )
       return;
@@ -87,7 +88,7 @@ export function GroupsPanel({
       );
       onChange(group.id);
       if (current?.id === group.id) edit(null);
-      notify("Group deleted. Monitors retained.");
+      notify("Группа удалена. Мониторы сохранены.");
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -95,15 +96,15 @@ export function GroupsPanel({
     }
   }
   return (
-    <section className="panel" id="groups" aria-label="Monitor groups">
+    <section className="panel" id="groups" aria-label="Группы мониторов">
       <div className="section-heading">
         <div>
           <h2>
-            Monitor groups <span>{groups.length}</span>
+            Группы мониторов <span>{groups.length}</span>
           </h2>
-          <p>Group availability and notification recipients</p>
+          <p>Доступность групп и получатели уведомлений</p>
         </div>
-        <button onClick={() => edit("new")}>+ Add group</button>
+        <button onClick={() => edit("new")}>+ Добавить группу</button>
       </div>
       {error && (
         <p className="error" role="alert">
@@ -112,10 +113,10 @@ export function GroupsPanel({
       )}
       {editor && (
         <div className="form-panel">
-          <h3>{current ? "Edit group" : "New group"}</h3>
+          <h3>{current ? "Изменить группу" : "Новая группа"}</h3>
           {conflict && (
             <button disabled={busy} onClick={reload}>
-              Discard group draft and reload
+              Отменить черновик группы и загрузить заново
             </button>
           )}
           <form
@@ -124,7 +125,7 @@ export function GroupsPanel({
           >
             <div className="fields">
               <label>
-                Group name
+                Название группы
                 <input
                   name="name"
                   required
@@ -133,7 +134,7 @@ export function GroupsPanel({
                 />
               </label>
               <label className="wide">
-                Recipients (one per line)
+                Получатели (по одному в строке)
                 <textarea
                   name="recipients"
                   rows={3}
@@ -142,9 +143,9 @@ export function GroupsPanel({
               </label>
             </div>
             <fieldset>
-              <legend>Group members</legend>
+              <legend>Мониторы группы</legend>
               {!monitors.length && (
-                <p>Add a monitor first, or save an empty group.</p>
+                <p>Сначала добавьте монитор или сохраните пустую группу.</p>
               )}
               {monitors.map((m) => (
                 <label className="check-label" key={m.id}>
@@ -157,16 +158,16 @@ export function GroupsPanel({
                     }
                   />
                   <span>
-                    {m.name} <small>· {m.state}</small>
+                    {m.name} <small>· {statusLabel(m.state)}</small>
                   </span>
                 </label>
               ))}
             </fieldset>
             <div className="form-actions">
               <small>
-                Local SMTP catcher: Mailpit. Maintenance suppresses applicable
-                routes. New recipients apply to future incidents; removal
-                revokes pending mail.
+                Локальная почта поступает в Mailpit. Обслуживание подавляет
+                соответствующие маршруты. Новые получатели действуют для будущих
+                инцидентов; удаление отменяет ожидающие письма.
               </small>
               <div className="actions">
                 <button
@@ -174,10 +175,14 @@ export function GroupsPanel({
                   onClick={() => edit(null)}
                   disabled={busy}
                 >
-                  Cancel group
+                  Отменить группу
                 </button>
                 <button className="primary" disabled={busy}>
-                  {busy ? "Saving…" : current ? "Save group" : "Create group"}
+                  {busy
+                    ? "Сохранение…"
+                    : current
+                      ? "Сохранить группу"
+                      : "Создать группу"}
                 </button>
               </div>
             </div>
@@ -187,8 +192,8 @@ export function GroupsPanel({
       <div className="group-grid">
         {!groups.length && (
           <p className="group-empty">
-            No groups yet. Organize monitors without changing their check
-            settings.
+            Групп пока нет. Объединяйте мониторы без изменения параметров
+            проверок.
           </p>
         )}
         {groups.map((g) => (
@@ -196,30 +201,30 @@ export function GroupsPanel({
             <div>
               <h3>{g.name}</h3>
               {maintenanceGroupIds.includes(g.id) && (
-                <small className="maintenance-badge">MAINTENANCE</small>
+                <small className="maintenance-badge">ОБСЛУЖИВАНИЕ</small>
               )}
               <span className={`badge ${g.state.toLowerCase()}`}>
-                ● {g.state}
+                ● {statusLabel(g.state)}
               </span>
             </div>
             <p>
-              {g.monitor_ids.length} monitors · {g.recipients.length} email
-              recipients
+              {g.monitor_ids.length} мониторов · {g.recipients.length}{" "}
+              получателей почты
             </p>
             <p className="subtle">
-              {g.recipients.join(", ") || "No email recipients configured."}
+              {g.recipients.join(", ") || "Получатели почты не настроены."}
             </p>
             <div className="actions">
-              <button onClick={() => onFilter(g.id)}>View monitors</button>
+              <button onClick={() => onFilter(g.id)}>Показать мониторы</button>
               <button onClick={() => edit(g)} disabled={busy}>
-                Edit group
+                Изменить группу
               </button>
               <button
                 className="danger"
                 onClick={() => remove(g)}
                 disabled={busy}
               >
-                Delete group
+                Удалить группу
               </button>
             </div>
           </article>

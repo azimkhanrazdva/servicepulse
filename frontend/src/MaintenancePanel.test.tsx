@@ -70,24 +70,26 @@ it("creates a group window with explicit UTC dates", async () => {
       onSnapshot={vi.fn()}
     />,
   );
-  await screen.findByText("No maintenance windows match this view.");
-  fireEvent.click(screen.getByRole("button", { name: "+ Add maintenance" }));
-  fireEvent.change(screen.getByLabelText("Maintenance name"), {
+  await screen.findByText("Нет окон обслуживания с выбранными параметрами.");
+  fireEvent.click(
+    screen.getByRole("button", { name: "+ Добавить обслуживание" }),
+  );
+  fireEvent.change(screen.getByLabelText("Название обслуживания"), {
     target: { value: "Deploy" },
   });
-  fireEvent.change(screen.getByLabelText("Maintenance target type"), {
+  fireEvent.change(screen.getByLabelText("Тип объекта обслуживания"), {
     target: { value: "group" },
   });
-  fireEvent.change(screen.getByLabelText("Maintenance target"), {
+  fireEvent.change(screen.getByLabelText("Объект обслуживания"), {
     target: { value: "g" },
   });
-  fireEvent.change(screen.getByLabelText("Starts at"), {
+  fireEvent.change(screen.getByLabelText("Начало"), {
     target: { value: "2026-10-20T12:00:00" },
   });
-  fireEvent.change(screen.getByLabelText("Ends at"), {
+  fireEvent.change(screen.getByLabelText("Окончание"), {
     target: { value: "2026-10-20T12:30:00" },
   });
-  fireEvent.click(screen.getByRole("button", { name: "Create maintenance" }));
+  fireEvent.click(screen.getByRole("button", { name: "Создать обслуживание" }));
   await waitFor(() =>
     expect(fetcher.mock.calls.some((c) => c[1]?.method === "POST")).toBe(true),
   );
@@ -116,23 +118,27 @@ it("validates end before start without calling API", async () => {
       onSnapshot={vi.fn()}
     />,
   );
-  await screen.findByText("No maintenance windows match this view.");
-  fireEvent.click(screen.getByRole("button", { name: "+ Add maintenance" }));
-  fireEvent.change(screen.getByLabelText("Maintenance name"), {
+  await screen.findByText("Нет окон обслуживания с выбранными параметрами.");
+  fireEvent.click(
+    screen.getByRole("button", { name: "+ Добавить обслуживание" }),
+  );
+  fireEvent.change(screen.getByLabelText("Название обслуживания"), {
     target: { value: "Bad" },
   });
-  fireEvent.change(screen.getByLabelText("Starts at"), {
+  fireEvent.change(screen.getByLabelText("Начало"), {
     target: { value: "2026-10-20T12:00:00" },
   });
-  fireEvent.change(screen.getByLabelText("Ends at"), {
+  fireEvent.change(screen.getByLabelText("Окончание"), {
     target: { value: "2026-10-20T11:30:00" },
   });
   fireEvent.submit(
-    screen.getByRole("button", { name: "Create maintenance" }).closest("form")!,
+    screen
+      .getByRole("button", { name: "Создать обслуживание" })
+      .closest("form")!,
   );
   expect(await screen.findByRole("alert")).toHaveProperty(
     "textContent",
-    "End must be later than start.",
+    "Окончание должно быть позже начала.",
   );
   expect(fetcher).toHaveBeenCalledTimes(1);
 });
@@ -171,20 +177,24 @@ it("preserves an edit draft on a version conflict", async () => {
     />,
   );
   await screen.findByText("Old window");
-  fireEvent.click(screen.getByRole("button", { name: "Edit maintenance" }));
-  fireEvent.change(screen.getByLabelText("Maintenance name"), {
+  fireEvent.click(
+    screen.getByRole("button", { name: "Изменить обслуживание" }),
+  );
+  fireEvent.change(screen.getByLabelText("Название обслуживания"), {
     target: { value: "My draft" },
   });
-  fireEvent.click(screen.getByRole("button", { name: "Save maintenance" }));
-  await screen.findByText(/Your draft is preserved/);
-  expect(screen.getByLabelText("Maintenance name")).toHaveProperty(
+  fireEvent.click(
+    screen.getByRole("button", { name: "Сохранить обслуживание" }),
+  );
+  await screen.findByText(/Ваш черновик сохранён/);
+  expect(screen.getByLabelText("Название обслуживания")).toHaveProperty(
     "value",
     "My draft",
   );
   fireEvent.click(
     screen.getByRole("button", {
-      name: "Discard maintenance draft and reload",
+      name: "Отменить черновик обслуживания и загрузить заново",
     }),
   );
-  expect(screen.queryByLabelText("Maintenance name")).toBeNull();
+  expect(screen.queryByLabelText("Название обслуживания")).toBeNull();
 });

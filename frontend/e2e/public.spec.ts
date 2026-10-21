@@ -70,18 +70,20 @@ test("explicit publication, private REST/SSE isolation, real analytics and two p
       .poll(async () => (await (await request.get(root)).json()).state)
       .toBe("UP");
     await admin.goto("/");
-    await admin.getByRole("button", { name: "+ Create status page" }).click();
-    await admin.getByLabel("Public page title").fill("Customer service health");
-    await admin.getByLabel("Public page slug").fill(slug);
-    await admin.getByLabel("Page is publicly enabled").check();
+    await admin.getByRole("button", { name: "+ Создать страницу" }).click();
     await admin
-      .getByLabel(`Publish PRIVATE-${marker}`, { exact: true })
+      .getByLabel("Заголовок публичной страницы")
+      .fill("Customer service health");
+    await admin.getByLabel("Адрес страницы (slug)").fill(slug);
+    await admin.getByLabel("Разрешить публичный доступ к странице").check();
+    await admin
+      .getByLabel(`Опубликовать PRIVATE-${marker}`, { exact: true })
       .check();
     await admin
-      .getByLabel(`Public label for PRIVATE-${marker}`, { exact: true })
+      .getByLabel(`Публичное название для PRIVATE-${marker}`, { exact: true })
       .fill("Customer API");
     await admin
-      .getByLabel(`Publish aggregated history for PRIVATE-${marker}`, {
+      .getByLabel(`Опубликовать агрегированную историю для PRIVATE-${marker}`, {
         exact: true,
       })
       .check();
@@ -90,7 +92,7 @@ test("explicit publication, private REST/SSE isolation, real analytics and two p
         r.url().endsWith("/api/status-pages") &&
         r.request().method() === "POST",
     );
-    await admin.getByRole("button", { name: "Save publication" }).click();
+    await admin.getByRole("button", { name: "Сохранить публикацию" }).click();
     const saved = await save;
     expect(saved.status()).toBe(201);
     let config = await saved.json();
@@ -159,10 +161,12 @@ test("explicit publication, private REST/SSE isolation, real analytics and two p
     );
     expect(JSON.parse(observedSSE)).toEqual(safe);
     for (const p of [a, b]) {
-      await expect(p.getByTestId(`public-${publicId}`)).toContainText("● UP");
+      await expect(p.getByTestId(`public-${publicId}`)).toContainText(
+        "● Доступен (UP)",
+      );
       await expect(
         p.getByRole("img", {
-          name: "Response time chart with observation gaps",
+          name: "График времени ответа с пропусками наблюдений",
         }),
       ).toBeVisible();
       await expect(p.getByText("100.00%", { exact: true })).toHaveCount(3);
@@ -172,7 +176,7 @@ test("explicit publication, private REST/SSE isolation, real analytics and two p
         () => document.documentElement.scrollWidth <= innerWidth,
       ),
     ).toBe(true);
-    await a.getByLabel("History period").selectOption("30d");
+    await a.getByLabel("Период истории").selectOption("30d");
     expect(await a.locator("svg [data-gap]").count()).toBeGreaterThan(300);
     const month = await (
       await request.get(`${base}/services/${publicId}/analytics?period=30d`)
@@ -203,27 +207,33 @@ test("explicit publication, private REST/SSE isolation, real analytics and two p
         .locator("#monitors")
         .getByRole("row")
         .filter({ hasText: `PRIVATE-${marker}` }),
-    ).toContainText(/0h 0m \d+s/);
+    ).toContainText(/0ч 0мин \d+с/);
     await expect
       .poll(async () =>
         Number(
           await admin
             .locator(".stats article")
-            .filter({ hasText: "Active incidents" })
+            .filter({ hasText: "Активные инциденты" })
             .locator("strong")
             .textContent(),
         ),
       )
       .toBeGreaterThan(0);
     for (const p of [a, b])
-      await expect(p.getByTestId(`public-${publicId}`)).toContainText("● DOWN");
+      await expect(p.getByTestId(`public-${publicId}`)).toContainText(
+        "● Недоступен (DOWN)",
+      );
     await contexts[1].setOffline(true);
-    await expect(b.getByRole("status")).toContainText("Reconnecting");
+    await expect(b.getByRole("status")).toContainText("Переподключение");
     control(marker, 200);
     await run();
-    await expect(a.getByTestId(`public-${publicId}`)).toContainText("● UP");
+    await expect(a.getByTestId(`public-${publicId}`)).toContainText(
+      "● Доступен (UP)",
+    );
     await contexts[1].setOffline(false);
-    await expect(b.getByTestId(`public-${publicId}`)).toContainText("● UP");
+    await expect(b.getByTestId(`public-${publicId}`)).toContainText(
+      "● Доступен (UP)",
+    );
     async function update(changes: object) {
       const result = await request.put(`/api/status-pages/${pid}`, {
         data: {
@@ -259,10 +269,10 @@ test("explicit publication, private REST/SSE isolation, real analytics and two p
     ).toBe(404);
     await update({ publications: [] });
     for (const p of [a, b])
-      await expect(p.getByText("No services published")).toBeVisible();
+      await expect(p.getByText("Сервисы не опубликованы")).toBeVisible();
     await update({ enabled: false });
     for (const p of [a, b]) {
-      await expect(p.getByRole("alert")).toContainText("unavailable");
+      await expect(p.getByRole("alert")).toContainText("недоступна");
       await expect(p.getByText("Customer API", { exact: true })).toHaveCount(0);
     }
     expect((await (await request.get(root)).json()).config_version).toBe(1);
@@ -357,12 +367,12 @@ test("a published paused service with no observations renders NO DATA, not healt
     pid = (await created.json()).id;
     await page.goto(`http://127.0.0.1:8081/status/${name}`);
     await expect(page.locator(".uptime-grid strong")).toHaveText([
-      "NO DATA",
-      "NO DATA",
-      "NO DATA",
+      "НЕТ ДАННЫХ",
+      "НЕТ ДАННЫХ",
+      "НЕТ ДАННЫХ",
     ]);
     await expect(page.getByText("100.00%", { exact: true })).toHaveCount(0);
-    await page.getByLabel("History period").selectOption("30d");
+    await page.getByLabel("Период истории").selectOption("30d");
     await expect(page.locator("svg [data-gap]")).toHaveCount(360);
     expect(
       (await (await request.get(`/api/monitors/${mid}`)).json()).state,

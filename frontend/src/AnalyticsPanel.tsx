@@ -1,3 +1,4 @@
+import { periodLabel } from "./ru";
 import { useEffect, useState } from "react";
 import { withDeadline } from "./network";
 
@@ -35,11 +36,11 @@ export function ResponseChart({ data }: { data: Analytics }) {
         className="response-chart"
         viewBox={`0 0 ${width} ${height + 24}`}
         role="img"
-        aria-label="Response time chart with observation gaps"
+        aria-label="График времени ответа с пропусками наблюдений"
       >
         <title>
-          Mean response time per bucket; empty buckets are gaps, not zero
-          latency.
+          Среднее время ответа за интервал; пустые интервалы означают отсутствие
+          наблюдений, а не нулевую задержку.
         </title>
         <line x1="0" x2={width} y1={height} y2={height} stroke="#a3a3a3" />
         {data.buckets.map((bucket, i) =>
@@ -53,7 +54,9 @@ export function ResponseChart({ data }: { data: Analytics }) {
               height="8"
               fill="#bdbdbd"
             >
-              <title>{new Date(bucket.at).toLocaleString()}: NO DATA</title>
+              <title>
+                {new Date(bucket.at).toLocaleString("ru-RU")}: НЕТ ДАННЫХ
+              </title>
             </rect>
           ) : (
             <rect
@@ -65,49 +68,49 @@ export function ResponseChart({ data }: { data: Analytics }) {
               fill="#171717"
             >
               <title>
-                {new Date(bucket.at).toLocaleString()}:{" "}
-                {bucket.mean_ms.toFixed(1)} ms · {bucket.samples} observations ·{" "}
-                {bucket.coverage_percent.toFixed(1)}% coverage
+                {new Date(bucket.at).toLocaleString("ru-RU")}:{" "}
+                {bucket.mean_ms.toFixed(1)} мс · {bucket.samples} наблюдений ·{" "}
+                {bucket.coverage_percent.toFixed(1)}% покрытия
               </title>
             </rect>
           ),
         )}
       </svg>
       <div className="chart-axis">
-        <span>{new Date(data.start_at).toLocaleString()}</span>
-        <span>0–{Math.round(max)} ms · bucket means</span>
-        <span>{new Date(data.end_at).toLocaleString()}</span>
+        <span>{new Date(data.start_at).toLocaleString("ru-RU")}</span>
+        <span>0–{Math.round(max)} мс · средние по интервалам</span>
+        <span>{new Date(data.end_at).toLocaleString("ru-RU")}</span>
       </div>
       <p className="subtle">
-        Bars are observed bucket means. Gray marks are NO DATA; bars never
-        bridge missing observations.
+        Столбцы показывают средние значения наблюдений. Серые отметки означают
+        отсутствие данных; пропуски не соединяются.
       </p>
       <details className="bucket-data">
-        <summary>Inspect aggregated observations</summary>
+        <summary>Просмотреть агрегированные наблюдения</summary>
         <div
           className="table-scroll"
           tabIndex={0}
           role="region"
-          aria-label="Scrollable table"
+          aria-label="Таблица с прокруткой"
         >
           <table>
             <thead>
               <tr>
-                <th>Bucket start</th>
-                <th>Checks</th>
-                <th>Mean latency</th>
-                <th>Coverage</th>
+                <th>Начало интервала</th>
+                <th>Проверки</th>
+                <th>Среднее время ответа</th>
+                <th>Покрытие</th>
               </tr>
             </thead>
             <tbody>
               {data.buckets.map((b) => (
                 <tr key={b.at}>
-                  <td>{new Date(b.at).toLocaleString()}</td>
+                  <td>{new Date(b.at).toLocaleString("ru-RU")}</td>
                   <td>{b.samples}</td>
                   <td>
                     {b.mean_ms === null
-                      ? "NO DATA"
-                      : `${b.mean_ms.toFixed(1)} ms`}
+                      ? "НЕТ ДАННЫХ"
+                      : `${b.mean_ms.toFixed(1)} мс`}
                   </td>
                   <td>{b.coverage_percent.toFixed(1)}%</td>
                 </tr>
@@ -155,7 +158,7 @@ export function AnalyticsPanel({
           });
           if (!response.ok)
             throw new Error(
-              "History is unavailable. Permission or connection may have changed.",
+              "История недоступна. Возможно, изменились разрешения или соединение.",
             );
           return [value, await response.json()] as const;
         }, controller.signal),
@@ -170,18 +173,18 @@ export function AnalyticsPanel({
     return () => controller.abort();
   }, [base, revision, refresh]);
   return (
-    <div className="analytics" aria-label="Availability analytics">
+    <div className="analytics" aria-label="Аналитика доступности">
       <div className="section-heading">
         <div>
-          <h3>Observed availability</h3>
-          <p>Sample-based uptime · coverage reported separately</p>
+          <h3>Наблюдаемая доступность</h3>
+          <p>Доступность по проверкам · покрытие времени показано отдельно</p>
         </div>
         <label>
-          History period{" "}
+          Период истории{" "}
           <select value={period} onChange={(e) => setPeriod(e.target.value)}>
-            <option value="24h">24 hours</option>
-            <option value="7d">7 days</option>
-            <option value="30d">30 days</option>
+            <option value="24h">24 часа</option>
+            <option value="7d">7 дней</option>
+            <option value="30d">30 дней</option>
           </select>
         </label>
       </div>
@@ -190,7 +193,7 @@ export function AnalyticsPanel({
           {error}
         </p>
       ) : !windows ? (
-        <p>Loading observed history…</p>
+        <p>Загрузка истории наблюдений…</p>
       ) : (
         <>
           <div className="uptime-grid">
@@ -201,35 +204,36 @@ export function AnalyticsPanel({
                   windows[p].coverage_percent < 90 ? "low-coverage" : ""
                 }
               >
-                <span>{p} availability</span>
+                <span>{periodLabel(p)} · доступность</span>
                 <strong>
                   {windows[p].uptime_percent === null
-                    ? "NO DATA"
+                    ? "НЕТ ДАННЫХ"
                     : `${windows[p].uptime_percent.toFixed(2)}%`}
                 </strong>
                 <div className="coverage-value">
-                  <span>Observed coverage</span>
+                  <span>Покрытие наблюдениями</span>
                   <b>{windows[p].coverage_percent.toFixed(2)}%</b>
                 </div>
                 <small>
-                  {windows[p].samples} checks ·{" "}
-                  {windows[p].coverage_percent.toFixed(2)}% observed coverage
+                  {windows[p].samples} проверок ·{" "}
+                  {windows[p].coverage_percent.toFixed(2)}% покрытия
+                  наблюдениями
                 </small>
               </article>
             ))}
           </div>
           {windows[period].coverage_percent < 90 && (
             <p className="coverage-warning">
-              Limited coverage: uptime describes observed checks only, not
-              continuous availability.
+              Низкое покрытие: доступность рассчитана только по выполненным
+              проверкам и не подтверждает непрерывную работу.
             </p>
           )}
           <ResponseChart data={windows[period]} />
           <p className="subtle">
-            Uptime = successful / observed checks, including maintenance and
-            configuration changes. Missing time is not DOWN. Coverage uses
-            captured check intervals; legacy observations have no inferred
-            coverage.
+            Доступность = успешные / выполненные проверки, включая обслуживание
+            и изменения настроек. Пропуски не считаются падением. Покрытие
+            учитывает сохранённые интервалы проверок; для старых наблюдений
+            неизвестное покрытие не восстанавливается.
           </p>
         </>
       )}

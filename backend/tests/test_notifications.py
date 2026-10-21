@@ -489,7 +489,8 @@ async def test_actual_smtp_acceptance_and_real_mailpit_api(monkeypatch):
             assert len(matches) == 1 and "DOWN" in matches[0]["Subject"]
             message = (await mail.get("/api/v1/message/" + matches[0]["ID"])).json()
             assert str((await records())[0].id) in message["MessageID"]
-            assert "Incident:" in message["Text"]
+            assert "Инцидент:" in message["Text"]
+            assert "Сервис:" in message["Text"]
     await engine.dispose()
 
 

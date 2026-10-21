@@ -1,3 +1,4 @@
+import { statusLabel } from "./ru";
 import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import { ApiError, request } from "./api";
@@ -93,7 +94,7 @@ export function MaintenancePanel({
     const start = new Date(String(data.get("start")));
     const end = new Date(String(data.get("end")));
     if (!(end > start)) {
-      setError("End must be later than start.");
+      setError("Окончание должно быть позже начала.");
       setBusy(false);
       return;
     }
@@ -120,7 +121,7 @@ export function MaintenancePanel({
     }
   }
   async function remove(window: Window) {
-    if (!confirm(`Delete maintenance “${window.name}”?`)) return;
+    if (!confirm(`Удалить окно обслуживания «${window.name}”?`)) return;
     setBusy(true);
     setError("");
     try {
@@ -136,21 +137,20 @@ export function MaintenancePanel({
     }
   }
   return (
-    <section
-      className="panel"
-      id="maintenance"
-      aria-label="Maintenance windows"
-    >
+    <section className="panel" id="maintenance" aria-label="Окна обслуживания">
       <div className="section-heading">
         <div>
-          <h2>Maintenance windows</h2>
-          <p>Checks continue · only applicable email routes are suppressed</p>
+          <h2>Окна обслуживания</h2>
+          <p>
+            Проверки продолжаются · подавляются только соответствующие почтовые
+            маршруты
+          </p>
         </div>
-        <button onClick={() => edit("new")}>+ Add maintenance</button>
+        <button onClick={() => edit("new")}>+ Добавить обслуживание</button>
       </div>
       {loadError && (
         <p className="error" role="alert">
-          Maintenance refresh failed: {loadError}
+          Не удалось обновить обслуживание: {loadError}
         </p>
       )}
       {error && (
@@ -160,23 +160,23 @@ export function MaintenancePanel({
       )}
       {conflict && (
         <p>
-          Your draft is preserved.{" "}
+          Ваш черновик сохранён.{" "}
           <button
             onClick={() => {
               edit(null);
               setRefresh((v) => v + 1);
             }}
           >
-            Discard maintenance draft and reload
+            Отменить черновик обслуживания и загрузить заново
           </button>
         </p>
       )}
       {editor && (
         <form className="form-panel" onSubmit={save} key={current?.id ?? "new"}>
-          <h3>{current ? "Edit maintenance" : "New maintenance"}</h3>
+          <h3>{current ? "Изменить обслуживание" : "Новое обслуживание"}</h3>
           <div className="fields">
             <label>
-              Maintenance name
+              Название обслуживания
               <input
                 name="name"
                 required
@@ -185,18 +185,18 @@ export function MaintenancePanel({
               />
             </label>
             <label>
-              Target type
+              Тип объекта
               <select
-                aria-label="Maintenance target type"
+                aria-label="Тип объекта обслуживания"
                 value={targetType}
                 onChange={(e) => setTargetType(e.target.value)}
               >
-                <option value="monitor">Monitor</option>
-                <option value="group">Group</option>
+                <option value="monitor">Монитор</option>
+                <option value="group">Группа</option>
               </select>
             </label>
             <label>
-              Maintenance target
+              Объект обслуживания
               <select
                 name="target"
                 required
@@ -204,7 +204,7 @@ export function MaintenancePanel({
                 defaultValue={current?.monitor_id ?? current?.group_id ?? ""}
               >
                 <option value="" disabled>
-                  Choose a target
+                  Выберите объект
                 </option>
                 {(targetType === "monitor" ? monitors : groups).map(
                   (target) => (
@@ -216,7 +216,7 @@ export function MaintenancePanel({
               </select>
             </label>
             <label>
-              Starts at
+              Начало
               <input
                 name="start"
                 type="datetime-local"
@@ -228,7 +228,7 @@ export function MaintenancePanel({
               />
             </label>
             <label>
-              Ends at
+              Окончание
               <input
                 name="end"
                 type="datetime-local"
@@ -242,24 +242,25 @@ export function MaintenancePanel({
             </label>
           </div>
           <p className="subtle">
-            Input timezone: {Intl.DateTimeFormat().resolvedOptions().timeZone}.
-            Stored in UTC. Start included; end excluded.
+            Часовой пояс ввода:{" "}
+            {Intl.DateTimeFormat().resolvedOptions().timeZone}. Хранение в UTC.
+            Начало включено, окончание исключено.
           </p>
           <div className="actions">
             <button type="button" onClick={() => edit(null)}>
-              Cancel maintenance
+              Отменить обслуживание
             </button>
             <button className="primary" disabled={busy || conflict}>
-              {current ? "Save maintenance" : "Create maintenance"}
+              {current ? "Сохранить обслуживание" : "Создать обслуживание"}
             </button>
           </div>
         </form>
       )}
       <div className="maintenance-toolbar">
         <label>
-          Window state
+          Состояние окна
           <select
-            aria-label="Window state"
+            aria-label="Состояние окна"
             value={state}
             onChange={(e) => {
               setState(e.target.value);
@@ -267,34 +268,34 @@ export function MaintenancePanel({
               setLoading(true);
             }}
           >
-            <option value="">All windows</option>
-            <option>ACTIVE</option>
-            <option>UPCOMING</option>
-            <option>ENDED</option>
+            <option value="">Все окна</option>
+            <option value="ACTIVE">Действует (ACTIVE)</option>
+            <option value="UPCOMING">Запланировано (UPCOMING)</option>
+            <option value="ENDED">Завершено (ENDED)</option>
           </select>
         </label>
       </div>
       {loading ? (
-        <p className="maintenance-message">Loading maintenance…</p>
+        <p className="maintenance-message">Загрузка обслуживания…</p>
       ) : !page.items?.length ? (
         <p className="maintenance-message">
-          No maintenance windows match this view.
+          Нет окон обслуживания с выбранными параметрами.
         </p>
       ) : (
         <div
           className="table-scroll"
           tabIndex={0}
           role="region"
-          aria-label="Scrollable table"
+          aria-label="Таблица с прокруткой"
         >
           <table>
             <thead>
               <tr>
-                <th>Name / target</th>
-                <th>State</th>
-                <th>Starts</th>
-                <th>Ends</th>
-                <th>Actions</th>
+                <th>Название / объект</th>
+                <th>Состояние</th>
+                <th>Начало</th>
+                <th>Окончание</th>
+                <th>Действия</th>
               </tr>
             </thead>
             <tbody>
@@ -304,26 +305,26 @@ export function MaintenancePanel({
                     {w.name}
                     <div className="url">
                       {w.monitor_id
-                        ? "Monitor: " +
+                        ? "Монитор: " +
                           (monitors.find((m) => m.id === w.monitor_id)?.name ??
                             w.monitor_id)
-                        : "Group: " +
+                        : "Группа: " +
                           (groups.find((g) => g.id === w.group_id)?.name ??
                             w.group_id)}
                     </div>
                   </td>
                   <td>
-                    <span className="badge">{w.state}</span>
+                    <span className="badge">{statusLabel(w.state)}</span>
                   </td>
-                  <td>{new Date(w.start_at).toLocaleString()}</td>
-                  <td>{new Date(w.end_at).toLocaleString()}</td>
+                  <td>{new Date(w.start_at).toLocaleString("ru-RU")}</td>
+                  <td>{new Date(w.end_at).toLocaleString("ru-RU")}</td>
                   <td>
                     <div className="row-actions">
                       <button disabled={busy} onClick={() => edit(w)}>
-                        Edit maintenance
+                        Изменить обслуживание
                       </button>
                       <button disabled={busy} onClick={() => remove(w)}>
-                        Delete maintenance
+                        Удалить обслуживание
                       </button>
                     </div>
                   </td>
@@ -338,19 +339,20 @@ export function MaintenancePanel({
           disabled={!offset || loading}
           onClick={() => setOffset(offset - 20)}
         >
-          Previous windows
+          Предыдущие окна
         </button>
-        <span>Page {offset / 20 + 1}</span>
+        <span>Страница {offset / 20 + 1}</span>
         <button
           disabled={!page.has_more || loading}
           onClick={() => setOffset(offset + 20)}
         >
-          Next windows
+          Следующие окна
         </button>
       </div>
       <p className="maintenance-message subtle">
-        Monitor windows affect every route. Group windows affect that group
-        only. Shared addresses receive one email through any eligible route.
+        Окно монитора действует на все маршруты. Окно группы действует только на
+        эту группу. Общий адрес получает одно письмо по любому разрешённому
+        маршруту.
       </p>
     </section>
   );

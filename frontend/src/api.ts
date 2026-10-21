@@ -1,4 +1,5 @@
 import { withDeadline } from "./network";
+import { requestError, validationError } from "./ru";
 
 export type MonitorConfig = {
   name: string;
@@ -43,17 +44,11 @@ export async function request<T>(
   return withDeadline(async (signal) => {
     const response = await fetch(`/api${path}`, { ...options, signal });
     if (!response.ok) {
-      let message = `Request failed (${response.status})`;
+      let message = requestError(response.status);
       try {
         const data = await response.json();
-        if (typeof data.detail === "string") message = data.detail;
-        else if (Array.isArray(data.detail))
-          message = data.detail
-            .map(
-              (issue: { loc: string[]; msg: string }) =>
-                `${issue.loc.slice(1).join(".")}: ${issue.msg}`,
-            )
-            .join("; ");
+        if (Array.isArray(data.detail))
+          message = data.detail.map(validationError).join("; ");
       } catch {
         /* response may not contain JSON */
       }

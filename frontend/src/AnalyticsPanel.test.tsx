@@ -60,7 +60,7 @@ it("pairs sample uptime with prominent low coverage and a continuity warning", a
       (el) => el.textContent === "1.00%",
     ),
   ).toBe(true);
-  expect(screen.getByText(/not continuous availability/)).toBeTruthy();
+  expect(screen.getByText(/не подтверждает непрерывную работу/)).toBeTruthy();
 });
 const empty: Analytics = {
   period: "24h",
@@ -102,15 +102,15 @@ it("shows all three NO DATA summaries without inventing healthy uptime or zero l
     [...view.container.querySelectorAll(".uptime-grid strong")].map(
       (node) => node.textContent,
     ),
-  ).toEqual(["NO DATA", "NO DATA", "NO DATA"]);
+  ).toEqual(["НЕТ ДАННЫХ", "НЕТ ДАННЫХ", "НЕТ ДАННЫХ"]);
   expect(fetcher).toHaveBeenCalledTimes(3);
   expect(screen.queryByText("100.00%")).toBeNull();
   expect(view.container.querySelectorAll("[data-gap]")).toHaveLength(1);
-  fireEvent.change(screen.getByLabelText("History period"), {
+  fireEvent.change(screen.getByLabelText("Период истории"), {
     target: { value: "30d" },
   });
   expect(
-    (screen.getByLabelText("History period") as HTMLSelectElement).value,
+    (screen.getByLabelText("Период истории") as HTMLSelectElement).value,
   ).toBe("30d");
 });
 it("renders a missing bucket as a gap and real zero latency as an observation", () => {
@@ -130,7 +130,7 @@ it("renders a missing bucket as a gap and real zero latency as an observation", 
   );
   expect(view.container.querySelectorAll("[data-gap]")).toHaveLength(1);
   expect(view.container.querySelectorAll("rect")).toHaveLength(2);
-  expect(screen.getByRole("img").textContent).toContain("0.0 ms");
+  expect(screen.getByRole("img").textContent).toContain("0.0 мс");
 });
 it("removes old aggregates on permission failure", async () => {
   const fetcher = vi.fn().mockResolvedValue({

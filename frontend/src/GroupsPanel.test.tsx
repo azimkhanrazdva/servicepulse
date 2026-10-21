@@ -31,21 +31,21 @@ it("creates a group and saves recipients, without implying email delivery", asyn
       notify={notify}
     />,
   );
-  fireEvent.click(screen.getByRole("button", { name: "+ Add group" }));
-  fireEvent.change(screen.getByLabelText("Group name"), {
+  fireEvent.click(screen.getByRole("button", { name: "+ Добавить группу" }));
+  fireEvent.change(screen.getByLabelText("Название группы"), {
     target: { value: "Ops" },
   });
-  fireEvent.change(screen.getByLabelText("Recipients (one per line)"), {
+  fireEvent.change(screen.getByLabelText("Получатели (по одному в строке)"), {
     target: { value: "ops@example.com\nteam@example.com" },
   });
   expect(
     screen.getByText(
-      /Local SMTP catcher: Mailpit\. Maintenance suppresses applicable routes\./,
+      /Локальная почта поступает в Mailpit\. Обслуживание подавляет соответствующие маршруты\./,
     ),
   ).toBeTruthy();
-  fireEvent.click(screen.getByRole("button", { name: "Create group" }));
+  fireEvent.click(screen.getByRole("button", { name: "Создать группу" }));
   await screen.findByText(
-    "No groups yet. Organize monitors without changing their check settings.",
+    "Групп пока нет. Объединяйте мониторы без изменения параметров проверок.",
   );
   expect(JSON.parse(fetcher.mock.calls[0][1].body)).toEqual({
     name: "Ops",
@@ -77,7 +77,7 @@ it("requires confirmation before deleting a group", () => {
       notify={() => {}}
     />,
   );
-  fireEvent.click(screen.getByRole("button", { name: "Delete group" }));
+  fireEvent.click(screen.getByRole("button", { name: "Удалить группу" }));
   expect(window.confirm).toHaveBeenCalled();
   expect(fetcher).not.toHaveBeenCalled();
 });

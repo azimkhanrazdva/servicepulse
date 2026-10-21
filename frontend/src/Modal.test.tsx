@@ -13,7 +13,9 @@ it("blocks Escape and close while a save is pending, then permits dismissal", ()
     screen.getByRole("dialog"),
     new Event("cancel", { bubbles: true, cancelable: true }),
   );
-  fireEvent.click(screen.getByRole("button", { name: "Close monitor editor" }));
+  fireEvent.click(
+    screen.getByRole("button", { name: "Закрыть настройку монитора" }),
+  );
   expect(close).not.toHaveBeenCalled();
   rerender(<Modal onClose={close}>Saved</Modal>);
   fireEvent(

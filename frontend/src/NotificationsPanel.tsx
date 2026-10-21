@@ -1,3 +1,4 @@
+import { statusLabel, reasonLabel } from "./ru";
 import { useEffect, useState } from "react";
 import { request } from "./api";
 type Delivery = {
@@ -45,8 +46,11 @@ export function NotificationsPanel({ active }: { active: boolean }) {
     <section className="panel" id="notifications">
       <div className="section-heading">
         <div>
-          <h2>Notification deliveries</h2>
-          <p>Durable email events · SMTP acceptance, not mailbox delivery</p>
+          <h2>Доставка уведомлений</h2>
+          <p>
+            Сохранённые почтовые события · подтверждение SMTP не гарантирует
+            получение письма
+          </p>
         </div>
         <button
           onClick={() => {
@@ -54,12 +58,12 @@ export function NotificationsPanel({ active }: { active: boolean }) {
             setRefresh((v) => v + 1);
           }}
         >
-          Refresh deliveries
+          Обновить доставки
         </button>
       </div>
       <p className="service-note">
-        Configure recipients in <a href="#groups">Groups</a>. Retries retain the
-        same delivery ID.
+        Настройте получателей в разделе <a href="#groups">Группы</a>. Повторные
+        попытки сохраняют тот же ID доставки.
       </p>
       {error && (
         <p role="alert" className="error">
@@ -67,7 +71,7 @@ export function NotificationsPanel({ active }: { active: boolean }) {
         </p>
       )}
       {active && !data && !error && (
-        <p className="service-note">Loading delivery status…</p>
+        <p className="service-note">Загрузка состояния доставки…</p>
       )}
       {data && (
         <>
@@ -75,58 +79,62 @@ export function NotificationsPanel({ active }: { active: boolean }) {
             className="table-scroll"
             tabIndex={0}
             role="region"
-            aria-label="Scrollable table"
+            aria-label="Таблица с прокруткой"
           >
             <table>
               <thead>
                 <tr>
-                  <th>Event</th>
-                  <th>Recipient</th>
-                  <th>Status</th>
-                  <th>Attempts</th>
-                  <th>Sent / next attempt</th>
-                  <th>Diagnostic</th>
+                  <th>Событие</th>
+                  <th>Получатель</th>
+                  <th>Статус</th>
+                  <th>Попытки</th>
+                  <th>Отправлено / следующая попытка</th>
+                  <th>Диагностика</th>
                 </tr>
               </thead>
               <tbody>
                 {data.items.map((d) => (
                   <tr key={d.id}>
-                    <td>{d.event_type}</td>
+                    <td>
+                      {d.event_type === "DOWN"
+                        ? "Падение (DOWN)"
+                        : statusLabel(d.event_type)}
+                    </td>
                     <td>{d.email}</td>
                     <td>
                       <span className={`badge ${d.status.toLowerCase()}`}>
                         {d.status === "PENDING" && d.attempts
-                          ? "RETRY (PENDING)"
-                          : d.status}
+                          ? "Повторная попытка (PENDING)"
+                          : statusLabel(d.status)}
                       </span>
                     </td>
                     <td>{d.attempts}</td>
                     <td>
-                      {new Date(
-                        d.sent_at ?? d.next_attempt_at,
-                      ).toLocaleString()}
+                      {new Date(d.sent_at ?? d.next_attempt_at).toLocaleString(
+                        "ru-RU",
+                      )}
                     </td>
-                    <td>{d.last_error ?? "—"}</td>
+                    <td>{reasonLabel(d.last_error)}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
           {!data.items.length && (
-            <p className="service-note">No notification deliveries yet.</p>
+            <p className="service-note">Доставок уведомлений пока нет.</p>
           )}
           <div className="row-actions pagination">
             <button
               disabled={!offset}
               onClick={() => setOffset(Math.max(0, offset - 50))}
             >
-              Previous deliveries
+              Предыдущие доставки
             </button>
             <button
               disabled={!data.has_more}
               onClick={() => setOffset(offset + 50)}
             >
-              Next deliveries
+              Следующие доставки
             </button>
           </div>
         </>

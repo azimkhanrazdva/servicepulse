@@ -8,7 +8,7 @@ it("times out even when a transport or response body ignores cancellation", asyn
     signal = s;
     return new Promise(() => {});
   });
-  const assertion = expect(result).rejects.toThrow("Request timed out");
+  const assertion = expect(result).rejects.toThrow("Время ожидания истекло");
   await vi.advanceTimersByTimeAsync(15000);
   await assertion;
   expect(signal?.aborted).toBe(true);

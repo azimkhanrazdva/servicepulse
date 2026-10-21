@@ -1,3 +1,4 @@
+import { statusLabel } from "./ru";
 import { useEffect, useState } from "react";
 import { request } from "./api";
 import type { Monitor } from "./api";
@@ -55,18 +56,20 @@ export function IncidentsPanel({
     };
   }, [revision, state, monitor, offset]);
   return (
-    <section className="panel" id="incidents" aria-label="Incident journal">
+    <section className="panel" id="incidents" aria-label="Журнал инцидентов">
       <div className="section-heading">
         <div>
-          <h2>Incident journal</h2>
-          <p>Confirmed failures · administrative closures shown separately</p>
+          <h2>Журнал инцидентов</h2>
+          <p>
+            Подтверждённые падения · административные закрытия показаны отдельно
+          </p>
         </div>
       </div>
       <div className="row-actions">
         <label>
-          Incident state{" "}
+          Состояние инцидента{" "}
           <select
-            aria-label="Incident state"
+            aria-label="Состояние инцидента"
             value={state}
             onChange={(e) => {
               setState(e.target.value);
@@ -74,15 +77,15 @@ export function IncidentsPanel({
               setLoading(true);
             }}
           >
-            <option value="">All incidents</option>
-            <option value="OPEN">OPEN</option>
-            <option value="CLOSED">CLOSED</option>
+            <option value="">Все инциденты</option>
+            <option value="OPEN">Открыт (OPEN)</option>
+            <option value="CLOSED">Закрыт (CLOSED)</option>
           </select>
         </label>
         <label>
-          Incident monitor{" "}
+          Монитор инцидента{" "}
           <select
-            aria-label="Incident monitor"
+            aria-label="Монитор инцидента"
             value={monitor}
             onChange={(e) => {
               setMonitor(e.target.value);
@@ -90,7 +93,7 @@ export function IncidentsPanel({
               setLoading(true);
             }}
           >
-            <option value="">All monitors</option>
+            <option value="">Все мониторы</option>
             {monitors.map((m) => (
               <option key={m.id} value={m.id}>
                 {m.name}
@@ -101,29 +104,30 @@ export function IncidentsPanel({
       </div>
       {error && (
         <p role="alert">
-          Incident history unavailable: {error}. Retrying with live updates.
+          История инцидентов недоступна: {error}. Повтор при следующем
+          обновлении.
         </p>
       )}
       {loading ? (
-        <p>Loading incidents…</p>
+        <p>Загрузка инцидентов…</p>
       ) : !page.items?.length ? (
-        <p>No incidents match this view.</p>
+        <p>Нет инцидентов с выбранными параметрами.</p>
       ) : (
         <div
           className="table-scroll"
           tabIndex={0}
           role="region"
-          aria-label="Scrollable table"
+          aria-label="Таблица с прокруткой"
         >
           <table>
             <thead>
               <tr>
-                <th>Monitor</th>
-                <th>State</th>
-                <th>Opened</th>
-                <th>Recovered</th>
-                <th>Duration</th>
-                <th>Closure</th>
+                <th>Монитор</th>
+                <th>Состояние</th>
+                <th>Начало</th>
+                <th>Восстановление</th>
+                <th>Длительность</th>
+                <th>Причина закрытия</th>
               </tr>
             </thead>
             <tbody>
@@ -134,13 +138,13 @@ export function IncidentsPanel({
                     <span
                       className={`badge ${i.state === "OPEN" ? "down" : "up"}`}
                     >
-                      {i.state}
+                      {statusLabel(i.state)}
                     </span>
                   </td>
-                  <td>{new Date(i.opened_at).toLocaleString()}</td>
+                  <td>{new Date(i.opened_at).toLocaleString("ru-RU")}</td>
                   <td>
                     {i.recovered_at
-                      ? new Date(i.recovered_at).toLocaleString()
+                      ? new Date(i.recovered_at).toLocaleString("ru-RU")
                       : "—"}
                   </td>
                   <td data-testid="incident-duration">
@@ -152,12 +156,17 @@ export function IncidentsPanel({
                           1000,
                       ),
                     )}
-                    s
+                    с
                   </td>
                   <td>
-                    {i.closure_reason ?? "Ongoing"}
+                    {i.closure_reason
+                      ? statusLabel(i.closure_reason)
+                      : "Продолжается"}
                     {i.closed_at && i.closure_reason !== "RECOVERED" && (
-                      <small> · {new Date(i.closed_at).toLocaleString()}</small>
+                      <small>
+                        {" "}
+                        · {new Date(i.closed_at).toLocaleString("ru-RU")}
+                      </small>
                     )}
                   </td>
                 </tr>
@@ -174,9 +183,9 @@ export function IncidentsPanel({
             setLoading(true);
           }}
         >
-          Previous incidents
+          Предыдущие инциденты
         </button>
-        <span>Page {offset / 20 + 1}</span>
+        <span>Страница {offset / 20 + 1}</span>
         <button
           disabled={!page.has_more || loading}
           onClick={() => {
@@ -184,13 +193,13 @@ export function IncidentsPanel({
             setLoading(true);
           }}
         >
-          Next incidents
+          Следующие инциденты
         </button>
       </div>
       <p className="subtle">
-        Start time is threshold confirmation. Closure by pause or configuration
-        change does not mean recovery. Alerts use group recipients and local
-        Mailpit.
+        Начало инцидента фиксируется при подтверждении порога ошибок. Пауза и
+        изменение настроек не означают восстановление. Письма получателям групп
+        принимает локальный Mailpit.
       </p>
     </section>
   );

@@ -6,15 +6,15 @@ export function OutageDuration({ started }: { started: string | undefined }) {
     const timer = setInterval(() => setClock(Date.now()), 1000);
     return () => clearInterval(timer);
   }, [started]);
-  if (!started) return <>Awaiting incident snapshot</>;
+  if (!started) return <>Ожидание данных инцидента</>;
   const seconds = Math.max(
     0,
     Math.floor((clock - new Date(started).getTime()) / 1000),
   );
   return (
-    <span title={`Confirmed at ${new Date(started).toLocaleString()}`}>
-      {Math.floor(seconds / 3600)}h {Math.floor((seconds % 3600) / 60)}m{" "}
-      {seconds % 60}s
+    <span title={`Подтверждено в ${new Date(started).toLocaleString("ru-RU")}`}>
+      {Math.floor(seconds / 3600)}ч {Math.floor((seconds % 3600) / 60)}мин{" "}
+      {seconds % 60}с
     </span>
   );
 }

@@ -39,7 +39,7 @@ it("updates duration on a clock and refreshes administrative closure on SSE revi
   act(() => {
     vi.advanceTimersByTime(1000);
   });
-  expect(screen.getByTestId("incident-duration").textContent).toBe("6s");
+  expect(screen.getByTestId("incident-duration").textContent).toBe("6с");
   vi.useRealTimers();
   vi.stubGlobal(
     "fetch",
@@ -59,8 +59,8 @@ it("updates duration on a clock and refreshes administrative closure on SSE revi
     }),
   );
   view.rerender(<IncidentsPanel monitors={[]} revision={1} />);
-  await screen.findByText("CLOSED");
-  expect(screen.getByTestId("incident-duration").textContent).toBe("8s");
+  await screen.findByText("Закрыт (CLOSED)");
+  expect(screen.getByTestId("incident-duration").textContent).toBe("8с");
   expect(screen.getByText(/PAUSED/)).toBeTruthy();
 });
 
@@ -71,20 +71,20 @@ it("filters and paginates the real API and shows failures", async () => {
   });
   vi.stubGlobal("fetch", fetcher);
   render(<IncidentsPanel monitors={[]} revision={0} />);
-  await screen.findByText("No incidents match this view.");
-  fireEvent.click(screen.getByRole("button", { name: "Next incidents" }));
-  await screen.findByText("Page 2");
+  await screen.findByText("Нет инцидентов с выбранными параметрами.");
+  fireEvent.click(screen.getByRole("button", { name: "Следующие инциденты" }));
+  await screen.findByText("Страница 2");
   expect(fetcher.mock.calls.at(-1)?.[0]).toContain("offset=20");
-  fireEvent.change(screen.getByLabelText("Incident state"), {
+  fireEvent.change(screen.getByLabelText("Состояние инцидента"), {
     target: { value: "OPEN" },
   });
-  await screen.findByText("Page 1");
+  await screen.findByText("Страница 1");
   expect(fetcher.mock.calls.at(-1)?.[0]).toContain("state=OPEN");
-  fetcher.mockRejectedValue(new Error("Unavailable"));
-  fireEvent.change(screen.getByLabelText("Incident state"), {
+  fetcher.mockRejectedValue(new Error("Недоступно"));
+  fireEvent.change(screen.getByLabelText("Состояние инцидента"), {
     target: { value: "CLOSED" },
   });
   expect((await screen.findByRole("alert")).textContent).toContain(
-    "Unavailable",
+    "Недоступно",
   );
 });

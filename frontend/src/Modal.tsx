@@ -23,7 +23,7 @@ export function Modal({
   return (
     <dialog
       ref={ref}
-      aria-label="Monitor editor dialog"
+      aria-label="Диалог настройки монитора"
       onKeyDown={(event) => {
         if (event.key !== "Tab") return;
         const fields = Array.from(
@@ -48,7 +48,7 @@ export function Modal({
     >
       <button
         className="dialog-close"
-        aria-label="Close monitor editor"
+        aria-label="Закрыть настройку монитора"
         disabled={busy}
         onClick={onClose}
       >

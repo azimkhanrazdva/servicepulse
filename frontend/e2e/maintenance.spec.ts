@@ -70,20 +70,20 @@ test("maintenance CRUD, two clients, DOWN state, suppression and actual Mailpit 
     gid = (await group.json()).id;
     await Promise.all([a.goto("/"), b.goto("/")]);
     await expect(a.locator("#groups")).toContainText(email);
-    await a.getByRole("button", { name: "+ Add maintenance" }).click();
-    await a.getByLabel("Maintenance name", { exact: true }).fill(name);
-    await a.getByLabel("Maintenance target type").selectOption("group");
+    await a.getByRole("button", { name: "+ Добавить обслуживание" }).click();
+    await a.getByLabel("Название обслуживания", { exact: true }).fill(name);
+    await a.getByLabel("Тип объекта обслуживания").selectOption("group");
     await a
-      .getByRole("combobox", { name: "Maintenance target", exact: true })
+      .getByRole("combobox", { name: "Объект обслуживания", exact: true })
       .selectOption(gid!);
-    await a.getByLabel("Starts at").fill(local(Date.now() - 1000));
-    await a.getByLabel("Ends at").fill(local(Date.now() + 60000));
+    await a.getByLabel("Начало").fill(local(Date.now() - 1000));
+    await a.getByLabel("Окончание").fill(local(Date.now() + 60000));
     const saved = a.waitForResponse(
       (r) =>
         r.url().endsWith("/api/maintenance") && r.request().method() === "POST",
     );
     await a
-      .getByRole("button", { name: "Create maintenance", exact: true })
+      .getByRole("button", { name: "Создать обслуживание", exact: true })
       .click();
     const response = await saved;
     expect(response.status()).toBe(201);
@@ -92,7 +92,7 @@ test("maintenance CRUD, two clients, DOWN state, suppression and actual Mailpit 
       await expect(page.getByTestId(`window-${wid}`)).toContainText("ACTIVE");
       await expect(
         page.locator("#monitors").getByRole("row").filter({ hasText: name }),
-      ).toContainText("MAINTENANCE");
+      ).toContainText("ОБСЛУЖИВАНИЕ");
     }
     async function run() {
       const before = (await (await request.get(root + "/results")).json())
@@ -112,21 +112,21 @@ test("maintenance CRUD, two clients, DOWN state, suppression and actual Mailpit 
     for (const page of [a, b])
       await expect(
         page.locator("#monitors").getByRole("row").filter({ hasText: name }),
-      ).toContainText("● DOWN");
+      ).toContainText("● Недоступен (DOWN)");
     expect(await messages()).toHaveLength(0);
     await a
       .getByTestId(`window-${wid}`)
-      .getByRole("button", { name: "Edit maintenance" })
+      .getByRole("button", { name: "Изменить обслуживание" })
       .click();
     await a
-      .getByLabel("Maintenance name", { exact: true })
+      .getByLabel("Название обслуживания", { exact: true })
       .fill(name + " edited");
-    await a.getByLabel("Ends at").fill(local(Date.now() + 4000));
+    await a.getByLabel("Окончание").fill(local(Date.now() + 4000));
     await a
-      .getByRole("button", { name: "Save maintenance", exact: true })
+      .getByRole("button", { name: "Сохранить обслуживание", exact: true })
       .click();
     await contexts[1].setOffline(true);
-    await expect(b.getByRole("status")).toContainText("Reconnecting");
+    await expect(b.getByRole("status")).toContainText("Переподключение");
     await expect(a.getByTestId(`window-${wid}`)).toContainText("ENDED", {
       timeout: 15000,
     });
@@ -136,7 +136,7 @@ test("maintenance CRUD, two clients, DOWN state, suppression and actual Mailpit 
     for (const page of [a, b])
       await expect(
         page.locator("#monitors").getByRole("row").filter({ hasText: name }),
-      ).not.toContainText("MAINTENANCE");
+      ).not.toContainText("ОБСЛУЖИВАНИЕ");
     await expect
       .poll(async () => (await messages()).length, { timeout: 15000 })
       .toBe(1);
@@ -158,7 +158,7 @@ test("maintenance CRUD, two clients, DOWN state, suppression and actual Mailpit 
     a.once("dialog", (dialog) => dialog.accept());
     await a
       .getByTestId(`window-${wid}`)
-      .getByRole("button", { name: "Delete maintenance" })
+      .getByRole("button", { name: "Удалить обслуживание" })
       .click();
     for (const page of [a, b])
       await expect(page.getByTestId(`window-${wid}`)).toHaveCount(0);

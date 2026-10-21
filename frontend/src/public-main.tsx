@@ -1,3 +1,4 @@
+import { installRussianValidation } from "./ru";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { PublicApp } from "./PublicApp";
@@ -7,3 +8,5 @@ createRoot(document.getElementById("root")!).render(
     <PublicApp />
   </React.StrictMode>,
 );
+
+installRussianValidation();

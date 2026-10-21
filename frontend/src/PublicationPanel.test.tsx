@@ -34,25 +34,28 @@ it("does not implicitly publish monitors or enable a new page", async () => {
   const fetcher = vi.fn().mockResolvedValue({ ok: true, json: async () => [] });
   vi.stubGlobal("fetch", fetcher);
   render(<PublicationPanel monitors={[monitor]} />);
-  fireEvent.click(screen.getByRole("button", { name: "+ Create status page" }));
-  fireEvent.change(screen.getByLabelText("Public page title"), {
+  fireEvent.click(screen.getByRole("button", { name: "+ Создать страницу" }));
+  fireEvent.change(screen.getByLabelText("Заголовок публичной страницы"), {
     target: { value: "Customer" },
   });
-  fireEvent.change(screen.getByLabelText("Public page slug"), {
+  fireEvent.change(screen.getByLabelText("Адрес страницы (slug)"), {
     target: { value: "customer" },
   });
   expect(
-    (screen.getByLabelText("Page is publicly enabled") as HTMLInputElement)
-      .checked,
+    (
+      screen.getByLabelText(
+        "Разрешить публичный доступ к странице",
+      ) as HTMLInputElement
+    ).checked,
   ).toBe(false);
   expect(
     (
-      screen.getByLabelText("Publish Internal API", {
+      screen.getByLabelText("Опубликовать Internal API", {
         exact: true,
       }) as HTMLInputElement
     ).checked,
   ).toBe(false);
-  fireEvent.click(screen.getByRole("button", { name: "Save publication" }));
+  fireEvent.click(screen.getByRole("button", { name: "Сохранить публикацию" }));
   await waitFor(() =>
     expect(fetcher.mock.calls.some((call) => call[1]?.method === "POST")).toBe(
       true,
@@ -96,23 +99,29 @@ it("preserves the public-label draft on an optimistic concurrency conflict", asy
   vi.stubGlobal("fetch", fetcher);
   render(<PublicationPanel monitors={[monitor]} />);
   fireEvent.click(
-    await screen.findByRole("button", { name: "Edit publication" }),
+    await screen.findByRole("button", { name: "Изменить публикацию" }),
   );
-  fireEvent.change(screen.getByLabelText("Public label for Internal API"), {
-    target: { value: "Preserved customer label" },
-  });
-  fireEvent.click(screen.getByRole("button", { name: "Save publication" }));
+  fireEvent.change(
+    screen.getByLabelText("Публичное название для Internal API"),
+    {
+      target: { value: "Preserved customer label" },
+    },
+  );
+  fireEvent.click(screen.getByRole("button", { name: "Сохранить публикацию" }));
   expect(
-    await screen.findByText(/Your publication draft is preserved/),
+    await screen.findByText(/Ваш черновик публикации сохранён/),
   ).toBeTruthy();
   expect(
-    (screen.getByLabelText("Public label for Internal API") as HTMLInputElement)
-      .value,
+    (
+      screen.getByLabelText(
+        "Публичное название для Internal API",
+      ) as HTMLInputElement
+    ).value,
   ).toBe("Preserved customer label");
   expect(
     (
       screen.getByRole("button", {
-        name: "Save publication",
+        name: "Сохранить публикацию",
       }) as HTMLButtonElement
     ).disabled,
   ).toBe(true);

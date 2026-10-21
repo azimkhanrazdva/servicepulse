@@ -34,14 +34,14 @@ it("sends editable settings and the version captured when the editor opened", as
   });
   vi.stubGlobal("fetch", fetcher);
   render(<MonitorForm initial={monitor} onSaved={saved} onCancel={() => {}} />);
-  fireEvent.change(screen.getByLabelText("Name"), {
+  fireEvent.change(screen.getByLabelText("Название"), {
     target: { value: "New API" },
   });
-  fireEvent.change(screen.getByLabelText("Expected text (optional)"), {
+  fireEvent.change(screen.getByLabelText("Ожидаемый текст (необязательно)"), {
     target: { value: "  exact  " },
   });
-  fireEvent.click(screen.getByRole("button", { name: "Save monitor" }));
-  await screen.findByRole("button", { name: "Save monitor" });
+  fireEvent.click(screen.getByRole("button", { name: "Сохранить монитор" }));
+  await screen.findByRole("button", { name: "Сохранить монитор" });
   expect(saved).toHaveBeenCalled();
   expect(JSON.parse(fetcher.mock.calls[0][1].body)).toMatchObject({
     config_version: 1,
@@ -74,17 +74,19 @@ it("keeps a conflicted draft until the user explicitly reloads it", async () => 
   render(
     <MonitorForm initial={monitor} onSaved={() => {}} onCancel={() => {}} />,
   );
-  fireEvent.change(screen.getByLabelText("Name"), {
+  fireEvent.change(screen.getByLabelText("Название"), {
     target: { value: "My draft" },
   });
-  fireEvent.click(screen.getByRole("button", { name: "Save monitor" }));
+  fireEvent.click(screen.getByRole("button", { name: "Сохранить монитор" }));
   expect(await screen.findByRole("alert")).toHaveProperty(
     "textContent",
-    "Configuration changed in another client.",
+    "Данные изменились или операция уже выполняется. Обновите данные перед повторной попыткой; черновик сохранён.",
   );
-  expect(screen.getByLabelText("Name")).toHaveProperty("value", "My draft");
+  expect(screen.getByLabelText("Название")).toHaveProperty("value", "My draft");
   fireEvent.click(
-    screen.getByRole("button", { name: "Discard draft and reload" }),
+    screen.getByRole("button", {
+      name: "Отменить черновик и загрузить заново",
+    }),
   );
   expect(await screen.findByDisplayValue("Other client")).toBeTruthy();
 });
@@ -103,9 +105,9 @@ it("renders useful field validation errors from FastAPI", async () => {
   render(
     <MonitorForm initial={monitor} onSaved={() => {}} onCancel={() => {}} />,
   );
-  fireEvent.click(screen.getByRole("button", { name: "Save monitor" }));
+  fireEvent.click(screen.getByRole("button", { name: "Сохранить монитор" }));
   expect(await screen.findByRole("alert")).toHaveProperty(
     "textContent",
-    "url: Invalid HTTP(S) target",
+    "URL: Недопустимое значение",
   );
 });

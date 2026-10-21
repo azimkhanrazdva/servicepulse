@@ -69,8 +69,8 @@ export function MonitorForm({
     }
   }
   return (
-    <section className="panel form-panel" aria-label="Monitor editor">
-      <h2>{source ? "Edit monitor" : "New monitor"}</h2>
+    <section className="panel form-panel" aria-label="Настройка монитора">
+      <h2>{source ? "Изменить монитор" : "Новый монитор"}</h2>
       {error && (
         <p className="error" role="alert">
           {error}
@@ -78,19 +78,19 @@ export function MonitorForm({
       )}
       {conflict && (
         <button disabled={busy} onClick={reload}>
-          Discard draft and reload
+          Отменить черновик и загрузить заново
         </button>
       )}
       <form key={source?.config_version ?? "new"} onSubmit={save}>
         <div className="fields">
           <label>
-            Name
+            Название
             <input
               name="name"
               required
               maxLength={120}
               defaultValue={source?.name}
-              placeholder="API / production"
+              placeholder="API / основной сервис"
             />
           </label>
           <label className="wide">
@@ -105,7 +105,7 @@ export function MonitorForm({
             />
           </label>
           <label>
-            Interval (seconds)
+            Интервал (секунды)
             <input
               name="interval"
               type="number"
@@ -116,7 +116,7 @@ export function MonitorForm({
             />
           </label>
           <label>
-            Timeout (seconds)
+            Таймаут (секунды)
             <input
               name="timeout"
               type="number"
@@ -128,7 +128,7 @@ export function MonitorForm({
             />
           </label>
           <label>
-            Expected HTTP status
+            Ожидаемый HTTP-код
             <input
               name="status"
               type="number"
@@ -139,7 +139,7 @@ export function MonitorForm({
             />
           </label>
           <label className="wide">
-            Expected text (optional)
+            Ожидаемый текст (необязательно)
             <input
               name="body"
               maxLength={1000}
@@ -147,7 +147,7 @@ export function MonitorForm({
             />
           </label>
           <label>
-            Failures to confirm DOWN
+            Ошибок для подтверждения падения
             <input
               name="threshold"
               type="number"
@@ -160,14 +160,18 @@ export function MonitorForm({
         </div>
         <div className="form-actions">
           <small>
-            Changes reset current state; previous observations are retained.
+            Изменения сбрасывают текущий статус; прежние наблюдения сохраняются.
           </small>
           <div className="actions">
             <button type="button" onClick={onCancel} disabled={busy}>
-              Cancel
+              Отмена
             </button>
             <button className="primary" disabled={busy}>
-              {busy ? "Saving…" : source ? "Save monitor" : "Create monitor"}
+              {busy
+                ? "Сохранение…"
+                : source
+                  ? "Сохранить монитор"
+                  : "Создать монитор"}
             </button>
           </div>
         </div>

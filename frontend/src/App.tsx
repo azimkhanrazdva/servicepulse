@@ -1,3 +1,5 @@
+import { reasonLabel, sectionLabel } from "./ru";
+import { statusLabel } from "./ru";
 import { useEffect, useState } from "react";
 import { request } from "./api";
 import type { Monitor, Group } from "./api";
@@ -48,7 +50,7 @@ export function App() {
   const [overviewError, setOverviewError] = useState("");
   const [monitors, setMonitors] = useState<Monitor[]>([]);
   const [loading, setLoading] = useState(true);
-  const [connection, setConnection] = useState("Connecting");
+  const [connection, setConnection] = useState("Подключение");
   const [error, setError] = useState("");
   const [form, setForm] = useState(false);
   const [formBusy, setFormBusy] = useState(false);
@@ -130,14 +132,14 @@ export function App() {
           setMaintenance(JSON.parse((event as MessageEvent).data));
           setMaintenanceRevision((v) => v + 1);
         } catch {
-          setError("Could not read maintenance update.");
+          setError("Не удалось прочитать обновление обслуживания.");
         }
       });
       events.addEventListener("overview", (event) => {
         try {
           setOverview(JSON.parse((event as MessageEvent).data));
         } catch {
-          setOverviewError("Could not read incident summary.");
+          setOverviewError("Не удалось прочитать сводку инцидентов.");
         }
       });
       events.addEventListener("incidents", () =>
@@ -148,26 +150,26 @@ export function App() {
           receivedGroups = true;
           setGroups(JSON.parse((event as MessageEvent).data));
         } catch {
-          setError("Could not read the group update.");
+          setError("Не удалось прочитать обновление групп.");
         }
       });
-      events.onopen = () => setConnection("Live");
+      events.onopen = () => setConnection("На связи");
       events.onmessage = (event) => {
         try {
           receivedSnapshot = true;
           setMonitors(JSON.parse(event.data));
           setLastUpdate(new Date().toISOString());
           setLoading(false);
-          setConnection("Live");
+          setConnection("На связи");
         } catch {
-          setConnection("Invalid update");
+          setConnection("Некорректное обновление");
         }
       };
-      events.onerror = () => setConnection("Reconnecting");
+      events.onerror = () => setConnection("Переподключение");
     };
     const offline = () => {
       events?.close();
-      setConnection("Reconnecting");
+      setConnection("Переподключение");
     };
     connect();
     window.addEventListener("offline", offline);
@@ -210,7 +212,7 @@ export function App() {
     if (
       operation === "delete" &&
       !window.confirm(
-        `Delete monitor “${monitor.name}” and its observation history?`,
+        `Удалить монитор «${monitor.name}» и историю его наблюдений?`,
       )
     )
       return;
@@ -242,12 +244,12 @@ export function App() {
       }
       setNotice(
         operation === "run"
-          ? "Check queued."
+          ? "Проверка поставлена в очередь."
           : operation === "delete"
-            ? "Monitor deleted."
+            ? "Монитор удалён."
             : operation === "pause"
-              ? "Monitor paused."
-              : "Monitor resumed.",
+              ? "Монитор приостановлен."
+              : "Монитор возобновлён.",
       );
     } catch (e) {
       setError((e as Error).message);
@@ -263,7 +265,7 @@ export function App() {
     setForm(false);
     setEditing(undefined);
     setGroupFilter(null);
-    setNotice("Monitor saved.");
+    setNotice("Монитор сохранён.");
   }
   function groupChanged(value: Group | string) {
     setGroups((previous) =>
@@ -311,7 +313,7 @@ export function App() {
   return (
     <div className="shell">
       <a className="skip-link" href="#overview">
-        Skip to main content
+        Перейти к основному содержимому
       </a>
       <aside
         className={menuOpen ? "menu-open" : ""}
@@ -333,20 +335,20 @@ export function App() {
           aria-controls="workspace-nav"
           onClick={() => setMenuOpen(!menuOpen)}
         >
-          Workspace menu {menuOpen ? "−" : "+"}
+          Меню разделов {menuOpen ? "−" : "+"}
         </button>
         <div className="workspace">
-          WORKSPACE <span>LOCAL</span>
+          РАБОЧАЯ ОБЛАСТЬ <span>ЛОКАЛЬНО</span>
         </div>
-        <nav id="workspace-nav" aria-label="Main">
+        <nav id="workspace-nav" aria-label="Основная навигация">
           {[
-            ["overview", "◉", "Overview"],
-            ["monitors", "▤", "All monitors"],
-            ["groups", "◇", "Groups"],
-            ["incidents", "!", "Incident journal"],
-            ["maintenance", "◷", "Maintenance"],
-            ["notifications", "✉", "Notifications"],
-            ["publication", "↗", "Public status pages"],
+            ["overview", "◉", "Обзор"],
+            ["monitors", "▤", "Все мониторы"],
+            ["groups", "◇", "Группы"],
+            ["incidents", "!", "Журнал инцидентов"],
+            ["maintenance", "◷", "Обслуживание"],
+            ["notifications", "✉", "Уведомления"],
+            ["publication", "↗", "Публичные страницы"],
           ].map(([id, icon, label]) => (
             <a
               key={id}
@@ -362,20 +364,20 @@ export function App() {
           ))}
         </nav>
         <div className="sidebar-note">
-          <span className="tag">LOCAL ENVIRONMENT</span>
+          <span className="tag">ЛОКАЛЬНОЕ ОКРУЖЕНИЕ</span>
           <p>
-            Your services.
+            Ваши сервисы.
             <br />
-            One clear signal.
+            Их реальное состояние.
           </p>
-          <small>Private management · live observations</small>
+          <small>Локальное управление · реальные наблюдения</small>
         </div>
         <footer>
           <a href="/api/health" target="_blank" rel="noreferrer">
-            System health ↗
+            Состояние системы ↗
           </a>
           <a href="http://localhost:8000/docs" target="_blank" rel="noreferrer">
-            API documentation ↗
+            Документация API ↗
           </a>
           <span>ServicePulse v1.0</span>
         </footer>
@@ -383,11 +385,10 @@ export function App() {
       <main id="overview" tabIndex={-1}>
         <header>
           <span>
-            Workspace <b>/</b>{" "}
-            {activeSection === "overview" ? "Overview" : activeSection}
+            Рабочая область <b>/</b> {sectionLabel(activeSection)}
           </span>
           <span
-            className={`connection ${connection === "Live" ? "live" : ""}`}
+            className={`connection ${connection === "На связи" ? "live" : ""}`}
             role="status"
           >
             ● {connection}
@@ -395,16 +396,16 @@ export function App() {
         </header>
         <div className="page-title">
           <div>
-            <div className="eyebrow">MONITORING / OVERVIEW</div>
+            <div className="eyebrow">МОНИТОРИНГ / ОБЗОР</div>
             <h1>
-              Overview<span className="title-dot">.</span>
+              Обзор<span className="title-dot">.</span>
             </h1>
-            <p>Availability, incidents, and the signals that matter.</p>
+            <p>Доступность сервисов, инциденты и результаты проверок.</p>
             <small className="last-update">
-              Last update:{" "}
+              Обновлено:{" "}
               {lastUpdate
-                ? new Date(lastUpdate).toLocaleTimeString()
-                : "Awaiting snapshot"}
+                ? new Date(lastUpdate).toLocaleTimeString("ru-RU")
+                : "Ожидание данных"}
             </small>
           </div>
           <button
@@ -414,13 +415,16 @@ export function App() {
               setForm(!form);
             }}
           >
-            {form ? "Close form" : "+ Add monitor"}
+            {form ? "Закрыть форму" : "+ Добавить монитор"}
           </button>
         </div>
         {error && (
           <div className="error" role="alert">
             {error}
-            <button onClick={() => setError("")} aria-label="Dismiss error">
+            <button
+              onClick={() => setError("")}
+              aria-label="Закрыть сообщение об ошибке"
+            >
               ×
             </button>
           </div>
@@ -429,7 +433,7 @@ export function App() {
           <div className="notice" aria-live="polite">
             {notice}
             <button
-              aria-label="Dismiss confirmation"
+              aria-label="Закрыть подтверждение"
               onClick={() => setNotice("")}
             >
               ×
@@ -456,39 +460,39 @@ export function App() {
             />
           </Modal>
         )}
-        <section className="stats" aria-label="Monitor summary">
+        <section className="stats" aria-label="Сводка мониторов">
           {[
             [
-              "Total monitors",
+              "Всего мониторов",
               monitors.length,
-              "Loaded selection · maximum 500",
+              "Загруженная выборка · не более 500",
             ],
-            ["Operational", counts[0], "Confirmed UP in loaded selection"],
-            ["Down", counts[1], "Failure threshold confirmed"],
+            ["Доступны", counts[0], "Подтверждённая доступность в выборке"],
+            ["Недоступны", counts[1], "Порог ошибок достигнут"],
             [
-              "Paused",
+              "На паузе",
               monitors.filter((m) => m.state === "PAUSED").length,
-              "Loaded selection",
+              "Загруженная выборка",
             ],
             [
-              "Awaiting data",
+              "Ожидание данных",
               monitors.filter((m) => m.state === "UNKNOWN").length,
-              "Loaded selection",
+              "Загруженная выборка",
             ],
             [
-              "Active incidents",
+              "Активные инциденты",
               overview?.active_incidents ?? "—",
-              "All persisted open incidents",
+              "Все сохранённые открытые инциденты",
             ],
             [
-              "Observed uptime · 24h",
-              observed === null ? "NO DATA" : `${observed.toFixed(2)}%`,
-              "Sample-weighted · loaded selection",
+              "Доступность по проверкам · 24 ч",
+              observed === null ? "НЕТ ДАННЫХ" : `${observed.toFixed(2)}%`,
+              "По числу проверок · загруженная выборка",
             ],
             [
-              "Average response",
-              average === null ? "NO DATA" : `${Math.round(average)} ms`,
-              "Latest active observations · loaded selection",
+              "Среднее время ответа",
+              average === null ? "НЕТ ДАННЫХ" : `${Math.round(average)} мс`,
+              "Последние активные наблюдения · выборка",
             ],
           ].map(([label, value, hint]) => (
             <article key={label}>
@@ -500,54 +504,56 @@ export function App() {
         </section>
         {overviewError && (
           <p className="error" role="alert">
-            Dashboard analytics: {overviewError}
+            Аналитика сводки: {overviewError}
           </p>
         )}
         <section className="panel" id="monitors">
           <div className="section-heading">
             <div>
               <h2>
-                Service monitors <span>{visible.length}</span>
+                Мониторы сервисов <span>{visible.length}</span>
               </h2>
-              <p>HTTP checks · 30 seconds to 1 hour</p>
+              <p>HTTP-проверки · от 30 секунд до 1 часа</p>
             </div>
             {filteredGroup ? (
               <button onClick={() => setGroupFilter(null)}>
-                Show all monitors · {filteredGroup.name}
+                Все мониторы · {filteredGroup.name}
               </button>
             ) : (
-              <span className="subtle">Latest observations</span>
+              <span className="subtle">Последние наблюдения</span>
             )}
           </div>
           <div className="monitor-toolbar">
             <label>
-              Search monitors
+              Поиск мониторов
               <input
                 type="search"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Name or URL"
+                placeholder="Название или URL"
               />
             </label>
             <label>
-              Status
+              Статус
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
               >
-                <option value="">All statuses</option>
+                <option value="">Все статусы</option>
                 {["UP", "DOWN", "UNKNOWN", "PAUSED"].map((s) => (
-                  <option key={s}>{s}</option>
+                  <option key={s} value={s}>
+                    {statusLabel(s)}
+                  </option>
                 ))}
               </select>
             </label>
             <label>
-              Group
+              Группа
               <select
                 value={groupFilter ?? ""}
                 onChange={(e) => setGroupFilter(e.target.value || null)}
               >
-                <option value="">All groups</option>
+                <option value="">Все группы</option>
                 {groups.map((g) => (
                   <option key={g.id} value={g.id}>
                     {g.name}
@@ -556,35 +562,36 @@ export function App() {
               </select>
             </label>
             <label>
-              Sort loaded selection
+              Сортировка выборки
               <select value={sort} onChange={(e) => setSort(e.target.value)}>
-                <option value="name">Name A–Z</option>
-                <option value="status">Status</option>
-                <option value="latency">Slowest response</option>
+                <option value="name">По названию</option>
+                <option value="status">Статус</option>
+                <option value="latency">Сначала медленные</option>
               </select>
             </label>
           </div>
           <p className="selection-note">
-            Showing {visible.length} of {monitors.length} loaded monitors (API
-            limit 500). Search, sorting and metrics apply to this selection.
+            Показано {visible.length} из {monitors.length} загруженных мониторов
+            (лимит API: 500). Поиск, сортировка и метрики относятся к этой
+            выборке.
           </p>
           <div
             className="table-scroll"
             tabIndex={0}
             role="region"
-            aria-label="Scrollable table"
+            aria-label="Таблица с прокруткой"
           >
             <table>
               <thead>
                 <tr>
-                  <th>Service</th>
-                  <th>Status</th>
+                  <th>Сервис</th>
+                  <th>Статус</th>
                   <th>HTTP</th>
-                  <th>Response</th>
-                  <th>Last checked</th>
-                  <th>24h observed uptime</th>
-                  <th>Current outage</th>
-                  <th>Action</th>
+                  <th>Время ответа</th>
+                  <th>Последняя проверка</th>
+                  <th>Доступность за 24 ч</th>
+                  <th>Текущее падение</th>
+                  <th>Действие</th>
                 </tr>
               </thead>
               <tbody>
@@ -604,14 +611,14 @@ export function App() {
                     </td>
                     <td>
                       <span className={`badge ${m.state.toLowerCase()}`}>
-                        ● {m.state}
+                        ● {statusLabel(m.state)}
                       </span>
                       {maintenance.active_monitor_ids?.includes(m.id) && (
                         <small
                           className="maintenance-badge"
-                          title="One or more notification routes suppressed; real status is unchanged."
+                          title="Рассылка по одному или нескольким маршрутам подавлена; реальный статус сохранён."
                         >
-                          MAINTENANCE
+                          ОБСЛУЖИВАНИЕ
                         </small>
                       )}
                     </td>
@@ -619,23 +626,25 @@ export function App() {
                     <td className="mono">
                       {m.last_response_ms == null
                         ? "—"
-                        : `${Math.round(m.last_response_ms)} ms`}
+                        : `${Math.round(m.last_response_ms)} мс`}
                     </td>
                     <td>
                       {m.last_checked_at
-                        ? new Date(m.last_checked_at).toLocaleTimeString()
-                        : "Awaiting first check"}
+                        ? new Date(m.last_checked_at).toLocaleTimeString(
+                            "ru-RU",
+                          )
+                        : "Ожидание первой проверки"}
                     </td>
                     <td
                       title={
                         uptime[m.id]
-                          ? `${uptime[m.id].samples} observed checks; sample-based, refreshes every 30s`
-                          : "No observed samples available"
+                          ? `${uptime[m.id].samples} наблюдений; по проверкам, обновление каждые 30 с`
+                          : "Наблюдений пока нет"
                       }
                     >
                       {uptime[m.id]
                         ? `${uptime[m.id].percent.toFixed(2)}%`
-                        : "NO DATA"}
+                        : "НЕТ ДАННЫХ"}
                     </td>
                     <td>
                       {m.state === "DOWN" ? (
@@ -655,7 +664,7 @@ export function App() {
                         }
                         onClick={() => action(m, "run")}
                       >
-                        Run now ↗
+                        Проверить сейчас ↗
                       </button>
                       <div className="row-actions">
                         <button
@@ -665,7 +674,7 @@ export function App() {
                             setForm(true);
                           }}
                         >
-                          Edit
+                          Изменить
                         </button>
                         <button
                           disabled={busy}
@@ -673,14 +682,16 @@ export function App() {
                             action(m, m.state === "PAUSED" ? "resume" : "pause")
                           }
                         >
-                          {m.state === "PAUSED" ? "Resume" : "Pause"}
+                          {m.state === "PAUSED"
+                            ? "Возобновить"
+                            : "Приостановить"}
                         </button>
                         <button
                           className="danger"
                           disabled={busy}
                           onClick={() => action(m, "delete")}
                         >
-                          Delete
+                          Удалить
                         </button>
                       </div>
                     </td>
@@ -694,26 +705,26 @@ export function App() {
               <div className="empty-icon">⌁</div>
               <h3>
                 {loading
-                  ? "Loading monitors…"
+                  ? "Загрузка мониторов…"
                   : filteredGroup
-                    ? "No monitors in this group"
-                    : "Start with your first service"}
+                    ? "В этой группе нет мониторов"
+                    : "Добавьте первый сервис"}
               </h3>
               <p>
                 {loading
-                  ? "Connecting to the monitoring API."
-                  : "Add a URL. The worker will check it and save each observation."}
+                  ? "Подключение к API мониторинга."
+                  : "Добавьте URL. Worker выполнит HTTP-проверки и сохранит результаты."}
               </p>
               {!loading && (
                 <button onClick={() => setForm(true)}>
-                  + Add your first monitor
+                  + Добавить первый монитор
                 </button>
               )}
             </div>
           )}
           <div className="table-footer">
-            <span>● Observations are persisted in PostgreSQL</span>
-            <span>No synthetic uptime metrics</span>
+            <span>● Наблюдения сохраняются в PostgreSQL</span>
+            <span>Без вымышленных метрик доступности</span>
           </div>
         </section>
         {current && (
@@ -722,48 +733,52 @@ export function App() {
               <div>
                 <h2>{current.name}</h2>
                 <p>
-                  {current.url} · every {current.interval_seconds}s · timeout{" "}
-                  {current.timeout_seconds}s
+                  {current.url} · интервал {current.interval_seconds}с · таймаут{" "}
+                  {current.timeout_seconds}с
                 </p>
               </div>
-              <button onClick={() => setSelected(null)}>Close details</button>
+              <button onClick={() => setSelected(null)}>
+                Закрыть сведения
+              </button>
             </div>
             <AnalyticsPanel
               base={`/api/monitors/${current.id}/analytics`}
               revision={current.last_checked_at}
             />
-            <h3>Recent observations</h3>
+            <h3>Последние наблюдения</h3>
             {historyLoading ? (
-              <p>Loading history…</p>
+              <p>Загрузка истории…</p>
             ) : !results.length ? (
-              <p>No observations yet.</p>
+              <p>Наблюдений пока нет.</p>
             ) : (
               <div
                 className="table-scroll"
                 tabIndex={0}
                 role="region"
-                aria-label="Scrollable table"
+                aria-label="Таблица с прокруткой"
               >
                 <table>
                   <thead>
                     <tr>
-                      <th>Observed at</th>
-                      <th>Result</th>
+                      <th>Время наблюдения</th>
+                      <th>Результат</th>
                       <th>HTTP</th>
-                      <th>Response</th>
-                      <th>Reason</th>
+                      <th>Время ответа</th>
+                      <th>Причина</th>
                     </tr>
                   </thead>
                   <tbody>
                     {results.map((r) => (
                       <tr key={r.id}>
-                        <td>{new Date(r.checked_at).toLocaleString()}</td>
+                        <td>
+                          {new Date(r.checked_at).toLocaleString("ru-RU")}
+                        </td>
                         <td className={r.success ? "green" : "red"}>
-                          {r.success ? "Success" : "Failure"}
+                          {r.success ? "Успешно" : "Ошибка"}
                         </td>
                         <td>{r.status_code ?? "—"}</td>
-                        <td>{r.response_ms} ms</td>
-                        <td>{r.error ?? "—"}</td>
+                        <td>{r.response_ms} мс</td>
+                        <td>{reasonLabel(r.error)}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -771,8 +786,8 @@ export function App() {
               </div>
             )}
             <p className="subtle">
-              Most recent 100 raw checks. Charts above aggregate the full
-              selected period in PostgreSQL.
+              Последние 100 отдельных проверок. Графики выше используют
+              агрегацию всего выбранного периода в PostgreSQL.
             </p>
           </section>
         )}
@@ -800,8 +815,8 @@ export function App() {
           notify={setNotice}
         />
         <div className="bottom-note">
-          <span>BUILT TO KNOW, NOT TO GUESS.</span>
-          <span>Local development · private management console</span>
+          <span>РЕАЛЬНЫЕ ПРОВЕРКИ. ПРОВЕРЯЕМЫЕ ДАННЫЕ.</span>
+          <span>Локальное окружение · закрытая консоль управления</span>
         </div>
       </main>
     </div>

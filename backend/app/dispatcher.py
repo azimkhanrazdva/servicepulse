@@ -20,15 +20,18 @@ def send_smtp(payload):
     message["From"] = settings.smtp_sender
     message["To"] = payload["email"]
     message["Subject"] = (
-        f"ServicePulse {payload['event_type']}: {' '.join(payload['monitor_name'].splitlines())}"
+        f"ServicePulse {payload['event_type']}: "
+        f"{'Падение' if payload['event_type'] == 'DOWN' else 'Восстановление'} "
+        f"{' '.join(payload['monitor_name'].splitlines())}"
     )
     message["Message-ID"] = f"<{payload['delivery_id']}@servicepulse.local>"
     message["X-ServicePulse-Incident"] = payload["incident_id"]
     message["X-ServicePulse-Event"] = payload["event_type"]
     message.set_content(
-        f"Service: {payload['monitor_name']}\nEvent: {payload['event_type']}\n"
-        f"Incident: {payload['incident_id']}\nConfirmed DOWN: {payload['opened_at']}\n"
-        f"Recovered: {payload['recovered_at'] or 'not confirmed'}\n"
+        f"Сервис: {payload['monitor_name']}\n"
+        f"Событие: {'Падение' if payload['event_type'] == 'DOWN' else 'Восстановление'}\n"
+        f"Инцидент: {payload['incident_id']}\nПодтверждённое падение: {payload['opened_at']}\n"
+        f"Восстановление: {payload['recovered_at'] or 'не подтверждено'}\n"
     )
     smtp = smtplib.SMTP(
         settings.smtp_host, settings.smtp_port, timeout=settings.smtp_timeout_seconds

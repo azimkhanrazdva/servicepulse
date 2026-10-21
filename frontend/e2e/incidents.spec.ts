@@ -76,7 +76,7 @@ test("confirmed incident opens and recovers in two clients, duration and reconne
       (await (await request.get(root + "/incidents")).json()).items,
     ).toHaveLength(1);
     await contexts[1].setOffline(true);
-    await expect(b.getByRole("status")).toContainText("Reconnecting");
+    await expect(b.getByRole("status")).toContainText("Переподключение");
     control(name, 200);
     await run();
     await expect(a.getByTestId(`incident-${incident.id}`)).toContainText(
