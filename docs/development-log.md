@@ -122,3 +122,10 @@ Commit `4fb9a9a51c9074d379e12b0520cfb2643ba1a2bd` загружен обычны�
 Создан TIMELAPSE.md по 31 существующему commit и timestamps журнала; даты и прошлые коммиты не менялись. Обновлены README, AI-disclosure, release/submission guides, текущий owner report и проверки/генератор документации. Исторические промпты и raw artifacts не переписаны. До push проверены GitHub PR/push SUCCESS на 192ba30; будущему SHA эти проверки не приписываются. Валидация текущей документации, model evidence и локальных ссылок выполняется перед commit; результат команды фиксируется в новом документальном отчёте. Изменений production-кода, merge PR и отправки письма нет.
 
 Проверки этого этапа: validate_documents PASS с отдельным artifacts/submission-document-review.json; 26 model contexts и 31 commit link подтверждены; относительные ссылки PASS; Ruff check и format для обоих изменённых scripts PASS; git diff --check PASS. Время записи результата (UTC): 2026-10-21T11:03:17.5320189Z. Полный application suite локально повторно не запускался: production-код не менялся; CI нового SHA проверяется после push.
+
+
+## 2026-10-21T16:10:23+05:00 — разрешённый перенос PR #4 в main
+
+Владелец ответил «Да, обновить main» на конкретный вопрос о merge PR #4. Head 153f4eb проверен по push39631567997/PR39631582460: оба SUCCESS. GitHub merge API с expected_head_sha=153f4eb и merge_method=merge вернул merged=true и SHA56a626710d1859a9cb0b57c56d683984a1b57713. История сохранена. Локальная feature branch docs/main-handoff создана от origin/main; обновлены README, submission/release guides, progress и TIMELAPSE для основной ветки. Изменение документации загружается обычным fast-forward push в разрешённую владельцем main.
+
+Перед commit выполняются validate_documents с отдельным submission-document-review.json, проверка ссылок и git diff --check; запись PASS подтверждается новым отчётом. Исторические raw artifacts не перезаписываются, production-код и volumes не меняются, письмо не отправляется. Новый exact-SHA CI проверяется после push.

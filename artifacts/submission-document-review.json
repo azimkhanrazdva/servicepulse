@@ -1,21 +1,21 @@
 {
-  "checked_at": "2026-10-21T11:05:05.594901+00:00",
+  "checked_at": "2026-10-21T11:10:41.262033+00:00",
   "status": "PASS",
   "reviewed_hashes": {
-    "README.md": "89b8447c9607d23204f1dfbab7e7ee94a587efb0d0c431ab294ed73266a88418",
+    "README.md": "b5f2532ebbbc22bc7ebac8a418c89affc5065f6e117f6d69098c72c345c3636b",
     "docs/architecture.md": "4f9af8c595c402182636d6f369caaa63b9dcd5677833bd8b324f987e9fa3ff12",
     "docs/decisions.md": "519cc600ff107448a63eb3178902603b5276084cba8dd9c3606baf2a885bb38c",
     "docs/ai-development.md": "4854377ad6d185eeff72f1d08a52fbe583cca4b319a1507a9b54c041fd592b42",
     "docs/demo-script.md": "a0e7f5e80cf8d0d299bfcf3aba4f940f377343328dc7689436759b41b97b3f7b",
-    "docs/submission-guide.md": "ca4be9a799a740379e9b568fed1bf6de113d1570a0dd0e2df0e68ae68ef84d57",
+    "docs/submission-guide.md": "fdded3cb45b5b27d0484e0464bf7b93d764373a5c1dc2cb9736d439364338d1f",
     "docs/roadmap.md": "b4d5d0abc7e9cacae3666a5b95fc5d197930f3c0e903e2860c8d7e800a9b8f0c",
-    "docs/release-checklist.md": "6b1666a9fc3be4fc3589bd0ac5fd6c65874a213b05ad94f1c44a25981f44ab65",
-    "docs/development-log.md": "6c9191590ff32335b952231edd5904c5799ad671c06e907444a3359282924884",
-    "docs/progress.md": "9d0dd291b5c0afb097ef3e46a449bc0fbf021c87e47dbf267d6367e1d0e42a72"
+    "docs/release-checklist.md": "18d8cf5e1e722682d3395f04f94e82d885d455b34c75d5fa55ad3b1c2c219912",
+    "docs/development-log.md": "b4b3b8f28e2e3d5417fc657d0b59e5e78aa43dd2da67d4eda193b204c107084b",
+    "docs/progress.md": "56a9468e38348df52aa3d2d1f0e1fcd3bec15a4b865c76798554e7170dfdffe9"
   },
   "essay_sentences": 10,
   "essay_approved_by_owner": false,
   "model_source": "native primary-session turn_context metadata; docs/model-session-metadata.json; 24 medium, 2 high",
   "historical_sources": "f3866cd immutable Git; prompts retain actual wording; old raw artifacts not relabeled",
-  "scope": "Final documentation verification after the development-log entry was completed; historical raw reports unchanged."
+  "scope": "Final documentation verification after authorized main merge and handoff update; historical raw reports unchanged."
 }

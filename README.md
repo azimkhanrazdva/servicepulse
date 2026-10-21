@@ -24,12 +24,12 @@ Python3.12, FastAPI, Pydantic, SQLAlchemy2, Alembic, PostgreSQL17, HTTPX/asyncio
 
 Docker Engine/Desktop с Linux containers и Docker Compose. Проверенная среда предыдущего этапа: Compose5.5.1; изолированный acceptance harness использует !override и требует 2.24.4+. Свободные локальные порты:8080,8000,8081,8025. Первое получение образов/зависимостей требует интернета. Для обычного запуска host Python/Node не нужны; для тестовых скриптов нужны Python3.11+, Node24 и Chromium.
 
-Репозиторий публичный по явному решению владельца от 21 октября 2026. Выберите актуальную ветку проверки `codex/russian-submission`: в `main` остаётся ранняя версия 0.1. Снимок до исправления CI: [`7dae3d2`](https://github.com/azimkhanrazdva/servicepulse/commit/7dae3d230b3e38527e78ad6dc117a451605ff4f6); исправление `datetime-local` находится в следующих commits этой ветки.
+Репозиторий публичный. Актуальная версия находится в **main**: 21 октября 2026 владелец разрешил объединить [PR #4](https://github.com/azimkhanrazdva/servicepulse/pull/4), история этапов сохранена. Отдельная хронология — [TIMELAPSE.md](TIMELAPSE.md).
 
 ```powershell
 git clone https://github.com/azimkhanrazdva/servicepulse.git
 cd servicepulse
-git switch codex/russian-submission
+git switch main
 if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 docker compose up -d --build --wait
 ```
@@ -131,7 +131,7 @@ HTTP(S), проверка всех DNS ответов, блокировка nong
 
 ## GitHub, AI и следующий шаг
 
-Репозиторий публичный по явной команде владельца от 21 октября. PR#1–4 существуют и не объединены; новые PR/merge/release требуют разрешения. Актуальная ветка — [codex/russian-submission](https://github.com/azimkhanrazdva/servicepulse/tree/codex/russian-submission), в main остаётся 0.1. [Исправление CI и проверка доступа](docs/ci-datetime-fix.md), [порядок GitHub](docs/github-workflow.md), [журнал](docs/development-log.md), [план](docs/roadmap.md), [передача](docs/submission-guide.md).
+Репозиторий публичный, актуальная ветка — [main](https://github.com/azimkhanrazdva/servicepulse/tree/main). [PR #4](https://github.com/azimkhanrazdva/servicepulse/pull/4) объединён с сохранением истории по отдельному разрешению владельца; ранние PR #1–3 остаются в истории этапов. [Исправление CI](docs/ci-datetime-fix.md), [порядок GitHub](docs/github-workflow.md), [журнал](docs/development-log.md), [план](docs/roadmap.md), [передача](docs/submission-guide.md).
 
 Инструмент **OpenAI Codex Desktop**; модель **`gpt-6.1-sol`**. Метаданные основного чата разработки подтверждают 24 записи с уровнем рассуждений `medium` и 2 с `high`: [подтверждение модели](docs/model-session-metadata.json). Это уточняет раннее обозначение со слов владельца; исходные промпты сохранены. Codex использовался для работы с файлами, тестами и Git; владелец задаёт требования и утверждает результат. [AI disclosure](docs/ai-development.md), реальные [промпты](docs/prompts/README.md), отдельный [TIMELAPSE.md](TIMELAPSE.md) с хронологией работы, коммитами и CI. Эссе остаётся черновиком до утверждения. Письма работодателю не отправляются агентом.
 

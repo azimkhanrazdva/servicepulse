@@ -69,3 +69,7 @@
 ```powershell
 git log --reverse --format="%h | %aI | %cI | %s" 192ba309247e3e35111ee183ce4c578691954935
 ```
+
+## Перенос актуальной версии в main
+
+2026-10-21T16:10:23+05:00: после прямого согласия владельца «Да, обновить main» объединён [PR #4](https://github.com/azimkhanrazdva/servicepulse/pull/4), merge commit [56a6267](https://github.com/azimkhanrazdva/servicepulse/commit/56a626710d1859a9cb0b57c56d683984a1b57713). История этапов сохранена без squash/rebase/force-push. Предварительно проверены оба успешных run head `153f4eb`: [push 39631567997](https://github.com/azimkhanrazdva/servicepulse/actions/runs/39631567997) и [PR 39631582460](https://github.com/azimkhanrazdva/servicepulse/actions/runs/39631582460). Инструкции запуска обновлены на main отдельным документальным commit. Его результат CI проверяется после push.
