@@ -1,10 +1,11 @@
 # Resolved on Python 3.12 Linux, 2026-10-19. Includes checkpoint test tools.
+# Certifi pin refreshed 2026-10-21 after advisory scan; remaining resolution unchanged.
 alembic==1.20.0
 annotated-doc==0.0.5
 annotated-types==0.8.0
 anyio==4.15.1
 asyncpg==0.32.0
-certifi==2026.10.18
+certifi==2026.10.19
 click==8.5.0
 dnspython==2.9.0
 email-validator==2.3.0

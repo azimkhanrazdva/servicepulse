@@ -1,0 +1,5 @@
+{
+  "installed_version": "2026.10.19",
+  "status": "PASS",
+  "scope": "Actual running backend container, verified after rebuild"
+}
