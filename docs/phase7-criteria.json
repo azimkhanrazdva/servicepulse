@@ -3021,11 +3021,11 @@
       "test": [
         "command: gh run list --branch feat/final-acceptance-release"
       ],
-      "test_result": "NOT VERIFIED: Нужен actual CI нового русского кода на точномSHA после проверенного push. Старый зелёныйrun не считается новым.",
+      "test_result": "См. фактический результат конкретного теста и границы ниже; исходный Phase7-результат сохранён отдельно.",
       "evidence": [
         "artifacts/ru-ci.json"
       ],
-      "status": "NOT VERIFIED",
+      "status": "PASS",
       "limitation": "Snapshot validates42e4001 exactly. Final handoff-only commit must receive its own actual live Actions check after push; its link is reported separately, without a self-referential commit-proof claim.",
       "acceptance": "Runs clean checkout with PostgreSQL",
       "component": "CI",
@@ -3045,11 +3045,11 @@
       "test": [
         "command: gh run list --branch feat/final-acceptance-release"
       ],
-      "test_result": "NOT VERIFIED: Нужен actual CI нового русского кода на точномSHA после проверенного push. Старый зелёныйrun не считается новым.",
+      "test_result": "См. фактический результат конкретного теста и границы ниже; исходный Phase7-результат сохранён отдельно.",
       "evidence": [
         "artifacts/ru-ci.json"
       ],
-      "status": "NOT VERIFIED",
+      "status": "PASS",
       "limitation": "Snapshot validates42e4001 exactly. Final handoff-only commit must receive its own actual live Actions check after push; its link is reported separately, without a self-referential commit-proof claim.",
       "acceptance": "Lockfile + clean npm ci",
       "component": "CI",
@@ -5792,8 +5792,8 @@
       "evidence": [
         "artifacts/ru-ci.json"
       ],
-      "status": "NOT VERIFIED",
-      "test_result": "NOT VERIFIED: Нужен actual CI нового русского кода на точномSHA после проверенного push. Старый зелёныйrun не считается новым.",
+      "status": "PASS",
+      "test_result": "См. фактический результат конкретного теста и границы ниже; исходный Phase7-результат сохранён отдельно.",
       "limitation": "Snapshot validates42e4001 exactly. Final handoff-only commit must receive its own actual live Actions check after push; its link is reported separately, without a self-referential commit-proof claim.",
       "acceptance": "Latest uploaded SHA CI verified; verify the linked concrete behavior and stated limitations.",
       "component": "Acceptance / .github",

@@ -6,7 +6,7 @@ Phase1–7 сохранены. 21 октября переведены admin/publ
 
 ## В работе
 
-Финальная русская контрольная точка: сверка документов и процентов, обычный private push, Actions точного SHA и скачанный browser artifact. Текущие числа — в [отчёте владельцу](OWNER_FINAL_REPORT_RU.md); прежний зелёный CI не засчитывается новому коду.
+Русская техническая контрольная точка завершена. Commit `4fb9a9a51c9074d379e12b0520cfb2643ba1a2bd` загружен обычным private push; Actions `39560600915` подтвердил все 3 jobs. Скачанный browser artifact содержит 12 PASS, без skipped/flaky/unexpected, и 12 axe scans без нарушений. Snapshot — `artifacts/ru-ci.json`. Итоговый документальный commit получает отдельную проверку точного SHA после push; её run указывается в финальном ответе без бесконечного цикла commit→proof→commit. Остановиться для проверки владельцем.
 
 ## Блокировки
 
@@ -21,7 +21,7 @@ Phase1–7 сохранены. 21 октября переведены admin/publ
 
 ## Статус проверок
 
-21 октября после certifi patch: 150 backend PASS (31,31 с), 35 component PASS, 12 Chromium PASS; 12 axe scans без нарушений. Чистый committed clone с новой DB0006 и restart PASS (67,625 с); 7 SMTP fault-групп PASS (84,969 с), 2 delayed/refused группы PASS (45,297 с). Typecheck/lint/format/build и текущие npm/pip scans успешны. Нагрузочные 475/295 и месячные 3 cold/21 warm измерения относятся к 20 октября. CI нового русского SHA проверяется отдельно.
+21 октября после certifi patch: локально 150 backend PASS (31,31 с), 35 component PASS, 12 Chromium PASS; 12 axe scans без нарушений. Чистый committed clone с новой DB0006 и restart PASS (67,625 с); 7 SMTP fault-групп PASS (84,969 с), 2 delayed/refused группы PASS (45,297 с). Typecheck/lint/format/build и текущие npm/pip scans успешны. Hosted CI `4fb9a9a`: 150 backend PASS (27,02 с), 35 component PASS, 12 browser PASS (105,821 с). Нагрузочные 475/295 и месячные 3 cold/21 warm измерения относятся к 20 октября. M:71/72=98,61%; все обязательные проектные критерии реестра:222/230=96,52%. PARTIAL не получает балл; не заявлять 100% сдачи.
 
 ## Текущая ветка
 
@@ -29,7 +29,7 @@ Phase1–7 сохранены. 21 октября переведены admin/publ
 
 ## Последний commit
 
-Перед итоговым документированием: `40644e6` — обновление certifi после advisory scan; ранее `9b73496` — локализация. Точный handoff HEAD и его Actions проверяются после push и указываются в итоговом ответе: документ не знает собственного будущего hash.
+Подтверждённый code/docs checkpoint: `4fb9a9a51c9074d379e12b0520cfb2643ba1a2bd`; ранее `40644e68e3e730a18b96b2212950ac82416be9e3` — certifi, `9b73496` — локализация. Последующий handoff HEAD и его Actions проверяются после push и указываются в итоговом ответе: документ не знает собственного будущего hash.
 
 ## Важный контекст
 

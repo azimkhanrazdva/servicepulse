@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-21T02:14:07.698820+00:00",
+  "checked_at": "2026-10-21T02:20:45.288740+00:00",
   "formula": "PASS/(PASS+PARTIAL+FAIL+NOT VERIFIED)*100",
   "origins": {
     "M": {
@@ -12,12 +12,11 @@
     },
     "O": {
       "counts": {
-        "PASS": 139,
-        "PARTIAL": 7,
-        "NOT VERIFIED": 3
+        "PASS": 142,
+        "PARTIAL": 7
       },
       "denominator": 149,
-      "percent": 93.29
+      "percent": 95.3
     },
     "T": {
       "counts": {
@@ -36,12 +35,11 @@
   },
   "mandatory_project": {
     "counts": {
-      "PASS": 219,
-      "PARTIAL": 8,
-      "NOT VERIFIED": 3
+      "PASS": 222,
+      "PARTIAL": 8
     },
     "denominator": 230,
-    "percent": 95.22
+    "percent": 96.52
   },
   "sections": {
     "Backend": {
@@ -236,11 +234,10 @@
         "P7-24"
       ],
       "counts": {
-        "PASS": 11,
-        "NOT VERIFIED": 1
+        "PASS": 12
       },
       "denominator": 12,
-      "percent": 91.67
+      "percent": 100.0
     },
     "GitHub": {
       "ids": [
@@ -255,12 +252,11 @@
         "P7-24"
       ],
       "counts": {
-        "PASS": 7,
-        "PARTIAL": 1,
-        "NOT VERIFIED": 1
+        "PASS": 8,
+        "PARTIAL": 1
       },
       "denominator": 9,
-      "percent": 77.78
+      "percent": 88.89
     },
     "Документация": {
       "ids": [

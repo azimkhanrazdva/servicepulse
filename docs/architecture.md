@@ -1,8 +1,8 @@
 # Архитектура ServicePulse
 
-Русская актуальная редакция от 21 октября 2026. Архитектура Phase6/0006 сохранена; локализация меняет представление, не API/schema/state machine. Исходное подробное описание предыдущей версии доступно в Git:f3866cd. Ограничения и результаты каждого этапа не переносятся автоматически на новый код.
+Актуальная русская редакция от 21 октября 2026. Сохранены архитектура Phase6 и миграция 0006. Локализация меняет представление; API, схема данных, scheduler и правила уведомлений сохранены. Полное предыдущее описание доступно в истории Git на `f3866cd`.
 
-## Компоненты и взаимодействие
+## Сервисы
 
 ```mermaid
 flowchart LR
@@ -17,55 +17,71 @@ flowchart LR
   PublicAPI --> DB
 ```
 
-| Компонент | Ответственность / граница |
+| Сервис | Назначение |
 |---|---|
-| Administrative frontend/API | Локальное управление, реальные формы, version409, журнал, analytics, snapshots |
-| Public frontend/API | Отдельный bundle/ASGI/nginx, только GET/public SSE, явная публикация и отдельное разрешение истории |
-| Worker | HTTPX/asyncio, ограничение конкурентности 50, claim_due через FOR UPDATE SKIP LOCKED, lease/UUID/config fencing |
-| Dispatcher | Отдельный процесс, persisted claim/prepare/send/ack, reconciliation каждые 2 с независимо от HTTP |
-| PostgreSQL | Единственный источник настроек, наблюдений, incidents, maintenance, outbox, публикаций и scheduler state |
-| Simulator/Mailpit | Управляемые реальные HTTP и локальная SMTP acceptance; никаких внешних писем |
+| Административный frontend/API | CRUD, группы, инциденты, обслуживание, аналитика, публикация и уведомления |
+| Публичный frontend/API | Отдельные bundle, ASGI и nginx; разрешённые GET и публичный SSE |
+| Worker | HTTPX/asyncio, до 50 одновременных проверок, сохранённые claims и leases |
+| Dispatcher | Отдельный процесс доставки; сверка обязательств каждые 2 с независимо от HTTP |
+| PostgreSQL | Единственный источник настроек, результатов, состояния и очереди уведомлений |
+| Simulator и Mailpit | Настоящие HTTP и SMTP без писем внешним получателям |
 
-nginx обновляет DockerDNS с TTL2 с после замены backendIP; SSE и URI сохраняются. Все опубликованные порты управления привязаны к 127.0.0.1. Auth отсутствует: Host allowlist не заменяет авторизацию. В production management нельзя публиковать без отдельной защиты.
+Порты управления привязаны к 127.0.0.1. Авторизации нет: TrustedHost не заменяет её. Для размещения в интернете нужна отдельная защита управления. nginx повторно разрешает Docker DNS с TTL 2 с после смены IP backend, сохраняя URI и SSE.
 
-## Модель данных, миграции 0001–0006
+## Данные
 
-Monitor: UUID/name/url, interval30..3600, timeout0.1..120, expected_status100..599/body, threshold1..10/default2, state/streak, latestmetrics, next_due, lease_token/until, config_version, coalescedrunrequest. CheckResult хранит observationtimestamp, outcome/code/latency/boundederror и captured config_version/interval. FKcascade и composite(monitor_id,checked_at) поддерживают историю.
+| Сущность | Основные поля и ограничения |
+|---|---|
+| Monitor | UUID, URL, интервал 30–3600 с, таймаут 0,1–120 с, ожидаемый HTTP-код 100–599, текст, порог 1–10; состояние, серия ошибок, метрики, next_due, lease, config_version |
+| CheckResult | Время наблюдения, результат, HTTP-код, длительность, ограниченная причина; зафиксированные config_version и интервал |
+| Group и membership | Состав, состояние по мониторам, адресаты и политика почты; связи FK |
+| Incident | Начало, восстановление, причина закрытия; уникальный открытый инцидент для monitor |
+| MaintenanceWindow | Начало и конец, ровно одна цель: monitor или group; ограничения времени и версии |
+| NotificationEvent/Delivery | Уникальные логические события и доставки, сохранённые маршруты, eligibility, попытки, claims и подтверждение |
+| PublicPage/Publication | По умолчанию отключена; slug, title, version; отдельный публичный ID, подпись и явное разрешение истории |
 
-Group + MonitorGroup many-to-many + GroupRecipient с unique(group,email). Удаление группы сохраняет мониторы. Incident содержит opened/closed/recovered/closure; partialunique(monitor_id WHERE closed_at IS NULL) разрешает только один открытый инцидент. Constraints запрещают неполные и отрицательные времена; RECOVERED отличается от PAUSED/CONFIG_CHANGED.
+Индексы и FK создаются миграциями 0001–0006. Составной индекс `(monitor_id, checked_at)` поддерживает историю; частичный уникальный индекс защищает открытые инциденты. Удаление monitor отзывает публикацию. Изменение публикации не меняет lease, настройки проверки или инцидент.
 
-MaintenanceWindow имеет ровно один target monitor/group, start/end UTC, end>start, target/timeindexes. NotificationEvent unique(incident_id,event_type), NotificationRoute фиксирует groupUUID/email, Delivery unique(event_id,email), status/attempts/due/lease/send_authorization/sent/boundederror. RoutegroupUUID намеренно не FK: предотвращает обратный порядок блокировок; отправка требует живых membership/recipient.0006 добавляет notification eligibility/obligation без угадывания legacyhistory.
+## Состояния и выполнение
 
-PublicPage: disableddefault, slug/title/version; Publication: explicitmonitorconsent, unrelatedpublicID/publiclabel/show_history=false. Смена публикации не сбрасывает monitoringconfig/lease/incidents. Cascade удаление отзывает публикацию. Publicrole пока shared, чтение выполняется read-only transaction; это не role-levelleastprivilege.
+| Событие | Результат |
+|---|---|
+| Нет наблюдений | UNKNOWN |
+| Первый успех | UP, серия ошибок сбрасывается |
+| Ошибка ниже порога | Последнее подтверждённое состояние сохраняется; ошибка видна в результате |
+| Достигнут порог, по умолчанию 2 | DOWN и один открытый инцидент |
+| Успех после DOWN | UP, автоматическое закрытие с восстановлением |
+| Pause/resume | PAUSED без очередных проверок; после resume новое состояние определяется наблюдением |
+| Ручной запуск | Тот же HTTP и защита от пересечений; занятый monitor может вернуть 409 |
+| Смена конфигурации | Текущие метрики и серия сбрасываются, история остаётся; прежний инцидент закрывается административно |
+| Maintenance | Реальные результаты продолжают записываться; меняется политика писем |
 
-## Состояния и конкуренция
+Для группы: пустой состав — UNKNOWN; все на паузе — PAUSED; среди активных DOWN имеет приоритет над UNKNOWN, затем UP. Точные переходы проверяются тестами из [матрицы](phase7-final-acceptance.md).
 
-UNKNOWN до первой проверки. Успех→UP/resetstreak. Ошибка сохраняет прежний UNKNOWN/UP до threshold; достижение порога→DOWN/openincident. Первый валидный успех закрывает RECOVERED. opened_at/checked_at фиксируются сразу после HTTP до ожидания DB lock; created_at отражает сохранение. Длительность clamp>=0 защищает от отката часов, HTTPlatency использует monotonicclock.
+Scheduler использует fixed-delay: следующая проверка назначается после завершения предыдущей. `FOR UPDATE SKIP LOCKED`, lease token и config version защищают от параллельных запусков и устаревших результатов. Медленный сайт занимает одну задачу в ограниченном пуле. Отмена и сетевые ошибки обрабатываются отдельно. После restart просроченные leases освобождаются; пропущенные наблюдения не создаются задним числом и не считаются падением.
 
-Пауза блокирует новые/manual запуски и закрывает PAUSED. Resume планирует сейчас, очищает streak, даёт UNKNOWN. Любой edit, включая rename, повышает config_version, очищает текущие метрики и закрывает CONFIG_CHANGED; история сохраняется. Старый leasedHTTP нельзя превратить в новый результат: проверки token/version/state выполняются до HTTP и при сохранении; истёкший preflight не начинает запрос. Лимит HTTP меньше lease. Простой не backfill и не DOWN.
+## Уведомления и обслуживание
 
-Расписание fixed-delay: завершение persistence +interval. Медленный сайт не блокирует остальные asyncio tasks. Ручной запуск проходит ту же очередь/lease; запрос coalesced, не второй параллельный запуск. Worker отменяет задачи при shutdown; fencing исключает stalecommit. Транзакция monitor/result/incident/outbox атомарна; HTTP/SMTP выполняются вне долгой DB transaction.
+Результат, состояние, инцидент и событие outbox фиксируются транзакционно. Уникальные ключи предотвращают повторные логические события и доставки. Адресаты фиксируются; dispatcher отдельно выполняет claim, prepare, SMTP send и ack. Перед отправкой заново проверяется разрешённость. Уже отправляемое письмо отозвать нельзя.
 
-Группа: среди неприостановленных DOWN>UNKNOWN>UP; пустая UNKNOWN, все PAUSED→PAUSED. Maintenance отдельный badge/политика и никогда не превращает DOWN в UP.
+Повторные ошибки одного инцидента не создают новые DOWN. Для новых инцидентов 0006 и runtime сохраняют eligibility: быстрое восстановление вне maintenance не отменяет обязательную пару DOWN→RECOVERY. У старых записей неизвестное eligibility не угадывается; массовые письма задним числом не создаются.
 
-## Почтовая политика
+Пересекающиеся окна monitor/group учитываются совместно. Во время обслуживания наблюдения продолжаются, уведомления подавляются. Если DOWN сохраняется после окна, сверка создаёт обязательство без фиктивного CheckResult. Падение и восстановление целиком внутри обслуживания не порождают устаревшую пару писем.
 
-Frozenroutes фиксируются на confirmation, sharedemail получает одну Delivery. Новые получатели действуют на будущие incidents; удаление routes отменяет ожидание. Полуинтервал start<=now<end; overlaps объединяются. Окно монитора блокирует всё, групповое только свой маршрут; допустимый независимый маршрут может отправить общее письмо.
+Claims и ack защищены token. Временные ошибки повторяются с задержкой 5–300 с, максимум 8 попыток. Постоянный отказ или исчерпание попыток дают FAILED и требуют расследования. SMTP acceptance перед crash без ack может привести к физическому дублю. Message-ID стабилен, но exactly-once доставку во внешний mailbox SMTP не гарантирует.
 
-Новые 0006 incidents сохраняют DOWN obligation вне maintenance даже если dispatcher опоздал и сайт восстановился; RECOVERY ждёт SENTDOWN. Полностью подавленный maintenance-only инцидент не требует stalepair. Конецокна при DOWN создаёт obligation без выдуманного CheckResult. Eligibility учитывает observationtime, не задержку persistence. Legacyunknown сохраняет историческую политику, backfill/mailstorm нет.
+## SSE, публичность и аналитика
 
-Порядок locks: parentgroups→sortedmonitors→windowchild; worker/dispatcher monitor→incident/delivery. Prepare перепроверяет route/window и сохраняет authorization до SMTP. Уже in-flightSMTP нельзя отозвать. Claimtokenfencesack; retry5..300s, максимум 8; permanent/exhaustionFAILED требует расследования. Crashafteraccept/beforeack может повторить физическое письмо; logicalevents остаются unique. Message-ID стабилен, но receiverdedup не гарантирован.
+Административный SSE каждые 2 с передаёт согласованный снимок в REPEATABLE READ. После reconnect клиент получает полное состояние; длительности обновляются локально каждую секунду. Два независимых клиента работают одновременно.
 
-## SSE, публичность, аналитика
+Публичная проекция не содержит URL, внутренние IDs, административные имена, email, ошибки или outbox. Каждый GET и SSE tick заново проверяет разрешения страницы, состава и истории. Неизвестный и запрещённый ресурс получают одинаковый 404. Ответы не кэшируются; при disconnect/revoke клиент очищает данные и не применяет поздний REST поверх отзыва. Уже полученные данные физически отозвать невозможно. Общая DB role остаётся ограничением: read-only transaction не равна отдельным правам PostgreSQL.
 
-AdministrativeSSE каждые 2 с отправляет согласованный REPEATABLE READsnapshot; события groups/incidents/maintenance/overview инвалидируют ограниченные выборки. Reconnect получает полное состояние. Durations тикают локально каждуюсекунду. Два независимых клиента не требуют refresh.
+SQL-аналитика выполняет `SET LOCAL jit=off` и один ограниченный aggregate SELECT. Для 24 ч/7 д/30 д возвращается максимум 288/336/360 точек. Доступность — доля успешных наблюдений; покрытие рассчитывается отдельно по зафиксированным интервалам с объединением пересечений. Ручные серии и одинаковые timestamps не удваивают покрытие. Старый неизвестный интервал не восстанавливается догадкой. НЕТ ДАННЫХ отличается от реального нуля; пропуски не соединяются и не превращаются в ошибки. Пауза исключается из публичной freshness; устаревший DOWN показывается как последнее известное состояние с предупреждением.
 
-Public проекция выбирает только разрешённые поля, не URL/privateID/name/email/rawerrors/outbox. Каждый GET/SSEtick проверяет enabled/membership/historyconsent заново. Unknown/disabled/denied404generic. No-store/no-replay; клиент очищает данные при disconnect/revoke и не принимает поздний REST поверх отозванного SSE. Уже полученные данные физически отозвать невозможно.
+## Безопасность и проверка
 
-SQL analytics выполняет SET LOCAL jit=off +один boundedaggregateSELECT. Максимум 288/336/360buckets. Доступность = successful/observed; покрытие отдельно по capturedinterval spans с union/cap, manualbursts/equaltimestamps не удваивают время. LegacyNULLcadence не угадывается. NO DATA/null отличаются от реального 0; пропуски не соединяются и не становятся failures. Публичная freshness исключает PAUSED; staleDOWN остаётся последнимизвестным DOWN с предупреждением.
+Разрешены HTTP/HTTPS, проверяются все DNS answers, используется numeric pinning с Host/SNI. Redirect и proxy отключены; таймаут и размер ответа ограничены. Исключение simulator задаётся явно для узкого origin. Отдельный живой TLS/SNI стенд, auth, минимальные DB privileges и egress firewall остаются дальнейшей работой.
 
-## Русское представление и тестирование
+`frontend/src/ru.ts` локализует отображение, native validation и ошибки. API fields, enum, option values и заголовки не переводятся; даты используют ru-RU. Сохранённые имена пользователя не меняются. Русские письма сохраняют X-ServicePulse-Event, Message-ID и дедупликацию.
 
-Frontendru.ts переводит только отображение enum/ошибок/периодов и nativevalidation; API fields, optionvalues, URLs, classes и protocolheaders английские. Даты используют ru-RU с локальным timezone. Сохранённые имена пользователя не переводятся. Русские SMTPbody/subject не меняют X-ServicePulse-Event, Message-ID, dedup/retrypolicy. Новых библиотек не добавлено.
-
-Релевантная проверка: unit/component, PostgreSQLmigration/integration, realChromiumfourviewports/twoclients/reconnect/privacy/maintenance/Mailpit, freshCompose и outboxfaults. Нагрузочные данные 20 октября сохраняются отдельно; актуальные результаты русского этапа только в OWNER_FINAL_REPORT_RU.md и artifacts/ru-*.
+Проверяются PostgreSQL/integration, component tests, настоящий Chromium в четырёх размерах, два клиента, reconnect, privacy, maintenance, Mailpit, чистое развёртывание и сбои доставки. Измерения нагрузки 20 октября отделены от регрессии 21 октября. Актуальные команды, результаты и ограничения — в [отчёте владельцу](OWNER_FINAL_REPORT_RU.md).
